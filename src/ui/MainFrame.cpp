@@ -11,6 +11,8 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     this->main = main;
     setupMenuBar();
 
+    std::cout << "hello" << std::endl;
+
     SetMinSize(wxSize(500, 500));
 
     auiManager = new wxAuiManager(this, wxAUI_MGR_LIVE_RESIZE | wxAUI_MGR_DEFAULT);
