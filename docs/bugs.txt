@@ -1,0 +1,14 @@
+--BUGS--
+
+The contents of the canvas is only initialised when the first call to paint is made.
+Maybe call that at some point because initialising the canvas should be one of the first things to do.
+This includes terrain, as when creating a new map the terrain is not generated until the first draw.
+
+The loading screen for loading and creating maps doesn't work. I've disabled it for now but maybe try and get it to work at some point.
+
+Possible bug:
+    The size of the terrain might be changing dependent on how many terrains there are.
+    Posssibly a terrain of 3000 will be 3000 if there is only one, but 1500 if there is two.
+    Check whether terrain size counts for the terrain or the world (cos it should count for each terrain)
+    TURNS OUT
+        The first terrain chunk starts it's centre at 0, so that's why it was off.

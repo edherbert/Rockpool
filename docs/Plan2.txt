@@ -1,0 +1,122 @@
+--New Design--
+
+Certain aspects of Rockpool are going to be re-designed.
+These include the way it handles creating new maps and the tabbing system.
+
+--Startup--
+There does not have to be a map when the editor starts up.
+This could be if the user is going to go file > open or just create a new map
+
+When the editor starts, the user is greeted by a startup screen.
+Once a map is selected, then the map and canvas will be initialised.
+If a new map is opened or created after the fact, the two can be switched.
+
+When Rockpool starts up the user will be shown a blank canvas
+Then they can choose new or open map
+This will create a new map and allow the canvas to render it
+
+To create a new map you would need to:
+    Create the map
+    Assign it to the canvas
+    The canvas will then run the map init code only when it has a map
+    Start rendering as normal
+
+
+--New Map Dialog--
+Things it will need:
+    Map name
+    Width in terrains
+    Height in terrains
+    Terrain Verticies
+    Terrain Size
+
+
+--Creating a map--
+When a new map is needed, a create map function should be called.
+This does not create a map, but rather loads one in from a bunch of resources given to the function.
+This function should be re-named to load map, and it should take the path to the map rather than create it.
+Map is still responsible for creating the scene and things, but not creating the files.
+I'll have a separate function for main to create the directory tree
+This way, regardless of whether the user chooses to open or create a new map, the map can be loaded with the smame function.
+
+--Terrain system--
+The terrain system will be held within a class.
+Since every map will have a terrain, this can just be in the map class.
+It will contain all the relevant functions and so on, and will mostly be used to find the values for the terrain in case the map needs them.
+
+--File System--
+This is about how the software will structure the file system that it later reads in.
+When the user creates a new map they call create map which creates the file system and then loads it in by calling loadMap().
+There are a number of aspects with this file system.
+
+Firstly, the preferences for this particular map will be stored in an xml file called project.rockpool.
+The project bit depends on the name of the project.
+This will contain information about the map from the editor's perspective.
+This file might not necesserily be loaded into the game.
+
+Secondly, there will be a variety of directories that contain information about the map, such as terrain data and meshes.
+The .rockpool file will point the program in the direction of these resources.
+
+The resources have to be within these directories to function.
+
+--Control System--
+At the moment I'm thinking of two control systems that the user could use.
+Firstly, there is the one from the angle of the player.
+This would allow the designer to see how that specific map would look in the world, from the perspective of the player.
+There is also the more free camera which is basically just a trackball camera.
+The player is able to rotate the map using thier mouse like in blender.
+
+Basically I'm going to add a button to the bottom of the window that when pressed will enable the player-camera setting.
+When the player uses their mouse drag it will automatically switch to the other one.
+
+Input for the map (keys and mouse events) should go in the canvas
+That way the map can just call canvas->getKey or whatever to get the value it needs
+
+
+--Tools--
+There will be quite a few tools in the final version.
+I plan to structure the tools according to their function.
+So there might be one for the terrain that raises / lowers it and there might be another that edits the blend map.
+Either way, these are terrain tools so they will be kept in one category.
+
+Then there will be tools that handle things like objects in the scene and they can also have their own section.
+I'm going to have some sort of panel that contains the settings for the tools.
+Originally I though it would go on the left side of the window, but now I'm thinking that I might build a wx aui system.
+I might want to have other things on either side at some point in the future, and floating panels are a good way to achieve that.
+So if I decide to build a mini-map system, or somthing like that, you could have it show, or you could not.
+The user could also decide where it goes on the window, which is nice.
+
+--Tool preferences--
+There will be a side window in some of the pains that contains the preferences for the currently used tool.
+I don't really know how that should work at the moment, given I don't have much experience switching windows.
+Of course, when a different tool is selected the contents of the window will change.
+I think I'll create each panel as their own objects and then add them like that.
+I'll have a toolsPreferences class and then inherit other tools to that, so the TerrainEditor tool can inherit it.
+Then I can just have some function in the mainFrame class that switches between them.
+
+I don't think the tool preference class will inherit anything, ultimately it's just in charge of sticking things in the panel.
+
+Rather than doing that I think I'll have a class that handles what goes where.
+It would be a bad idea to let the main frame handle the settings and un-setting of the items, so I'll make a class that does it.
+
+--Things to put in the terrain edit panel--
+Brush settings -
+Brush image
+Brush size
+Brush Flow
+Brush Hardness
+
+--Terrain edit tool--
+The maximum size radius the brush can reach is 0.3.
+That's 0.3 of the number that the sample contained. I don't really know what it means but I also don't think it really matters.
+A size of 0.3 will place huge brush strokes on the terrain anyway, so I think it's a good number.
+
+--Tools and the map--
+I'm starting to think that it might not be the best idea to run the tools like I'm doing at the moment.
+Currently, they all have separate functions that processes things.
+It might be better to create objects of the tools and then set the current one accordingly.
+It could then have it's own update and respond to the appropriate call backs.
+I could also separate out the cameras.
+
+
+

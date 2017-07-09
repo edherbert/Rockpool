@@ -1,0 +1,9 @@
+[Mod]
+
+filesystem="Scripts"
+
+When teh game comes to load resources it will look here first for that specific resource
+That way only certain resources need to be added to the directory
+
+Users must specify their resource paths in this folder, 
+which will then be added to the global resource pool.

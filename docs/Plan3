@@ -1,0 +1,130 @@
+--Plan 3--
+
+This is another document about the plan for the program.
+Here is a list of things that I want to have by the end:
+
+    A range of tools for terrain manipulation
+        terrain sculpt tool
+        Push / pull
+        Flatten
+        smooth
+
+        The sculpt tool uses the brush mechanic
+
+    Terrain texture tools
+        These allow the user to texture the terrain
+        They're pretty simple in that regard.
+        They use the brush mechanic
+
+    Brushes
+        Brushes provide a global interface to interact with the terrain sculpt tool and the texture tool
+        The user can select an image to use as the brush or they can use a shape brush.
+        With either brush the user can alter the default brush values, such as the size, flow and so on.
+        When the brush is selected, it will return to these default values.
+        The user can also change the brushes values outside of the brush edit section, but these changes are only temporary.
+
+        The brush edit section can be reached by clicking on the edit button on a brush when in a tool capable of using a brush.
+        When the wx AUI system is implemented the brushes will have their own pain, for now they will live inside the side window.
+
+        Within the brush edit pain you will be able to select whether the brush is a shape or an image brush.
+        If it is a shape you are allowed to change the:
+            default brush hardness (The fade out)
+        as well as the image settings:
+            brushSize
+            brushAngle
+            brushSpacing
+            brushStrength - the ammount that the brush adds to the world
+
+        Furthermore, all these values come with jitter, meaning the ammount in which they are allowed to divulge off their intended values.
+        Consider pen pressure, but don't implement it now, just have it waiting there for the future
+
+        As you hold the cursor down the new values are implemented.
+
+
+    A layer list that allows the user to add things like entities, lights, bounding boxes
+        There will always be only one terrain layer, this cannot be removed or anything
+        The user can add more layers and delete them
+        Layers will be catagorised, so a layer for lights, a layer for entities and so on
+        They can be named and re-named
+        They can be re-arranged, although I'm not sure if that makes any difference in the context of a 3d world
+
+        I plan to have a separation between global layers and local layers
+        A global layer applies to the entire map, and each terrain chunk will contain information for it, event if there is nothing on it.
+        A local layer will only be used by that terrain chunk.
+        Each terrain chunk will contain an XML file that will list the contents of it's layers, both global and local.
+        If there is a terrain layer for something specific to a small area of the map, there is no point storing information about it that the other chunks don't need.
+
+
+
+
+
+
+--Brushes--
+There will be a brushes panel that will extend wxPanel
+This will contain the brushes list as well as buttons to create new brushes.
+I assume I'm just going to have a list of bitmaps in a grid that represent the brushes.
+
+There is going to be a new brushes button, an edit button and a rubbish bin button.
+When the user clicks on the new button, a new brush is added, however this does not immediately bring up the preferences window,
+the user has to click edit while a brush is selected to do that.
+
+The brushes will be stored in the rockpool settings folder.
+I haven't added that yet, but I'm going to need to.
+That's basically where settings go as well as other things.
+I'm going to have a directory for brushes that will contain images as well as brush data.
+
+I have a class that handles the tool preferences. I think it would be a good idea to make one for each thing that will have a pain.
+
+--Resource Browser--
+This will probably end up being one of the major aspects of Rockpool.
+The resource browser allows the user to search through all the resources that is avalible to them.
+The user will basically be able to select a resource and then when using something like the entity add tool they can select and add that to the map.
+
+--Terrain information pane--
+This pane will contain information about the chunk of terrain that the mouse is currently hovered over.
+The information should include:
+    The position of the terrain in terrain space
+    The position of the terrain in world space
+    A list of textures that comprise the terrain's blend layers
+        I'm going to limit this to five, but the user should also be able to include things like specular maps as well.
+        The user will be able to specify the textures from this window
+
+--Terrain texture tool--
+This tool will work largely the same as the terrain edit tool at this stage.
+The user will have to select one of the five layers in the terrain preferences window.
+From there this texture will be drawn with the tool.
+
+--Terrain texture layers--
+The terrain is going to have four textures assigned to it.
+These can be changed at any point and this will update in the terrain.
+
+The user interface is going to list the terrains that can be used.
+I think I'm going to have the four layer objects created at all times, however some of them can be hidden.
+If there is a layer that does not exist then the object can be hidden but it's values can still be read and assigned if needed.
+If a different section of terrain is moused over then the values in the terrain list can be updated.
+This should be easier than having to create and re-create the objects each time a new one is needed.
+I think I'll start counting the layers from 1 rather than 0.
+
+The buttons to add and delete layers can go at the bottom of the layer list
+
+--Terrain texture layers implementation--
+The terrain info handler should be in-charge of determining what to do with the buttons and layers.
+Each layer is not actually moved, rather the information in them is changed and they can be hidden.
+This will give the illusion that the layers are moving around.
+
+If there is no layer selected then the majority of the buttons should be phased out.
+In the terrain handler there should be a vector that contains the layer objects.
+This can be looped over to find the value that needs to change.
+
+I'm starting to wonder if there is any point in trying to manage the order of the terrain texture layers.
+Ultimately it won't make a difference the order in which the layers are aligned, the important thing is that the texutes for the layers can be changed.
+I'll have an option to blank out the blend data for that map, and also remove that layer.
+
+--Terrain texturing--
+As for texturing the terrain, I think it might be a good idea to maintain a list of texture information in the terrain class.
+The problem is that I don't really want to override anything that ogre provides, but I also want to store information about the terrains.
+Because of this, it would probably be a good idea to create a vector that does all that for me.
+
+
+
+

@@ -1,0 +1,7 @@
+--Ideas for Improvements--
+
+The position of the cursor in the terrain edit tool should not change when sculpting.
+Maybe only change the position of the cursor when the mouse moves, then re-do the ray.
+
+Possibly see if updating select areas of the terrain is better than doing the entire thing,
+this might speed up the running of the application.

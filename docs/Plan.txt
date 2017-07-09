@@ -1,0 +1,53 @@
+Plan for the layout:
+
+The notebook needs it's own class.
+Maps can be added to this with a function.
+I don't mind storing this class within the MainFrame class because it's a gui component.
+
+A map class is also needed.
+This will contain all the information regarding that specific Map.
+This includes ogre's Scene manager and so on.
+Items such as a camera will also be necessary.
+
+The map will need a pointer to it's canvas.
+Input to the window can be fed to the map class.
+In this sense, it could be said that the map class is the most complicated class.
+
+Into the map class the user can put objects and they can be stored in lists.
+
+---Creating a map---
+When the user runs the gui thing to make a map then provide input.
+This input is then fed into the map class when it is created.
+Once the map is created a GLCanvas is also created.
+A function is called from this canvas that sets it's map.
+Once the map is set, when the initOgre function is called initOgre will be called from the map.
+I might rename init ogre in the GLCanvas class.
+
+Basically this will start the process of the map, and it will then be drawn to the canvas.
+
+--Main class--
+I'm also going to have to make a main class that handles all of the stuff that is abstracted from the ui.
+I don't want the ui class to be storing objects like the canvas and the map class.
+For this reason I'm going to store pointers to them in the main class.
+The main class is mostly just going to be used to store things, but it could also perform other functions that are relevant to the entire system.
+This could include input functions.
+
+--Map class--
+The map class will contain all the data about the specific map.
+
+It's important that the map does not try to initialise content in the canvas before it is created.
+A callback needs to be run in the map function that will start it.
+Once this is called things can be added to the scene.
+
+This means that the map function must have access to the canvas.
+
+The start function in map will ask for a reference to the canvas and this can be stored as a pointer in the class
+
+--Notebook class--
+The notebook class will be stored in the MainFrame class.
+This will be the graphical component for the canvases.
+When a map is created, a canvas is created.
+
+Since MainFrame is incharge of the new map menu items I'll let it handle the callback
+ultimately it will just run a function in the main class that creates the map.
+When createMap() is called in Main, the map will be created there and then the notebook will be updated with a new page.

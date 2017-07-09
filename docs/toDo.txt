@@ -1,0 +1,191 @@
+--Things to do--
+
+-Make the loading screen appear during terrain generation
+
+-Make it so that multiple maps can be created, at the moment it crashes.
+-The user will have to be given an option to save the current map, so this probably can't be done until terrain editing is done.
+-Possibly hide the contents of the panel when a map is not loaded
+
+-Go through the code to load xml files in and make it not halt on issues like missing files and so on.
+
+-Make a preferences window for Rockpool
+    -Default speed of the camera
+    -Grid size
+    -Grid Colour
+    -Terrain Load distance
+    -Terrain render distance
+    -An option to reset the 'don't show again' warnings
+
+-Make a map settings window for the map
+    -Map Name
+    -Possibly resource locations
+
+-Get the decal to work
+
+
+-Make it so that only one terrain chunk can be textured at a time
+
+-Begin work on the MacOS port *
+-Begin work on the resource browser specifically for the terrain textures. *
+-Find a way to get rid of the setup directory. Bake the values into the code
+
+
+-Make it so that the user cannot alter the terrain using the fps camera
+
+--Schedule--
+
+--19-25 June
+    -The terrain editor will largely work
+        -The decal will appear
+        -Brushes but do that with next week
+        -Editing multiple terrain chunks at once will work *
+    -A brush to select the height of the terrain and then use that as something to even out terrain.
+    -A terrain smoothing tool (basically find the average in an area and set it towards that)
+
+--26-2 July
+    -Blend map editor
+    -Decals and custom brushes
+    -This should largely work the same as the terrain editor.
+    -Maybe make a preferences panel at this point that maps out settings like how many terrains to load in at once. (Start this in Edinburgh)
+
+--3-9 July
+    -This should be 'quality of life' improvements
+    -Implement the ability to page the terrain
+    -Figure out how to save the terrain and thus the project
+    -Attempt some sort of auto save
+    -Improve the preferences panel if more time is left
+    -Also if more time is left, investigate wxAUI for the layout.
+
+--9-16 July
+    -More quality of life, by implementing the ability to undo-redo things
+    -Add the ability to show the grid (the size of the grid can be set in the preferences panel);
+    -Implement the wxAUI layout
+    -Add a window title bar thing that allows you to show / hide certain panels.
+
+
+--DONE--
+
+--Windows are not being removed correctly when they are done with. Fix that
+--This includes canvases and other map components.
+
+--Add a trackball control functionality to the maps
+--Alter zoom on scroll.
+
+-Figure out how ogre loads resources
+-Figure out how terrain in ogre works
+
+-Begin work on the terrain system
+    -Things to figure out about the terrain:
+        -How to control it's characteristics
+        -Textures and that sort of thing.
+        -Is it possible to dynamically alter the terrain
+        -How to store the calculated values of the terrain for quick startup
+
+-Investigate ways in which the terrain resources could be saved (how to generate a jpg image)
+
+-Remove the pointers to the maps and canvases from the vector when they are done with
+
+-Remove the tab system ready for the new design
+
+-Re-create the new map window
+-Make it so Rockpool asks the user where to save a map before creating it
+
+-Figure out how the directories will be structured
+-Figure out how the map files will look
+-Do all this stuff about structure
+-Get the tiny XML parser to work to dump file resources
+
+-Make it so that terrain saves itself in the appropriate place.
+-Make it so that a map can be loaded in.
+-Once this is done make an open map function for the tool bar
+
+-make the terrain look for terrain chunks that already exist before trying to generate new ones each tile a map is loaded
+
+-Figure out how the terrain system is going to work
+-Create the terrain system
+
+-Remove the nasty trackball controls
+
+-Implement user controls, allowing the user to do certain things like navigating the map. (These were changed to an FPS camera)
+-Implement blender like features to these controls, allowing users to get lots of perspective on their map
+
+-Also figure out how the camera should work, there might be two modes, one for the game and another trackball.
+    -For this implement a button to the window.
+    -Implement a zoom combo box to the bottom of the window.
+
+-The tools need to have one selected at a time
+-Create the icons for the tools
+
+-Plan out the tools
+
+-Figure out how the side panel will work
+-Possibly use wx aui for that.
+
+-The side window can be filled for now, so put some things in it about the tools
+-This could include a scroll window, the name of the tool and some settings and so on.
+
+-Begin work on the terrain sculpting
+-Work on how it will be raised first and then look at decals on the terrain.
+
+-Make it so that the brush size and things are changed in the code to reflect the user interface
+
+-Re-do the brush edit code so that it represents the size of the brush in world space, rather than whatever it was before.
+-Finish off the ray casting stuff and use that as the positions to edit the world.
+-If the new brush is too big for the parameters in the box then change that so they fit better.
+
+-Fix the terrain drawing
+-Figure out how brushes should work (currently I'm thinking they can be used across multiple tools and so on)
+
+-Plan out the implementation of the brushes.
+
+-Implement the wxAUI system
+
+-Remove the older decal system
+-Consider how the decal will work.
+-It might be better to create a dedicated system
+-It would use the mesh manager and generate a mesh that reflects the terrain.
+
+
+-Make it so that the map handles cameras, rather than the canvas (it's better for the canvas to handle it as this allows for multiple canvases)
+-Make a system that allows more cameras to be added later, and switched between
+-Comb through the code and remove older bits (the comments in the main frame and the obsolete classes as well as the old toolbar code)
+
+-Figure out the texturing of the terrain
+    -Can the user just use a plan .jpg or do they have to use a .dds (Yes jpg and other formats can be used)
+    -Does this get saved within the terrain .dat or does the user again have to supply the textures in a folder somewhere. (Yes it has to be in the resources folder)
+    -Is the maximum 4 or 5 I can't remember (It can be anything but I'll probably limit the user to 4 so that all the features can be used in a single pass)
+    -Even though Ogre has support for other maps on the terrain, are some of these a good idea to use. (At the moment I'm only planning to use the base texture map and the normal map if the user wants. That does not mean that they won't be added in the future).
+    -Figure out if a colour map can be used.
+    -Decide the best way to implement this in the terrain panel (a list or a grid) (List. I don't know why I put grid).
+
+
+-Create a ui class for the layers in the layer list
+-Add buttons to add layers, delete layers and move layers
+-Each layer should contain
+    -Separators so it's clear which layer is which
+    -A thumbnail of the texture
+    -The name of the texture and a button to choose a new image
+    -A place for the composite map image to go, even when it's hidden
+
+-Make it so the user can select multiple layers at once on the terrain layers
+-If there is no selection then disable all the buttons except the new layer button.
+
+-Add the ability to move the order of the layers around. (This functionality wasn't implemented as it was deemed pointless)
+
+-Clean up the code for the mouse and make global rays, so that it doesn't have to be calculated multiple times.
+-Figure out how to make the values change when the mouse hovers over a terrain chunk
+
+-Create a vector that contains information about each terrain chunk
+-Figure out whether this vector should contain information about the layer lists or whether ogre takes care of that
+-Begin planning out the resource manager and also the files for the terrain
+    -The files should be able to meld with the game and modding, so put some thought into that.
+
+-Begin to implement the texture tool.
+-It doesn't have to be too complicated at this stage, just add a square of extra stuff to the blend map.
+
+-Improve the way in which the blend maps are edited, make it like the terrain edit tool.
+
+-Add a selection in the terrain edit tool to select the layer to edit.
+-Make the items in the terrain layer list match the ones on the blend map.
+
+-Make it so that terrain textures are printed over each other, rather than on a layer basis.

@@ -1,0 +1,23 @@
+--Resource Manager--
+
+The resource manager will be one of the most crucial aspects of the finished product.
+It will allow the user to control which objects are placed in the world, as well as be given a view as to what objects they could place.
+Ogre handles the majority of the resource management, but there are some things that still need to be thought about
+
+Resource locations are added to the map through the map settings section.
+Locations can be removed and added when needed, although if an entity is using a resource that corresponds to that resource location then the user will be warned.
+If the resource location is removed then the entities that are using that object will have their models replaced with something generic.
+
+If the user is attempting to add a location that contains a conflicting resource, the location will be rejected
+The user will be shown a pop-up warning them about what they are trying to do and which resources conflict.
+
+
+The resource manager will come with a pane that contains the resources in a grid-like fashion.
+When the user is using the entity placing tool, they will be able to choose a resource from this list to place.
+Eventually, if the user double-clicks on a resource they will be shown a popup of it running in a window.
+Furthermore, each resource should contain a thumbnail.
+
+
+Here are the aspects of the resource manager:
+    -A manager for handling thumbnails, each resource shouldn't have to have it's thumbnail re-generated each time a new one is needed
+    -A window to return the name of a resource when it is clicked on.
