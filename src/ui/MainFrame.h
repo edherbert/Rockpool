@@ -12,6 +12,7 @@
 #include "../map/Main.h"
 #include "NewMapDialog.h"
 #include "RenderTimer.h"
+#include "MapPropertiesDialog.h"
 #include "Tools/ToolPreferencesHandler.h"
 #include "Tools/ToolsPanelHandler.h"
 #include "TerrainInfoHandler.h"
@@ -36,8 +37,10 @@ public:
 	MainFrame(Main *main, const wxString &title);
 	~MainFrame();
 
-    void NewMap(wxCommandEvent& WXUNUSED(event));
-    void OpenMap(wxCommandEvent& WXUNUSED(event));
+    void newMap(wxCommandEvent& WXUNUSED(event));
+    void openMap(wxCommandEvent& WXUNUSED(event));
+
+    void openMapProperties(wxCommandEvent& WXUNUSED(event));
 
     void ShowToolPreferences(wxCommandEvent& event);
     void ShowTerrainToolbar(wxCommandEvent &event);

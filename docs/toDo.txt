@@ -16,17 +16,16 @@
     -Terrain render distance
     -An option to reset the 'don't show again' warnings
 
--Make a map settings window for the map
-    -Map Name
-    -Possibly resource locations
-
 -Get the decal to work
 
 
 -Make it so that only one terrain chunk can be textured at a time
 
--Begin work on the MacOS port *
 -Begin work on the resource browser specifically for the terrain textures. *
+
+-implement a list box in the resource locations.
+-Make the function buttons in the list actually do something.
+
 -Find a way to get rid of the setup directory. Bake the values into the code
 
 
@@ -189,3 +188,9 @@
 -Make the items in the terrain layer list match the ones on the blend map.
 
 -Make it so that terrain textures are printed over each other, rather than on a layer basis.
+
+-Begin work on the MacOS port (I've put this on hold for now)
+
+-Make a map settings window for the map
+    -Map Name
+    -Possibly resource locations

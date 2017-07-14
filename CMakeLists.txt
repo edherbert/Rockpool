@@ -50,6 +50,7 @@ src/ui/RenderTimer.cpp
 src/ui/BottomPanel.cpp
 src/ui/TerrainInfoHandler.cpp
 src/ui/TerrainInfoLayerBox.cpp
+src/ui/MapPropertiesDialog.cpp
 
 src/ui/Tools/ToolPreferencesHandler.cpp
 src/ui/Tools/TerrainEditToolPreferences.cpp
