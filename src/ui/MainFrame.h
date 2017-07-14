@@ -25,6 +25,7 @@ class ToolPreferencesHandler;
 class RenderTimer;
 class ToolsPanelHandler;
 class TerrainInfoHandler;
+class MapPropertiesDialog;
 
 struct HandlerData{
     ToolPreferencesHandler *toolPreferencesHandler;
@@ -45,6 +46,8 @@ public:
     void ShowToolPreferences(wxCommandEvent& event);
     void ShowTerrainToolbar(wxCommandEvent &event);
     void ShowTerrainInfo(wxCommandEvent &event);
+
+    Main* getMain();
 
     wxMenuItem *showToolPreferences;
     wxMenuItem *showTerrainInfo;

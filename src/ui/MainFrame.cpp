@@ -46,7 +46,7 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
 
     Maximize();
 
-    MapPropertiesDialog dialog(this);
+    //MapPropertiesDialog dialog(this, this);
 }
 
 MainFrame::~MainFrame(){
@@ -124,6 +124,10 @@ void MainFrame::setupMenuBar(){
     SetMenuBar(menuBar);
 }
 
+Main* MainFrame::getMain(){
+    return main;
+}
+
 void MainFrame::newMap(wxCommandEvent& WXUNUSED(event)){
     NewMapDialog dialog(this, main);
 }
@@ -136,7 +140,7 @@ void MainFrame::openMap(wxCommandEvent& WXUNUSED(event)){
 }
 
 void MainFrame::openMapProperties(wxCommandEvent& WXUNUSED(event)){
-    MapPropertiesDialog dialog(this);
+    MapPropertiesDialog dialog(this, this);
 }
 
 void MainFrame::ShowToolPreferences(wxCommandEvent &event){

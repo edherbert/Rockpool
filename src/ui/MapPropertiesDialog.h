@@ -5,22 +5,33 @@
 #include <wx/notebook.h>
 #include <wx/listbox.h>
 
+#include <wx/filename.h>
+
+#include "MainFrame.h"
+
 #include "wxIDs.h"
+
+class MainFrame;
 
 class MapPropertiesDialog : public wxDialog
 {
     public:
-        MapPropertiesDialog(wxWindow *parent);
+        MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent);
         virtual ~MapPropertiesDialog();
 
         void resourcesAddLocation(wxCommandEvent &event);
-        void resourcesEditLocation(wxCommandEvent &event);
+        void resourcesEditLocationCallback(wxCommandEvent &event);
         void resourcesDeleteLocation(wxCommandEvent &event);
+        void resourcesEditLocation();
+
+        void doubleClickResourceList(wxCommandEvent &event);
 
     protected:
 
     private:
         wxListBox *list;
+
+        MainFrame *mainFrame;
 };
 
 #endif // MAPPROPERTIESDIALOG_H

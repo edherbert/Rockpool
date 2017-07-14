@@ -23,8 +23,8 @@
 
 -Begin work on the resource browser specifically for the terrain textures. *
 
--implement a list box in the resource locations.
--Make the function buttons in the list actually do something.
+-Begin work on saving the map file
+
 
 -Find a way to get rid of the setup directory. Bake the values into the code
 
@@ -194,3 +194,6 @@
 -Make a map settings window for the map
     -Map Name
     -Possibly resource locations
+
+-implement a list box in the resource locations.
+-Make the function buttons in the list actually do something.

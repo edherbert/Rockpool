@@ -1,6 +1,8 @@
 #include "MapPropertiesDialog.h"
 
-MapPropertiesDialog::MapPropertiesDialog(wxWindow *parent) : wxDialog(parent, wxID_ANY, wxT("Map Properties"), wxDefaultPosition, wxSize(700, 600)){
+MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent) : wxDialog(parent, wxID_ANY, wxT("Map Properties"), wxDefaultPosition, wxSize(700, 600)){
+    this->mainFrame = mainFrame;
+
     wxNotebook *nb = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNB_TOP);
 
     wxPanel *mapInformationPanel = new wxPanel(nb);
@@ -10,19 +12,8 @@ MapPropertiesDialog::MapPropertiesDialog(wxWindow *parent) : wxDialog(parent, wx
     wxSystemSettings settings;
     mapInformationPanel->SetBackgroundColour(settings.GetColour(wxSYS_COLOUR_LISTBOX));
 
-    list = new wxListBox(resourceLocationsPanel, wxID_ANY);
-
-    wxArrayString strings;
-    strings.Add("1111111111jfklsdjfkldsjflksjdlakf");
-    strings.Add("2222222222jfklsdjfkldsjflksjdlakf");
-    strings.Add("3333333333jfklsdjfkldsjflksjdlakf");
-    strings.Add("4444444444jfklsdjfkldsjflksjdlakf");
-    strings.Add("5555555555jfklsdjfkldsjflksjdlakf");
-    strings.Add("6666666666jfklsdjfkldsjflksjdlakf");
-
-
-
-    list->InsertItems(strings, 0);
+    list = new wxListBox(resourceLocationsPanel, 706);
+    list->Set(mainFrame->getMain()->getResourceListItems());
 
     wxBoxSizer *resourceLocationsPanelSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -52,8 +43,10 @@ MapPropertiesDialog::MapPropertiesDialog(wxWindow *parent) : wxDialog(parent, wx
     wxBoxSizer *graphicSettingsBoxSizer = new wxBoxSizer(wxHORIZONTAL);
 
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_ADD, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesAddLocation));
-    Connect(MAP_PROPERTIES_DIALOG_RESOURCES_EDIT, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesEditLocation));
+    Connect(MAP_PROPERTIES_DIALOG_RESOURCES_EDIT, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesEditLocationCallback));
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_DELETE, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesDeleteLocation));
+
+    Connect(706, wxEVT_LISTBOX_DCLICK, wxCommandEventHandler(MapPropertiesDialog::doubleClickResourceList));
 
     ShowModal();
 }
@@ -63,22 +56,78 @@ MapPropertiesDialog::~MapPropertiesDialog(){
 }
 
 void MapPropertiesDialog::resourcesAddLocation(wxCommandEvent &event){
-    wxDirDialog *dialog = new wxDirDialog(this, "Select a directory.");
+    wxDirDialog *dialog = new wxDirDialog(this, "Select a directory.", mainFrame->getMain()->getProjectDirectory());
     if(dialog->ShowModal() != wxID_CANCEL){
-        list->Append(dialog->GetPath());
+        wxFileName dir(dialog->GetPath());
+
+        wxString projectDirectory = mainFrame->getMain()->getProjectDirectory();
+        if(projectDirectory != wxEmptyString){
+            dir.MakeRelativeTo(projectDirectory);
+        }
+
+        for(int i = 0; i < list->GetCount(); i++){
+            if(list->GetString(i) == dir.GetFullPath()){
+                wxMessageDialog dialog(this, wxT("That resource location is already in use!"), wxT("Error"));
+                dialog.ShowModal();
+                return;
+            }
+        }
+
+        list->Append(dir.GetFullPath());
+
+        Ogre::String pathToAdd = (Ogre::String)(mainFrame->getMain()->getProjectDirectory() + "/" + dir.GetFullPath());
+        mainFrame->getMain()->addResourceLocation(pathToAdd);
     }
 }
 
-void MapPropertiesDialog::resourcesEditLocation(wxCommandEvent &event){
-    wxDirDialog *dialog = new wxDirDialog(this, "Select a directory.");
+void MapPropertiesDialog::resourcesEditLocation(){
+    if(list->GetSelection() == wxNOT_FOUND) return;
+
+    //Get the path to the directory that should be changed, so that the browser can open on it
+    int selection = list->GetSelection();
+    wxString current = list->GetString(selection);
+    wxString path = mainFrame->getMain()->getProjectDirectory() + "/" + current;
+
+    wxDirDialog *dialog = new wxDirDialog(this, "Select a directory.", path);
     if(dialog->ShowModal() != wxID_CANCEL){
-        int selection = list->GetSelection();
+
+        wxFileName dir(dialog->GetPath());
+        wxString projectDirectory = mainFrame->getMain()->getProjectDirectory();
+        //If there is a project directory, then make the paths point from it, rather than their paths from the root
+        if(projectDirectory != wxEmptyString){
+            dir.MakeRelativeTo(projectDirectory);
+        }
+
+        if(current == dir.GetFullPath()){
+            return;
+        }
+
         list->Delete(selection);
-        list->Insert(dialog->GetPath(), list->GetSelection());
+        list->Insert(dir.GetFullPath(), selection);
         list->SetSelection(selection);
+
+        //The path from the root directory to this new one
+        wxString longPath = mainFrame->getMain()->getProjectDirectory() + "/" + dir.GetFullPath();
+        mainFrame->getMain()->removeResourceLocation(path);
+        mainFrame->getMain()->addResourceLocation(longPath, true, selection);
     }
+}
+
+void MapPropertiesDialog::resourcesEditLocationCallback(wxCommandEvent &event){
+    resourcesEditLocation();
 }
 
 void MapPropertiesDialog::resourcesDeleteLocation(wxCommandEvent &event){
-    list->Delete(list->GetSelection());
+    if(list->GetSelection() == wxNOT_FOUND) return;
+
+    int selection = list->GetSelection();
+    wxString current = list->GetString(selection);
+    wxString path = mainFrame->getMain()->getProjectDirectory() + "/" + current;
+    list->Delete(selection);
+
+    mainFrame->getMain()->removeResourceLocation(path);
+}
+
+void MapPropertiesDialog::doubleClickResourceList(wxCommandEvent &event){
+    resourcesEditLocation();
 }
