@@ -10,58 +10,89 @@ Main::~Main(){
 
 void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     if(!canvas) return;
+    bool success = true;
     //loadDialog = new MapLoadProgressDialog(canvas->GetParent());
     //loadDialog->setText("Creating Project");
     tinyxml2::XMLDocument xmlDoc;
     xmlDoc.LoadFile(filePath);
 
     tinyxml2::XMLNode *root = xmlDoc.FirstChild();
+    if(!root){
+        showLoadFailedPopup();
+        return;
+    }
     tinyxml2::XMLElement *header = root->FirstChildElement("Header");
     tinyxml2::XMLElement *resources = root->FirstChildElement("Resources");
 
-    tinyxml2::XMLElement *mapSettings = header->FirstChildElement("mapSettings");
-    std::string mapName = mapSettings->Attribute("mapName");
-    int mapWidth = mapSettings->IntAttribute("mapWidth");
-    int mapHeight = mapSettings->IntAttribute("mapHeight");
-    int vertexCount = mapSettings->IntAttribute("vertexCount");
-    int terrainSize = mapSettings->IntAttribute("terrainSize");
-    int terrainHeight = mapSettings->IntAttribute("terrainHeight");
+    mapInformation info;
+
+    if(header){
+        tinyxml2::XMLElement *mapSettings = header->FirstChildElement("mapSettings");
+        info.mapName = mapSettings->Attribute("mapName");
+        info.mapWidth = mapSettings->IntAttribute("mapWidth");
+        info.mapHeight = mapSettings->IntAttribute("mapHeight");
+        info.vertexCount = mapSettings->IntAttribute("vertexCount");
+        info.terrainSize = mapSettings->IntAttribute("terrainSize");
+        info.terrainHeight = mapSettings->IntAttribute("terrainHeight");
+    }else success = false;
+
+    this->projectDirectory = directoryPath;
+
+    if(resources){
+        for(tinyxml2::XMLElement *e = resources->FirstChildElement("location"); e != NULL; e = e->NextSiblingElement("location")){
+            if(e){
+                addResourceLocation(directoryPath + "/" + e->Attribute("path"));
+                std::cout << directoryPath + "/" + e->Attribute("path") << std::endl;
+            }else{
+                success = false;
+            }
+        }
+    }else success = false;
+
+    if(!success){
+        showLoadFailedPopup();
+        return;
+    }
+
+    Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/TerrainDat"), "FileSystem");
+    Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/TerrainInfo"), "FileSystem");
 
     std::cout << filePath << std::endl;
     std::cout << directoryPath << std::endl;
 
-    this->projectDirectory = directoryPath;
-
-    Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/Terrains"), "FileSystem");
-
-    for(tinyxml2::XMLElement *e = resources->FirstChildElement("location"); e != NULL; e = e->NextSiblingElement("location")){
-        //Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/" + e->Attribute("path")), "FileSystem");
-        addResourceLocation(Ogre::String(directoryPath + "/" + e->Attribute("path")));
-    }
-
-    currentMap = new Map(frame->getHandlerData(), (std::string)directoryPath, mapName, mapWidth, mapHeight, vertexCount, terrainSize, terrainHeight);
+    currentMap = new Map(frame->getHandlerData(), (std::string)directoryPath, info.mapName, info.mapWidth, info.mapHeight, info.vertexCount, info.terrainSize, info.terrainHeight);
     canvas->setMap(currentMap);
     //loadDialog->addValue(10);
     //loadDialog->setText("Generating Terrain");
 }
 
-//Resources are only added in the main class
-//There will be functions to add and change resource locations.
-//These functions will check if the directory exists first.
-//This will be used in both the loading of maps and the maps preferences window
+void Main::showLoadFailedPopup(){
+    if(!canvas)return;
+    //Attach it to the canvas because it has to be attached to something
+    wxMessageDialog dialog(canvas, wxT("Rockpool was unable to open this file!\nIt is either not a Rockpool file or it has been corrupted in some way."));
+    dialog.ShowModal();
+}
+
+void Main::showCreateFailedPopup(){
+    if(!canvas)return;
+    wxMessageDialog dialog(canvas, wxT("Rockpool was unable to create a project directory in this location!\nThis could be because you do not have write permissions, or the directory does not exist."));
+    dialog.ShowModal();
+}
 
 void Main::createMap(MainFrame *frame, wxString directoryPath, wxString mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
     wxString root = directoryPath + "/" + mapName;
-    if(wxMkdir(root)){
-        for(int i = 0; i < sizeof(defaultResourceLocations) / sizeof(*defaultResourceLocations); i++){
-            wxMkdir(root + "/" + defaultResourceLocations[i]);
-        }
+    bool success = true;
 
-        std::string filePath = (std::string)(root + "/" + mapName + ".rockpool");
-        createProjectFile(filePath, (std::string)mapName, mapWidth, mapHeight, vertexCount, terrainSize, terrainHeight);
-
-        loadMap(frame, (wxString)filePath, root);
+    //If none of the directories can be created then show a message and return
+    if(!wxMkdir(root) || !wxMkdir(root + "/terrainDat") || !wxMkdir(root + "/terrainInfo")){
+        showCreateFailedPopup();
+        return;
     }
+
+    std::string filePath = (std::string)(root + "/" + mapName + ".rockpool");
+    createProjectFile(filePath, (std::string)mapName, mapWidth, mapHeight, vertexCount, terrainSize, terrainHeight);
+
+    loadMap(frame, (wxString)filePath, root);
 }
 
 void Main::createProjectFile(std::string filePath, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
@@ -81,11 +112,11 @@ void Main::createProjectFile(std::string filePath, std::string mapName, int mapW
 
     tinyxml2::XMLNode *resources = doc.NewElement("Resources");
 
-    for(int i = 0; i < sizeof(defaultResourceLocations) / sizeof(*defaultResourceLocations); i++){
+    /*for(int i = 0; i < 3; i++){
         tinyxml2::XMLElement *location = doc.NewElement("location");
-        location->SetAttribute("path", defaultResourceLocations[i].c_str());
+        location->SetAttribute("path", "hello");
         resources->InsertFirstChild(location);
-    }
+    }*/
 
     rockpoolProject->InsertFirstChild(header);
     rockpoolProject->InsertEndChild(resources);

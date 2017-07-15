@@ -9,8 +9,7 @@ MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent)
     wxPanel *mapAttributesPanel = new wxPanel(nb);
     wxPanel *resourceLocationsPanel = new wxPanel(nb);
 
-    wxSystemSettings settings;
-    mapInformationPanel->SetBackgroundColour(settings.GetColour(wxSYS_COLOUR_LISTBOX));
+    setupMapProperties(mapInformationPanel);
 
     list = new wxListBox(resourceLocationsPanel, 706);
     list->Set(mainFrame->getMain()->getResourceListItems());
@@ -38,7 +37,7 @@ MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent)
     nb->AddPage(mapAttributesPanel, wxT("Map Attributes"));
     nb->AddPage(resourceLocationsPanel, wxT("Resource Locations"));
 
-    nb->SetSelection(2);
+    //nb->SetSelection(2);
 
     wxBoxSizer *graphicSettingsBoxSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -53,6 +52,33 @@ MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent)
 
 MapPropertiesDialog::~MapPropertiesDialog(){
 
+}
+
+void MapPropertiesDialog::setupMapProperties(wxPanel *parent){
+    wxBoxSizer *parentSizer = new wxBoxSizer(wxVERTICAL);
+    wxStaticBoxSizer *terrainDataBoxSizer = new wxStaticBoxSizer(wxVERTICAL, parent, wxT("File Save Locations"));
+
+    terrainDataBoxSizer->Add(new wxStaticText(parent, wxID_ANY, wxT("Terrain Data Save Location:")), 0, wxALL, 5);
+
+    wxBoxSizer *terrainDataHorizontal = new wxBoxSizer(wxHORIZONTAL);
+    terrainDataHorizontal->Add(new wxStaticText(parent, wxID_ANY, wxT("/home/edward/Documents/Rockpool")), 0, wxALL, 5);
+    terrainDataHorizontal->Add(new wxButton(parent, wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT));
+
+    terrainDataBoxSizer->Add(terrainDataHorizontal, 0, wxLEFT, 20);
+
+
+    terrainDataBoxSizer->Add(new wxStaticText(parent, wxID_ANY, wxT("Terrain Information Save Location:")), 0, wxALL, 5);
+
+    wxBoxSizer *terrainInformationHorizontal = new wxBoxSizer(wxHORIZONTAL);
+    terrainInformationHorizontal->Add(new wxStaticText(parent, wxID_ANY, wxT("/home/edward/Documents/Rockpool")), 0, wxALL, 5);
+    terrainInformationHorizontal->Add(new wxButton(parent, wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT));
+
+    terrainDataBoxSizer->Add(terrainInformationHorizontal, 0, wxLEFT, 20);
+
+
+
+    parentSizer->Add(terrainDataBoxSizer, 1, wxEXPAND | wxALL, 10);
+    parent->SetSizer(parentSizer);
 }
 
 void MapPropertiesDialog::resourcesAddLocation(wxCommandEvent &event){

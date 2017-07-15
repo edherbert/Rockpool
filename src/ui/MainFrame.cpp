@@ -45,8 +45,6 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     auiManager->Update();
 
     Maximize();
-
-    //MapPropertiesDialog dialog(this, this);
 }
 
 MainFrame::~MainFrame(){
@@ -70,8 +68,11 @@ void MainFrame::setupMenuBar(){
 
     file->Append(MENU_FILE_NEW_MAP, wxT("New Map\tctrl+N"));
     file->Append(MENU_FILE_OPEN_MAP, wxT("Open Map\tctrl+O"));
-    file->AppendSeparator();
     file->Append(wxID_ANY, wxT("Recent"));
+    file->AppendSeparator();
+    file->Append(MENU_FILE_SAVE_MAP, wxT("Save\tctrl+S"));
+    file->Append(wxID_ANY, wxT("Export\tctrl+shift+E"));
+    file->Append(wxID_ANY, wxT("Export As Previous\tctrl+E"));
 
     edit->Append(wxID_ANY, wxT("Undo"));
     edit->Append(wxID_ANY, wxT("Redo"));
@@ -80,6 +81,8 @@ void MainFrame::setupMenuBar(){
     edit->Append(wxID_ANY, wxT("Copy"));
     edit->Append(wxID_ANY, wxT("Paste"));
     edit->Append(wxID_ANY, wxT("Delete"));
+    edit->AppendSeparator();
+    edit->Append(wxID_ANY, wxT("Rockpool Preferences"));
 
     view->Append(wxID_ANY, wxT("Zoom"));
     view->Append(wxID_ANY, wxT("Show Grid"));
@@ -101,7 +104,6 @@ void MainFrame::setupMenuBar(){
     toolbars->Append(showTerrainToolbar);
     showTerrainToolbar->Check(false);
 
-//    window->Append(dockableWindows, wxT("Dockable Windows"));
     window->Append(wxID_ANY, wxT("Dockable Windows"), dockableWindows);
     window->Append(wxID_ANY, wxT("Toolbars"), toolbars);
 
@@ -113,6 +115,7 @@ void MainFrame::setupMenuBar(){
 
     Connect(MENU_FILE_NEW_MAP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::newMap));
     Connect(MENU_FILE_OPEN_MAP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::openMap));
+    Connect(MENU_FILE_SAVE_MAP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::saveMap));
 
     Connect(MENU_MAP_MAP_PROPERTIES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::openMapProperties));
 
@@ -128,11 +131,11 @@ Main* MainFrame::getMain(){
     return main;
 }
 
-void MainFrame::newMap(wxCommandEvent& WXUNUSED(event)){
+void MainFrame::newMap(wxCommandEvent &event){
     NewMapDialog dialog(this, main);
 }
 
-void MainFrame::openMap(wxCommandEvent& WXUNUSED(event)){
+void MainFrame::openMap(wxCommandEvent &event){
     wxFileDialog *dialog = new wxFileDialog(this, "Select a Rockpool file.", "", "", "Rockpool files (*.rockpool)|*.rockpool");
     if(dialog->ShowModal() != wxID_CANCEL){
         main->loadMap(this, dialog->GetPath(), dialog->GetDirectory());
@@ -175,4 +178,8 @@ void MainFrame::closeToolPreferences(wxAuiManagerEvent &event){
     if(event.GetPane()->name == "TerrainInformation"){
         terrainInfoHandler->setTerrainInfoVisability(false);
     }
+}
+
+void MainFrame::saveMap(wxCommandEvent &event){
+    std::cout << "hello" << std::endl;
 }

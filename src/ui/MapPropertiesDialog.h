@@ -30,8 +30,9 @@ class MapPropertiesDialog : public wxDialog
 
     private:
         wxListBox *list;
-
         MainFrame *mainFrame;
+
+        void setupMapProperties(wxPanel *parent);
 };
 
 #endif // MAPPROPERTIESDIALOG_H

@@ -11,7 +11,7 @@ Terrain::Terrain(Ogre::SceneManager *sceneManager, std::string path, std::string
 
     terrainGroup = OGRE_NEW Ogre::TerrainGroup(sceneManager, Ogre::Terrain::ALIGN_X_Z, vertexCount, terrainSize);
     //Maybe change this with the save function
-    terrainGroup->setFilenameConvention(Ogre::String(path + "/Terrains/" + mapName), Ogre::String("dat"));
+    terrainGroup->setFilenameConvention(Ogre::String(path + "/terrainDat/" + mapName), Ogre::String("dat"));
     terrainGroup->setOrigin(Ogre::Vector3::ZERO);
 
     configureTerrainDefaults();

@@ -19,6 +19,15 @@ class MainFrame;
 class GLCanvas;
 class Map;
 
+struct mapInformation{
+    std::string mapName;
+    int mapWidth;
+    int mapHeight;
+    int vertexCount;
+    int terrainSize;
+    int terrainHeight;
+};
+
 class Main
 {
     public:
@@ -48,7 +57,8 @@ class Main
 
         wxString projectDirectory;
 
-        const std::string defaultResourceLocations[2] = {"Meshes", "Textures"};
+        void showLoadFailedPopup();
+        void showCreateFailedPopup();
 
         MapLoadProgressDialog *loadDialog;
 

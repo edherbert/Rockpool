@@ -38,8 +38,9 @@ public:
 	MainFrame(Main *main, const wxString &title);
 	~MainFrame();
 
-    void newMap(wxCommandEvent& WXUNUSED(event));
-    void openMap(wxCommandEvent& WXUNUSED(event));
+    void newMap(wxCommandEvent &event);
+    void openMap(wxCommandEvent &event);
+    void saveMap(wxCommandEvent &event);
 
     void openMapProperties(wxCommandEvent& WXUNUSED(event));
 

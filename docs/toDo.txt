@@ -4,9 +4,6 @@
 
 -Make it so that multiple maps can be created, at the moment it crashes.
 -The user will have to be given an option to save the current map, so this probably can't be done until terrain editing is done.
--Possibly hide the contents of the panel when a map is not loaded
-
--Go through the code to load xml files in and make it not halt on issues like missing files and so on.
 
 -Make a preferences window for Rockpool
     -Default speed of the camera
@@ -20,6 +17,7 @@
 
 
 -Make it so that only one terrain chunk can be textured at a time
+
 
 -Begin work on the resource browser specifically for the terrain textures. *
 
@@ -197,3 +195,9 @@
 
 -implement a list box in the resource locations.
 -Make the function buttons in the list actually do something.
+
+-Fill out the first page of the map preferences:
+    Where to save the terrain .dat files
+    Where to save the terrain information files
+
+-Go through the code to load xml files in and make it not halt on issues like missing files and so on.
