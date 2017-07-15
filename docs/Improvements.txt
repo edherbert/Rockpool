@@ -5,3 +5,5 @@ Maybe only change the position of the cursor when the mouse moves, then re-do th
 
 Possibly see if updating select areas of the terrain is better than doing the entire thing,
 this might speed up the running of the application.
+
+The edit and delete buttons in the resource list section should be disabled if there is nothing in the list.

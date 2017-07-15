@@ -37,6 +37,7 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     }else success = false;
 
     this->projectDirectory = directoryPath;
+    this->filePath = filePath;
 
     if(resources){
         for(tinyxml2::XMLElement *e = resources->FirstChildElement("location"); e != NULL; e = e->NextSiblingElement("location")){
@@ -54,13 +55,13 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
         return;
     }
 
-    Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/TerrainDat"), "FileSystem");
-    Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/TerrainInfo"), "FileSystem");
+    //These are required directories, and have nothing to do with the directories that the user can add
+    //They are added like this so that they're not pushed to the resource location list that the user can see.
+    for(wxString i : requiredDirectories){
+        Ogre::Root::getSingleton().addResourceLocation(Ogre::String(directoryPath + "/" + i), "FileSystem");
+    }
 
-    std::cout << filePath << std::endl;
-    std::cout << directoryPath << std::endl;
-
-    currentMap = new Map(frame->getHandlerData(), (std::string)directoryPath, info.mapName, info.mapWidth, info.mapHeight, info.vertexCount, info.terrainSize, info.terrainHeight);
+    currentMap = new Map(frame->getHandlerData(), (std::string)directoryPath, info);
     canvas->setMap(currentMap);
     //loadDialog->addValue(10);
     //loadDialog->setText("Generating Terrain");
@@ -79,8 +80,8 @@ void Main::showCreateFailedPopup(){
     dialog.ShowModal();
 }
 
-void Main::createMap(MainFrame *frame, wxString directoryPath, wxString mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
-    wxString root = directoryPath + "/" + mapName;
+void Main::createMap(MainFrame *frame, wxString directoryPath, mapInformation info){
+    wxString root = directoryPath + "/" + info.mapName;
     bool success = true;
 
     //If none of the directories can be created then show a message and return
@@ -89,34 +90,35 @@ void Main::createMap(MainFrame *frame, wxString directoryPath, wxString mapName,
         return;
     }
 
-    std::string filePath = (std::string)(root + "/" + mapName + ".rockpool");
-    createProjectFile(filePath, (std::string)mapName, mapWidth, mapHeight, vertexCount, terrainSize, terrainHeight);
+    std::string filePath = (std::string)(root + "/" + info.mapName + ".rockpool");
+    createProjectFile(filePath, info);
 
     loadMap(frame, (wxString)filePath, root);
 }
 
-void Main::createProjectFile(std::string filePath, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
+//void Main::createProjectFile(std::string filePath, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
+void Main::createProjectFile(std::string filePath, mapInformation info){
     tinyxml2::XMLDocument doc;
 
     tinyxml2::XMLNode *rockpoolProject = doc.NewElement("Rockpool_project");
     tinyxml2::XMLNode *header = doc.NewElement("Header");
 
     tinyxml2::XMLElement *headerMapSettings = doc.NewElement("mapSettings");
-    headerMapSettings->SetAttribute("mapName", mapName.c_str());
-    headerMapSettings->SetAttribute("mapWidth", mapWidth);
-    headerMapSettings->SetAttribute("mapHeight", mapHeight);
-    headerMapSettings->SetAttribute("vertexCount", vertexCount);
-    headerMapSettings->SetAttribute("terrainSize", terrainSize);
-    headerMapSettings->SetAttribute("terrainHeight", terrainHeight);
+    headerMapSettings->SetAttribute("mapName", info.mapName.c_str());
+    headerMapSettings->SetAttribute("mapWidth", info.mapWidth);
+    headerMapSettings->SetAttribute("mapHeight", info.mapHeight);
+    headerMapSettings->SetAttribute("vertexCount", info.vertexCount);
+    headerMapSettings->SetAttribute("terrainSize", info.terrainSize);
+    headerMapSettings->SetAttribute("terrainHeight", info.terrainHeight);
     header->InsertEndChild(headerMapSettings);
 
     tinyxml2::XMLNode *resources = doc.NewElement("Resources");
 
-    /*for(int i = 0; i < 3; i++){
+    for(wxString i : resourceLocationPaths){
         tinyxml2::XMLElement *location = doc.NewElement("location");
-        location->SetAttribute("path", "hello");
+        location->SetAttribute("path", ((std::string)i).c_str());
         resources->InsertFirstChild(location);
-    }*/
+    }
 
     rockpoolProject->InsertFirstChild(header);
     rockpoolProject->InsertEndChild(resources);
@@ -124,18 +126,30 @@ void Main::createProjectFile(std::string filePath, std::string mapName, int mapW
     doc.SaveFile(filePath.c_str());
 }
 
-void Main::addResourceLocation(wxString path, bool insertAtIndex, int index){
+bool Main::addResourceLocation(wxString path, bool insertAtIndex, int index){
     wxFileName file(path);
-    if(file.IsDirReadable() && file.Exists()){
-        //The index is for the location editing
-        wxString insertValue = path.substr(projectDirectory.size() + 1, path.size());
-        if(insertAtIndex){
-            resourceLocationPaths.insert(resourceLocationPaths.begin()+index, insertValue);
-        }else{
-            resourceLocationPaths.push_back(insertValue);
+    if(!file.IsDirReadable() || !file.Exists()) return false;
+
+    //Check if the new location is one of the required locations
+    for(wxString i : requiredDirectories){
+        if(projectDirectory + "/" + i == path){
+            if(!canvas)return false;
+            wxMessageDialog dialog(canvas, wxT("That's one of the required directories.\nYou can't add it as a resource location."));
+            dialog.ShowModal();
+            return false;
         }
-        Ogre::Root::getSingleton().addResourceLocation((Ogre::String)path, "FileSystem");
     }
+
+    //The index is for the location editing
+    wxString insertValue = path.substr(projectDirectory.size() + 1, path.size());
+    if(insertAtIndex){
+        resourceLocationPaths.insert(resourceLocationPaths.begin()+index, insertValue);
+    }else{
+        resourceLocationPaths.push_back(insertValue);
+    }
+    Ogre::Root::getSingleton().addResourceLocation((Ogre::String)path, "FileSystem");
+
+    return true;
 }
 
 void Main::removeResourceLocation(wxString path){
@@ -144,6 +158,11 @@ void Main::removeResourceLocation(wxString path){
 
     resourceLocationPaths.erase(std::remove(resourceLocationPaths.begin(), resourceLocationPaths.end(), shorter), resourceLocationPaths.end());
     Ogre::Root::getSingleton().removeResourceLocation((Ogre::String)path);
+}
+
+void Main::saveProject(){
+    std::cout << "saving project" << std::endl;
+    //createProjectFile(filePath, )
 }
 
 void Main::setCanvas(GLCanvas *canvas){

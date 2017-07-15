@@ -181,5 +181,5 @@ void MainFrame::closeToolPreferences(wxAuiManagerEvent &event){
 }
 
 void MainFrame::saveMap(wxCommandEvent &event){
-    std::cout << "hello" << std::endl;
+    main->saveProject();
 }

@@ -1,14 +1,14 @@
 #include "Map.h"
 
-Map::Map(HandlerData *handlerData, std::string path, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
+Map::Map(HandlerData *handlerData, std::string path, mapInformation info){
     this->handlerData = handlerData;
     this->path = path;
-    this->mapName = mapName;
-    this->mapWidth = mapWidth;
-    this->mapHeight = mapHeight;
-    this->vertexCount = vertexCount;
-    this->terrainSize = terrainSize;
-    this->terrainHeight = terrainHeight;
+    this->mapName = info.mapName;
+    this->mapWidth = info.mapWidth;
+    this->mapHeight = info.mapHeight;
+    this->vertexCount = info.vertexCount;
+    this->terrainSize = info.terrainSize;
+    this->terrainHeight = info.terrainHeight;
 }
 
 Map::~Map(){
@@ -187,4 +187,16 @@ void Map::handleTerrainTextureTool(const Ogre::TerrainGroup::RayResult centreRay
 
     terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex);
     canvas->renderFrame();
+}
+
+mapInformation Map::getMapInformation(){
+    mapInformation info;
+    info.mapName = mapName;
+    info.mapWidth = mapWidth;
+    info.mapHeight = mapHeight;
+    info.vertexCount = vertexCount;
+    info.terrainSize = terrainSize;
+    info.terrainHeight = terrainHeight;
+
+    return info;
 }

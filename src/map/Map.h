@@ -15,11 +15,12 @@ class ToolPreferencesHandler;
 class TerrainInfoHandler;
 
 struct HandlerData;
+struct mapInformation;
 
 class Map
 {
     public:
-        Map(HandlerData *handlerData, std::string path, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight);
+        Map(HandlerData *handlerData, std::string path, mapInformation info);
         virtual ~Map();
 
         Ogre::Camera* getCamera();
@@ -40,6 +41,7 @@ class Map
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
         bool getMapStarted();
+        mapInformation getMapInformation();
 
     protected:
 

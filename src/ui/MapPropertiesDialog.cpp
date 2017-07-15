@@ -99,10 +99,10 @@ void MapPropertiesDialog::resourcesAddLocation(wxCommandEvent &event){
             }
         }
 
-        list->Append(dir.GetFullPath());
-
         Ogre::String pathToAdd = (Ogre::String)(mainFrame->getMain()->getProjectDirectory() + "/" + dir.GetFullPath());
-        mainFrame->getMain()->addResourceLocation(pathToAdd);
+        if(mainFrame->getMain()->addResourceLocation(pathToAdd)){
+            list->Append(dir.GetFullPath());
+        }
     }
 }
 
@@ -128,14 +128,15 @@ void MapPropertiesDialog::resourcesEditLocation(){
             return;
         }
 
+        //The path from the root directory to this new one
+        wxString longPath = mainFrame->getMain()->getProjectDirectory() + "/" + dir.GetFullPath();
+        //If the resource location cannot be added, then don't do anything.
+        if(!mainFrame->getMain()->addResourceLocation(longPath, true, selection)) return;
+        mainFrame->getMain()->removeResourceLocation(path);
+
         list->Delete(selection);
         list->Insert(dir.GetFullPath(), selection);
         list->SetSelection(selection);
-
-        //The path from the root directory to this new one
-        wxString longPath = mainFrame->getMain()->getProjectDirectory() + "/" + dir.GetFullPath();
-        mainFrame->getMain()->removeResourceLocation(path);
-        mainFrame->getMain()->addResourceLocation(longPath, true, selection);
     }
 }
 

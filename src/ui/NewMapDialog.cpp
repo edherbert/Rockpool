@@ -118,15 +118,16 @@ void NewMapDialog::OKPressed(wxCommandEvent& WXUNUSED(event)){
         //Get the values from the various things.
         wxString path = dirDialog->GetPath();
 
-        wxString mapName = mapNameControl->GetValue();
-        int mapWidth = mapWidthSpin->GetValue();
-        int mapHeight = mapHeightSpin->GetValue();
+        mapInformation info;
+        info.mapName = mapNameControl->GetValue();
+        info.mapWidth = mapWidthSpin->GetValue();
+        info.mapHeight = mapHeightSpin->GetValue();
 
-        int vertexCount = wxAtoi(vertexCountBox->GetValue());
-        int terrainSize = terrainSizeSpin->GetValue();
-        int terrainHeight = terrainHeightSpin->GetValue();
+        info.vertexCount = wxAtoi(vertexCountBox->GetValue());
+        info.terrainSize = terrainSizeSpin->GetValue();
+        info.terrainHeight = terrainHeightSpin->GetValue();
 
-        main->createMap(parent, path, mapName, mapWidth, mapHeight, vertexCount, terrainSize, terrainHeight);
+        main->createMap(parent, path, info);
     }
     Destroy();
 }

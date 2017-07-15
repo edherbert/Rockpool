@@ -35,15 +35,17 @@ class Main
         virtual ~Main();
 
         void loadMap(MainFrame *frame, wxString filePath, wxString directoryPath);
-        void createMap(MainFrame *frame, wxString path, wxString mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight);
+        void createMap(MainFrame *frame, wxString path, mapInformation info);
 
         void setCanvas(GLCanvas *canvas);
 
         Map* getCurrentMap();
 
-        void addResourceLocation(wxString path, bool insertAtIndex = false, int index = 0);
+        bool addResourceLocation(wxString path, bool insertAtIndex = false, int index = 0);
         void removeResourceLocation(wxString path);
         wxArrayString getResourceListItems();
+
+        void saveProject();
 
         wxString getProjectDirectory();
 
@@ -56,13 +58,15 @@ class Main
         std::vector<wxString> resourceLocationPaths;
 
         wxString projectDirectory;
+        wxString filePath;
+        wxString requiredDirectories[2] = {"terrainDat", "terrainInfo"};
 
         void showLoadFailedPopup();
         void showCreateFailedPopup();
 
         MapLoadProgressDialog *loadDialog;
 
-        void createProjectFile(std::string filePath, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight);
+        void createProjectFile(std::string filePath, mapInformation info);
 };
 
 #endif // MAIN_H
