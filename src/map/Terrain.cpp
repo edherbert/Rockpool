@@ -172,36 +172,6 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
 }
 
 
-/*
-void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex){
-    int brushDiv = brushSize / 2;
-    //std::cout << layerIndex << std::endl;
-    Ogre::TerrainLayerBlendMap *layer = centreRay.terrain->getLayerBlendMap(layerIndex);
-    std::cout << (int)centreRay.terrain->getLayerCount() << std::endl;
-
-    long startX = centreRay.position.x - brushDiv;
-    long startZ = centreRay.position.z - brushDiv;
-    long endX = centreRay.position.x + brushDiv;
-    long endZ = centreRay.position.z + brushDiv;
-
-    Ogre::uint16 terrainSize = centreRay.terrain->getLayerBlendMapSize();
-
-    Ogre::Vector3 terrainStart;
-    Ogre::Vector3 terrainEnd;
-
-    centreRay.terrain->getTerrainPosition(startX, centreRay.position.y, startZ, &terrainStart);
-    centreRay.terrain->getTerrainPosition(endX, centreRay.position.y, endZ, &terrainEnd);
-
-    terrainStart *= terrainSize;
-    terrainEnd *= terrainSize;
-
-    for(long y = terrainEnd.y; y < terrainStart.y; y++){
-        for(long x = terrainStart.x; x < terrainEnd.x; x++){
-            long yval = terrainSize - y;
-            if(x < 0 || yval < 0 || x > terrainSize || yval > terrainSize) continue;
-
-            layer->setBlendValue(x, yval, 1);
-        }
-    }
-    layer->update();
-*/
+void Terrain::saveTerrains(){
+    terrainGroup->saveAllTerrains(true);
+}

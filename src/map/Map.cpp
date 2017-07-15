@@ -200,3 +200,7 @@ mapInformation Map::getMapInformation(){
 
     return info;
 }
+
+void Map::saveMap(){
+    terrain->saveTerrains();
+}

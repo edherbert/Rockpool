@@ -162,7 +162,8 @@ void Main::removeResourceLocation(wxString path){
 
 void Main::saveProject(){
     std::cout << "saving project" << std::endl;
-    //createProjectFile(filePath, )
+    createProjectFile((std::string)filePath, currentMap->getMapInformation());
+    currentMap->saveMap();
 }
 
 void Main::setCanvas(GLCanvas *canvas){
