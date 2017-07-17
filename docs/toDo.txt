@@ -24,7 +24,6 @@
 -Give each resource location it's own group to avoid clashes if a file has the same name (but do this later)
 
 -Finalise the planning for the resource browser.
--Create a class to handle resources. It should search through the resource locations and return lists of resources. (Separate from ogre)
 -Create a panel that shows all the resources in a grid fashion.
 
 -Find a way to get rid of the setup directory. Bake the values into the code
@@ -207,3 +206,5 @@
 -Go through the code to load xml files in and make it not halt on issues like missing files and so on.
 
 -Begin work on saving the map file
+
+-Create a class to handle resources. It should search through the resource locations and return lists of resources. (Separate from ogre)
