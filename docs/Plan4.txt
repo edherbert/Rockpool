@@ -2,7 +2,7 @@
 
 The resource manager will be one of the most crucial aspects of the finished product.
 It will allow the user to control which objects are placed in the world, as well as be given a view as to what objects they could place.
-Ogre handles the majority of the resource management, but there are some things that still need to be thought about
+Ogre handles the majority of the resource management, but there are some things that still need to be thought about.
 
 Resource locations are added to the map through the map settings section.
 Locations can be removed and added when needed, although if an entity is using a resource that corresponds to that resource location then the user will be warned.
@@ -17,7 +17,8 @@ When the user is using the entity placing tool, they will be able to choose a re
 Eventually, if the user double-clicks on a resource they will be shown a popup of it running in a window.
 Furthermore, each resource should contain a thumbnail.
 
-The resource manager that is used by the entity placing tool will have to be different from that which selects images because and image can't be placed.
+The resource manager that is used by the entity placing tool will have to be different from that which selects images because images can't be placed.
+The gui part of the resource manager should be able to find resources of a certain type, and filter out other resources.
 
 
 Here are the aspects of the resource manager:
@@ -33,7 +34,7 @@ However, there are some locations that would be necessary, like the terrain data
 With this in mind, it would be easier to have this directory a location that Rockpool has access to, but not tell the user about.
 So when the user starts up Rockpool, there will be no resource locations there by default, and therefore no resources for them to use.
 
-It might be a better idea to let the user choose where Rockpool saves it's terrain data.
+It might be a better idea to let the user choose where Rockpool saves it's terrain data. (I switched this, so it's not anymore)
 
 The user will be able to export to a number of forms, things like json, xml or text.
 This export will include things like heightmaps for specific terrains, and the data for where each entity goes.
@@ -47,4 +48,33 @@ Then I'll export them into the game's resource directory.
 For the game, I'll probably have a few resource locations, like terrain data, heightmaps, terrain information and so on.
 I'll also have a directory there that contains all the models and textures.
 From there I can add a resource location to that in the project and just use them like that.
-This prevents me having to duplicate the resource files and keep everything neat in game's resources.
+This prevents me having to duplicate the resource files and keep everything neat in the game's resources.
+
+--Duplicate resources--
+One problem I'm going to face at some point is duplicate resources.
+In the terrain data file, I only really want to describe the name of the resource, and not the path.
+However, if there are other files in other directories with the same name, then I won't be able to do this.
+Ultimately the user needs lots of choice about their resources and output formats, so I'll think about this later.
+Essentually, if the user has the same resource in the same resource group, then they will be shown a warning
+
+--Resource Handler--
+The resource handler is a component of the resource manager.
+It's what's in charge of handing the resources in the directories.
+This has nothing to do with the gui for the resources.
+This is what all the components go to if they want to query a resource.
+So the gui section will go to this class to find the resources that it should show.
+
+The resource handler is also in charge of handling the wx thumbnails of the resources, although this will come at a later date.
+
+Thinking about it, it might be a better idea to call it the resource manager.
+
+So while the resource manager is incharge of handling the resources, it decides at certain points where to find the resources.
+I could say that once every 30 seconds it will re-check for resources in it's locations.
+This can also be called at other times, but that's the specific time.
+It will essentually check if a file has been changed or moved.
+
+Once it has built up a catalogue of resources, it will sort them accordingly.
+The information for the resources will most likely be stored in structs.
+The information will be things like the resource location, the resource name and so on.
+I'll probably store everything as pointers.
+Rather than storing the directory path for each resource, which would mount up, it would be easier to store it as a pointer and just access it like that.

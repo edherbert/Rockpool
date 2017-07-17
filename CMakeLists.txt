@@ -58,6 +58,8 @@ src/ui/Tools/TerrainTextureToolPreferences.cpp
 src/ui/Tools/ToolPreferences.cpp
 src/ui/Tools/ToolsPanelHandler.cpp
 
+src/system/ResourceManager.cpp
+
 src/graphics/OgreComponent
 src/graphics/Trackball
 

@@ -122,7 +122,7 @@ Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int brushFlow){
             for(long x = terrainStart.x; x < terrainEnd.x; x++){
                 if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
 
-                float newHeight = terrain->getHeightAtPoint(x, y) + 0.01 * brushFlow;
+                float newHeight = terrain->getHeightAtPoint(x, y) + 0.05 * brushFlow;
                 terrain->setHeightAtPoint(x, y, newHeight);
             }
         }

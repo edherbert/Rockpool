@@ -7,3 +7,5 @@ Possibly see if updating select areas of the terrain is better than doing the en
 this might speed up the running of the application.
 
 The edit and delete buttons in the resource list section should be disabled if there is nothing in the list.
+
+Make the add resource location dialog start at the directory of the last opened resource location.

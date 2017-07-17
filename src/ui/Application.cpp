@@ -3,16 +3,21 @@
 
 #include "../graphics/OgreComponent.h"
 #include "../map/Main.h"
+#include "../system/ResourceManager.h"
 
 IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit(){
-    OgreComponent ogre;
+    OgreComponent *ogreComponent = new OgreComponent();
     Main *main = new Main();
 
 	MainFrame *mainFrame = new MainFrame(main, wxT("Rockpool"));
+
+	ResourceManager *resourceManager = new ResourceManager(main);
+	main->setResourceManager(resourceManager);
+
 	mainFrame->Show(true);
-    //main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/New Map/New Map.rockpool", "/home/edward/Documents/Rockpool/tests/New Map");
+    main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/New Map/New Map.rockpool", "/home/edward/Documents/Rockpool/tests/New Map");
     //main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/Something/Something.rockpool", "/home/edward/Documents/Rockpool/tests/Something");
 
 	return true;

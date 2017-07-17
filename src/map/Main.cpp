@@ -43,12 +43,14 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
         for(tinyxml2::XMLElement *e = resources->FirstChildElement("location"); e != NULL; e = e->NextSiblingElement("location")){
             if(e){
                 addResourceLocation(directoryPath + "/" + e->Attribute("path"));
-                std::cout << directoryPath + "/" + e->Attribute("path") << std::endl;
+                //std::cout << directoryPath + "/" + e->Attribute("path") << std::endl;
             }else{
                 success = false;
             }
         }
     }else success = false;
+
+    if(resourceManager)resourceManager->checkResourceLocations();
 
     if(!success){
         showLoadFailedPopup();
@@ -170,6 +172,10 @@ void Main::setCanvas(GLCanvas *canvas){
     this->canvas = canvas;
 }
 
+void Main::setResourceManager(ResourceManager *resourceManager){
+    this->resourceManager = resourceManager;
+}
+
 Map* Main::getCurrentMap(){
     return currentMap;
 }
@@ -184,4 +190,8 @@ wxArrayString Main::getResourceListItems(){
         items.Add(i);
     }
     return items;
+}
+
+ResourceManager* Main::getResourceManager(){
+    return resourceManager;
 }

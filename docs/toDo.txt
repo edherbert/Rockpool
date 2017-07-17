@@ -27,8 +27,8 @@
 -Create a class to handle resources. It should search through the resource locations and return lists of resources. (Separate from ogre)
 -Create a panel that shows all the resources in a grid fashion.
 
-
 -Find a way to get rid of the setup directory. Bake the values into the code
+-Make it so that if any of the project files are deleted, new ones can be generated.
 
 
 -Make it so that the user cannot alter the terrain using the fps camera
