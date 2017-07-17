@@ -91,6 +91,7 @@ TerrainInfoHandler::TerrainInfoHandler(MainFrame *mainFrame, wxAuiManager *auiMa
 
     setTerrainInfoVisability(false);
     //Set the current terrain to nothing, so that nothing is shown in the dialog to start
+    //This is taking a pointer, not an id remember.
     setCurrentTerrain(0);
     contentPanel->Hide();
 

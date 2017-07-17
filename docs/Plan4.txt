@@ -78,3 +78,31 @@ The information for the resources will most likely be stored in structs.
 The information will be things like the resource location, the resource name and so on.
 I'll probably store everything as pointers.
 Rather than storing the directory path for each resource, which would mount up, it would be easier to store it as a pointer and just access it like that.
+
+--Resource Browser--
+For now, the resource browser will be pretty straight forward.
+The user will be show a grid of values and asked to select one.
+The search functionality will allow users to find values quickly.
+
+I'll probably lay out the resources with classes that inherit from panels.
+Again, they'll probably be pointers to the classes.
+
+The resource browser will have a list of resource tiles.
+Whenever the browser is refreshed (about 30 times a second) the resources will be updated
+I'll probably create a number of tiles equal to the number of resource locations when the editor starts.
+Then when the browser is refreshed, I'll check how many tiles are currently in the browser.
+I'll match it to the number required by removing or deleting tiles.
+Then I'll go through the list and set the text and icon in the tile equal to that in the required list.
+This will minimise the ammount of times items are binded and re-binded to the browser.
+
+A resize, is when the tiles are ordered in a grid based on their location.
+I get the impression that I'll be doing manual positioning for the tiles, rather than using a sizer.
+
+I might create another class for the actual tile part of the browser.
+I want to use it for the popup browser for the terrain layers.
+It would be easier to abstract that part of it.
+
+I'll probably have to re-name some things:
+    resource browser
+    resource browser panel
+    resourceBrowserTile

@@ -14,6 +14,7 @@
 
 #define MENU_WINDOW_SHOW_TOOL_PREFERENCES 510
 #define MENU_WINDOW_SHOW_TERRAIN_INFO 511
+#define MENU_WINDOW_SHOW_RESOURCE_BROWSER 512
 #define MENU_WINDOW_SHOW_TERRAIN_TOOLBAR 520
 
 //Start these at 30 to allow growing room for the task menu

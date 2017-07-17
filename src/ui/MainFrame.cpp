@@ -26,6 +26,9 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     terrainInfoHandler = new TerrainInfoHandler(this, auiManager);
     terrainInfoHandler->setTerrainInfoVisability(true);
 
+    resourceBrowser = new ResourceBrowser(this, auiManager);
+    resourceBrowser->setResourceBrowserVisability(true);
+
     //The tools panel that appears at the top of the window.
     toolPanelHandler = new ToolsPanelHandler(this, auiManager);
     toolPanelHandler->setToolPanelVisibility(true);
@@ -97,8 +100,10 @@ void MainFrame::setupMenuBar(){
     //They will be activated by functions later
     showToolPreferences = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxT("Show Tool Preferences"), wxEmptyString, wxITEM_CHECK);
     showTerrainInfo = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_TERRAIN_INFO, wxT("Show Terrain Info"), wxEmptyString, wxITEM_CHECK);
+    showResourceBrowser = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxT("Show Resource Browser"), wxEmptyString, wxITEM_CHECK);
     dockableWindows->Append(showToolPreferences);
     dockableWindows->Append(showTerrainInfo);
+    dockableWindows->Append(showResourceBrowser);
     showToolPreferences->Check(false);
 
     showTerrainToolbar = new wxMenuItem(toolbars, MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxT("Show Terrain Toolbar"), wxEmptyString, wxITEM_CHECK);
@@ -123,6 +128,7 @@ void MainFrame::setupMenuBar(){
 
     Connect(MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowToolPreferences));
     Connect(MENU_WINDOW_SHOW_TERRAIN_INFO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainInfo));
+    Connect(MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowResourceBrowser));
 
     Connect(MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainToolbar));
 
@@ -154,6 +160,10 @@ void MainFrame::ShowToolPreferences(wxCommandEvent &event){
 
 void MainFrame::ShowTerrainInfo(wxCommandEvent &event){
     terrainInfoHandler->setTerrainInfoVisability(event.IsChecked());
+}
+
+void MainFrame::ShowResourceBrowser(wxCommandEvent &event){
+    resourceBrowser->setResourceBrowserVisability(event.IsChecked());
 }
 
 void MainFrame::ShowTerrainToolbar(wxCommandEvent &event){

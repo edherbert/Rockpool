@@ -16,6 +16,7 @@
 #include "Tools/ToolPreferencesHandler.h"
 #include "Tools/ToolsPanelHandler.h"
 #include "TerrainInfoHandler.h"
+#include "ResourceBrowser.h"
 
 #include <wx/aui/aui.h>
 
@@ -26,6 +27,7 @@ class RenderTimer;
 class ToolsPanelHandler;
 class TerrainInfoHandler;
 class MapPropertiesDialog;
+class ResourceBrowser;
 
 struct HandlerData{
     ToolPreferencesHandler *toolPreferencesHandler;
@@ -47,6 +49,7 @@ public:
     void ShowToolPreferences(wxCommandEvent& event);
     void ShowTerrainToolbar(wxCommandEvent &event);
     void ShowTerrainInfo(wxCommandEvent &event);
+    void ShowResourceBrowser(wxCommandEvent &event);
 
     void checkResourceLocation(wxCommandEvent &event);
 
@@ -55,6 +58,7 @@ public:
     wxMenuItem *showToolPreferences;
     wxMenuItem *showTerrainInfo;
     wxMenuItem *showTerrainToolbar;
+    wxMenuItem *showResourceBrowser;
 
     void closeToolPreferences(wxAuiManagerEvent &event);
 
@@ -73,6 +77,7 @@ private:
 	ToolPreferencesHandler *toolPreferencesHandler;
 	ToolsPanelHandler *toolPanelHandler;
 	TerrainInfoHandler *terrainInfoHandler;
+	ResourceBrowser *resourceBrowser;
 
 	void setupMenuBar();
 
