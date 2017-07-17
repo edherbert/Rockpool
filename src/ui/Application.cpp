@@ -11,10 +11,10 @@ bool MyApp::OnInit(){
     OgreComponent *ogreComponent = new OgreComponent();
     Main *main = new Main();
 
-	MainFrame *mainFrame = new MainFrame(main, wxT("Rockpool"));
-
-	ResourceManager *resourceManager = new ResourceManager(main);
+    ResourceManager *resourceManager = new ResourceManager(main);
 	main->setResourceManager(resourceManager);
+
+	MainFrame *mainFrame = new MainFrame(main, wxT("Rockpool"));
 
 	mainFrame->Show(true);
     main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/New Map/New Map.rockpool", "/home/edward/Documents/Rockpool/tests/New Map");

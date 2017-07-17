@@ -178,6 +178,14 @@ TerrainInfoHandler* MainFrame::getTerrainInfoHandler(){
     return terrainInfoHandler;
 }
 
+ResourceManager* MainFrame::getResourceManager(){
+    return main->getResourceManager();
+}
+
+ResourceBrowser* MainFrame::getResourceBrowser(){
+    return resourceBrowser;
+}
+
 HandlerData* MainFrame::getHandlerData(){
     return &handlerData;
 }
@@ -189,6 +197,9 @@ void MainFrame::closeToolPreferences(wxAuiManagerEvent &event){
     }
     if(event.GetPane()->name == "TerrainInformation"){
         terrainInfoHandler->setTerrainInfoVisability(false);
+    }
+    if(event.GetPane()->name == "ResourceBrowser"){
+        resourceBrowser->setResourceBrowserVisability(false);
     }
 }
 

@@ -50,7 +50,12 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
         }
     }else success = false;
 
-    if(resourceManager)resourceManager->checkResourceLocations();
+    if(resourceManager){
+        resourceManager->checkResourceLocations();
+        frame->getResourceBrowser()->updateTiles();
+        frame->getResourceBrowser()->layoutTiles();
+    }
+
 
     if(!success){
         showLoadFailedPopup();

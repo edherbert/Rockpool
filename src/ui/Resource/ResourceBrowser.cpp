@@ -19,6 +19,9 @@ ResourceBrowser::ResourceBrowser(MainFrame *mainFrame, wxAuiManager *auiManager)
 
     vertical->Add(searchBar, 0, wxEXPAND | wxALL, 10);
 
+    resPanel = new ResourcePanel(this, mainFrame->getResourceManager());
+    vertical->Add(resPanel, 1, wxEXPAND);
+
     setResourceBrowserVisability(false);
 
     SetSizer(vertical);
@@ -38,4 +41,12 @@ void ResourceBrowser::setResourceBrowserVisability(bool visible){
     }
     auiManager->Update();
     browserVisible = visible;
+}
+
+void ResourceBrowser::updateTiles(){
+    resPanel->updateTiles();
+}
+
+void ResourceBrowser::layoutTiles(){
+    resPanel->layoutTiles();
 }

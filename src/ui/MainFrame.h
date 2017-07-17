@@ -16,7 +16,8 @@
 #include "Tools/ToolPreferencesHandler.h"
 #include "Tools/ToolsPanelHandler.h"
 #include "TerrainInfoHandler.h"
-#include "ResourceBrowser.h"
+#include "Resource/ResourceBrowser.h"
+#include "../system/ResourceManager.h"
 
 #include <wx/aui/aui.h>
 
@@ -28,6 +29,7 @@ class ToolsPanelHandler;
 class TerrainInfoHandler;
 class MapPropertiesDialog;
 class ResourceBrowser;
+class ResourceManager;
 
 struct HandlerData{
     ToolPreferencesHandler *toolPreferencesHandler;
@@ -65,6 +67,8 @@ public:
     ToolPreferencesHandler* getToolPreferencesHandler();
     TerrainInfoHandler* getTerrainInfoHandler();
     HandlerData* getHandlerData();
+    ResourceManager* getResourceManager();
+    ResourceBrowser* getResourceBrowser();
 
     DECLARE_EVENT_TABLE()
 

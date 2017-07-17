@@ -51,7 +51,10 @@ src/ui/BottomPanel.cpp
 src/ui/TerrainInfoHandler.cpp
 src/ui/TerrainInfoLayerBox.cpp
 src/ui/MapPropertiesDialog.cpp
-src/ui/ResourceBrowser.cpp
+
+src/ui/Resource/ResourceBrowser.cpp
+src/ui/Resource/ResourcePanel.cpp
+src/ui/Resource/ResourceTile.cpp
 
 src/ui/Tools/ToolPreferencesHandler.cpp
 src/ui/Tools/TerrainEditToolPreferences.cpp

@@ -18,6 +18,8 @@ class ResourceManager
 
         void checkResourceLocations();
 
+        std::vector<resourceLocation*> getResources();
+
     protected:
 
     private:
