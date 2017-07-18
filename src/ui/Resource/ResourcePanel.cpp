@@ -4,7 +4,7 @@ ResourcePanel::ResourcePanel(wxWindow *parent, ResourceManager *resManager) : wx
     this->parent = parent;
     this->resManager = resManager;
 
-    SetBackgroundColour(wxColour("#0000FF"));
+    //SetBackgroundColour(wxColour("#0000FF"));
 
     Connect(wxEVT_SIZE, wxSizeEventHandler(ResourcePanel::onResize));
 }
@@ -30,6 +30,10 @@ void ResourcePanel::updateTiles(){
         }
     }
     else if(totalSize < tiles.size()){
+        //If there are less required tiles than needed ones
+        for(int i = totalSize; i < tiles.size(); i++){
+            tiles.at(i)->Destroy();
+        }
         tiles.resize(totalSize);
     }
 
@@ -37,13 +41,13 @@ void ResourcePanel::updateTiles(){
     for(resourceLocation *l : locations){
         for(wxString s : l->resources){
             tiles.at(tileCount)->setLabel(s);
-            tileCount ++;
+            tileCount++;
         }
     }
 }
 
 void ResourcePanel::layoutTiles(){
-    int width, height;
+    //This positions all the tiles in the list.
     GetSize(&width, &height);
 
     int tileWidth = width / 100;
@@ -51,7 +55,7 @@ void ResourcePanel::layoutTiles(){
     int currentX = 0;
     int currentY = 0;
     for(ResourceTile *tile : tiles){
-        tile->SetPosition(wxPoint(currentX * 100, currentY * 100));
+        tile->setPosition(currentX * 100, currentY * 100);
 
         currentX++;
         if(currentX >= tileWidth){
@@ -59,8 +63,16 @@ void ResourcePanel::layoutTiles(){
             currentY++;
         }
     }
+
+    SetSize(wxSize(width, (currentY * 100)+100));
 }
 
 void ResourcePanel::onResize(wxSizeEvent &event){
     layoutTiles();
+}
+
+void ResourcePanel::selectTile(int x, int y){
+    if(currentTile)currentTile->deSelectTile();
+    currentTile = tiles.at(x + y * (width / 100));
+    currentTile->selectTile();
 }

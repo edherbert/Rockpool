@@ -24,7 +24,7 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     toolPreferencesHandler->setToolPreferencesVisability(true);
 
     terrainInfoHandler = new TerrainInfoHandler(this, auiManager);
-    terrainInfoHandler->setTerrainInfoVisability(true);
+    //terrainInfoHandler->setTerrainInfoVisability(true);
 
     resourceBrowser = new ResourceBrowser(this, auiManager);
     resourceBrowser->setResourceBrowserVisability(true);

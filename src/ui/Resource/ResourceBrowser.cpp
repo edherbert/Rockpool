@@ -19,12 +19,24 @@ ResourceBrowser::ResourceBrowser(MainFrame *mainFrame, wxAuiManager *auiManager)
 
     vertical->Add(searchBar, 0, wxEXPAND | wxALL, 10);
 
-    resPanel = new ResourcePanel(this, mainFrame->getResourceManager());
-    vertical->Add(resPanel, 1, wxEXPAND);
+
+    scrollWindow = new wxScrolledWindow(this, wxID_ANY);
+    wxBoxSizer *scrollWindowSizer = new wxBoxSizer(wxVERTICAL);
+    scrollWindow->SetSizer(scrollWindowSizer);
+
+    resPanel = new ResourcePanel(scrollWindow, mainFrame->getResourceManager());
+
+    scrollWindowSizer->Add(resPanel, 1, wxEXPAND);
+
+    vertical->Add(scrollWindow, 1, wxEXPAND);
 
     setResourceBrowserVisability(false);
 
     SetSizer(vertical);
+
+    scrollWindow->SetScrollbars(5, 5, 0, 0);
+
+    Connect(wxEVT_SIZE, wxSizeEventHandler(ResourceBrowser::resourceBrowserResize));
 }
 
 ResourceBrowser::~ResourceBrowser(){
@@ -49,4 +61,11 @@ void ResourceBrowser::updateTiles(){
 
 void ResourceBrowser::layoutTiles(){
     resPanel->layoutTiles();
+}
+
+void ResourceBrowser::resourceBrowserResize(wxSizeEvent &event){
+    int width, height;
+    resPanel->GetSize(&width, &height);
+
+    Layout();
 }

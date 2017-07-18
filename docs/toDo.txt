@@ -18,8 +18,7 @@
 
 -Make it so that only one terrain chunk can be textured at a time
 
--Make the resource browser update when new locations are added or removed.
--Remove the nasty colours from the list and show the icon.
+
 -Fix the text so that most of it fits into the window.
 
 -Create a separate directory for the dialogs
@@ -213,3 +212,8 @@
 -Finalise the planning for the resource browser.
 -Begin work on the resource browser specifically for the terrain textures. *
 -Give each resource location it's own group to avoid clashes if a file has the same name (I'll do this when it's needed)
+
+-Make the resource browser update when new locations are added or removed.
+
+-Create a scrollable window for the browser.
+-Remove the nasty colours from the list and show the icon. (The icon isn't there yet, I'll wait until the thumbnail browser works')

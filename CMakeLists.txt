@@ -55,6 +55,7 @@ src/ui/MapPropertiesDialog.cpp
 src/ui/Resource/ResourceBrowser.cpp
 src/ui/Resource/ResourcePanel.cpp
 src/ui/Resource/ResourceTile.cpp
+src/ui/Resource/ResourceTileCover.cpp
 
 src/ui/Tools/ToolPreferencesHandler.cpp
 src/ui/Tools/TerrainEditToolPreferences.cpp

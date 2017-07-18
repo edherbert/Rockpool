@@ -101,7 +101,12 @@ void MapPropertiesDialog::resourcesAddLocation(wxCommandEvent &event){
 
         Ogre::String pathToAdd = (Ogre::String)(mainFrame->getMain()->getProjectDirectory() + "/" + dir.GetFullPath());
         if(mainFrame->getMain()->addResourceLocation(pathToAdd)){
+            //If the resource location was added successfully
             list->Append(dir.GetFullPath());
+
+            mainFrame->getResourceManager()->checkResourceLocations();
+            mainFrame->getResourceBrowser()->updateTiles();
+            mainFrame->getResourceBrowser()->layoutTiles();
         }
     }
 }
@@ -137,6 +142,10 @@ void MapPropertiesDialog::resourcesEditLocation(){
         list->Delete(selection);
         list->Insert(dir.GetFullPath(), selection);
         list->SetSelection(selection);
+
+        mainFrame->getResourceManager()->checkResourceLocations();
+        mainFrame->getResourceBrowser()->updateTiles();
+        mainFrame->getResourceBrowser()->layoutTiles();
     }
 }
 
@@ -153,6 +162,10 @@ void MapPropertiesDialog::resourcesDeleteLocation(wxCommandEvent &event){
     list->Delete(selection);
 
     mainFrame->getMain()->removeResourceLocation(path);
+
+    mainFrame->getResourceManager()->checkResourceLocations();
+    mainFrame->getResourceBrowser()->updateTiles();
+    mainFrame->getResourceBrowser()->layoutTiles();
 }
 
 void MapPropertiesDialog::doubleClickResourceList(wxCommandEvent &event){

@@ -1,11 +1,9 @@
 #include "ResourceTile.h"
 
-ResourceTile::ResourceTile(wxWindow *parent) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100), wxBORDER_SIMPLE){
+ResourceTile::ResourceTile(ResourcePanel *parent) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100)){
     this->parent = parent;
 
-    SetBackgroundColour(wxColour("#FF0000"));
-
-    wxBitmap defaultIcon("../media/temp/grass.jpg");
+    //SetBackgroundColour(wxColour("#FF0000"));
 
     //wxStaticBitmap *icon = new wxStaticBitmap(this, wxID_ANY, defaultIcon, wxPoint(25, 0), wxSize(50, 50));
     //icon->SetScaleMode()
@@ -25,12 +23,16 @@ ResourceTile::ResourceTile(wxWindow *parent) : wxPanel(parent, wxID_ANY, wxPoint
     horizontal->Add(tempPanel, 0);
     horizontal->Add(new wxPanel(this), 1, wxEXPAND);
 
+    verticalSizer->Add(wxID_ANY, 2);
     verticalSizer->Add(horizontal, 0, wxEXPAND);
     verticalSizer->Add(label, 1, wxEXPAND);
 
     SetSizer(verticalSizer);
 
     label->Wrap(100);
+
+    //cover = new wxPanel(parent,wxID_ANY, wxDefaultPosition, wxSize(100, 100));
+    cover = new ResourceTileCover(parent, this);
 }
 
 ResourceTile::~ResourceTile(){
@@ -39,4 +41,23 @@ ResourceTile::~ResourceTile(){
 
 void ResourceTile::setLabel(wxString l){
     label->SetLabel(l);
+}
+
+wxString ResourceTile::getLabel(){
+    return label;
+}
+
+void ResourceTile::setPosition(int x, int y){
+    SetPosition(wxPoint(x, y));
+    cover->SetPosition(wxPoint(x, y));
+}
+
+void ResourceTile::selectTile(){
+    wxSystemSettings settings;
+    SetBackgroundColour(settings.GetColour(wxSYS_COLOUR_WINDOW));
+}
+
+void ResourceTile::deSelectTile(){
+    wxSystemSettings settings;
+    SetBackgroundColour(settings.GetColour(wxSYS_COLOUR_MENU));
 }

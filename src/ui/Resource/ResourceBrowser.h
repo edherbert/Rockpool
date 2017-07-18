@@ -21,6 +21,8 @@ class ResourceBrowser : public wxPanel
         void updateTiles();
         void layoutTiles();
 
+        void resourceBrowserResize(wxSizeEvent &event);
+
     protected:
 
     private:
@@ -28,6 +30,7 @@ class ResourceBrowser : public wxPanel
         wxAuiManager *auiManager;
 
         ResourcePanel *resPanel;
+        wxScrolledWindow *scrollWindow;
 
         bool browserVisible = false;
 };

@@ -6,6 +6,7 @@
 #include "../../system/ResourceManager.h"
 
 class ResourceManager;
+class ResourceTile;
 
 class ResourcePanel : public wxPanel
 {
@@ -17,12 +18,17 @@ class ResourcePanel : public wxPanel
         void layoutTiles();
 
         void onResize(wxSizeEvent &event);
+        void selectTile(int x, int y);
 
     protected:
 
     private:
         wxWindow *parent;
         ResourceManager *resManager;
+
+        int width, height;
+
+        ResourceTile *currentTile = 0;
 
         std::vector<ResourceTile*>tiles;
 };
