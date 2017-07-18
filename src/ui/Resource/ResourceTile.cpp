@@ -1,7 +1,8 @@
 #include "ResourceTile.h"
 
-ResourceTile::ResourceTile(ResourcePanel *parent) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100)){
+ResourceTile::ResourceTile(ResourcePanel *parent, wxBitmap *defaultBitmap) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100)){
     this->parent = parent;
+    this->defaultBitmap = defaultBitmap;
 
     //SetBackgroundColour(wxColour("#FF0000"));
 
@@ -9,10 +10,12 @@ ResourceTile::ResourceTile(ResourcePanel *parent) : wxPanel(parent, wxID_ANY, wx
     //icon->SetScaleMode()
 //    icon->SetScaleMode(1);
 
-    wxPanel *tempPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(50, 50));
+    wxStaticBitmap *icon = new wxStaticBitmap(this, wxID_ANY, *defaultBitmap, wxPoint(25, 0), wxSize(50, 50));
+
+    //wxPanel *tempPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(50, 50));
     //wxPanel *tempPanel = new wxPanel(this, wxID_ANY);
 
-    tempPanel->SetBackgroundColour(wxColor("#00FF00"));
+    //tempPanel->SetBackgroundColour(wxColor("#00FF00"));
 
     label = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
 
@@ -20,7 +23,8 @@ ResourceTile::ResourceTile(ResourcePanel *parent) : wxPanel(parent, wxID_ANY, wx
     wxBoxSizer *horizontal = new wxBoxSizer(wxHORIZONTAL);
 
     horizontal->Add(new wxPanel(this), 1, wxEXPAND);
-    horizontal->Add(tempPanel, 0);
+    //horizontal->Add(tempPanel, 0);
+    horizontal->Add(icon, 0);
     horizontal->Add(new wxPanel(this), 1, wxEXPAND);
 
     verticalSizer->Add(wxID_ANY, 2);

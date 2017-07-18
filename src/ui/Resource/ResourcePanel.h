@@ -28,6 +28,8 @@ class ResourcePanel : public wxPanel
 
         int width, height;
 
+        wxBitmap *defaultBitmap;
+
         ResourceTile *currentTile = 0;
 
         std::vector<ResourceTile*>tiles;

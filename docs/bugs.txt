@@ -6,6 +6,8 @@ This includes terrain, as when creating a new map the terrain is not generated u
 
 The loading screen for loading and creating maps doesn't work. I've disabled it for now but maybe try and get it to work at some point.
 
+Removing all the locations from the location manager and then trying to select something in the browser after adding more crashes it.
+
 Possible bug:
     The size of the terrain might be changing dependent on how many terrains there are.
     Posssibly a terrain of 3000 will be 3000 if there is only one, but 1500 if there is two.

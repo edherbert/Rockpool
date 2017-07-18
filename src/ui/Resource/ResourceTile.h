@@ -12,7 +12,7 @@ class ResourceTileCover;
 class ResourceTile : public wxPanel
 {
     public:
-        ResourceTile(ResourcePanel *parent);
+        ResourceTile(ResourcePanel *parent, wxBitmap *defaultBitmap);
         virtual ~ResourceTile();
 
         void setLabel(wxString l);
@@ -27,6 +27,8 @@ class ResourceTile : public wxPanel
     private:
         ResourcePanel *parent;
         ResourceTileCover *cover;
+
+        wxBitmap *defaultBitmap;
 
         wxStaticText *label;
 };

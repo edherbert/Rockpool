@@ -25,6 +25,7 @@
 -Create a dialog for the terrain image input.
 
 
+-Remove the check resource locations menu item
 -Find a way to get rid of the setup directory. Bake the values into the code
 -Make it so that if any of the project files are deleted, new ones can be generated.
 

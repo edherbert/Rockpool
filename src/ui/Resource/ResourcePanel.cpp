@@ -4,6 +4,8 @@ ResourcePanel::ResourcePanel(wxWindow *parent, ResourceManager *resManager) : wx
     this->parent = parent;
     this->resManager = resManager;
 
+    defaultBitmap = new wxBitmap("../media/img/icon.png");
+
     //SetBackgroundColour(wxColour("#0000FF"));
 
     Connect(wxEVT_SIZE, wxSizeEventHandler(ResourcePanel::onResize));
@@ -25,7 +27,7 @@ void ResourcePanel::updateTiles(){
     if(totalSize > tiles.size()){
         int ammountToAdd = totalSize - tiles.size();
         for(int i = 0; i < ammountToAdd; i++){
-            ResourceTile *tile = new ResourceTile(this);
+            ResourceTile *tile = new ResourceTile(this, defaultBitmap);
             tiles.push_back(tile);
         }
     }
