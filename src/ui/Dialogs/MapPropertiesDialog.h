@@ -7,9 +7,9 @@
 
 #include <wx/filename.h>
 
-#include "MainFrame.h"
+#include "../MainFrame.h"
 
-#include "wxIDs.h"
+#include "../wxIDs.h"
 
 class MainFrame;
 

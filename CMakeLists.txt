@@ -44,13 +44,14 @@ add_executable(rockpool
 src/ui/Application.cpp
 src/ui/GLCanvas.cpp
 src/ui/MainFrame.cpp
-src/ui/NewMapDialog.cpp
-src/ui/MapLoadProgressDialog.cpp
 src/ui/RenderTimer.cpp
 src/ui/BottomPanel.cpp
 src/ui/TerrainInfoHandler.cpp
 src/ui/TerrainInfoLayerBox.cpp
-src/ui/MapPropertiesDialog.cpp
+
+src/ui/Dialogs/MapPropertiesDialog.cpp
+src/ui/Dialogs/NewMapDialog.cpp
+src/ui/Dialogs/MapLoadProgressDialog.cpp
 
 src/ui/Resource/ResourceBrowser.cpp
 src/ui/Resource/ResourcePanel.cpp

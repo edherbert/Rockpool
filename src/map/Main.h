@@ -7,7 +7,7 @@
 
 #include "../ui/GLCanvas.h"
 #include "Map.h"
-#include "../ui/MapLoadProgressDialog.h"
+#include "../ui/Dialogs/MapLoadProgressDialog.h"
 #include <wx/file.h>
 #include "../system/ResourceManager.h"
 

@@ -44,7 +44,7 @@ void ResourceTile::setLabel(wxString l){
 }
 
 wxString ResourceTile::getLabel(){
-    return label;
+    return label->GetLabel();
 }
 
 void ResourceTile::setPosition(int x, int y){

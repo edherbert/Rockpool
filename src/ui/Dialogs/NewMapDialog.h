@@ -4,9 +4,9 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 
-#include "../map/Main.h"
-#include "MainFrame.h"
-#include "wxIDs.h"
+#include "../../map/Main.h"
+#include "../MainFrame.h"
+#include "../wxIDs.h"
 #include "MapLoadProgressDialog.h"
 
 class MainFrame;

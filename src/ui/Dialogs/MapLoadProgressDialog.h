@@ -2,7 +2,7 @@
 #define MAPLOADPROGRESSDIALOG_H
 
 #include <wx/wx.h>
-#include "MainFrame.h"
+#include "../MainFrame.h"
 
 class MainFrame;
 
