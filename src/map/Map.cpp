@@ -28,11 +28,6 @@ void Map::start(GLCanvas *canvas){
     //camera->lookAt(1500, 0, -1500);
     camera->setNearClipDistance(5);
 
-    Ogre::Entity *ogreHead = sceneManager->createEntity("Sinbad.mesh");
-    ogreNode = sceneManager->getRootSceneNode()->createChildSceneNode();
-    ogreNode->attachObject(ogreHead);
-
-
     viewport = canvas->getWindow()->addViewport(camera);
 
     viewport->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
@@ -98,9 +93,9 @@ float Map::radians(float value){
 }
 
 void Map::updateInput(){
-//Only run if the mouse is within the canvas and it has focus
-//This should not be in-charge of updating logic, only running functions
-//This is because it's not constantly run.
+    //Only run if the mouse is within the canvas and it has focus
+    //This should not be in-charge of updating logic, only running functions
+    //This is because it's not constantly run.
     if(canvas->getKey(KEY_W)) moveCameraPosition(camera->getDirection());
     if(canvas->getKey(KEY_S)) moveCameraPosition(-camera->getDirection());
     if(canvas->getKey(KEY_A)) moveCameraPosition(-camera->getRight());
@@ -133,11 +128,9 @@ Ogre::TerrainGroup::RayResult Map::checkTerrainRayMouse(int x, int y){
     return terrain->rayIntersect(ray);
 }
 
-
 void Map::updateCursor(int x, int y){
     Ogre::TerrainGroup::RayResult result = checkTerrainRayMouse(x, y);
     if(result.hit){
-        ogreNode->setPosition(result.position);
         handlerData->terrainInfoHandler->setCurrentTerrain(result.terrain);
     }else{
         handlerData->terrainInfoHandler->setCurrentTerrain(0);

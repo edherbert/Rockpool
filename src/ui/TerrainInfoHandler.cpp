@@ -53,12 +53,9 @@ TerrainInfoHandler::TerrainInfoHandler(MainFrame *mainFrame, wxAuiManager *auiMa
     moveLayerDownButton = new wxBitmapButton(contentPanel, TERRAIN_INFO_DOWN_LAYER_BUTTON, wxBitmap(wxT("../media/img/icon.png")));
     deleteLayerButton = new wxBitmapButton(contentPanel, TERRAIN_INFO_DELETE_LAYER_BUTTON, wxBitmap(wxT("../media/img/rubbish.png")));
 
-    refreshButton = new wxButton(contentPanel, TERRAIN_INFO_REFRESH, wxT("Refresh"));
-
     terrainButtonsHorizontal->Add(newLayerButton, 0, wxALL, 5);
     terrainButtonsHorizontal->Add(moveLayerUpButton, 0, wxALL, 5);
     terrainButtonsHorizontal->Add(moveLayerDownButton, 0, wxALL, 5);
-    terrainButtonsHorizontal->Add(refreshButton, 0, wxALL, 5);
     terrainButtonsHorizontal->Add(new wxPanel(contentPanel), 1, wxEXPAND);
     terrainButtonsHorizontal->Add(deleteLayerButton, 0, wxALL, 5);
 
@@ -80,7 +77,7 @@ TerrainInfoHandler::TerrainInfoHandler(MainFrame *mainFrame, wxAuiManager *auiMa
     SetSizer(mainPanelVertical);
 
     layerListPanel->SetScrollbars(5, 5, 0, 2000);
-    //layerListPanel->SetScrolling
+    layerListPanel->EnableScrolling(false, true);
 
     for(int i = 0; i < 3; i++){
         terrainInformation info;
@@ -101,7 +98,6 @@ TerrainInfoHandler::TerrainInfoHandler(MainFrame *mainFrame, wxAuiManager *auiMa
 
     Connect(TERRAIN_INFO_NEW_LAYER_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TerrainInfoHandler::newLayerButtonPressed));
     Connect(TERRAIN_INFO_DELETE_LAYER_BUTTON, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TerrainInfoHandler::deleteLayerButtonPressed));
-    Connect(TERRAIN_INFO_REFRESH, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(TerrainInfoHandler::refreshButtonPressed));
 }
 
 TerrainInfoHandler::~TerrainInfoHandler(){
@@ -209,12 +205,15 @@ void TerrainInfoHandler::newLayerButtonPressed(wxCommandEvent &event){
     if(layerInformation.size() >= maxLayers)return;
 
     terrainInformation secondInfo;
-    secondInfo.layerName = std::to_string(std::rand());
+    secondInfo.layerName = "";
     secondInfo.layerNum = 1;
 
     layerInformation.push_back(secondInfo);
 
     updateLayerBoxes();
+
+    refreshTerrain();
+    Ogre::Root::getSingleton().renderOneFrame();
 }
 
 void TerrainInfoHandler::deleteLayerButtonPressed(wxCommandEvent &event){
@@ -228,9 +227,12 @@ void TerrainInfoHandler::deleteLayerButtonPressed(wxCommandEvent &event){
 
     updateLayerBoxes();
     updateCheckButtons();
+
+    refreshTerrain();
+    Ogre::Root::getSingleton().renderOneFrame();
 }
 
-void TerrainInfoHandler::refreshButtonPressed(wxCommandEvent &event){
+void TerrainInfoHandler::refreshTerrain(){
     if(!currentTerrain)return;
 
     std::cout << (int)currentTerrain->getLayerCount() << std::endl;
@@ -238,6 +240,7 @@ void TerrainInfoHandler::refreshButtonPressed(wxCommandEvent &event){
     for(int i = 0; i < layerInformation.size(); i++){
         Ogre::StringVector paths;
         paths.push_back(layerBoxes[i]->getInfo());
+        std::cout << layerBoxes[i]->getInfo() << std::endl;
         paths.push_back("dirt_grayrocky_normalheight.dds");
 
         if(i >= (int)currentTerrain->getLayerCount()){

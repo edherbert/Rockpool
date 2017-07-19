@@ -11,6 +11,12 @@
 class TerrainInfoLayerBox;
 class MainFrame;
 
+struct terrainInformation{
+    int layerNum;
+    std::string layerName;
+    bool shouldRemove = false;
+};
+
 class TerrainInfoHandler : public wxPanel
 {
     public:
@@ -21,6 +27,8 @@ class TerrainInfoHandler : public wxPanel
         void updateLayerBoxes();
         void updateCheckButtons();
         void updateTerrainInformation();
+
+        void refreshTerrain();
 
         MainFrame* getMainFrame();
 
@@ -37,8 +45,6 @@ class TerrainInfoHandler : public wxPanel
         wxBitmapButton *moveLayerDownButton;
         wxBitmapButton *deleteLayerButton;
 
-        wxButton *refreshButton;
-
         wxStaticText *noTerrainText;
         wxPanel *contentPanel;
         wxStaticText *terrainPositionText;
@@ -51,13 +57,6 @@ class TerrainInfoHandler : public wxPanel
 
         void newLayerButtonPressed(wxCommandEvent &event);
         void deleteLayerButtonPressed(wxCommandEvent &event);
-        void refreshButtonPressed(wxCommandEvent &event);
-
-        struct terrainInformation{
-            int layerNum;
-            std::string layerName;
-            bool shouldRemove = false;
-        };
 
         std::vector<TerrainInfoLayerBox*>layerBoxes;
         std::vector<terrainInformation>layerInformation;

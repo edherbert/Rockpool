@@ -21,7 +21,6 @@
 
 -Fix the text so that most of it fits into the window.
 
--Make the changes in the layer dialog reflect in the terrain
 -Fix that bug with the extra layer
 -Replace the ogre with a cube.
 
@@ -224,3 +223,5 @@
 -Remove the check resource locations menu item
 
 -Create a dialog for the terrain image input.
+
+-Make the changes in the layer dialog reflect in the terrain

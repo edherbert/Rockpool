@@ -75,5 +75,8 @@ void TerrainInfoLayerBox::imageSelectButtonPressed(wxCommandEvent &event){
     TerrainLayerResourceDialog dialog(this, handler->getMainFrame()->getResourceManager());
     if(dialog.getValue() != wxEmptyString){
         textureSrcText->SetLabel(dialog.getValue());
+
+        handler->refreshTerrain();
+        Ogre::Root::getSingleton().renderOneFrame();
     }
 }
