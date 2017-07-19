@@ -172,6 +172,6 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
 }
 
 
-void Terrain::saveTerrains(){
-    terrainGroup->saveAllTerrains(true);
+void Terrain::saveTerrains(bool reSave){
+    terrainGroup->saveAllTerrains(!reSave);
 }

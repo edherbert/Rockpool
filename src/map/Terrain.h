@@ -26,7 +26,7 @@ class Terrain
 
         void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex);
 
-        void saveTerrains();
+        void saveTerrains(bool reSave);
 
 
     protected:

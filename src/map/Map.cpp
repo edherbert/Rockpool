@@ -194,6 +194,6 @@ mapInformation Map::getMapInformation(){
     return info;
 }
 
-void Map::saveMap(){
-    terrain->saveTerrains();
+void Map::saveMap(bool reSave){
+    terrain->saveTerrains(reSave);
 }

@@ -11,6 +11,14 @@ Main::~Main(){
 void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     if(!canvas) return;
     bool success = true;
+
+    //Check if this directory can be written to
+    //Theres no point in opening it if it can't be written to.
+    if(!wxFileName::IsDirWritable(directoryPath) && wxFileName::IsDirReadable(directoryPath)){
+        wxMessageDialog dialog(canvas, wxT("Rockpool was unable to open the file in this directory as it is either un-readable or un-writable."));
+        dialog.ShowModal();
+        return;
+    }
     //loadDialog = new MapLoadProgressDialog(canvas->GetParent());
     //loadDialog->setText("Creating Project");
     tinyxml2::XMLDocument xmlDoc;
@@ -103,7 +111,6 @@ void Main::createMap(MainFrame *frame, wxString directoryPath, mapInformation in
     loadMap(frame, (wxString)filePath, root);
 }
 
-//void Main::createProjectFile(std::string filePath, std::string mapName, int mapWidth, int mapHeight, int vertexCount, int terrainSize, int terrainHeight){
 void Main::createProjectFile(std::string filePath, mapInformation info){
     tinyxml2::XMLDocument doc;
 
@@ -169,8 +176,29 @@ void Main::removeResourceLocation(wxString path){
 
 void Main::saveProject(){
     std::cout << "saving project" << std::endl;
+    //Check if the project directory exists, otherwise create it.
+    //This is incase the user changes the directory name or something while Rockpool is running.
+    if(!wxDir::Exists(projectDirectory)){
+        wxMkdir(projectDirectory);
+    }
+    //If the project directory can't be written to then tell the user.
+    if(!wxFileName::IsDirWritable(projectDirectory)){
+        std::cout << "Not writable" << std::endl;
+        wxMessageDialog dialog(canvas, wxT("Rockpool was unable to save the project as the working directory is not writable."));
+        dialog.ShowModal();
+        return;
+    }
     createProjectFile((std::string)filePath, currentMap->getMapInformation());
-    currentMap->saveMap();
+
+    bool reSave = false;
+    for(wxString s : requiredDirectories){
+        if(!wxDir::Exists(projectDirectory + "/" + s)){
+            wxMkdir(projectDirectory + "/" + s);
+            reSave = true;
+        }
+    }
+
+    currentMap->saveMap(reSave);
 }
 
 void Main::setCanvas(GLCanvas *canvas){

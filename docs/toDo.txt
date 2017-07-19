@@ -22,10 +22,8 @@
 -Fix the text so that most of it fits into the window.
 
 -Fix that bug with the extra layer
--Replace the ogre with a cube.
 
 
--Find a way to get rid of the setup directory. Bake the values into the code
 -Make it so that if any of the project files are deleted, new ones can be generated.
 
 
@@ -221,7 +219,7 @@
 
 -Fix the issues with selecting icons if items are added / removed
 -Remove the check resource locations menu item
-
 -Create a dialog for the terrain image input.
-
 -Make the changes in the layer dialog reflect in the terrain
+-Replace the ogre with a cube.
+-Find a way to get rid of the setup directory. Bake the values into the code (It's probably needed for the dynamic build)

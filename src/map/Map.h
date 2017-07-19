@@ -40,7 +40,7 @@ class Map
 
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
-        void saveMap();
+        void saveMap(bool reSave);
 
         bool getMapStarted();
         mapInformation getMapInformation();
