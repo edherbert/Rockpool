@@ -52,6 +52,7 @@ src/ui/TerrainInfoLayerBox.cpp
 src/ui/Dialogs/MapPropertiesDialog.cpp
 src/ui/Dialogs/NewMapDialog.cpp
 src/ui/Dialogs/MapLoadProgressDialog.cpp
+src/ui/Dialogs/TerrainLayerResourceDialog.cpp
 
 src/ui/Resource/ResourceBrowser.cpp
 src/ui/Resource/ResourcePanel.cpp

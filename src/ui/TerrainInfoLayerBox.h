@@ -5,8 +5,10 @@
 #include <wx/wx.h>
 #include <wx/statline.h>
 #include "wxIDs.h"
+#include "Dialogs/TerrainLayerResourceDialog.h"
 
 class TerrainInfoHandler;
+class TerrainLayerResourceDialog;
 
 class TerrainInfoLayerBox : public wxPanel
 {
@@ -28,10 +30,13 @@ class TerrainInfoLayerBox : public wxPanel
 
         bool checked = false;
         wxCheckBox *layerSelectedCheckBox;
-        //wxStaticText *textureSrcText;
-        wxTextCtrl *textureSrcText;
+
+        wxStaticText *textureSrcText;
+        //wxTextCtrl *textureSrcText;
+        wxButton *textureSrcButton;
 
         void layerChecked(wxCommandEvent &event);
+        void imageSelectButtonPressed(wxCommandEvent &event);
 };
 
 #endif // TERRAININFOLAYERBOX_H

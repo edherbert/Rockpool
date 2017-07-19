@@ -79,7 +79,8 @@ TerrainInfoHandler::TerrainInfoHandler(MainFrame *mainFrame, wxAuiManager *auiMa
     mainPanelVertical->Add(contentPanel, 1, wxEXPAND);
     SetSizer(mainPanelVertical);
 
-    layerListPanel->SetScrollbars(5, 5, 1400, 2000);
+    layerListPanel->SetScrollbars(5, 5, 0, 2000);
+    //layerListPanel->SetScrolling
 
     for(int i = 0; i < 3; i++){
         terrainInformation info;
@@ -181,17 +182,6 @@ void TerrainInfoHandler::setCurrentTerrain(Ogre::Terrain *currentTerrain){
 
 void TerrainInfoHandler::updateTerrainInformation(){
     if(!currentTerrain) return;
-    //terrainPositionText.SetLabel()
-    //std::cout << currentTerrain->getTerrain
-
-    //Get the name of the texture, depending on the layer number and the id of the texture in that list (both starting at 0)
-    //std::cout << currentTerrain->getLayerTextureName(0, 0) << std::endl;
-
-    //Get the size of each terrain texutre, depending on the index of the layer
-    //std::cout << currentTerrain->getLayerWorldSize(0) << std::endl;
-
-    //Get the number of layers in that terrain
-    //std::cout << (int)currentTerrain->getLayerCount() << std::endl;
 
     int pointX = currentTerrain->getPosition().x / currentTerrain->getWorldSize();
     int pointZ = currentTerrain->getPosition().z / currentTerrain->getWorldSize();
@@ -261,4 +251,8 @@ void TerrainInfoHandler::refreshButtonPressed(wxCommandEvent &event){
             currentTerrain->removeLayer(i);
         }
     }
+}
+
+MainFrame* TerrainInfoHandler::getMainFrame(){
+    return mainFrame;
 }

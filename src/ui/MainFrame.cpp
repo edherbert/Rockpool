@@ -24,10 +24,10 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     toolPreferencesHandler->setToolPreferencesVisability(true);
 
     terrainInfoHandler = new TerrainInfoHandler(this, auiManager);
-    //terrainInfoHandler->setTerrainInfoVisability(true);
+    terrainInfoHandler->setTerrainInfoVisability(true);
 
     resourceBrowser = new ResourceBrowser(this, auiManager);
-    resourceBrowser->setResourceBrowserVisability(true);
+    //resourceBrowser->setResourceBrowserVisability(true);
 
     //The tools panel that appears at the top of the window.
     toolPanelHandler = new ToolsPanelHandler(this, auiManager);
@@ -91,7 +91,6 @@ void MainFrame::setupMenuBar(){
     view->Append(wxID_ANY, wxT("Show Grid"));
 
     map->Append(MENU_MAP_MAP_PROPERTIES, wxT("Map Properties"));
-    map->Append(806, wxT("Check Resource Locations"));
 
     wxMenu *dockableWindows = new wxMenu;
     wxMenu *toolbars = new wxMenu;
@@ -124,7 +123,6 @@ void MainFrame::setupMenuBar(){
     Connect(MENU_FILE_SAVE_MAP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::saveMap));
 
     Connect(MENU_MAP_MAP_PROPERTIES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::openMapProperties));
-    Connect(806, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::checkResourceLocation));
 
     Connect(MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowToolPreferences));
     Connect(MENU_WINDOW_SHOW_TERRAIN_INFO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainInfo));
@@ -205,8 +203,4 @@ void MainFrame::closeToolPreferences(wxAuiManagerEvent &event){
 
 void MainFrame::saveMap(wxCommandEvent &event){
     main->saveProject();
-}
-
-void MainFrame::checkResourceLocation(wxCommandEvent &event){
-    main->getResourceManager()->checkResourceLocations();
 }

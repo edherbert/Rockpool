@@ -22,6 +22,8 @@ class TerrainInfoHandler : public wxPanel
         void updateCheckButtons();
         void updateTerrainInformation();
 
+        MainFrame* getMainFrame();
+
         void setCurrentTerrain(Ogre::Terrain *terrain);
 
     protected:

@@ -53,8 +53,6 @@ public:
     void ShowTerrainInfo(wxCommandEvent &event);
     void ShowResourceBrowser(wxCommandEvent &event);
 
-    void checkResourceLocation(wxCommandEvent &event);
-
     Main* getMain();
 
     wxMenuItem *showToolPreferences;

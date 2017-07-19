@@ -20,13 +20,11 @@ TerrainInfoLayerBox::TerrainInfoLayerBox(wxWindow *parent, wxBoxSizer *parentSiz
 
     wxStaticBitmap *textureBitmap = new wxStaticBitmap(layerSettingsPanel, wxID_ANY, wxBitmap(wxT("../media/img/icon.png")));
 
-    //textureSrcText = new wxStaticText(layerSettingsPanel, wxID_ANY, wxEmptyString);
-    textureSrcText = new wxTextCtrl(layerSettingsPanel, wxID_ANY, wxEmptyString);
-    wxButton *textureSrcButton = new wxButton(layerSettingsPanel, wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+    textureSrcText = new wxStaticText(layerSettingsPanel, wxID_ANY, wxEmptyString);
+    textureSrcButton = new wxButton(layerSettingsPanel, TERRAIN_INFO_LAYER_IMAGE_SELECT_BUTTON, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 
     wxBoxSizer *textureSrcHorizontal = new wxBoxSizer(wxHORIZONTAL);
     textureSrcHorizontal->Add(textureSrcText, 1, wxEXPAND);
-    //textureSrcHorizontal->Add(new wxPanel(this), 1, wxEXPAND);
     textureSrcHorizontal->Add(textureSrcButton);
 
     layerSettingsPanelSizer->Add(textureBitmap, 0);
@@ -44,6 +42,7 @@ TerrainInfoLayerBox::TerrainInfoLayerBox(wxWindow *parent, wxBoxSizer *parentSiz
     parentSizer->Add(this, 0, wxEXPAND | wxLEFT | wxRIGHT, 10);
 
     Connect(TERRAIN_INFO_LAYER_CHECK_BOX, wxEVT_CHECKBOX, wxCommandEventHandler(TerrainInfoLayerBox::layerChecked));
+    Connect(TERRAIN_INFO_LAYER_IMAGE_SELECT_BUTTON, wxEVT_BUTTON, wxCommandEventHandler(TerrainInfoLayerBox::imageSelectButtonPressed));
 }
 
 TerrainInfoLayerBox::~TerrainInfoLayerBox(){
@@ -65,10 +64,16 @@ void TerrainInfoLayerBox::setChecked(bool value){
 }
 
 void TerrainInfoLayerBox::setInfo(std::string name){
-    //textureSrcText->SetLabel((wxString)name);
-    textureSrcText->SetValue(name);
+    textureSrcText->SetLabel((wxString)name);
 }
 
 std::string TerrainInfoLayerBox::getInfo(){
-    return (std::string)textureSrcText->GetValue();
+    return (std::string)textureSrcText->GetLabel();
+}
+
+void TerrainInfoLayerBox::imageSelectButtonPressed(wxCommandEvent &event){
+    TerrainLayerResourceDialog dialog(this, handler->getMainFrame()->getResourceManager());
+    if(dialog.getValue() != wxEmptyString){
+        textureSrcText->SetLabel(dialog.getValue());
+    }
 }

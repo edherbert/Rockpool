@@ -34,6 +34,7 @@ void ResourcePanel::updateTiles(){
     else if(totalSize < tiles.size()){
         //If there are less required tiles than needed ones
         for(int i = totalSize; i < tiles.size(); i++){
+            if(currentTile == tiles.at(i)) currentTile = 0;
             tiles.at(i)->Destroy();
         }
         tiles.resize(totalSize);
@@ -77,4 +78,8 @@ void ResourcePanel::selectTile(int x, int y){
     if(currentTile)currentTile->deSelectTile();
     currentTile = tiles.at(x + y * (width / 100));
     currentTile->selectTile();
+}
+
+ResourceTile* ResourcePanel::getCurrentTile(){
+    return currentTile;
 }

@@ -20,6 +20,8 @@ class ResourcePanel : public wxPanel
         void onResize(wxSizeEvent &event);
         void selectTile(int x, int y);
 
+        ResourceTile* getCurrentTile();
+
     protected:
 
     private:

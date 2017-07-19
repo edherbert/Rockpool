@@ -21,11 +21,11 @@
 
 -Fix the text so that most of it fits into the window.
 
--Create a separate directory for the dialogs
--Create a dialog for the terrain image input.
+-Make the changes in the layer dialog reflect in the terrain
+-Fix that bug with the extra layer
+-Replace the ogre with a cube.
 
 
--Remove the check resource locations menu item
 -Find a way to get rid of the setup directory. Bake the values into the code
 -Make it so that if any of the project files are deleted, new ones can be generated.
 
@@ -218,3 +218,9 @@
 
 -Create a scrollable window for the browser.
 -Remove the nasty colours from the list and show the icon. (The icon isn't there yet, I'll wait until the thumbnail browser works')
+-Create a separate directory for the dialogs
+
+-Fix the issues with selecting icons if items are added / removed
+-Remove the check resource locations menu item
+
+-Create a dialog for the terrain image input.
