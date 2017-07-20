@@ -221,8 +221,12 @@ void TerrainInfoHandler::deleteLayerButtonPressed(wxCommandEvent &event){
         if(layerBoxes[i]->isChecked()) layerInformation[i].shouldRemove = true;
         layerBoxes[i]->setChecked(false);
     }
+    //Go through the list backwards and remove the information that needs removing.
     for(int i = layerInformation.size() - 1; i >= 0; i--){
-        if(layerInformation[i].shouldRemove)layerInformation.erase(layerInformation.begin() + i);
+        if(layerInformation[i].shouldRemove){
+            layerInformation.erase(layerInformation.begin() + i);
+            currentTerrain->removeLayer(i);
+        }
     }
 
     updateLayerBoxes();
@@ -249,13 +253,24 @@ void TerrainInfoHandler::refreshTerrain(){
             currentTerrain->replaceLayer((Ogre::uint8)i, true, (Ogre::Real)100, &paths);
         }
     }
+    /*std::cout << layerInformation.size() << std::endl;
     for(int i = 0; i < (int)currentTerrain->getLayerCount(); i++){
         if(i >= layerInformation.size()){
             currentTerrain->removeLayer(i);
         }
     }
+    std::cout << (int)currentTerrain->getLayerCount() << std::endl;*/
 }
 
 MainFrame* TerrainInfoHandler::getMainFrame(){
     return mainFrame;
+}
+
+void TerrainInfoHandler::setTerrainTextureName(int id, wxString value){
+    for(int i = 0; i < layerInformation.size(); i++){
+        if(layerBoxes[i]->GetId() == id){
+            layerBoxes[i]->setInfo((std::string)value);
+            layerInformation[i].layerName = (std::string)value;
+        }
+    }
 }

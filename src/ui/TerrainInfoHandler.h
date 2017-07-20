@@ -28,6 +28,8 @@ class TerrainInfoHandler : public wxPanel
         void updateCheckButtons();
         void updateTerrainInformation();
 
+        void setTerrainTextureName(int id, wxString value);
+
         void refreshTerrain();
 
         MainFrame* getMainFrame();

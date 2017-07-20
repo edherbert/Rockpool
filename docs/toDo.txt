@@ -17,15 +17,13 @@
 
 
 -Make it so that only one terrain chunk can be textured at a time
+-Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
 
 -Fix the text so that most of it fits into the window.
 
--Fix that bug with the extra layer
-
-
--Make it so that if any of the project files are deleted, new ones can be generated.
-
+-Begin work on fixing the terrain sculpting
+-This could involve finally implementing the brushes.
 
 -Make it so that the user cannot alter the terrain using the fps camera
 
@@ -223,3 +221,9 @@
 -Make the changes in the layer dialog reflect in the terrain
 -Replace the ogre with a cube.
 -Find a way to get rid of the setup directory. Bake the values into the code (It's probably needed for the dynamic build)
+-Make it so that if any of the project files are deleted, new ones can be generated.
+
+-Fix the layer dialog:
+    -Fix that bug with the extra layer
+    -Fix the issue with the scroll bars
+    -This might involve investigating scrollbars in general.
