@@ -48,7 +48,7 @@ void TerrainLayerResourceDialog::cancelButtonPressed(wxCommandEvent &event){
 
 void TerrainLayerResourceDialog::selectButtonPressed(wxCommandEvent &event){
     if(resourcePanel->getCurrentTile()){
-        returnValue = resourcePanel->getCurrentTile()->getLabel();
+        returnValue = resourcePanel->getCurrentTile()->getValue();
         Destroy();
     }
 }

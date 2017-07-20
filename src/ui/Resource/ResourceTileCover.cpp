@@ -14,5 +14,10 @@ ResourceTileCover::~ResourceTileCover(){
 void ResourceTileCover::coverClicked(wxMouseEvent &event){
     int x, y;
     GetPosition(&x, &y);
-    resPanel->selectTile(x / 100, y / 100);
+    //resPanel->selectTile(x / 100, y / 100);
+    resPanel->selectTile(id);
+}
+
+void ResourceTileCover::setId(int id){
+    this->id = id;
 }

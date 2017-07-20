@@ -44,16 +44,64 @@ ResourceTile::~ResourceTile(){
 }
 
 void ResourceTile::setLabel(wxString l){
-    label->SetLabel(l);
+    wxSystemSettings settings;
+
+    //wxDC dc(this);
+    wxClientDC dc(this);
+    dc.SetFont(settings.GetFont(wxSYS_SYSTEM_FONT));
+
+    wxSize fontSize = dc.GetTextExtent(l);
+
+    wxString newString = "";
+    int stringThreshold = 90;
+    for(int i = 0; i < l.size(); i++){
+        if(dc.GetTextExtent(l.substr(0, i + 1)).GetWidth() >= stringThreshold){
+            newString.Append("\n");
+            newString.Append(l[i]);
+            stringThreshold += 90;
+        }else{
+            newString.Append(l[i]);
+        }
+    }
+
+    label->SetLabel(newString);
+    currentValue = l;
+
+    int height = 50 + dc.GetTextExtent(newString).GetHeight();
+    if(height < 100){
+        setSize(100, 100);
+    }else{
+        setSize(100, height + 10);
+    }
+
+    Layout();
 }
 
 wxString ResourceTile::getLabel(){
     return label->GetLabel();
 }
 
+wxString ResourceTile::getValue(){
+    return currentValue;
+}
+
+void ResourceTile::setId(int id){
+    this->id = id;
+    cover->setId(id);
+}
+
+int ResourceTile::getId(){
+    return id;
+}
+
 void ResourceTile::setPosition(int x, int y){
     SetPosition(wxPoint(x, y));
     cover->SetPosition(wxPoint(x, y));
+}
+
+void ResourceTile::setSize(int width, int height){
+    SetSize(width, height);
+    cover->SetSize(width, height);
 }
 
 void ResourceTile::selectTile(){

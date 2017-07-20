@@ -16,9 +16,16 @@ class ResourceTile : public wxPanel
         virtual ~ResourceTile();
 
         void setLabel(wxString l);
-        wxString getLabel();
 
+        wxString getLabel();
+        wxString getValue();
+
+        void setSize(int width, int height);
         void setPosition(int x, int y);
+
+        void setId(int id);
+        int getId();
+
         void selectTile();
         void deSelectTile();
 
@@ -30,7 +37,10 @@ class ResourceTile : public wxPanel
 
         wxBitmap *defaultBitmap;
 
+        int id = 0;
+
         wxStaticText *label;
+        wxString currentValue = "";
 };
 
 #endif // RESOURCETILE_H

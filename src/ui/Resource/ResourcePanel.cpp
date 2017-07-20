@@ -44,6 +44,7 @@ void ResourcePanel::updateTiles(){
     for(resourceLocation *l : locations){
         for(wxString s : l->resources){
             tiles.at(tileCount)->setLabel(s);
+            tiles.at(tileCount)->setId(tileCount);
             tileCount++;
         }
     }
@@ -53,30 +54,62 @@ void ResourcePanel::layoutTiles(){
     //This positions all the tiles in the list.
     GetSize(&width, &height);
 
+    //The number of tiles on the width, this is always the same
     int tileWidth = width / 100;
 
     int currentX = 0;
+    //the y index of the current tile
     int currentY = 0;
-    for(ResourceTile *tile : tiles){
-        tile->setPosition(currentX * 100, currentY * 100);
+    //The sum of all the heights so far
+    int currentYPos = 0;
 
-        currentX++;
-        if(currentX >= tileWidth){
-            currentX = 0;
-            currentY++;
+    //The maximum height that this layer can reach
+    int maxHeight = 0;
+
+    //This loops through all the tiles on the first row and sets the maxHeight to something.
+    for(int i = 0; i < tileWidth; i++){
+        if(i >= tiles.size())continue;
+        ResourceTile *test = tiles[i];
+        int tileWidth, tileHeight;
+        tiles[i]->GetSize(&tileWidth, &tileHeight);
+        if(tileHeight > maxHeight){
+            maxHeight = tileHeight;
         }
     }
 
-    SetSize(wxSize(width, (currentY * 100)+100));
+    for(ResourceTile *tile : tiles){
+        tile->setPosition(currentX * 100, currentYPos);
+
+        currentX++;
+        //Go onto the next row.
+        if(currentX >= tileWidth){
+            currentX = 0;
+            currentY++;
+            //Increase the y position by the max height.
+            currentYPos += maxHeight;
+            for(int i = currentX + currentY * tileWidth; i < currentX + tileWidth + currentY * tileWidth; i++){
+                if(i >= tiles.size())continue;
+                ResourceTile *test = tiles[i];
+                int tileWidth, tileHeight;
+                tiles[i]->GetSize(&tileWidth, &tileHeight);
+                if(tileHeight > maxHeight){
+                    maxHeight = tileHeight;
+                }
+            }
+        }
+    }
+
+    SetSize(wxSize(width, currentYPos+100));
 }
 
 void ResourcePanel::onResize(wxSizeEvent &event){
     layoutTiles();
 }
 
-void ResourcePanel::selectTile(int x, int y){
+void ResourcePanel::selectTile(int id){
     if(currentTile)currentTile->deSelectTile();
-    currentTile = tiles.at(x + y * (width / 100));
+    if(id > tiles.size()) return;
+    currentTile = tiles.at(id);
     currentTile->selectTile();
 }
 

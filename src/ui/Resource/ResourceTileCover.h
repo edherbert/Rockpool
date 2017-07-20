@@ -21,11 +21,15 @@ class ResourceTileCover : public wxPanel
 
         void coverClicked(wxMouseEvent &event);
 
+        void setId(int id);
+
     protected:
 
     private:
         ResourcePanel *resPanel;
         ResourceTile *parent;
+
+        int id = 0;
 };
 
 #endif // RESOURCETILECOVER_H

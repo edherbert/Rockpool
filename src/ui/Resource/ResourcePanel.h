@@ -18,7 +18,7 @@ class ResourcePanel : public wxPanel
         void layoutTiles();
 
         void onResize(wxSizeEvent &event);
-        void selectTile(int x, int y);
+        void selectTile(int id);
 
         ResourceTile* getCurrentTile();
 
