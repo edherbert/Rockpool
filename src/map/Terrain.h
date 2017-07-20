@@ -22,6 +22,12 @@ class Terrain
         Ogre::TerrainGroup::RayResult leftTopResult,
         Ogre::TerrainGroup::RayResult rightTopResult,
         Ogre::TerrainGroup::RayResult leftBottomResult,
+        Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int height);
+
+        void terrainEditFromRays(Ogre::TerrainGroup::RayResult centreRay,
+        Ogre::TerrainGroup::RayResult leftTopResult,
+        Ogre::TerrainGroup::RayResult rightTopResult,
+        Ogre::TerrainGroup::RayResult leftBottomResult,
         Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int brushFlow);
 
         void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex);

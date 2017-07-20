@@ -87,6 +87,53 @@ void Terrain::setHeightFromRays(Ogre::TerrainGroup::RayResult centreRay,
 Ogre::TerrainGroup::RayResult leftTopResult,
 Ogre::TerrainGroup::RayResult rightTopResult,
 Ogre::TerrainGroup::RayResult leftBottomResult,
+Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int height){
+
+    //An array to contain the terrains that need to be edited
+    std::vector<Ogre::Terrain*>terrains;
+
+    //Determine which terrains need to be edited
+    //If the terrain needs to be added to the vector and is not already in it.
+    if(leftTopResult.hit && !vectorContains(&terrains, leftTopResult.terrain)) terrains.push_back(leftTopResult.terrain);
+    if(rightTopResult.hit && !vectorContains(&terrains, rightTopResult.terrain)) terrains.push_back(rightTopResult.terrain);
+    if(leftBottomResult.hit && !vectorContains(&terrains, leftBottomResult.terrain)) terrains.push_back(leftBottomResult.terrain);
+    if(rightBottomResult.hit && !vectorContains(&terrains, rightBottomResult.terrain)) terrains.push_back(rightBottomResult.terrain);
+
+    //Create the other points as a square of the brush size
+    Ogre::Vector3 centrePos = centreRay.position;
+    long startX = centrePos.x - brushSize / 2;
+    long startZ = centrePos.z - brushSize / 2;
+    long endX = centrePos.x + brushSize / 2;
+    long endZ = centrePos.z + brushSize / 2;
+
+    for(Ogre::Terrain *terrain : terrains){
+        Ogre::Real terrainSize = (terrain->getSize() - 1);
+        Ogre::Vector3 terrainStart;
+        Ogre::Vector3 terrainEnd;
+        terrain->getTerrainPosition(startX, centrePos.y, startZ, &terrainStart);
+        terrain->getTerrainPosition(endX, centrePos.y, endZ, &terrainEnd);
+
+        terrainStart *= terrainSize;
+        terrainEnd *= terrainSize;
+        //These values are in terrain positions so don't worry if they seem to be smaller than the brush size
+
+        //Flip the values for the y because the start is at the top so this way the start would always have a higher value than the end, thus causing the loop not to run.
+        for(long y = terrainEnd.y; y < terrainStart.y; y++){
+            for(long x = terrainStart.x; x < terrainEnd.x; x++){
+                if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
+
+                terrain->setHeightAtPoint(x, y, height);
+            }
+        }
+
+    }
+    terrainGroup->update();
+}
+
+void Terrain::terrainEditFromRays(Ogre::TerrainGroup::RayResult centreRay,
+Ogre::TerrainGroup::RayResult leftTopResult,
+Ogre::TerrainGroup::RayResult rightTopResult,
+Ogre::TerrainGroup::RayResult leftBottomResult,
 Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int brushFlow){
 
     //An array to contain the terrains that need to be edited
@@ -130,6 +177,7 @@ Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int brushFlow){
     }
     terrainGroup->update();
 }
+
 
 void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex){
     int brushDiv = brushSize / 2;

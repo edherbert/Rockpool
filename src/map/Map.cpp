@@ -140,6 +140,32 @@ void Map::handleClick(int x, int y, const int mouseButton){
 
     if(currentTool == TOOL_PANEL_TERRAIN_EDIT) handleTerrainEditTool(centreResult, mouseButton);
     if(currentTool == TOOL_PANEL_TERRAIN_TEXTURE) handleTerrainTextureTool(centreResult, mouseButton);
+    if(currentTool == TOOL_PANEL_TERRAIN_HEIGHT) handleTerrainHeightTool(centreResult, mouseButton);
+}
+
+void Map::handleTerrainHeightTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton){
+    //Ogre::TerrainGroup::RayResult centreResult = checkTerrainRayMouse(x, y);
+    //If the centre did not land on a terrain, then abort the entire thing.
+    if(!centreRay.hit) return;
+    int brushSize = handlerData->toolPreferencesHandler->getTerrainEditTool()->getBrushSize();
+    int brushFlow = handlerData->toolPreferencesHandler->getTerrainEditTool()->getBrushFlow();
+    Ogre::Vector3 centrePosition = centreRay.position;
+
+    Ogre::Vector3 topRayDirection(0, -1, 0);
+    //Calculate the position of the corners of the brush using more rays.
+    //Do it like this because the rays return the terrain they collided with.
+    Ogre::Ray leftTop(Ogre::Vector3(centrePosition.x - brushSize / 2, terrainHeight + 100, centrePosition.z - brushSize / 2), topRayDirection);
+    Ogre::Ray rightTop(Ogre::Vector3(centrePosition.x + brushSize / 2, terrainHeight + 100, centrePosition.z - brushSize / 2), topRayDirection);
+    Ogre::Ray leftBottom(Ogre::Vector3(centrePosition.x - brushSize / 2, terrainHeight + 100, centrePosition.z + brushSize / 2), topRayDirection);
+    Ogre::Ray rightBottom(Ogre::Vector3(centrePosition.x + brushSize / 2, terrainHeight + 100, centrePosition.z + brushSize / 2), topRayDirection);
+
+    Ogre::TerrainGroup::RayResult leftTopResult = terrain->rayIntersect(leftTop);
+    Ogre::TerrainGroup::RayResult rightTopResult = terrain->rayIntersect(rightTop);
+    Ogre::TerrainGroup::RayResult leftBottomResult = terrain->rayIntersect(leftBottom);
+    Ogre::TerrainGroup::RayResult rightBottomResult = terrain->rayIntersect(rightBottom);
+
+    terrain->setHeightFromRays(centreRay, leftTopResult, rightTopResult, leftBottomResult, rightBottomResult, brushSize, handlerData->toolPreferencesHandler->getTerrainHeightTool()->getHeight());
+    canvas->renderFrame();
 }
 
 void Map::handleTerrainEditTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton){
@@ -163,7 +189,7 @@ void Map::handleTerrainEditTool(const Ogre::TerrainGroup::RayResult centreRay, c
     Ogre::TerrainGroup::RayResult leftBottomResult = terrain->rayIntersect(leftBottom);
     Ogre::TerrainGroup::RayResult rightBottomResult = terrain->rayIntersect(rightBottom);
 
-    terrain->setHeightFromRays(centreRay, leftTopResult, rightTopResult, leftBottomResult, rightBottomResult, brushSize, brushFlow);
+    terrain->terrainEditFromRays(centreRay, leftTopResult, rightTopResult, leftBottomResult, rightBottomResult, brushSize, brushFlow);
     canvas->renderFrame();
 }
 

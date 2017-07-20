@@ -5,20 +5,16 @@ ToolPreferencesHandler::ToolPreferencesHandler(MainFrame *mainFrame, wxAuiManage
     this->auiManager = auiManager;
     //this->parentPanel = parentPanel;
 
-
-    //wxBoxSizer *parentPanelSizer = new wxBoxSizer(wxVERTICAL);
-    //wxStaticBox *toolsContainer = new wxStaticBox(parentPanel, wxID_ANY, wxT("Tool Preferences"));
-
     parentPanel = new wxPanel(mainFrame);
-
-    //parentPanelSizer->Add(toolsContainer, 1, wxEXPAND | wxLEFT | wxRIGHT, 10);
-    //parentPanel->SetSizer(parentPanelSizer);
 
     editPreferences = new TerrainEditToolPreferences(parentPanel);
     texturePreferences = new TerrainTextureToolPreferences(parentPanel);
+    terrainHeightPreferences = new TerrainHeightToolPreferences(parentPanel);
+
 
     preferences.push_back(editPreferences);
     preferences.push_back(texturePreferences);
+    preferences.push_back(terrainHeightPreferences);
 
 
     wxAuiPaneInfo info;
@@ -61,6 +57,10 @@ TerrainEditToolPreferences* ToolPreferencesHandler::getTerrainEditTool(){
 
 TerrainTextureToolPreferences* ToolPreferencesHandler::getTerrainTextureTool(){
     return texturePreferences;
+}
+
+TerrainHeightToolPreferences* ToolPreferencesHandler::getTerrainHeightTool(){
+    return terrainHeightPreferences;
 }
 
 void ToolPreferencesHandler::setToolPreferencesVisability(bool visible){

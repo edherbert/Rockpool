@@ -19,9 +19,14 @@
 -Make it so that only one terrain chunk can be textured at a time
 -Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
--Begin work on fixing the terrain sculpting.
--This could involve finally implementing the brushes.
 
+-Clean up the code in the terrain editing section.
+-Try to abstract the code for finding the terrains etc into their own functions.
+-Just plan out how this will work in the future, taking into account the brush tool that'll arrive soon.
+-Implement a terrain smoothing tool.
+-Figure out how the max height of the terrains works
+
+-Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make it so that the user cannot alter the terrain using the fps camera
 
 --Schedule--
@@ -225,3 +230,7 @@
     -Fix the issue with the scroll bars
     -This might involve investigating scrollbars in general.
 -Fix the text so that most of it fits into the window.
+-Implement the ability to save the camera position.
+-Begin work on fixing the terrain sculpting.
+-This could involve finally implementing the brushes.
+-Implement the terrain height tool. This allows the user to set the terrain to a specific height

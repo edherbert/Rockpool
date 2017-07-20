@@ -39,6 +39,7 @@ class Map
 
         void handleTerrainEditTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
         void handleTerrainTextureTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
+        void handleTerrainHeightTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
 
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 

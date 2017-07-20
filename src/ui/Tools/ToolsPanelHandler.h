@@ -30,7 +30,7 @@ class ToolsPanelHandler : wxApp
 
         void terrainEditToolCallback(wxCommandEvent &event);
         void terrainTextureToolCallback(wxCommandEvent &event);
-        void terrainSomethingToolCallback(wxCommandEvent &event);
+        void terrainHeightToolCallback(wxCommandEvent &event);
 };
 
 #endif // TOOLSPANELHANDLER_H

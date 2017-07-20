@@ -10,18 +10,18 @@ ToolsPanelHandler::ToolsPanelHandler(MainFrame *mainFrame, wxAuiManager *auiMana
 
     toolbar->AddTool(TOOL_PANEL_TERRAIN_EDIT, bitmap, bitmap, true);
     toolbar->AddTool(TOOL_PANEL_TERRAIN_TEXTURE, bitmap, bitmap, true);
-    toolbar->AddTool(TOOL_PANEL_BUTTON_THIRD, bitmap, bitmap, true);
+    toolbar->AddTool(TOOL_PANEL_TERRAIN_HEIGHT, bitmap, bitmap, true);
 
     tools[0] = TOOL_PANEL_TERRAIN_EDIT;
     tools[1] = TOOL_PANEL_TERRAIN_TEXTURE;
-    tools[2] = TOOL_PANEL_BUTTON_THIRD;
+    tools[2] = TOOL_PANEL_TERRAIN_HEIGHT;
 
     auiManager->AddPane(toolbar, wxAuiPaneInfo().Name(wxT("Terrains Toolbar")).Caption(wxT("Terrains Toolbar")).ToolbarPane().Top());
     toolbar->Realize();
 
     Connect(TOOL_PANEL_TERRAIN_EDIT, wxEVT_TOOL, wxCommandEventHandler(ToolsPanelHandler::terrainEditToolCallback));
     Connect(TOOL_PANEL_TERRAIN_TEXTURE, wxEVT_TOOL, wxCommandEventHandler(ToolsPanelHandler::terrainTextureToolCallback));
-    Connect(TOOL_PANEL_BUTTON_THIRD, wxEVT_TOOL, wxCommandEventHandler(ToolsPanelHandler::terrainSomethingToolCallback));
+    Connect(TOOL_PANEL_TERRAIN_HEIGHT, wxEVT_TOOL, wxCommandEventHandler(ToolsPanelHandler::terrainHeightToolCallback));
 
     //setTool(TOOL_PANEL_TERRAIN_EDIT);
     setTool(TOOL_PANEL_TERRAIN_TEXTURE);
@@ -50,8 +50,8 @@ void ToolsPanelHandler::terrainTextureToolCallback(wxCommandEvent &event){
     setTool(TOOL_PANEL_TERRAIN_TEXTURE);
 }
 
-void ToolsPanelHandler::terrainSomethingToolCallback(wxCommandEvent &event){
-    setTool(TOOL_PANEL_BUTTON_THIRD);
+void ToolsPanelHandler::terrainHeightToolCallback(wxCommandEvent &event){
+    setTool(TOOL_PANEL_TERRAIN_HEIGHT);
 }
 
 int ToolsPanelHandler::getCurrentTool(){

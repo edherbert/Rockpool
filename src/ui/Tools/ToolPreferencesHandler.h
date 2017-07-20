@@ -7,6 +7,7 @@
 
 #include "TerrainEditToolPreferences.h"
 #include "TerrainTextureToolPreferences.h"
+#include "TerrainHeightToolPreferences.h"
 #include "ToolPreferences.h"
 
 #include <vector>
@@ -24,12 +25,14 @@ class ToolPreferencesHandler
 
         TerrainEditToolPreferences* getTerrainEditTool();
         TerrainTextureToolPreferences* getTerrainTextureTool();
+        TerrainHeightToolPreferences* getTerrainHeightTool();
 
         void setToolPreferencesVisability(bool visible = true);
 
         //Store them as individual items as well as in the vector
         TerrainEditToolPreferences *editPreferences;
         TerrainTextureToolPreferences *texturePreferences;
+        TerrainHeightToolPreferences *terrainHeightPreferences;
 
     protected:
 
