@@ -165,10 +165,6 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
         }
         layer->update();
     }
-
-    //I think it would need to loop through each layer, doing the oposite of the function to the layer that it is not.
-    //So by adding to layer 2, you would be removing the same ammount being added from layers 1 and 3
-    //Remember that layer 0 cannot be altered, as it will always have 100%
 }
 
 

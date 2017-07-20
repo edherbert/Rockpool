@@ -35,6 +35,8 @@ class Map
         void updateCursor(int x, int y);
         void handleClick(int x, int y, const int mouseButton);
 
+        void setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cameraDirection);
+
         void handleTerrainEditTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
         void handleTerrainTextureTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
 
@@ -51,6 +53,9 @@ class Map
         Ogre::Viewport *viewport;
         Ogre::Camera *camera;
         Ogre::SceneManager *sceneManager;
+
+        Ogre::Vector3 defaultCameraPosition;
+        Ogre::Vector3 defaultCameraDirection;
 
         HandlerData *handlerData;
 

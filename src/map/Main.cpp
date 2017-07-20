@@ -33,6 +33,8 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     tinyxml2::XMLElement *resources = root->FirstChildElement("Resources");
 
     mapInformation info;
+    Ogre::Vector3 cameraPosition(0, 100, 200);
+    Ogre::Vector3 cameraDirection;
 
     if(header){
         tinyxml2::XMLElement *mapSettings = header->FirstChildElement("mapSettings");
@@ -42,6 +44,19 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
         info.vertexCount = mapSettings->IntAttribute("vertexCount");
         info.terrainSize = mapSettings->IntAttribute("terrainSize");
         info.terrainHeight = mapSettings->IntAttribute("terrainHeight");
+
+
+        tinyxml2::XMLElement *cameraPositionElement = header->FirstChildElement("cameraPosition");
+
+        if(cameraPositionElement){
+            cameraPosition.x = cameraPositionElement->FloatAttribute("x");
+            cameraPosition.y = cameraPositionElement->FloatAttribute("y");
+            cameraPosition.z = cameraPositionElement->FloatAttribute("z");
+
+            cameraDirection.x = cameraPositionElement->FloatAttribute("dirX");
+            cameraDirection.y = cameraPositionElement->FloatAttribute("dirY");
+            cameraDirection.z = cameraPositionElement->FloatAttribute("dirZ");
+        }
     }else success = false;
 
     this->projectDirectory = directoryPath;
@@ -51,7 +66,6 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
         for(tinyxml2::XMLElement *e = resources->FirstChildElement("location"); e != NULL; e = e->NextSiblingElement("location")){
             if(e){
                 addResourceLocation(directoryPath + "/" + e->Attribute("path"));
-                //std::cout << directoryPath + "/" + e->Attribute("path") << std::endl;
             }else{
                 success = false;
             }
@@ -63,7 +77,6 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
         frame->getResourceBrowser()->updateTiles();
         frame->getResourceBrowser()->layoutTiles();
     }
-
 
     if(!success){
         showLoadFailedPopup();
@@ -77,6 +90,7 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     }
 
     currentMap = new Map(frame->getHandlerData(), (std::string)directoryPath, info);
+    currentMap->setDefaultCameraValues(cameraPosition, cameraDirection);
     canvas->setMap(currentMap);
     //loadDialog->addValue(10);
     //loadDialog->setText("Generating Terrain");
@@ -125,6 +139,32 @@ void Main::createProjectFile(std::string filePath, mapInformation info){
     headerMapSettings->SetAttribute("terrainSize", info.terrainSize);
     headerMapSettings->SetAttribute("terrainHeight", info.terrainHeight);
     header->InsertEndChild(headerMapSettings);
+
+    //Set the values for the camera
+    tinyxml2::XMLElement *headerCameraPosition = doc.NewElement("cameraPosition");
+    Ogre::Real cameraX = 0;
+    Ogre::Real cameraY = 0;
+    Ogre::Real cameraZ = 0;
+    Ogre::Real cameraDirectionX = 0;
+    Ogre::Real cameraDirectionY = 0;
+    Ogre::Real cameraDirectionZ = 0;
+    if(currentMap){
+        Ogre::Vector3 position = currentMap->getCamera()->getPosition();
+        cameraX = position.x;
+        cameraY = position.y;
+        cameraZ = position.z;
+        Ogre::Vector3 direction = currentMap->getCamera()->getDirection();
+        cameraDirectionX = direction.x;
+        cameraDirectionY = direction.y;
+        cameraDirectionZ = direction.z;
+    }
+    headerCameraPosition->SetAttribute("x", cameraX);
+    headerCameraPosition->SetAttribute("y", cameraY);
+    headerCameraPosition->SetAttribute("z", cameraZ);
+    headerCameraPosition->SetAttribute("dirX", cameraDirectionX);
+    headerCameraPosition->SetAttribute("dirY", cameraDirectionY);
+    headerCameraPosition->SetAttribute("dirZ", cameraDirectionZ);
+    header->InsertEndChild(headerCameraPosition);
 
     tinyxml2::XMLNode *resources = doc.NewElement("Resources");
 

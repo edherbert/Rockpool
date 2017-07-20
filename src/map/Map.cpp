@@ -21,11 +21,8 @@ void Map::start(GLCanvas *canvas){
     sceneManager = Ogre::Root::getSingleton().createSceneManager(Ogre::ST_GENERIC, "SceneManager");
 
     camera = sceneManager->createCamera("Camera");
-    camera->setPosition(0, 100, 200);
-    //camera->setPosition(1400, 50, -1400);
-    //camera->lookAt(0, 0, -300);
-    camera->lookAt(0, 0, -500);
-    //camera->lookAt(1500, 0, -1500);
+    camera->setPosition(defaultCameraPosition);
+    camera->setDirection(defaultCameraDirection);
     camera->setNearClipDistance(5);
 
     viewport = canvas->getWindow()->addViewport(camera);
@@ -196,4 +193,9 @@ mapInformation Map::getMapInformation(){
 
 void Map::saveMap(bool reSave){
     terrain->saveTerrains(reSave);
+}
+
+void Map::setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cameraDirection){
+    this->defaultCameraPosition = cameraPosition;
+    this->defaultCameraDirection = cameraDirection;
 }
