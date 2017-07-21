@@ -52,7 +52,7 @@ class Map
 
     private:
         Ogre::Viewport *viewport;
-        Ogre::Camera *camera;
+        Ogre::Camera *camera = 0;
         Ogre::SceneManager *sceneManager;
 
         Ogre::Vector3 defaultCameraPosition;
@@ -66,6 +66,7 @@ class Map
         bool mapStarted = false;
 
         float radians(float value);
+        float degrees(float value);
 
         Ogre::SceneNode *ogreNode;
         Ogre::SceneNode *sinbadNode;

@@ -26,6 +26,8 @@
 -Implement a terrain smoothing tool.
 -Figure out how the max height of the terrains works
 
+-Fix the bug with the incorrect yaw values
+
 -Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make it so that the user cannot alter the terrain using the fps camera
 

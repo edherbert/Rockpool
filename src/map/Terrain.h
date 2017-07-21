@@ -10,6 +10,14 @@
 #include <cmath>
 #include <vector>
 
+struct terrainRays{
+    Ogre::TerrainGroup::RayResult centreRay;
+    Ogre::TerrainGroup::RayResult leftTop;
+    Ogre::TerrainGroup::RayResult rightTop;
+    Ogre::TerrainGroup::RayResult leftBottom;
+    Ogre::TerrainGroup::RayResult rightBottom;
+};
+
 class Terrain
 {
     public:
@@ -18,17 +26,8 @@ class Terrain
 
         Ogre::TerrainGroup::RayResult rayIntersect(Ogre::Ray ray);
 
-        void setHeightFromRays(Ogre::TerrainGroup::RayResult centreRay,
-        Ogre::TerrainGroup::RayResult leftTopResult,
-        Ogre::TerrainGroup::RayResult rightTopResult,
-        Ogre::TerrainGroup::RayResult leftBottomResult,
-        Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int height);
-
-        void terrainEditFromRays(Ogre::TerrainGroup::RayResult centreRay,
-        Ogre::TerrainGroup::RayResult leftTopResult,
-        Ogre::TerrainGroup::RayResult rightTopResult,
-        Ogre::TerrainGroup::RayResult leftBottomResult,
-        Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int brushFlow);
+        void setHeightFromRays(terrainRays rays, int brushSize, int height);
+        void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow);
 
         void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex);
 

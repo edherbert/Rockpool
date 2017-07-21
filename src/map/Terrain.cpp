@@ -83,24 +83,20 @@ bool Terrain::vectorContains(std::vector<Ogre::Terrain*> *terrains, Ogre::Terrai
     return found;
 }
 
-void Terrain::setHeightFromRays(Ogre::TerrainGroup::RayResult centreRay,
-Ogre::TerrainGroup::RayResult leftTopResult,
-Ogre::TerrainGroup::RayResult rightTopResult,
-Ogre::TerrainGroup::RayResult leftBottomResult,
-Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int height){
+void Terrain::setHeightFromRays(terrainRays rays, int brushSize, int height){
 
     //An array to contain the terrains that need to be edited
     std::vector<Ogre::Terrain*>terrains;
 
     //Determine which terrains need to be edited
     //If the terrain needs to be added to the vector and is not already in it.
-    if(leftTopResult.hit && !vectorContains(&terrains, leftTopResult.terrain)) terrains.push_back(leftTopResult.terrain);
-    if(rightTopResult.hit && !vectorContains(&terrains, rightTopResult.terrain)) terrains.push_back(rightTopResult.terrain);
-    if(leftBottomResult.hit && !vectorContains(&terrains, leftBottomResult.terrain)) terrains.push_back(leftBottomResult.terrain);
-    if(rightBottomResult.hit && !vectorContains(&terrains, rightBottomResult.terrain)) terrains.push_back(rightBottomResult.terrain);
+    if(rays.leftTop.hit && !vectorContains(&terrains, rays.leftTop.terrain)) terrains.push_back(rays.leftTop.terrain);
+    if(rays.rightTop.hit && !vectorContains(&terrains, rays.rightTop.terrain)) terrains.push_back(rays.rightTop.terrain);
+    if(rays.leftBottom.hit && !vectorContains(&terrains, rays.leftBottom.terrain)) terrains.push_back(rays.leftBottom.terrain);
+    if(rays.rightBottom.hit && !vectorContains(&terrains, rays.rightBottom.terrain)) terrains.push_back(rays.rightBottom.terrain);
 
     //Create the other points as a square of the brush size
-    Ogre::Vector3 centrePos = centreRay.position;
+    Ogre::Vector3 centrePos = rays.centreRay.position;
     long startX = centrePos.x - brushSize / 2;
     long startZ = centrePos.z - brushSize / 2;
     long endX = centrePos.x + brushSize / 2;
@@ -130,24 +126,20 @@ Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int height){
     terrainGroup->update();
 }
 
-void Terrain::terrainEditFromRays(Ogre::TerrainGroup::RayResult centreRay,
-Ogre::TerrainGroup::RayResult leftTopResult,
-Ogre::TerrainGroup::RayResult rightTopResult,
-Ogre::TerrainGroup::RayResult leftBottomResult,
-Ogre::TerrainGroup::RayResult rightBottomResult, int brushSize, int brushFlow){
+void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow){
 
     //An array to contain the terrains that need to be edited
     std::vector<Ogre::Terrain*>terrains;
 
     //Determine which terrains need to be edited
     //If the terrain needs to be added to the vector and is not already in it.
-    if(leftTopResult.hit && !vectorContains(&terrains, leftTopResult.terrain)) terrains.push_back(leftTopResult.terrain);
-    if(rightTopResult.hit && !vectorContains(&terrains, rightTopResult.terrain)) terrains.push_back(rightTopResult.terrain);
-    if(leftBottomResult.hit && !vectorContains(&terrains, leftBottomResult.terrain)) terrains.push_back(leftBottomResult.terrain);
-    if(rightBottomResult.hit && !vectorContains(&terrains, rightBottomResult.terrain)) terrains.push_back(rightBottomResult.terrain);
+    if(rays.leftTop.hit && !vectorContains(&terrains, rays.leftTop.terrain)) terrains.push_back(rays.leftTop.terrain);
+    if(rays.rightTop.hit && !vectorContains(&terrains, rays.rightTop.terrain)) terrains.push_back(rays.rightTop.terrain);
+    if(rays.leftBottom.hit && !vectorContains(&terrains, rays.leftBottom.terrain)) terrains.push_back(rays.leftBottom.terrain);
+    if(rays.rightBottom.hit && !vectorContains(&terrains, rays.rightBottom.terrain)) terrains.push_back(rays.rightBottom.terrain);
 
     //Create the other points as a square of the brush size
-    Ogre::Vector3 centrePos = centreRay.position;
+    Ogre::Vector3 centrePos = rays.centreRay.position;
     long startX = centrePos.x - brushSize / 2;
     long startZ = centrePos.z - brushSize / 2;
     long endX = centrePos.x + brushSize / 2;

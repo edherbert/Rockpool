@@ -143,12 +143,14 @@ void Main::createProjectFile(std::string filePath, mapInformation info){
     //Set the values for the camera
     tinyxml2::XMLElement *headerCameraPosition = doc.NewElement("cameraPosition");
     Ogre::Real cameraX = 0;
-    Ogre::Real cameraY = 0;
+    Ogre::Real cameraY = 30;
     Ogre::Real cameraZ = 0;
     Ogre::Real cameraDirectionX = 0;
     Ogre::Real cameraDirectionY = 0;
     Ogre::Real cameraDirectionZ = 0;
-    if(currentMap){
+    //This function is called during file creation as well as saving, so check if there is a map to save camera values for
+    //Otherwise, just use the default ones.
+    if(currentMap && currentMap->getCamera()){
         Ogre::Vector3 position = currentMap->getCamera()->getPosition();
         cameraX = position.x;
         cameraY = position.y;

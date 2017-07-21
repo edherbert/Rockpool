@@ -106,3 +106,18 @@ I'll probably have to re-name some things:
     resource browser
     resource browser panel
     resourceBrowserTile
+
+
+--Terrain Editing--
+The terrain editing will need some work as I begin to add more tools to it.
+Firstly, I'll put the ray results into their own struct, as they're all universal.
+
+Some of the arguements will stay the same, like the brush height and brush flow.
+These values won't be set by the brush, but rather by the map function.
+I'll abstract out a function to return the terrains that need to be edited.
+
+The brush manager will have to be able to return some sort of array for the width and height of the brush, which contains information about how the brush looks.
+The brush manager will handle this, meaning there is little input needed on the part of the terrain, so they're not re-calculated each time the terrain is edited.
+
+Other than that, I'm not sure what I can change.
+

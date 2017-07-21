@@ -57,7 +57,7 @@ class Main
 
     private:
         GLCanvas *canvas;
-        Map* currentMap;
+        Map* currentMap = 0;
 
         ResourceManager *resourceManager;
 
