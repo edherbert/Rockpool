@@ -35,13 +35,6 @@ void ResourceManager::checkResourceLocations(){
         locations.push_back(location);
     }
 
-    wxLongLong endTime = wxGetLocalTimeMillis();
-
-    /*for(resourceLocation *r : locations){
-        for(wxString s : r->resources){
-            std::cout << s << std::endl;
-        }
-    }*/
     std::cout << "Done Checking Resource Locations." << std::endl;
 }
 

@@ -19,10 +19,6 @@
 -Make it so that only one terrain chunk can be textured at a time
 -Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
-
--Clean up the code in the terrain editing section.
--Try to abstract the code for finding the terrains etc into their own functions.
--Just plan out how this will work in the future, taking into account the brush tool that'll arrive soon.
 -Implement a terrain smoothing tool.
 -Figure out how the max height of the terrains works
 
@@ -236,3 +232,7 @@
 -Begin work on fixing the terrain sculpting.
 -This could involve finally implementing the brushes.
 -Implement the terrain height tool. This allows the user to set the terrain to a specific height
+
+-Clean up the code in the terrain editing section.
+-Try to abstract the code for finding the terrains etc into their own functions.
+-Just plan out how this will work in the future, taking into account the brush tool that'll arrive soon.

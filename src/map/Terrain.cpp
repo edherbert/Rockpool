@@ -147,13 +147,18 @@ void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow
 
     for(Ogre::Terrain *terrain : terrains){
         Ogre::Real terrainSize = (terrain->getSize() - 1);
+        //The values of the terrain
         Ogre::Vector3 terrainStart;
         Ogre::Vector3 terrainEnd;
+        Ogre::Vector3 terrainCentre;
         terrain->getTerrainPosition(startX, centrePos.y, startZ, &terrainStart);
         terrain->getTerrainPosition(endX, centrePos.y, endZ, &terrainEnd);
+        terrain->getTerrainPosition(centrePos.x, centrePos.y, centrePos.z, &terrainCentre);
 
+        //Convert the values from between 0 and 1 into terrain cordinates (0 to terrain size)
         terrainStart *= terrainSize;
         terrainEnd *= terrainSize;
+        terrainCentre *= terrainSize;
         //These values are in terrain positions so don't worry if they seem to be smaller than the brush size
 
         //Flip the values for the y because the start is at the top so this way the start would always have a higher value than the end, thus causing the loop not to run.
@@ -161,7 +166,15 @@ void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow
             for(long x = terrainStart.x; x < terrainEnd.x; x++){
                 if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
 
-                float newHeight = terrain->getHeightAtPoint(x, y) + 0.05 * brushFlow;
+                //The distance of the centre brush
+                //The values of the brush aren't between 0 and 1.
+
+                Ogre::Real distance = sqrt(pow(terrainCentre.y - y, 2) + pow(terrainCentre.x - x, 2)) / brushSize;
+                distance *= 10;
+                distance = 1 - distance;
+                distance = distance * distance;
+
+                float newHeight = terrain->getHeightAtPoint(x, y) + 0.05 * brushFlow * distance;
                 terrain->setHeightAtPoint(x, y, newHeight);
             }
         }

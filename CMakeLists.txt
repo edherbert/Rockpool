@@ -67,6 +67,7 @@ src/ui/Tools/ToolPreferences.cpp
 src/ui/Tools/ToolsPanelHandler.cpp
 
 src/system/ResourceManager.cpp
+src/system/BrushManager.cpp
 
 src/graphics/OgreComponent
 src/graphics/Trackball

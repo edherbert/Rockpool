@@ -121,3 +121,16 @@ The brush manager will handle this, meaning there is little input needed on the 
 
 Other than that, I'm not sure what I can change.
 
+--Brush manager--
+I'm going to have a class to manage brushes. This will be separate from the brush browser that will list all the brushes the user could use.
+The brush manager will be in charge of generating the brushes and storing them.
+There will be a function like get current brush data that will return an array of the brush data, which are floats ranging from 0 - 1.
+This will just say how much the brush needs to be raised from the ground.
+The point of this is to minimise the ammount in which the brush data is being generated.
+I think I'll re-generate it when a new brush is selected, and then it will be stored in memory.
+Brushes can also use images, but for now I just want to have a radial brush.
+
+Each time the user changes the size of the brush, the values will need to be re-calculated.
+I don't want to do that each time the user changes the brush size, so I think I'll do it when the brush data is requested.
+If the data requested is different from the current data, then it will be re-calculated.
+
