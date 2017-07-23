@@ -28,6 +28,7 @@ class Terrain
 
         void setHeightFromRays(terrainRays rays, int brushSize, int height);
         void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow);
+        void terrainSmoothFromRays(terrainRays rays, int brushSize);
 
         void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex);
 
@@ -46,6 +47,7 @@ class Terrain
         int terrainHeight;
         std::string path;
 
+        void setupTerrainsArray(terrainRays rays, std::vector<Ogre::Terrain*> *terrains);
         bool vectorContains(std::vector<Ogre::Terrain*> *terrains, Ogre::Terrain* terrain);
 
         void destroyScene();

@@ -19,9 +19,6 @@
 -Make it so that only one terrain chunk can be textured at a time
 -Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
--Implement a terrain smoothing tool.
--Figure out how the max height of the terrains works
-
 -Fix the bug with the incorrect yaw values
 
 -Make the terrain texture tool only show the number of textures relative to the layer list.
@@ -238,3 +235,6 @@
 -Just plan out how this will work in the future, taking into account the brush tool that'll arrive soon.
 
 -Implement the ability to dither the texture on the texture tool.
+
+-Implement a terrain smoothing tool.
+-Figure out how the max height of the terrains works (Just limit the values that can be entered)

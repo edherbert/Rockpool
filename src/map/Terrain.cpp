@@ -83,17 +83,17 @@ bool Terrain::vectorContains(std::vector<Ogre::Terrain*> *terrains, Ogre::Terrai
     return found;
 }
 
-void Terrain::setHeightFromRays(terrainRays rays, int brushSize, int height){
+void Terrain::setupTerrainsArray(terrainRays rays, std::vector<Ogre::Terrain*> *terrains){
+    if(rays.leftTop.hit && !vectorContains(terrains, rays.leftTop.terrain)) terrains->push_back(rays.leftTop.terrain);
+    if(rays.rightTop.hit && !vectorContains(terrains, rays.rightTop.terrain)) terrains->push_back(rays.rightTop.terrain);
+    if(rays.leftBottom.hit && !vectorContains(terrains, rays.leftBottom.terrain)) terrains->push_back(rays.leftBottom.terrain);
+    if(rays.rightBottom.hit && !vectorContains(terrains, rays.rightBottom.terrain)) terrains->push_back(rays.rightBottom.terrain);
+}
 
-    //An array to contain the terrains that need to be edited
+void Terrain::setHeightFromRays(terrainRays rays, int brushSize, int height){
     std::vector<Ogre::Terrain*>terrains;
 
-    //Determine which terrains need to be edited
-    //If the terrain needs to be added to the vector and is not already in it.
-    if(rays.leftTop.hit && !vectorContains(&terrains, rays.leftTop.terrain)) terrains.push_back(rays.leftTop.terrain);
-    if(rays.rightTop.hit && !vectorContains(&terrains, rays.rightTop.terrain)) terrains.push_back(rays.rightTop.terrain);
-    if(rays.leftBottom.hit && !vectorContains(&terrains, rays.leftBottom.terrain)) terrains.push_back(rays.leftBottom.terrain);
-    if(rays.rightBottom.hit && !vectorContains(&terrains, rays.rightBottom.terrain)) terrains.push_back(rays.rightBottom.terrain);
+    setupTerrainsArray(rays, &terrains);
 
     //Create the other points as a square of the brush size
     Ogre::Vector3 centrePos = rays.centreRay.position;
@@ -127,16 +127,10 @@ void Terrain::setHeightFromRays(terrainRays rays, int brushSize, int height){
 }
 
 void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow){
-
-    //An array to contain the terrains that need to be edited
+    //An array to contain all the terrains that need to be edited.
     std::vector<Ogre::Terrain*>terrains;
 
-    //Determine which terrains need to be edited
-    //If the terrain needs to be added to the vector and is not already in it.
-    if(rays.leftTop.hit && !vectorContains(&terrains, rays.leftTop.terrain)) terrains.push_back(rays.leftTop.terrain);
-    if(rays.rightTop.hit && !vectorContains(&terrains, rays.rightTop.terrain)) terrains.push_back(rays.rightTop.terrain);
-    if(rays.leftBottom.hit && !vectorContains(&terrains, rays.leftBottom.terrain)) terrains.push_back(rays.leftBottom.terrain);
-    if(rays.rightBottom.hit && !vectorContains(&terrains, rays.rightBottom.terrain)) terrains.push_back(rays.rightBottom.terrain);
+    setupTerrainsArray(rays, &terrains);
 
     //Create the other points as a square of the brush size
     Ogre::Vector3 centrePos = rays.centreRay.position;
@@ -175,6 +169,52 @@ void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow
 
                 float newHeight = terrain->getHeightAtPoint(x, y) + 0.05 * brushFlow * distance;
                 terrain->setHeightAtPoint(x, y, newHeight);
+            }
+        }
+
+    }
+    terrainGroup->update();
+}
+
+void Terrain::terrainSmoothFromRays(terrainRays rays, int brushSize){
+    std::vector<Ogre::Terrain*>terrains;
+
+    setupTerrainsArray(rays, &terrains);
+
+    Ogre::Vector3 centrePos = rays.centreRay.position;
+    long startX = centrePos.x - brushSize / 2;
+    long startZ = centrePos.z - brushSize / 2;
+    long endX = centrePos.x + brushSize / 2;
+    long endZ = centrePos.z + brushSize / 2;
+
+    for(Ogre::Terrain *terrain : terrains){
+        Ogre::Real terrainSize = (terrain->getSize() - 1);
+        Ogre::Vector3 terrainStart;
+        Ogre::Vector3 terrainEnd;
+        Ogre::Vector3 terrainCentre;
+        terrain->getTerrainPosition(startX, centrePos.y, startZ, &terrainStart);
+        terrain->getTerrainPosition(endX, centrePos.y, endZ, &terrainEnd);
+        terrain->getTerrainPosition(centrePos.x, centrePos.y, centrePos.z, &terrainCentre);
+
+        terrainStart *= terrainSize;
+        terrainEnd *= terrainSize;
+        terrainCentre *= terrainSize;
+        for(long y = terrainEnd.y; y < terrainStart.y; y++){
+            for(long x = terrainStart.x; x < terrainEnd.x; x++){
+                if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
+
+                float total = 0;
+                int totalAmmount = 0;
+                for(long yy = y - 1; yy <= y + 1; yy++){
+                    for(long xx = x - 1; xx <= x + 1; xx++){
+                        if(xx < 0 || yy < 0 || xx > terrainSize || yy > terrainSize) continue;
+                        total += terrain->getHeightAtPoint(xx, yy);
+                        totalAmmount++;
+                    }
+                }
+                total /= totalAmmount;
+
+                terrain->setHeightAtPoint(x, y, total);
             }
         }
 
@@ -233,7 +273,6 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
         layer->update();
     }
 }
-
 
 void Terrain::saveTerrains(bool reSave){
     terrainGroup->saveAllTerrains(!reSave);

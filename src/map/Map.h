@@ -37,9 +37,8 @@ class Map
 
         void setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cameraDirection);
 
-        void handleTerrainEditTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
-        void handleTerrainTextureTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
-        void handleTerrainHeightTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
+        void handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton, const int toolId);
+        void handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
 
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 

@@ -27,6 +27,7 @@ class ToolPreferencesHandler
         TerrainEditToolPreferences* getTerrainEditTool();
         TerrainTextureToolPreferences* getTerrainTextureTool();
         TerrainHeightToolPreferences* getTerrainHeightTool();
+        TerrainSmoothToolPreferences* getTerrainSmoothTool();
 
         void setToolPreferencesVisability(bool visible = true);
 

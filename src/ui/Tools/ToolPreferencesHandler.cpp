@@ -65,6 +65,10 @@ TerrainHeightToolPreferences* ToolPreferencesHandler::getTerrainHeightTool(){
     return terrainHeightPreferences;
 }
 
+TerrainSmoothToolPreferences* ToolPreferencesHandler::getTerrainSmoothTool(){
+    return terrainSmoothPreferences;
+}
+
 void ToolPreferencesHandler::setToolPreferencesVisability(bool visible){
     if(visible){
         auiManager->GetPane(wxT("ToolPreferences")).Show();
