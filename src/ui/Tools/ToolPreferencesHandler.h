@@ -8,6 +8,7 @@
 #include "TerrainEditToolPreferences.h"
 #include "TerrainTextureToolPreferences.h"
 #include "TerrainHeightToolPreferences.h"
+#include "TerrainSmoothToolPreferences.h"
 #include "ToolPreferences.h"
 
 #include <vector>
@@ -33,6 +34,7 @@ class ToolPreferencesHandler
         TerrainEditToolPreferences *editPreferences;
         TerrainTextureToolPreferences *texturePreferences;
         TerrainHeightToolPreferences *terrainHeightPreferences;
+        TerrainSmoothToolPreferences *terrainSmoothPreferences;
 
     protected:
 

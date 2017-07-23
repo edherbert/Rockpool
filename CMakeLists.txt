@@ -63,6 +63,7 @@ src/ui/Tools/ToolPreferencesHandler.cpp
 src/ui/Tools/TerrainEditToolPreferences.cpp
 src/ui/Tools/TerrainTextureToolPreferences.cpp
 src/ui/Tools/TerrainHeightToolPreferences.cpp
+src/ui/Tools/TerrainSmoothToolPreferences.cpp
 src/ui/Tools/ToolPreferences.cpp
 src/ui/Tools/ToolsPanelHandler.cpp
 

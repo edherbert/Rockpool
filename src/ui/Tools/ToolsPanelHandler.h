@@ -17,7 +17,6 @@ class ToolsPanelHandler : wxApp
 
         int getCurrentTool();
 
-
     protected:
 
     private:
@@ -25,12 +24,13 @@ class ToolsPanelHandler : wxApp
         wxAuiToolBar *toolbar;
         MainFrame *mainFrame;
 
-        int tools[3];
+        int tools[4];
         int currentTool = 0;
 
         void terrainEditToolCallback(wxCommandEvent &event);
         void terrainTextureToolCallback(wxCommandEvent &event);
         void terrainHeightToolCallback(wxCommandEvent &event);
+        void terrainSmoothToolCallback(wxCommandEvent &event);
 };
 
 #endif // TOOLSPANELHANDLER_H

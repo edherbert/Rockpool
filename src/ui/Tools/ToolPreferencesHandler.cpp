@@ -10,11 +10,13 @@ ToolPreferencesHandler::ToolPreferencesHandler(MainFrame *mainFrame, wxAuiManage
     editPreferences = new TerrainEditToolPreferences(parentPanel);
     texturePreferences = new TerrainTextureToolPreferences(parentPanel);
     terrainHeightPreferences = new TerrainHeightToolPreferences(parentPanel);
+    terrainSmoothPreferences = new TerrainSmoothToolPreferences(parentPanel);
 
 
     preferences.push_back(editPreferences);
     preferences.push_back(texturePreferences);
     preferences.push_back(terrainHeightPreferences);
+    preferences.push_back(terrainSmoothPreferences);
 
 
     wxAuiPaneInfo info;
@@ -26,7 +28,7 @@ ToolPreferencesHandler::ToolPreferencesHandler(MainFrame *mainFrame, wxAuiManage
     info.Name(wxT("ToolPreferences"));
     auiManager->AddPane(parentPanel, info);
 
-    setToolPreference(TOOL_PANEL_TERRAIN_EDIT);
+    setToolPreference(TOOL_PANEL_TERRAIN_SMOOTH);
 }
 
 ToolPreferencesHandler::~ToolPreferencesHandler(){
