@@ -33,7 +33,7 @@
     -The terrain editor will largely work
         -The decal will appear
         -Brushes but do that with next week
-        -Editing multiple terrain chunks at once will work *
+        -Editing multiple terrain chunks at once will work
     -A brush to select the height of the terrain and then use that as something to even out terrain.
     -A terrain smoothing tool (basically find the average in an area and set it towards that)
 
@@ -236,3 +236,5 @@
 -Clean up the code in the terrain editing section.
 -Try to abstract the code for finding the terrains etc into their own functions.
 -Just plan out how this will work in the future, taking into account the brush tool that'll arrive soon.
+
+-Implement the ability to dither the texture on the texture tool.

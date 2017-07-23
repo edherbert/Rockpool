@@ -8,8 +8,6 @@ TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, Resourc
     wxBoxSizer *scrollWindowSizer = new wxBoxSizer(wxVERTICAL);
     scrollWindow->SetSizer(scrollWindowSizer);
 
-    scrollWindow->SetScrollbars(5, 5, 0, 0);
-
     resourcePanel = new ResourcePanel(scrollWindow, resManager);
     scrollWindowSizer->Add(resourcePanel, 1, wxEXPAND);
 

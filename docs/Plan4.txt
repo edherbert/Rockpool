@@ -134,3 +134,21 @@ Each time the user changes the size of the brush, the values will need to be re-
 I don't want to do that each time the user changes the brush size, so I think I'll do it when the brush data is requested.
 If the data requested is different from the current data, then it will be re-calculated.
 
+--undo-redo--
+From what I can gather, the general way in which this is done is using a command structure.
+Basically anything that can have an effect on the project is abstracted into a command, which is then run.
+This command would then have some sort of 'anti-command' which could be run if the command needed to be un-done.
+I think each command inherits from something, but always contains the information needed to be run.
+So you would have a command that edits the terrain texture at a certain range of positions.
+You would also have one that edits the terrain textures at certain positions.
+
+Each of these would have an action and an anti-action.
+When the user goes to edit the terrain, their edit would be run through the action manager, so that it would know how to remove it later on.
+The only problem I can think of with this is that the action will be created after the edit has happened.
+What should happen is the user edits the terrain and they get immediate results.
+If they wanted to undo something, it should be from the last time they clicked, rather than from each action.
+So the object should be created and then have the addition data added to it.
+
+Other functions such as changing a terrain texture could also have their values implemented into a command.
+This could mean that I have lots of commands for small functions, which might not be the best idea.
+

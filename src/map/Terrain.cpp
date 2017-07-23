@@ -165,13 +165,12 @@ void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow
         for(long y = terrainEnd.y; y < terrainStart.y; y++){
             for(long x = terrainStart.x; x < terrainEnd.x; x++){
                 if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
-
-                //The distance of the centre brush
-                //The values of the brush aren't between 0 and 1.
-
                 Ogre::Real distance = sqrt(pow(terrainCentre.y - y, 2) + pow(terrainCentre.x - x, 2)) / brushSize;
+                //Get the values between 0 and 1
                 distance *= 10;
+                //Take it from one, so that the closer to the centre, the highter the value.
                 distance = 1 - distance;
+                //This makes the number closer to the centre higher, and the ones in the radius lower.
                 distance = distance * distance;
 
                 float newHeight = terrain->getHeightAtPoint(x, y) + 0.05 * brushFlow * distance;
@@ -196,24 +195,39 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
 
     Ogre::Vector3 terrainStart;
     Ogre::Vector3 terrainEnd;
+    Ogre::Vector3 terrainCentre;
 
     centreRay.terrain->getTerrainPosition(startX, centreRay.position.y, startZ, &terrainStart);
     centreRay.terrain->getTerrainPosition(endX, centreRay.position.y, endZ, &terrainEnd);
+    centreRay.terrain->getTerrainPosition(centreRay.position, &terrainCentre);
 
     terrainStart *= terrainSize;
     terrainEnd *= terrainSize;
+    terrainCentre *= terrainSize;
     for(Ogre::uint8 t = 1; t < centreRay.terrain->getLayerCount(); t++){
         Ogre::TerrainLayerBlendMap *layer = centreRay.terrain->getLayerBlendMap(t);
 
-        int val = 0;
-        if(t == layerIndex) val = 1;
-
         for(long y = terrainEnd.y; y < terrainStart.y; y++){
             for(long x = terrainStart.x; x < terrainEnd.x; x++){
+                //The y position is switched on the blend map.
                 long yval = terrainSize - y;
                 if(x < 0 || yval < 0 || x > terrainSize || yval > terrainSize) continue;
 
-                layer->setBlendValue(x, yval, val);
+                Ogre::Real distance = sqrt(pow(terrainCentre.y - y, 2) + pow(terrainCentre.x - x, 2)) / brushSize;
+                distance *= 10;
+                distance = 1 - distance;
+                distance = distance * distance;
+
+                float ammountToAdd = layer->getBlendValue(x, yval);
+                if(t == layerIndex){
+                    ammountToAdd += distance * 0.005 * brushFlow;
+                    if(ammountToAdd > 1) ammountToAdd = 1;
+                }else{
+                    ammountToAdd -= distance * 0.01 * brushFlow;
+                    if(ammountToAdd < 0) ammountToAdd = 0;
+                }
+
+                layer->setBlendValue(x, yval, ammountToAdd);
             }
         }
         layer->update();
