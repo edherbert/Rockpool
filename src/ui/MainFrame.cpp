@@ -19,7 +19,7 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     canvas = new GLCanvas(this, args, 0);
     main->setCanvas(canvas);
 
-    //Setup the preferences for the tool
+    //Setup the panels
     toolPreferencesHandler = new ToolPreferencesHandler(this, auiManager);
     toolPreferencesHandler->setToolPreferencesVisability(true);
 
@@ -77,8 +77,8 @@ void MainFrame::setupMenuBar(){
     file->Append(wxID_ANY, wxT("Export\tctrl+shift+E"));
     file->Append(wxID_ANY, wxT("Export As Previous\tctrl+E"));
 
-    edit->Append(wxID_ANY, wxT("Undo"));
-    edit->Append(wxID_ANY, wxT("Redo"));
+    edit->Append(MENU_EDIT_UNDO, wxT("Undo\tctrl+Z"));
+    edit->Append(MENU_EDIT_REDO, wxT("Redo\tctrl+shift+Z"));
     edit->AppendSeparator();
     edit->Append(wxID_ANY, wxT("Cut"));
     edit->Append(wxID_ANY, wxT("Copy"));
@@ -130,6 +130,9 @@ void MainFrame::setupMenuBar(){
 
     Connect(MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainToolbar));
 
+    Connect(MENU_EDIT_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::undoAction));
+    Connect(MENU_EDIT_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::redoAction));
+
     SetMenuBar(menuBar);
 }
 
@@ -154,6 +157,14 @@ void MainFrame::openMapProperties(wxCommandEvent& WXUNUSED(event)){
 
 void MainFrame::ShowToolPreferences(wxCommandEvent &event){
     toolPreferencesHandler->setToolPreferencesVisability(event.IsChecked());
+}
+
+void MainFrame::undoAction(wxCommandEvent &event){
+    main->undoAction();
+}
+
+void MainFrame::redoAction(wxCommandEvent &event){
+    main->redoAction();
 }
 
 void MainFrame::ShowTerrainInfo(wxCommandEvent &event){

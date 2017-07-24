@@ -270,3 +270,21 @@ wxArrayString Main::getResourceListItems(){
 ResourceManager* Main::getResourceManager(){
     return resourceManager;
 }
+
+void Main::setCommandManager(CommandManager *commandManager){
+    this->commandManager = commandManager;
+}
+
+void Main::undoAction(){
+    if(!commandManager) return;
+    commandManager->undoLastCommand();
+}
+
+void Main::redoAction(){
+    if(!commandManager) return;
+    commandManager->redoLastCommand();
+}
+
+CommandManager* Main::getCommandManager(){
+    return commandManager;
+}

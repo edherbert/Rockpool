@@ -10,6 +10,8 @@
 #include "../ui/Tools/ToolPreferencesHandler.h"
 #include "../ui/TerrainInfoHandler.h"
 
+#include "../system/Command/TerrainCommand.h"
+
 class GLCanvas;
 class ToolPreferencesHandler;
 class TerrainInfoHandler;
@@ -58,6 +60,7 @@ class Map
         Ogre::Vector3 defaultCameraDirection;
 
         HandlerData *handlerData;
+        TerrainCommand *currentTerrainCommand = 0;
 
         Terrain *terrain;
         GLCanvas *canvas;

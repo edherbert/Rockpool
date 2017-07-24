@@ -4,6 +4,7 @@
 #include "../graphics/OgreComponent.h"
 #include "../map/Main.h"
 #include "../system/ResourceManager.h"
+#include "../system/Command/CommandManager.h"
 
 IMPLEMENT_APP(MyApp)
 
@@ -15,6 +16,9 @@ bool MyApp::OnInit(){
 	main->setResourceManager(resourceManager);
 
 	MainFrame *mainFrame = new MainFrame(main, wxT("Rockpool"));
+
+	CommandManager *commandManager = new CommandManager(mainFrame);
+	main->setCommandManager(commandManager);
 
 	mainFrame->Show(true);
     main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/test/test.rockpool", "/home/edward/Documents/Rockpool/tests/test");

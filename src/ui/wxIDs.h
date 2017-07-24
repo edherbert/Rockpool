@@ -18,6 +18,9 @@
 #define MENU_WINDOW_SHOW_RESOURCE_BROWSER 512
 #define MENU_WINDOW_SHOW_TERRAIN_TOOLBAR 520
 
+#define MENU_EDIT_UNDO 521
+#define MENU_EDIT_REDO 522
+
 //Start these at 30 to allow growing room for the task menu
 #define NEW_MAP_DIALOG_MAP_NAME_CONTROL 530
 #define NEW_MAP_DIALOG_MAP_WIDTH_SPIN 531

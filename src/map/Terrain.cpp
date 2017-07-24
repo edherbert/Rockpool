@@ -126,7 +126,7 @@ void Terrain::setHeightFromRays(terrainRays rays, int brushSize, int height){
     terrainGroup->update();
 }
 
-void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow){
+void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow, bool additive, bool update){
     //An array to contain all the terrains that need to be edited.
     std::vector<Ogre::Terrain*>terrains;
 
@@ -167,13 +167,15 @@ void Terrain::terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow
                 //This makes the number closer to the centre higher, and the ones in the radius lower.
                 distance = distance * distance;
 
-                float newHeight = terrain->getHeightAtPoint(x, y) + 0.05 * brushFlow * distance;
-                terrain->setHeightAtPoint(x, y, newHeight);
+                float current = terrain->getHeightAtPoint(x, y);
+                float ammountToAdd = 0.05 * brushFlow * distance;
+                if(!additive)ammountToAdd *= -1;
+                terrain->setHeightAtPoint(x, y, current + ammountToAdd);
             }
         }
 
     }
-    terrainGroup->update();
+    if(update)terrainGroup->update();
 }
 
 void Terrain::terrainSmoothFromRays(terrainRays rays, int brushSize){
@@ -276,4 +278,8 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
 
 void Terrain::saveTerrains(bool reSave){
     terrainGroup->saveAllTerrains(!reSave);
+}
+
+void Terrain::updateAllTerrains(bool synchronus){
+    terrainGroup->update(synchronus);
 }

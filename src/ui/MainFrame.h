@@ -42,25 +42,12 @@ public:
 	MainFrame(Main *main, const wxString &title);
 	~MainFrame();
 
-    void newMap(wxCommandEvent &event);
-    void openMap(wxCommandEvent &event);
-    void saveMap(wxCommandEvent &event);
-
-    void openMapProperties(wxCommandEvent& WXUNUSED(event));
-
-    void ShowToolPreferences(wxCommandEvent& event);
-    void ShowTerrainToolbar(wxCommandEvent &event);
-    void ShowTerrainInfo(wxCommandEvent &event);
-    void ShowResourceBrowser(wxCommandEvent &event);
-
     Main* getMain();
 
     wxMenuItem *showToolPreferences;
     wxMenuItem *showTerrainInfo;
     wxMenuItem *showTerrainToolbar;
     wxMenuItem *showResourceBrowser;
-
-    void closeToolPreferences(wxAuiManagerEvent &event);
 
     ToolPreferencesHandler* getToolPreferencesHandler();
     TerrainInfoHandler* getTerrainInfoHandler();
@@ -84,6 +71,22 @@ private:
 	void setupMenuBar();
 
     void onMaximize(wxMaximizeEvent &event);
+
+    void newMap(wxCommandEvent &event);
+    void openMap(wxCommandEvent &event);
+    void saveMap(wxCommandEvent &event);
+
+    void openMapProperties(wxCommandEvent& event);
+
+    void ShowToolPreferences(wxCommandEvent& event);
+    void ShowTerrainToolbar(wxCommandEvent &event);
+    void ShowTerrainInfo(wxCommandEvent &event);
+    void ShowResourceBrowser(wxCommandEvent &event);
+
+    void undoAction(wxCommandEvent &event);
+    void redoAction(wxCommandEvent &event);
+
+    void closeToolPreferences(wxAuiManagerEvent &event);
 
     HandlerData handlerData;
 };

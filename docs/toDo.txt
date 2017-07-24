@@ -22,7 +22,8 @@
 -Fix the bug with the incorrect yaw values
 -Fix the bugs with the scroll bars.
 
--Begin work on the undo-redo functionality.
+-Make the undo changes immediate (something to do with the canvas)
+-Implement the undo-redo functionality into the other tools.
 
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
@@ -245,3 +246,5 @@ Things to do before entity work begins:
 
 -Implement a terrain smoothing tool.
 -Figure out how the max height of the terrains works (Just limit the values that can be entered)
+
+-Begin work on the undo-redo functionality.

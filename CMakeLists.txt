@@ -70,6 +70,11 @@ src/ui/Tools/ToolsPanelHandler.cpp
 src/system/ResourceManager.cpp
 src/system/BrushManager.cpp
 
+src/system/Command/CommandManager.cpp
+src/system/Command/Command.cpp
+src/system/Command/TerrainCommand.cpp
+src/system/Command/TerrainEditCommand.cpp
+
 src/graphics/OgreComponent
 src/graphics/Trackball
 

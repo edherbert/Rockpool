@@ -108,6 +108,14 @@ void Map::updateInput(){
     if(canvas->getMouseButton(MOUSE_LEFT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
     if(canvas->getMouseButton(MOUSE_RIGHT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_RIGHT);
 
+    //If neither mouse buttons are pressed
+    if(!canvas->getMouseButton(MOUSE_LEFT) && !canvas->getMouseButton(MOUSE_RIGHT)){
+        if(currentTerrainCommand){
+            handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
+            currentTerrainCommand = 0;
+        }
+    }
+
 }
 
 void Map::moveCameraPosition(const Ogre::Vector3 ammount){
@@ -150,7 +158,6 @@ void Map::handleClick(int x, int y, const int mouseButton){
 }
 
 void Map::handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton, const int toolId){
-    //Ogre::TerrainGroup::RayResult centreResult = checkTerrainRayMouse(x, y);
     //If the centre did not land on a terrain, then abort the entire thing.
     if(!centreRay.hit) return;
 
@@ -184,7 +191,13 @@ void Map::handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const
     };
 
     if(toolId == TOOL_PANEL_TERRAIN_EDIT){
-        terrain->terrainEditFromRays(rays, brushSize, brushFlow);
+        if(!currentTerrainCommand){
+            currentTerrainCommand = new TerrainEditCommand(terrain, brushSize, brushFlow);
+        }
+        if(currentTerrainCommand){
+            currentTerrainCommand->pushRay(rays);
+        }
+        terrain->terrainEditFromRays(rays, brushSize, brushFlow, true, true);
     }
     else if(toolId == TOOL_PANEL_TERRAIN_HEIGHT) {
         int height = handlerData->toolPreferencesHandler->getTerrainHeightTool()->getHeight();

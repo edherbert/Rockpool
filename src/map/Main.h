@@ -10,6 +10,7 @@
 #include "../ui/Dialogs/MapLoadProgressDialog.h"
 #include <wx/file.h>
 #include "../system/ResourceManager.h"
+#include "../system/Command/CommandManager.h"
 
 #include "../util/tinyxml2.h"
 
@@ -20,6 +21,7 @@ class MainFrame;
 class GLCanvas;
 class Map;
 class ResourceManager;
+class CommandManager;
 
 struct mapInformation{
     std::string mapName;
@@ -41,9 +43,11 @@ class Main
 
         void setCanvas(GLCanvas *canvas);
         void setResourceManager(ResourceManager *resourceManager);
+        void setCommandManager(CommandManager *commandManager);
 
         Map* getCurrentMap();
         ResourceManager* getResourceManager();
+        CommandManager* getCommandManager();
 
         bool addResourceLocation(wxString path, bool insertAtIndex = false, int index = 0);
         void removeResourceLocation(wxString path);
@@ -51,15 +55,19 @@ class Main
 
         void saveProject();
 
+        void undoAction();
+        void redoAction();
+
         wxString getProjectDirectory();
 
     protected:
 
     private:
-        GLCanvas *canvas;
+        GLCanvas *canvas = 0;
         Map* currentMap = 0;
 
-        ResourceManager *resourceManager;
+        ResourceManager *resourceManager = 0;
+        CommandManager *commandManager = 0;
 
         std::vector<wxString> resourceLocationPaths;
 

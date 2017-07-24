@@ -27,13 +27,13 @@ class Terrain
         Ogre::TerrainGroup::RayResult rayIntersect(Ogre::Ray ray);
 
         void setHeightFromRays(terrainRays rays, int brushSize, int height);
-        void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow);
+        void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow, bool additive, bool update);
         void terrainSmoothFromRays(terrainRays rays, int brushSize);
 
         void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex);
 
         void saveTerrains(bool reSave);
-
+        void updateAllTerrains(bool synchronus);
 
     protected:
 

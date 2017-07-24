@@ -156,3 +156,20 @@ For things like deleting the terrain layers, I'm going to have to do things like
 This way, if the command is un-done, the data in the command can just be re-inserted.
 For now, I'll just focus on being able to re-do and undo terrain edits.
 
+The classes will look like this:
+    Command manager:
+        This will store all the commands between the two vectors.
+        It will be incharge of managing all the commands and functions that undo and redo the commands.
+
+    Command:
+        This will be primarily for inheritance.
+        This is what the command manager will store.
+        It will have functions like perform action and performAntiAction.
+        These will be called when an action is un-done, or re-done.
+
+    Inherited commands:
+        These are the commands specific to each action.
+        So an action like a terrain sculpt would inherit it's own class from this.
+        The terrain sculpt would contain information about what was sculpted, the brush size and so on.
+        I might even inherit the terrain sculpt actions from each other.
+
