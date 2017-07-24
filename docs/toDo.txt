@@ -20,6 +20,13 @@
 -Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
 -Fix the bug with the incorrect yaw values
+-Fix the bugs with the scroll bars.
+
+-Begin work on the undo-redo functionality.
+
+Things to do before entity work begins:
+    -Implement a key that immediately locks the canvas into focus.
+    -Multiple canvases (only two should be allowed.)
 
 -Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make it so that the user cannot alter the terrain using the fps camera

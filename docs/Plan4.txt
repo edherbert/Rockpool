@@ -152,3 +152,7 @@ So the object should be created and then have the addition data added to it.
 Other functions such as changing a terrain texture could also have their values implemented into a command.
 This could mean that I have lots of commands for small functions, which might not be the best idea.
 
+For things like deleting the terrain layers, I'm going to have to do things like store the blend values in the command object.
+This way, if the command is un-done, the data in the command can just be re-inserted.
+For now, I'll just focus on being able to re-do and undo terrain edits.
+
