@@ -111,6 +111,7 @@ void Map::updateInput(){
     //If neither mouse buttons are pressed
     if(!canvas->getMouseButton(MOUSE_LEFT) && !canvas->getMouseButton(MOUSE_RIGHT)){
         if(currentTerrainCommand){
+            std::cout << "pushing terrain command" << std::endl;
             handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
             currentTerrainCommand = 0;
         }
@@ -218,7 +219,15 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
 
     Ogre::Vector3 centrePosition = centreRay.position;
 
-    terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex);
+    if(!currentTerrainCommand){
+        currentTerrainCommand = new TerrainTextureCommand(terrain, brushSize, brushFlow, layerIndex);
+    }
+    if(currentTerrainCommand){
+        terrainRays rays = {centreRay, centreRay, centreRay, centreRay, centreRay};
+        currentTerrainCommand->pushRay(rays);
+    }
+
+    terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
     canvas->renderFrame();
 }
 

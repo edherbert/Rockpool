@@ -12,6 +12,8 @@ class TerrainEditCommand : public TerrainCommand
         void performAction();
         void performAntiAction();
 
+        void pushIndividualRay(Ogre::TerrainGroup::RayResult individualRay);
+
     protected:
 
     private:

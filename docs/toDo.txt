@@ -25,6 +25,9 @@
 -Make the undo changes immediate (something to do with the canvas)
 -Implement the undo-redo functionality into the other tools.
 
+-Make the code for the command rays nicer and remove the obsolete centre rays.
+-Make the terrain texture undo and redo work properly.
+
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
     -Multiple canvases (only two should be allowed.)

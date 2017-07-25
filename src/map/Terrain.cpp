@@ -225,7 +225,7 @@ void Terrain::terrainSmoothFromRays(terrainRays rays, int brushSize){
 }
 
 
-void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex){
+void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex, bool additive, bool update){
     int brushDiv = brushSize / 2;
 
     long startX = centreRay.position.x - brushDiv;
@@ -260,19 +260,23 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
                 distance = 1 - distance;
                 distance = distance * distance;
 
-                float ammountToAdd = layer->getBlendValue(x, yval);
+                float currentValue = layer->getBlendValue(x, yval);
+                float ammountToAdd = 0;
                 if(t == layerIndex){
                     ammountToAdd += distance * 0.005 * brushFlow;
-                    if(ammountToAdd > 1) ammountToAdd = 1;
                 }else{
                     ammountToAdd -= distance * 0.01 * brushFlow;
-                    if(ammountToAdd < 0) ammountToAdd = 0;
                 }
 
-                layer->setBlendValue(x, yval, ammountToAdd);
+                if(!additive) ammountToAdd *= -1;
+                currentValue += ammountToAdd;
+                if(currentValue < 0) currentValue = 0;
+                if(currentValue > 1) currentValue = 1;
+
+                layer->setBlendValue(x, yval, currentValue);
             }
         }
-        layer->update();
+        if(update)layer->update();
     }
 }
 

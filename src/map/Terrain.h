@@ -30,7 +30,7 @@ class Terrain
         void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow, bool additive, bool update);
         void terrainSmoothFromRays(terrainRays rays, int brushSize);
 
-        void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex);
+        void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex, bool additive, bool update);
 
         void saveTerrains(bool reSave);
         void updateAllTerrains(bool synchronus);

@@ -74,6 +74,7 @@ src/system/Command/CommandManager.cpp
 src/system/Command/Command.cpp
 src/system/Command/TerrainCommand.cpp
 src/system/Command/TerrainEditCommand.cpp
+src/system/Command/TerrainTextureCommand.cpp
 
 src/graphics/OgreComponent
 src/graphics/Trackball

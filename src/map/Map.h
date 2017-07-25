@@ -11,6 +11,7 @@
 #include "../ui/TerrainInfoHandler.h"
 
 #include "../system/Command/TerrainCommand.h"
+#include "../system/Command/TerrainTextureCommand.h"
 
 class GLCanvas;
 class ToolPreferencesHandler;
