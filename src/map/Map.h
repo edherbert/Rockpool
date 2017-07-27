@@ -62,6 +62,7 @@ class Map
 
         HandlerData *handlerData;
         TerrainCommand *currentTerrainCommand = 0;
+        TerrainTextureCommand *currentTerrainTextureCommand = 0;
 
         Terrain *terrain;
         GLCanvas *canvas;

@@ -56,6 +56,7 @@ class GLCanvas : public wxGLCanvas
         bool getKey(const int keyId);
         bool getMouseButton(const int button);
         bool getMouseInside();
+        bool getMouseMoved();
 
         Ogre::RenderWindow* getWindow();
 
@@ -100,6 +101,7 @@ class GLCanvas : public wxGLCanvas
         bool mouseLeft = false;
         bool mouseRight = false;
         bool mouseInside = false;
+        bool mouseMoved = false;
 
         bool keys[CANVAS_KEYS_LENGTH];
 };

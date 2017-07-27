@@ -176,6 +176,7 @@ void GLCanvas::updateLogic(){
         if(newMouseX > 0 && newMouseY > 0 && newMouseX <= width && newMouseY <= height){
             //Mouse moved
             if(prevMouseX != mouseX || prevMouseY != mouseY){
+                mouseMoved = true;
                 if(mouseCaptured){
                     map->pointCamera(mouseX - prevMouseX, -(mouseY - prevMouseY));
                     renderFrame();
@@ -183,6 +184,8 @@ void GLCanvas::updateLogic(){
                     map->updateCursor(mouseX, mouseY);
                     renderFrame();
                 }
+            }else{
+                mouseMoved = false;
             }
 
             mouseInside = true;
@@ -236,4 +239,8 @@ int GLCanvas::getHeight(){
 
 bool GLCanvas::getMouseInside(){
     return mouseInside;
+}
+
+bool GLCanvas::getMouseMoved(){
+    return mouseMoved;
 }

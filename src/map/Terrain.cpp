@@ -225,7 +225,7 @@ void Terrain::terrainSmoothFromRays(terrainRays rays, int brushSize){
 }
 
 
-void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex, bool additive, bool update){
+void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex, bool additive, bool update, std::vector<terrainTextureCommandInformation> *info){
     int brushDiv = brushSize / 2;
 
     long startX = centreRay.position.x - brushDiv;
@@ -248,7 +248,6 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
     terrainCentre *= terrainSize;
     for(Ogre::uint8 t = 1; t < centreRay.terrain->getLayerCount(); t++){
         Ogre::TerrainLayerBlendMap *layer = centreRay.terrain->getLayerBlendMap(t);
-
         for(long y = terrainEnd.y; y < terrainStart.y; y++){
             for(long x = terrainStart.x; x < terrainEnd.x; x++){
                 //The y position is switched on the blend map.
@@ -265,13 +264,23 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
                 if(t == layerIndex){
                     ammountToAdd += distance * 0.005 * brushFlow;
                 }else{
-                    ammountToAdd -= distance * 0.01 * brushFlow;
+                    ammountToAdd -= distance * 0.005 * brushFlow;
                 }
 
                 if(!additive) ammountToAdd *= -1;
                 currentValue += ammountToAdd;
                 if(currentValue < 0) currentValue = 0;
                 if(currentValue > 1) currentValue = 1;
+
+                if(info){
+                    terrainTextureCommandInformation comInfo;
+                    comInfo.x = x;
+                    comInfo.y = yval;
+                    comInfo.layer1 = centreRay.terrain->getLayerBlendMap(1)->getBlendValue(x, yval);
+                    comInfo.layer2 = centreRay.terrain->getLayerBlendMap(2)->getBlendValue(x, yval);
+                    comInfo.layer3 = centreRay.terrain->getLayerBlendMap(3)->getBlendValue(x, yval);
+                    info->push_back(comInfo);
+                }
 
                 layer->setBlendValue(x, yval, currentValue);
             }

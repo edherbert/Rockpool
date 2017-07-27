@@ -4,6 +4,10 @@
 #include "Command.h"
 #include "../../map/Terrain.h"
 
+class Terrain;
+
+struct terrainRays;
+
 class TerrainCommand : public Command
 {
     public:

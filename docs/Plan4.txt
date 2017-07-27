@@ -1,5 +1,4 @@
 --Resource Manager--
-
 The resource manager will be one of the most crucial aspects of the finished product.
 It will allow the user to control which objects are placed in the world, as well as be given a view as to what objects they could place.
 Ogre handles the majority of the resource management, but there are some things that still need to be thought about.
@@ -172,4 +171,31 @@ The classes will look like this:
         So an action like a terrain sculpt would inherit it's own class from this.
         The terrain sculpt would contain information about what was sculpted, the brush size and so on.
         I might even inherit the terrain sculpt actions from each other.
+
+
+--Texture commands--
+The problems I'm having with the texture commands is that they're not taking into account what the previous values were.
+So for example, if the other values were 0.5 on a layer that wasn't being edited, they would be reduced.
+Basically, this means that the values can't be brought back simply by reversing the action, so I'm going to have to store them values.
+
+There are a few ways I can think to do this.
+Firstly, I don't want to duplicate the values too much.
+The only values I'll need to store are the values before the edit happened, although storing them nicely is another issue.
+I'm almost going to have to check if the values that already exist in the command already have the values I need to add.
+If I have a brush of 100 x 100 that would mean 10,000 values that need to be checked each frame, which is a lot.
+
+It might just be easier to store the entire data for that terrain before the action took place,
+that way when the action needs to be un-done, the old data can just be used to replace the newer data.
+
+I worked out that if I stored the entire terrain blend data for each layer, that would come to about 33 megabytes, which is far too much.
+I need to be able to store the values only for the local area that's being edited.
+
+Bits like the height edit tool won't be too hard, because they're only on a single layer.
+The texture tool is across up to four layers, so there will be extra data to store there.
+
+One way could be to figure out if the mouse has moved it's position on the terrain.
+If you check the current start position with the previous one, and they are the same, then that means the brush hasn't moved.
+It's important that these actions are calculated without consideration for the brush size, as that might change during the edit.
+
+Maybe the best idea would be to just push the values into the array if the user moves the mouse.
 

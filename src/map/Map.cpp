@@ -115,6 +115,11 @@ void Map::updateInput(){
             handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
             currentTerrainCommand = 0;
         }
+        if(currentTerrainTextureCommand){
+            std::cout << "pushing terrain texture command" << std::endl;
+            handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainTextureCommand);
+            currentTerrainTextureCommand = 0;
+        }
     }
 
 }
@@ -219,15 +224,31 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
 
     Ogre::Vector3 centrePosition = centreRay.position;
 
-    if(!currentTerrainCommand){
-        currentTerrainCommand = new TerrainTextureCommand(terrain, brushSize, brushFlow, layerIndex);
+    bool canvasMoved = canvas->getMouseMoved();
+    if(!currentTerrainTextureCommand){
+        currentTerrainTextureCommand = new TerrainTextureCommand(terrain, brushSize, brushFlow, layerIndex);
+        canvasMoved = true;
     }
-    if(currentTerrainCommand){
+    if(currentTerrainTextureCommand && canvasMoved){
+        //terrainRays rays = {centreRay, centreRay, centreRay, centreRay, centreRay};
+        //currentTerrainTextureCommand->pushRay(rays);
+
+        //I don't want to involve the terrain functions with the commands, so I'll do all the command stuff here.
+        //Only push new data if the mouse has been moved (or the brush size has changed in the future).
+        std::vector <terrainTextureCommandInformation> info;
+
+        terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true, &info);
+
+        currentTerrainTextureCommand->pushTextureInfo(info);
+
         terrainRays rays = {centreRay, centreRay, centreRay, centreRay, centreRay};
-        currentTerrainCommand->pushRay(rays);
+        currentTerrainTextureCommand->pushRay(rays);
+        std::cout << "moved terrain" << std::endl;
+    }else{
+        terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
+        std::cout << "not moved terrain" << std::endl;
     }
 
-    terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
     canvas->renderFrame();
 }
 
