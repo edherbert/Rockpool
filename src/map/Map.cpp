@@ -224,15 +224,14 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
 
     Ogre::Vector3 centrePosition = centreRay.position;
 
+    //This is so that the data is also saved when the action starts.
     bool canvasMoved = canvas->getMouseMoved();
     if(!currentTerrainTextureCommand){
         currentTerrainTextureCommand = new TerrainTextureCommand(terrain, brushSize, brushFlow, layerIndex);
         canvasMoved = true;
     }
-    if(currentTerrainTextureCommand && canvasMoved){
-        //terrainRays rays = {centreRay, centreRay, centreRay, centreRay, centreRay};
-        //currentTerrainTextureCommand->pushRay(rays);
-
+    //if(currentTerrainTextureCommand && canvasMoved){
+    if(currentTerrainTextureCommand){
         //I don't want to involve the terrain functions with the commands, so I'll do all the command stuff here.
         //Only push new data if the mouse has been moved (or the brush size has changed in the future).
         std::vector <terrainTextureCommandInformation> info;
@@ -241,12 +240,40 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
 
         currentTerrainTextureCommand->pushTextureInfo(info);
 
+        terrainSquareInformation squareInfo;
+
+
+
+        int brushDiv = brushSize / 2;
+
+        long startX = centreRay.position.x - brushDiv;
+        long startZ = centreRay.position.z - brushDiv;
+        long endX = centreRay.position.x + brushDiv;
+        long endZ = centreRay.position.z + brushDiv;
+
+        Ogre::uint16 terrainSize = centreRay.terrain->getLayerBlendMapSize();
+
+        Ogre::Vector3 terrainStart;
+        Ogre::Vector3 terrainEnd;
+
+        centreRay.terrain->getTerrainPosition(startX, centreRay.position.y, startZ, &terrainStart);
+        centreRay.terrain->getTerrainPosition(endX, centreRay.position.y, endZ, &terrainEnd);
+
+        terrainStart *= terrainSize;
+        terrainEnd *= terrainSize;
+
+        squareInfo.startX = terrainStart.x;
+        squareInfo.startY = terrainSize - terrainStart.y;
+        squareInfo.endX = terrainEnd.x;
+        squareInfo.endY = terrainSize - terrainEnd.y;
+        currentTerrainTextureCommand->checkTerrainSquare(squareInfo);
+
+
+
         terrainRays rays = {centreRay, centreRay, centreRay, centreRay, centreRay};
         currentTerrainTextureCommand->pushRay(rays);
-        std::cout << "moved terrain" << std::endl;
     }else{
         terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
-        std::cout << "not moved terrain" << std::endl;
     }
 
     canvas->renderFrame();

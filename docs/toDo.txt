@@ -26,7 +26,6 @@
 -Implement the undo-redo functionality into the other tools.
 
 -Make the code for the command rays nicer and remove the obsolete centre rays.
--Make the terrain texture undo and redo work properly.
 
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
@@ -251,3 +250,4 @@ Things to do before entity work begins:
 -Figure out how the max height of the terrains works (Just limit the values that can be entered)
 
 -Begin work on the undo-redo functionality.
+-Make the terrain texture undo and redo work properly.

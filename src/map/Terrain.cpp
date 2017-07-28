@@ -248,6 +248,7 @@ void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brus
     terrainCentre *= terrainSize;
     for(Ogre::uint8 t = 1; t < centreRay.terrain->getLayerCount(); t++){
         Ogre::TerrainLayerBlendMap *layer = centreRay.terrain->getLayerBlendMap(t);
+        //TODO Get rid of the flipping and replace it with terrainsize - y
         for(long y = terrainEnd.y; y < terrainStart.y; y++){
             for(long x = terrainStart.x; x < terrainEnd.x; x++){
                 //The y position is switched on the blend map.

@@ -199,3 +199,13 @@ It's important that these actions are calculated without consideration for the b
 
 Maybe the best idea would be to just push the values into the array if the user moves the mouse.
 
+Ok, so I got the texture to work by only pushing values if the mouse location changes.
+It seems to be a pretty immediate response, so I think I'll keep it.
+This can also be used as a framework for the other tools, as they're all going to have to remember what the terrain was like underneath them.
+For now, here is a list of things that need to be changed with what I have at the moment:
+
+    If the other tool don't require it, get rid of the arguement to update the terrain.
+    Find a better way to reference the terrain than passing the terrain rays each time the mouse moves.
+    Actually find the number of layers the terrain has and not reference them directly in the terrain and command classes.
+    Maybe put the layer data into a list so that it can be looped over.
+    The memory usage for the texture tool is pretty rediculous. Maybe think up another way to handle it.

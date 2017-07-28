@@ -26,6 +26,13 @@ struct terrainTextureCommandInformation{
     float layer3;
 };
 
+struct terrainSquareInformation{
+    int startX;
+    int startY;
+    int endX;
+    int endY;
+};
+
 class Terrain
 {
     public:

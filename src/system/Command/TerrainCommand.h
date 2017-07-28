@@ -15,6 +15,7 @@ class TerrainCommand : public Command
         virtual ~TerrainCommand();
 
         void pushRay(terrainRays ray);
+        void checkTerrainSquare(terrainSquareInformation square);
 
     protected:
         int brushSize;
@@ -23,6 +24,7 @@ class TerrainCommand : public Command
         Terrain *terrain;
 
         std::vector<terrainRays>rays;
+        std::vector<terrainSquareInformation>squares;
 
     private:
 };
