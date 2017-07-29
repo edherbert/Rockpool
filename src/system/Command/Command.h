@@ -11,6 +11,7 @@ class Command
 
         virtual void performAction();
         virtual void performAntiAction();
+        virtual void cleanupTemporaryResources();
 
     protected:
 

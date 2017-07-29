@@ -230,16 +230,7 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
         currentTerrainTextureCommand = new TerrainTextureCommand(terrain, brushSize, brushFlow, layerIndex);
         canvasMoved = true;
     }
-    //if(currentTerrainTextureCommand && canvasMoved){
-    if(currentTerrainTextureCommand){
-        //I don't want to involve the terrain functions with the commands, so I'll do all the command stuff here.
-        //Only push new data if the mouse has been moved (or the brush size has changed in the future).
-        std::vector <terrainTextureCommandInformation> info;
-
-        terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true, &info);
-
-        currentTerrainTextureCommand->pushTextureInfo(info);
-
+    if(currentTerrainTextureCommand && canvasMoved){
         terrainSquareInformation squareInfo;
 
 
@@ -266,15 +257,14 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
         squareInfo.startY = terrainSize - terrainStart.y;
         squareInfo.endX = terrainEnd.x;
         squareInfo.endY = terrainSize - terrainEnd.y;
-        currentTerrainTextureCommand->checkTerrainSquare(squareInfo);
 
 
 
-        terrainRays rays = {centreRay, centreRay, centreRay, centreRay, centreRay};
-        currentTerrainTextureCommand->pushRay(rays);
-    }else{
-        terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
+        currentTerrainTextureCommand->checkTerrainSquare(squareInfo, centreRay.terrain);
+        currentTerrainTextureCommand->pushTextureRay(centreRay, brushSize, brushFlow);
     }
+
+    terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
 
     canvas->renderFrame();
 }

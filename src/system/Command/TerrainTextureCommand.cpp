@@ -1,6 +1,7 @@
 #include "TerrainTextureCommand.h"
 
 TerrainTextureCommand::TerrainTextureCommand(Terrain *terrain, int brushSize, int brushFlow, int layerIndex) : TerrainCommand(terrain, brushSize, brushFlow){
+    //Remove the brush size and flow from here and the other terrain commands
     this->layerIndex = layerIndex;
 }
 
@@ -9,42 +10,45 @@ TerrainTextureCommand::~TerrainTextureCommand(){
 }
 
 void TerrainTextureCommand::performAction(){
-    /*for(terrainRays ray : rays){
-        terrain->setBlendFromRays(ray.centreRay, brushSize, brushFlow, layerIndex, true, false);
+    for(textureRayInfo info : textureRays){
+        terrain->setBlendFromRays(info.ray, info.brushSize, info.brushFlow, layerIndex, true, false);
     }
 
-    Ogre::Terrain *temp = rays[0].centreRay.terrain;
-
-    for(Ogre::uint8 t = 1; t < temp->getLayerCount(); t++){
-        Ogre::TerrainLayerBlendMap *layer = temp->getLayerBlendMap(t);
-
-        layer->update();
-    }*/
+    for(Ogre::uint8 t = 1; t < actualTerrain->getLayerCount(); t++){
+        actualTerrain->getLayerBlendMap(t)->update();
+    }
 }
 
 void TerrainTextureCommand::performAntiAction(){
-    Ogre::Terrain *temp = rays[0].centreRay.terrain;
-    Ogre::TerrainLayerBlendMap *layer1 = temp->getLayerBlendMap(1);
-    Ogre::TerrainLayerBlendMap *layer2 = temp->getLayerBlendMap(2);
-    Ogre::TerrainLayerBlendMap *layer3 = temp->getLayerBlendMap(3);
-    for(int g = textureInfo.size() - 1; g >= 0; g--){
-        std::vector<terrainTextureCommandInformation> grids = textureInfo.at(g);
-        for(int i = grids.size() - 1; i >= 0; i--){
-            terrainTextureCommandInformation info = grids.at(i);
-
-            //Loop through the data list backwards and set the values for each layer, then update the terrains.
-            layer1->setBlendValue(info.x, info.y, info.layer1);
-            layer2->setBlendValue(info.x, info.y, info.layer2);
-            layer3->setBlendValue(info.x, info.y, info.layer3);
+    for(int i = 1; i < (int)actualTerrain->getLayerCount(); i++){
+        Ogre::TerrainLayerBlendMap *layer = actualTerrain->getLayerBlendMap(i);
+        for(terrainTextureCommandInformation info : textureInfo){
+            layer->setBlendValue(info.x, info.y, info.data[i - 1]);
         }
+        layer->update();
     }
-    layer1->update();
-    layer2->update();
-    layer3->update();
 }
 
-void TerrainTextureCommand::pushTextureInfo(std::vector <terrainTextureCommandInformation> info){
+void TerrainTextureCommand::collectTerrainInfo(int x, int y, Ogre::Terrain *terr){
+    actualTerrain = terr;
+    terrainTextureCommandInformation info;
+    info.x = x;
+    info.y = y;
+
+    //Remember that info.data[0] represents layer 1, as layer 0 can't be textured
+    for(int i = 1; i < (sizeof(info.data) / sizeof(float)) + 1; i++){
+        info.data[i - 1] = terr->getLayerBlendMap(i)->getBlendValue(x, y);
+    }
+
     textureInfo.push_back(info);
 }
 
-//Create a function that checks the squares. This can be inherited from the terrain command.
+void TerrainTextureCommand::cleanupTemporaryResources(){
+    squares.clear();
+}
+
+void TerrainTextureCommand::pushTextureRay(Ogre::TerrainGroup::RayResult ray, int brushSize, int brushFlow){
+    textureRayInfo info = {ray, brushSize, brushFlow};
+
+    textureRays.push_back(info);
+}

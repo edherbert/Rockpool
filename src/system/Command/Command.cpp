@@ -15,3 +15,7 @@ void Command::performAction(){
 void Command::performAntiAction(){
 
 }
+
+void Command::cleanupTemporaryResources(){
+
+}

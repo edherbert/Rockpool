@@ -15,7 +15,9 @@ class TerrainCommand : public Command
         virtual ~TerrainCommand();
 
         void pushRay(terrainRays ray);
-        void checkTerrainSquare(terrainSquareInformation square);
+        void checkTerrainSquare(terrainSquareInformation square, Ogre::Terrain *terr);
+
+        virtual void collectTerrainInfo(int x, int y, Ogre::Terrain *terr);
 
     protected:
         int brushSize;

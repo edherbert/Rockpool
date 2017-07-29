@@ -3,6 +3,12 @@
 
 #include "TerrainCommand.h"
 
+struct textureRayInfo{
+    Ogre::TerrainGroup::RayResult ray;
+    int brushSize;
+    int brushFlow;
+};
+
 class TerrainTextureCommand : public TerrainCommand
 {
     public:
@@ -12,16 +18,21 @@ class TerrainTextureCommand : public TerrainCommand
         void performAction();
         void performAntiAction();
 
-        void pushTextureInfo(std::vector <terrainTextureCommandInformation> info);
+        void collectTerrainInfo(int x, int y, Ogre::Terrain *terr);
+
+        void cleanupTemporaryResources();
+
+        void pushTextureRay(Ogre::TerrainGroup::RayResult ray, int brushSize, int brushFlow);
 
     protected:
 
     private:
         int layerIndex = 0;
 
-        //std::vector<terrainTextureCommandInformation> textureInfo;
-        //A vector that contains squares of terrain texture information
-        std::vector<std::vector<terrainTextureCommandInformation>> textureInfo;
+        Ogre::Terrain *actualTerrain = 0;
+
+        std::vector<terrainTextureCommandInformation> textureInfo;
+        std::vector<textureRayInfo> textureRays;
 };
 
 #endif // TERRAINTEXTURECOMMAND_H

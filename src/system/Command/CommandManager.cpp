@@ -9,6 +9,7 @@ CommandManager::~CommandManager(){
 }
 
 void CommandManager::pushCommand(Command *com){
+    com->cleanupTemporaryResources();
     pastCommands.push_back(com);
 
     futureCommands.clear();
