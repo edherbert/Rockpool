@@ -24,11 +24,25 @@ struct terrainTextureCommandInformation{
     float data[3];
 };
 
+struct terrainCommandInformation{
+    int x;
+    int y;
+    float height;
+};
+
 struct terrainSquareInformation{
     int startX;
     int startY;
     int endX;
     int endY;
+    int centreX;
+    int centreY;
+};
+
+struct terrainBrushInformation{
+    terrainSquareInformation square;
+    int brushSize;
+    int brushFlow;
 };
 
 class Terrain
@@ -43,7 +57,8 @@ class Terrain
         void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow, bool additive, bool update);
         void terrainSmoothFromRays(terrainRays rays, int brushSize);
 
-        void setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex, bool additive, bool update);
+        void setBlendFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update);
+        void terrainEditFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update);
 
         void saveTerrains(bool reSave);
         void updateAllTerrains(bool synchronus);

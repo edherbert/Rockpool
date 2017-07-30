@@ -1,6 +1,6 @@
 #include "TerrainEditCommand.h"
 
-TerrainEditCommand::TerrainEditCommand(Terrain *terrain, int brushSize, int brushFlow) : TerrainCommand(terrain, brushSize, brushFlow){
+TerrainEditCommand::TerrainEditCommand(Terrain *terrain, Ogre::Terrain *terr) : TerrainCommand(terrain, terr){
 
 }
 
@@ -9,15 +9,15 @@ TerrainEditCommand::~TerrainEditCommand(){
 }
 
 void TerrainEditCommand::performAction(){
-    for(terrainRays ray : rays){
-        terrain->terrainEditFromRays(ray, brushSize, brushFlow, true, false);
+    for(terrainBrushInformation info : brushInfo){
+        terrain->terrainEditFromBrush(terr, info, false);
     }
-    terrain->updateAllTerrains(true);
+    terr->update(true);
 }
 
 void TerrainEditCommand::performAntiAction(){
-    for(terrainRays ray : rays){
-        terrain->terrainEditFromRays(ray, brushSize, brushFlow, false, false);
+    for(terrainCommandInformation info : previousInformation){
+        terr->setHeightAtPoint(info.x, info.y, info.height);
     }
-    terrain->updateAllTerrains(true);
+    terr->update(true);
 }

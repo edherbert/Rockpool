@@ -225,59 +225,64 @@ void Terrain::terrainSmoothFromRays(terrainRays rays, int brushSize){
 }
 
 
-void Terrain::setBlendFromRays(Ogre::TerrainGroup::RayResult centreRay, int brushSize, int brushFlow, int layerIndex, bool additive, bool update){
-    int brushDiv = brushSize / 2;
+void Terrain::setBlendFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update){
+    float brushSize = ((brushInfo.square.endX - brushInfo.square.startX)/2);
+    for(Ogre::uint8 t = 1; t < terr->getLayerCount(); t++){
+        Ogre::TerrainLayerBlendMap *layer = terr->getLayerBlendMap(t);
+        for(long y = brushInfo.square.startY; y < brushInfo.square.endY; y++){
+            for(long x = brushInfo.square.startX; x < brushInfo.square.endX; x++){
+            //Check whether the terrain size works properly.
+                if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
 
-    long startX = centreRay.position.x - brushDiv;
-    long startZ = centreRay.position.z - brushDiv;
-    long endX = centreRay.position.x + brushDiv;
-    long endZ = centreRay.position.z + brushDiv;
-
-    Ogre::uint16 terrainSize = centreRay.terrain->getLayerBlendMapSize();
-
-    Ogre::Vector3 terrainStart;
-    Ogre::Vector3 terrainEnd;
-    Ogre::Vector3 terrainCentre;
-
-    centreRay.terrain->getTerrainPosition(startX, centreRay.position.y, startZ, &terrainStart);
-    centreRay.terrain->getTerrainPosition(endX, centreRay.position.y, endZ, &terrainEnd);
-    centreRay.terrain->getTerrainPosition(centreRay.position, &terrainCentre);
-
-    terrainStart *= terrainSize;
-    terrainEnd *= terrainSize;
-    terrainCentre *= terrainSize;
-    for(Ogre::uint8 t = 1; t < centreRay.terrain->getLayerCount(); t++){
-        Ogre::TerrainLayerBlendMap *layer = centreRay.terrain->getLayerBlendMap(t);
-        //TODO Get rid of the flipping and replace it with terrainsize - y
-        for(long y = terrainEnd.y; y < terrainStart.y; y++){
-            for(long x = terrainStart.x; x < terrainEnd.x; x++){
-                //The y position is switched on the blend map.
-                long yval = terrainSize - y;
-                if(x < 0 || yval < 0 || x > terrainSize || yval > terrainSize) continue;
-
-                Ogre::Real distance = sqrt(pow(terrainCentre.y - y, 2) + pow(terrainCentre.x - x, 2)) / brushSize;
-                distance *= 10;
-                distance = 1 - distance;
-                distance = distance * distance;
-
-                float currentValue = layer->getBlendValue(x, yval);
-                float ammountToAdd = 0;
-                if(t == layerIndex){
-                    ammountToAdd += distance * 0.005 * brushFlow;
+                float distance = sqrt(pow(brushInfo.square.centreY - y, 2) + pow(brushInfo.square.centreX - x, 2));
+                if(distance <= brushSize){
+                    distance /= brushSize;
+                    distance = 1 - distance;
+                    distance = distance * distance;
                 }else{
-                    ammountToAdd -= distance * 0.005 * brushFlow;
+                    distance = 0;
                 }
 
-                if(!additive) ammountToAdd *= -1;
+                float currentValue = layer->getBlendValue(x, y);
+                float ammountToAdd = 0;
+                if(t == layerIndex){
+                    ammountToAdd +=  0.005 * brushInfo.brushFlow * distance;
+                }else{
+                    ammountToAdd -= 0.005 * brushInfo.brushFlow * distance;
+                }
+
                 currentValue += ammountToAdd;
                 if(currentValue < 0) currentValue = 0;
                 if(currentValue > 1) currentValue = 1;
 
-                layer->setBlendValue(x, yval, currentValue);
+                layer->setBlendValue(x, y, currentValue);
             }
         }
-        if(update)layer->update();
+        if(update) layer->update();
     }
+
+}
+
+void Terrain::terrainEditFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update){
+    float brushSize = ((brushInfo.square.endX - brushInfo.square.startX)/2);
+    for(long y = brushInfo.square.endY; y < brushInfo.square.startY; y++){
+        for(long x = brushInfo.square.startX; x < brushInfo.square.endX; x++){
+            if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
+            float distance = sqrt(pow(brushInfo.square.centreY - y, 2) + pow(brushInfo.square.centreX - x, 2));
+            if(distance <= brushSize){
+                distance /= brushSize;
+                distance = 1 - distance;
+                distance = distance * distance;
+            }else{
+                distance = 0;
+            }
+
+            float current = terr->getHeightAtPoint(x, y);
+            float ammountToAdd = 0.05 * brushInfo.brushFlow * distance;
+            terr->setHeightAtPoint(x, y, current + ammountToAdd);
+        }
+    }
+    if(update)terrainGroup->update();
 }
 
 void Terrain::saveTerrains(bool reSave){

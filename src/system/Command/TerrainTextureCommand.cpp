@@ -1,7 +1,6 @@
 #include "TerrainTextureCommand.h"
 
-TerrainTextureCommand::TerrainTextureCommand(Terrain *terrain, int brushSize, int brushFlow, int layerIndex) : TerrainCommand(terrain, brushSize, brushFlow){
-    //Remove the brush size and flow from here and the other terrain commands
+TerrainTextureCommand::TerrainTextureCommand(Terrain *terrain, Ogre::Terrain *terr, int layerIndex) : TerrainCommand(terrain, terr){
     this->layerIndex = layerIndex;
 }
 
@@ -10,27 +9,26 @@ TerrainTextureCommand::~TerrainTextureCommand(){
 }
 
 void TerrainTextureCommand::performAction(){
-    for(textureRayInfo info : textureRays){
-        terrain->setBlendFromRays(info.ray, info.brushSize, info.brushFlow, layerIndex, true, false);
+    for(terrainBrushInformation info : brushInfo){
+        terrain->setBlendFromBrush(terr, info, layerIndex, false);
     }
 
-    for(Ogre::uint8 t = 1; t < actualTerrain->getLayerCount(); t++){
-        actualTerrain->getLayerBlendMap(t)->update();
+    for(Ogre::uint8 t = 1; t < terr->getLayerCount(); t++){
+        terr->getLayerBlendMap(t)->update();
     }
 }
 
 void TerrainTextureCommand::performAntiAction(){
-    for(int i = 1; i < (int)actualTerrain->getLayerCount(); i++){
-        Ogre::TerrainLayerBlendMap *layer = actualTerrain->getLayerBlendMap(i);
-        for(terrainTextureCommandInformation info : textureInfo){
+    for(int i = 1; i < (int)terr->getLayerCount(); i++){
+        Ogre::TerrainLayerBlendMap *layer = terr->getLayerBlendMap(i);
+        for(terrainTextureCommandInformation info : previousTextureInformation){
             layer->setBlendValue(info.x, info.y, info.data[i - 1]);
         }
         layer->update();
     }
 }
 
-void TerrainTextureCommand::collectTerrainInfo(int x, int y, Ogre::Terrain *terr){
-    actualTerrain = terr;
+void TerrainTextureCommand::collectTerrainInfo(int x, int y){
     terrainTextureCommandInformation info;
     info.x = x;
     info.y = y;
@@ -40,15 +38,9 @@ void TerrainTextureCommand::collectTerrainInfo(int x, int y, Ogre::Terrain *terr
         info.data[i - 1] = terr->getLayerBlendMap(i)->getBlendValue(x, y);
     }
 
-    textureInfo.push_back(info);
+    previousTextureInformation.push_back(info);
 }
 
 void TerrainTextureCommand::cleanupTemporaryResources(){
     squares.clear();
-}
-
-void TerrainTextureCommand::pushTextureRay(Ogre::TerrainGroup::RayResult ray, int brushSize, int brushFlow){
-    textureRayInfo info = {ray, brushSize, brushFlow};
-
-    textureRays.push_back(info);
 }

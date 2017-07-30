@@ -115,11 +115,11 @@ void Map::updateInput(){
             handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
             currentTerrainCommand = 0;
         }
-        if(currentTerrainTextureCommand){
+        /*if(currentTerrainTextureCommand){
             std::cout << "pushing terrain texture command" << std::endl;
             handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainTextureCommand);
             currentTerrainTextureCommand = 0;
-        }
+        }*/
     }
 
 }
@@ -198,12 +198,18 @@ void Map::handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const
 
     if(toolId == TOOL_PANEL_TERRAIN_EDIT){
         if(!currentTerrainCommand){
-            currentTerrainCommand = new TerrainEditCommand(terrain, brushSize, brushFlow);
+            currentTerrainCommand = new TerrainEditCommand(terrain, centreRay.terrain);
         }
         if(currentTerrainCommand){
-            currentTerrainCommand->pushRay(rays);
+            terrainSquareInformation squareInfo = genSquareInfo(centreRay.terrain, centreRay.position.x, centreRay.position.y, centreRay.position.z, brushSize);
+            currentTerrainCommand->checkTerrainSquare(squareInfo);
+
+            terrainBrushInformation brushInfo = {squareInfo, brushSize, brushFlow};
+            currentTerrainCommand->pushBrushInformation(brushInfo);
+
+
+            terrain->terrainEditFromBrush(centreRay.terrain, brushInfo, true);
         }
-        terrain->terrainEditFromRays(rays, brushSize, brushFlow, true, true);
     }
     else if(toolId == TOOL_PANEL_TERRAIN_HEIGHT) {
         int height = handlerData->toolPreferencesHandler->getTerrainHeightTool()->getHeight();
@@ -222,51 +228,66 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
     int brushFlow = handlerData->toolPreferencesHandler->getTerrainTextureTool()->getBrushFlow();
     int layerIndex = handlerData->toolPreferencesHandler->getTerrainTextureTool()->getCurrentTerrainTextureID();
 
-    Ogre::Vector3 centrePosition = centreRay.position;
-
-    //This is so that the data is also saved when the action starts.
-    bool canvasMoved = canvas->getMouseMoved();
-    if(!currentTerrainTextureCommand){
-        currentTerrainTextureCommand = new TerrainTextureCommand(terrain, brushSize, brushFlow, layerIndex);
-        canvasMoved = true;
+    if(!currentTerrainCommand){
+        currentTerrainCommand = new TerrainTextureCommand(terrain, centreRay.terrain, layerIndex);
     }
-    if(currentTerrainTextureCommand && canvasMoved){
-        terrainSquareInformation squareInfo;
+    if(currentTerrainCommand){
+        terrainSquareInformation squareInfo = genSquareInfo(centreRay.terrain, centreRay.position.x, centreRay.position.y, centreRay.position.z, brushSize, true);
+        currentTerrainCommand->checkTerrainSquare(squareInfo);
 
+        terrainBrushInformation brushInfo = {squareInfo, brushSize, brushFlow};
+        currentTerrainCommand->pushBrushInformation(brushInfo);
 
-
-        int brushDiv = brushSize / 2;
-
-        long startX = centreRay.position.x - brushDiv;
-        long startZ = centreRay.position.z - brushDiv;
-        long endX = centreRay.position.x + brushDiv;
-        long endZ = centreRay.position.z + brushDiv;
-
-        Ogre::uint16 terrainSize = centreRay.terrain->getLayerBlendMapSize();
-
-        Ogre::Vector3 terrainStart;
-        Ogre::Vector3 terrainEnd;
-
-        centreRay.terrain->getTerrainPosition(startX, centreRay.position.y, startZ, &terrainStart);
-        centreRay.terrain->getTerrainPosition(endX, centreRay.position.y, endZ, &terrainEnd);
-
-        terrainStart *= terrainSize;
-        terrainEnd *= terrainSize;
-
-        squareInfo.startX = terrainStart.x;
-        squareInfo.startY = terrainSize - terrainStart.y;
-        squareInfo.endX = terrainEnd.x;
-        squareInfo.endY = terrainSize - terrainEnd.y;
-
-
-
-        currentTerrainTextureCommand->checkTerrainSquare(squareInfo, centreRay.terrain);
-        currentTerrainTextureCommand->pushTextureRay(centreRay, brushSize, brushFlow);
+        terrain->setBlendFromBrush(centreRay.terrain, brushInfo, layerIndex, true);
     }
-
-    terrain->setBlendFromRays(centreRay, brushSize, brushFlow, layerIndex, true, true);
 
     canvas->renderFrame();
+}
+
+terrainSquareInformation Map::genSquareInfo(Ogre::Terrain *terr, int x, int y, int z, int brushSize, bool textureTool){
+    int brushDiv = brushSize / 2;
+
+    long startX = x - brushDiv;
+    long startZ = z - brushDiv;
+    long endX = x + brushDiv;
+    long endZ = z + brushDiv;
+
+    Ogre::uint16 terrainSize;
+    if(textureTool){
+        terrainSize = terr->getLayerBlendMapSize();
+    }else{
+        terrainSize = terr->getSize() - 1;
+    }
+
+    Ogre::Vector3 terrainStart;
+    Ogre::Vector3 terrainEnd;
+    Ogre::Vector3 terrainCentre;
+
+    terr->getTerrainPosition(startX, y, startZ, &terrainStart);
+    terr->getTerrainPosition(endX, y, endZ, &terrainEnd);
+    terr->getTerrainPosition(x, y, z, &terrainCentre);
+
+    terrainStart *= terrainSize;
+    terrainEnd *= terrainSize;
+    terrainCentre *= terrainSize;
+
+    terrainSquareInformation squareInfo;
+    squareInfo.startX = terrainStart.x;
+    squareInfo.endX = terrainEnd.x;
+    squareInfo.centreX = terrainCentre.x;
+
+
+    if(textureTool){
+        squareInfo.centreY = terrainSize - terrainCentre.y;
+        squareInfo.endY = terrainSize - terrainEnd.y;
+        squareInfo.startY = terrainSize - terrainStart.y;
+    }else{
+        squareInfo.centreY = terrainCentre.y;
+        squareInfo.endY = terrainEnd.y;
+        squareInfo.startY = terrainStart.y;
+    }
+
+    return squareInfo;
 }
 
 mapInformation Map::getMapInformation(){

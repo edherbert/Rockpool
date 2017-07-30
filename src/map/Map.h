@@ -43,6 +43,8 @@ class Map
         void handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton, const int toolId);
         void handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton);
 
+        terrainSquareInformation genSquareInfo(Ogre::Terrain *terr, int x, int y, int z, int brushSize, bool textureTool = false);
+
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
         void saveMap(bool reSave);
@@ -62,7 +64,6 @@ class Map
 
         HandlerData *handlerData;
         TerrainCommand *currentTerrainCommand = 0;
-        TerrainTextureCommand *currentTerrainTextureCommand = 0;
 
         Terrain *terrain;
         GLCanvas *canvas;

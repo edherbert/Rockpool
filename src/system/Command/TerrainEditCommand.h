@@ -6,13 +6,11 @@
 class TerrainEditCommand : public TerrainCommand
 {
     public:
-        TerrainEditCommand(Terrain *terrain, int brushSize, int brushFlow);
+        TerrainEditCommand(Terrain *terrain, Ogre::Terrain *terr);
         virtual ~TerrainEditCommand();
 
         void performAction();
         void performAntiAction();
-
-        void pushIndividualRay(Ogre::TerrainGroup::RayResult individualRay);
 
     protected:
 

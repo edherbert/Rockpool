@@ -1,0 +1,54 @@
+--Rockpool design--
+I've been thinking for the past little while about how other aspects of Rockpool will work.
+For example, how will the terrains work for things like indoor scenes?
+Should all the terrains be grouped together, or separated in some way?
+How should the layering work?
+
+
+-Indoor Scenes-
+Indoor scenes aren't really based around terrain.
+They use a modular system of identical sized assets that can be used to make any sort of shape.
+So for example, you might have a corner piece of wall, as well as a normal flat piece of wall.
+These wall pieces could be placed together to create an indoor scene.
+These pieces are to be a universal size, so for example one metre by one metre.
+This would allow all the pieces to easily stack together and make up practically any indoor scene you could want.
+
+This conflicts with the terrain system I have at the moment.
+Rockpool makes the user have a terrain in their scene, the user could probably do with a choice as to whether they need it or not.
+Realistically, there is nothing stopping the user from adding terrains in any scene.
+With this in mind, it might be better to separate the terrains, so put them in different terrain groups per terrain and so on.
+
+-Separated terrains-
+It might be better to use a system like unity, where items are put into the scene and can be placed in any location.
+This would mean that the terrain is not a neccesity and can be used in any way, almost like an object in the game.
+This would give me much more freedom with regards to the objects in the world, as I wouldn't have to have a terrain to put the objects onto.
+
+-How should the layering work-
+I suppose there won't be layers.
+It'll just use the standard hierarchy system that I see in most editors, although I'll do some things differently.
+Firstly, I can't just export the entire thing in a single file.
+For example, the overworld will have a huge number of entities in it, I can't just export them all in one file.
+
+What I could do is export them based on their position in the world.
+So if the entities are between 0 and 1000 x and y then export them in one file.
+So basically export them in blocks of 1000, depending on their location.
+This size could be configured by the user.
+
+I can think of some potential problems with this.
+Firstly, what would happen to an entity who's parent is in another chunk?
+If the parent's chunk is unloaded, then what would happen to the child?
+I think the best way to handle this would be to forget about both the child and the parent.
+If a parent node is un-loaded then all it's children are as well.
+
+-Does this mean that a single node could have two terrain chunks?
+    Yes I suppose it could. There is no reason why this might be a bad thing.
+    The user should be sure however that if each terrain is 1000 by 1000 that they line up properly.
+
+-Where will the terrain tools go if the terrain is changing like this?
+    I'll probably leave them where they are. I like a toolbar.
+    I'll have to make it so that the user can't edit multiple terrains with a single tool stroke though.
+
+-What's going to happen to the terrain information interface?
+    I should probably group them together into their own thing.
+    So if you click on an entity, you'll be shown information specific to that entity.
+    So if you click on the terrain, you'll be shown information relative to the terrain.

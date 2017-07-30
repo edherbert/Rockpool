@@ -11,22 +11,23 @@ struct terrainRays;
 class TerrainCommand : public Command
 {
     public:
-        TerrainCommand(Terrain *terrain, int brushSize, int brushFlow);
+        TerrainCommand(Terrain *terrain, Ogre::Terrain *terr);
         virtual ~TerrainCommand();
 
         void pushRay(terrainRays ray);
-        void checkTerrainSquare(terrainSquareInformation square, Ogre::Terrain *terr);
 
-        virtual void collectTerrainInfo(int x, int y, Ogre::Terrain *terr);
+        void checkTerrainSquare(terrainSquareInformation square);
+        void pushBrushInformation(terrainBrushInformation brushInfo);
+
+        virtual void collectTerrainInfo(int x, int y);
 
     protected:
-        int brushSize;
-        int brushFlow;
-
         Terrain *terrain;
+        Ogre::Terrain *terr;
 
-        std::vector<terrainRays>rays;
+        std::vector<terrainBrushInformation>brushInfo;
         std::vector<terrainSquareInformation>squares;
+        std::vector<terrainCommandInformation>previousInformation;
 
     private:
 };
