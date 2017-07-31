@@ -1,7 +1,7 @@
 #include "TerrainEditCommand.h"
 
-TerrainEditCommand::TerrainEditCommand(Terrain *terrain, Ogre::Terrain *terr) : TerrainCommand(terrain, terr){
-
+TerrainEditCommand::TerrainEditCommand(Terrain *terrain, Ogre::Terrain *terr, int toolId) : TerrainCommand(terrain, terr){
+    this->toolId = toolId;
 }
 
 TerrainEditCommand::~TerrainEditCommand(){
@@ -10,7 +10,9 @@ TerrainEditCommand::~TerrainEditCommand(){
 
 void TerrainEditCommand::performAction(){
     for(terrainBrushInformation info : brushInfo){
-        terrain->terrainEditFromBrush(terr, info, false);
+        if(toolId == TOOL_PANEL_TERRAIN_EDIT)terrain->terrainEditFromBrush(terr, info, false);
+        if(toolId == TOOL_PANEL_TERRAIN_HEIGHT)terrain->terrainHeightFromBrush(terr, info, false);
+        if(toolId == TOOL_PANEL_TERRAIN_SMOOTH)terrain->terrainSmoothFromBrush(terr, info, false);
     }
     terr->update(true);
 }

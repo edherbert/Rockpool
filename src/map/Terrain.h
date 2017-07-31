@@ -57,8 +57,10 @@ class Terrain
         void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow, bool additive, bool update);
         void terrainSmoothFromRays(terrainRays rays, int brushSize);
 
-        void setBlendFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update);
+        void terrainTextureFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update);
         void terrainEditFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update);
+        void terrainHeightFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update);
+        void terrainSmoothFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update);
 
         void saveTerrains(bool reSave);
         void updateAllTerrains(bool synchronus);

@@ -225,13 +225,13 @@ void Terrain::terrainSmoothFromRays(terrainRays rays, int brushSize){
 }
 
 
-void Terrain::setBlendFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update){
+void Terrain::terrainTextureFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update){
+    Ogre::uint16 terrainSize = terr->getLayerBlendMapSize();
     float brushSize = ((brushInfo.square.endX - brushInfo.square.startX)/2);
     for(Ogre::uint8 t = 1; t < terr->getLayerCount(); t++){
         Ogre::TerrainLayerBlendMap *layer = terr->getLayerBlendMap(t);
         for(long y = brushInfo.square.startY; y < brushInfo.square.endY; y++){
             for(long x = brushInfo.square.startX; x < brushInfo.square.endX; x++){
-            //Check whether the terrain size works properly.
                 if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
 
                 float distance = sqrt(pow(brushInfo.square.centreY - y, 2) + pow(brushInfo.square.centreX - x, 2));
@@ -265,7 +265,7 @@ void Terrain::setBlendFromBrush(Ogre::Terrain *terr, terrainBrushInformation bru
 
 void Terrain::terrainEditFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update){
     float brushSize = ((brushInfo.square.endX - brushInfo.square.startX)/2);
-    for(long y = brushInfo.square.endY; y < brushInfo.square.startY; y++){
+    for(long y = brushInfo.square.startY; y < brushInfo.square.endY; y++){
         for(long x = brushInfo.square.startX; x < brushInfo.square.endX; x++){
             if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
             float distance = sqrt(pow(brushInfo.square.centreY - y, 2) + pow(brushInfo.square.centreX - x, 2));
@@ -283,6 +283,42 @@ void Terrain::terrainEditFromBrush(Ogre::Terrain *terr, terrainBrushInformation 
         }
     }
     if(update)terrainGroup->update();
+}
+
+void Terrain::terrainHeightFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update){
+    for(long y = brushInfo.square.startY; y < brushInfo.square.endY; y++){
+        for(long x = brushInfo.square.startX; x < brushInfo.square.endX; x++){
+            if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
+
+            terr->setHeightAtPoint(x, y, brushInfo.brushFlow);
+        }
+    }
+    if(update)terrainGroup->update();
+}
+
+void Terrain::terrainSmoothFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update){
+    for(long y = brushInfo.square.startY; y < brushInfo.square.endY; y++){
+        for(long x = brushInfo.square.startX; x < brushInfo.square.endX; x++){
+            if(x < 0 || y < 0 || x > terrainSize || y > terrainSize) continue;
+
+            //The total height
+            float total = 0;
+            //The number of points checked
+            int totalAmmount = 0;
+            //+ and - 1 to get the range of values around the point.
+            for(long yy = y - 1; yy <= y + 1; yy++){
+                for(long xx = x - 1; xx <= x + 1; xx++){
+                    if(xx < 0 || yy < 0 || xx > terrainSize || yy > terrainSize) continue;
+                    total += terr->getHeightAtPoint(xx, yy);
+                    totalAmmount++;
+                }
+            }
+            total /= totalAmmount;
+
+            terr->setHeightAtPoint(x, y, total);
+        }
+    }
+    if(update)terr->update();
 }
 
 void Terrain::saveTerrains(bool reSave){

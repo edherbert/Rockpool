@@ -167,7 +167,7 @@ void Map::handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const
     //If the centre did not land on a terrain, then abort the entire thing.
     if(!centreRay.hit) return;
 
-    int brushSize = 0;
+    /*int brushSize = 0;
     int brushFlow = 0;
     if(toolId == TOOL_PANEL_TERRAIN_EDIT){
         brushSize = handlerData->toolPreferencesHandler->getTerrainEditTool()->getBrushSize();
@@ -217,6 +217,49 @@ void Map::handleTerrainEdit(const Ogre::TerrainGroup::RayResult centreRay, const
     }
     else if(toolId == TOOL_PANEL_TERRAIN_SMOOTH){
         terrain->terrainSmoothFromRays(rays, brushSize);
+    }*/
+
+    int brushSize = 0;
+    int brushFlow = 0;
+
+    if(toolId == TOOL_PANEL_TERRAIN_EDIT){
+        brushSize = handlerData->toolPreferencesHandler->getTerrainEditTool()->getBrushSize();
+        brushFlow = handlerData->toolPreferencesHandler->getTerrainEditTool()->getBrushFlow();
+    }else if(toolId == TOOL_PANEL_TERRAIN_HEIGHT){
+        brushSize = handlerData->toolPreferencesHandler->getTerrainHeightTool()->getBrushSize();
+        //Store the height in the flow to save creating a new variable.
+        brushFlow = handlerData->toolPreferencesHandler->getTerrainHeightTool()->getHeight();
+    }else if(toolId == TOOL_PANEL_TERRAIN_SMOOTH){
+        brushSize = handlerData->toolPreferencesHandler->getTerrainSmoothTool()->getBrushSize();
+        brushFlow = handlerData->toolPreferencesHandler->getTerrainSmoothTool()->getBrushFlow();
+    }
+
+    if(!currentTerrainCommand){
+        currentTerrainCommand = new TerrainEditCommand(terrain, centreRay.terrain, toolId);
+    }
+    if(currentTerrainCommand){
+        terrainSquareInformation squareInfo = genSquareInfo(centreRay.terrain, centreRay.position.x, centreRay.position.y, centreRay.position.z, brushSize);
+
+        terrainBrushInformation brushInfo = {squareInfo, brushSize, brushFlow};
+        currentTerrainCommand->pushBrushInformation(brushInfo);
+
+        //Add a bit to the square to pad it out for checking.
+        //This just makes sure that no points on the edge are missed.
+        squareInfo.startX -= 1;
+        squareInfo.startY -= 1;
+        squareInfo.endX += 1;
+        squareInfo.endY += 1;
+
+        currentTerrainCommand->checkTerrainSquare(squareInfo);
+
+        squareInfo.startX += 1;
+        squareInfo.startY += 1;
+        squareInfo.endX -= 1;
+        squareInfo.endY -= 1;
+
+        if(toolId == TOOL_PANEL_TERRAIN_EDIT) terrain->terrainEditFromBrush(centreRay.terrain, brushInfo, true);
+        if(toolId == TOOL_PANEL_TERRAIN_HEIGHT) terrain->terrainHeightFromBrush(centreRay.terrain, brushInfo, true);
+        if(toolId == TOOL_PANEL_TERRAIN_SMOOTH) terrain->terrainSmoothFromBrush(centreRay.terrain, brushInfo, true);
     }
 
     canvas->renderFrame();
@@ -238,7 +281,7 @@ void Map::handleTerrainTexture(const Ogre::TerrainGroup::RayResult centreRay, co
         terrainBrushInformation brushInfo = {squareInfo, brushSize, brushFlow};
         currentTerrainCommand->pushBrushInformation(brushInfo);
 
-        terrain->setBlendFromBrush(centreRay.terrain, brushInfo, layerIndex, true);
+        terrain->terrainTextureFromBrush(centreRay.terrain, brushInfo, layerIndex, true);
     }
 
     canvas->renderFrame();
@@ -283,8 +326,9 @@ terrainSquareInformation Map::genSquareInfo(Ogre::Terrain *terr, int x, int y, i
         squareInfo.startY = terrainSize - terrainStart.y;
     }else{
         squareInfo.centreY = terrainCentre.y;
-        squareInfo.endY = terrainEnd.y;
-        squareInfo.startY = terrainStart.y;
+        //These are flipped for the regular squares, because the numbers that they represent are flipped on the terrain.
+        squareInfo.endY = terrainStart.y;
+        squareInfo.startY = terrainEnd.y;
     }
 
     return squareInfo;

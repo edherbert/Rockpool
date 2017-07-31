@@ -10,7 +10,7 @@ TerrainTextureCommand::~TerrainTextureCommand(){
 
 void TerrainTextureCommand::performAction(){
     for(terrainBrushInformation info : brushInfo){
-        terrain->setBlendFromBrush(terr, info, layerIndex, false);
+        terrain->terrainTextureFromBrush(terr, info, layerIndex, false);
     }
 
     for(Ogre::uint8 t = 1; t < terr->getLayerCount(); t++){

@@ -19,11 +19,11 @@
 -Make it so that only one terrain chunk can be textured at a time
 -Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
--Fix the bug with the incorrect yaw values
+-Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
+-Fix the bug where keyboard shortcuts can't be used.
 
 -Make the undo changes immediate (something to do with the canvas)
--Implement the undo-redo functionality into the other tools.
 
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
@@ -252,3 +252,5 @@ Things to do before entity work begins:
 -Make the terrain texture undo and redo work properly.
 
 -Make the code for the command rays nicer and remove the obsolete centre rays.
+
+-Implement the undo-redo functionality into the other tools.
