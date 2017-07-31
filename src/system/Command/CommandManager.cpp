@@ -25,7 +25,7 @@ void CommandManager::undoLastCommand(){
     futureCommands.push_back(pastCommands.at(pastCommands.size() - 1));
     pastCommands.pop_back();
 
-    Ogre::Root::getSingleton().renderOneFrame();
+    mainFrame->getCanvas()->renderFrame();
 }
 
 void CommandManager::redoLastCommand(){
@@ -35,5 +35,5 @@ void CommandManager::redoLastCommand(){
     pastCommands.push_back(futureCommands.at(futureCommands.size() - 1));
     futureCommands.pop_back();
 
-    Ogre::Root::getSingleton().renderOneFrame();
+    mainFrame->getCanvas()->renderFrame();
 }

@@ -10,26 +10,22 @@
 #include <cmath>
 #include <vector>
 
-struct terrainRays{
-    Ogre::TerrainGroup::RayResult centreRay;
-    Ogre::TerrainGroup::RayResult leftTop;
-    Ogre::TerrainGroup::RayResult rightTop;
-    Ogre::TerrainGroup::RayResult leftBottom;
-    Ogre::TerrainGroup::RayResult rightBottom;
-};
-
+//Contains the previous information for the terrain texture
 struct terrainTextureCommandInformation{
     int x;
     int y;
     float data[3];
 };
 
+//Contains the previous information for the terrain height
 struct terrainCommandInformation{
     int x;
     int y;
     float height;
 };
 
+//Used to store the position of the terrain brush in terrain space.
+//It's also used to check whether a point of terrain needs it's data added to the terrain information list.
 struct terrainSquareInformation{
     int startX;
     int startY;
@@ -39,6 +35,8 @@ struct terrainSquareInformation{
     int centreY;
 };
 
+//Used to contain information about brush strokes.
+//Mostly used to re-do functions in the command manager.
 struct terrainBrushInformation{
     terrainSquareInformation square;
     int brushSize;
@@ -52,10 +50,6 @@ class Terrain
         virtual ~Terrain();
 
         Ogre::TerrainGroup::RayResult rayIntersect(Ogre::Ray ray);
-
-        void setHeightFromRays(terrainRays rays, int brushSize, int height);
-        void terrainEditFromRays(terrainRays rays, int brushSize, int brushFlow, bool additive, bool update);
-        void terrainSmoothFromRays(terrainRays rays, int brushSize);
 
         void terrainTextureFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, int layerIndex, bool update);
         void terrainEditFromBrush(Ogre::Terrain *terr, terrainBrushInformation brushInfo, bool update);
@@ -76,9 +70,6 @@ class Terrain
         int terrainSize;
         int terrainHeight;
         std::string path;
-
-        void setupTerrainsArray(terrainRays rays, std::vector<Ogre::Terrain*> *terrains);
-        bool vectorContains(std::vector<Ogre::Terrain*> *terrains, Ogre::Terrain* terrain);
 
         void destroyScene();
         void configureTerrainDefaults();

@@ -43,7 +43,7 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     timer = new RenderTimer(canvas);
     timer->start();
 
-    Connect(wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler(MainFrame::closeToolPreferences));
+    Connect(wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler(MainFrame::closeAUIPanel));
 
     auiManager->Update();
 
@@ -133,6 +133,20 @@ void MainFrame::setupMenuBar(){
     Connect(MENU_EDIT_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::undoAction));
     Connect(MENU_EDIT_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::redoAction));
 
+    wxAcceleratorEntry entries[5];
+    entries[0].Set(wxACCEL_CTRL, (int) 'N', MENU_FILE_NEW_MAP);
+    entries[1].Set(wxACCEL_CTRL, (int) 'O', MENU_FILE_OPEN_MAP);
+    entries[2].Set(wxACCEL_CTRL, (int) 'S', MENU_FILE_SAVE_MAP);
+
+    entries[3].Set(wxACCEL_CTRL, (int) 'Z', MENU_EDIT_UNDO);
+    entries[4].Set(wxACCEL_CTRL | wxACCEL_SHIFT, (int) 'Z', MENU_EDIT_REDO);
+    //save
+    //undo
+    //redo shift ctrl z
+
+    wxAcceleratorTable accel(5, entries);
+    SetAcceleratorTable(accel);
+
     SetMenuBar(menuBar);
 }
 
@@ -199,7 +213,7 @@ HandlerData* MainFrame::getHandlerData(){
     return &handlerData;
 }
 
-void MainFrame::closeToolPreferences(wxAuiManagerEvent &event){
+void MainFrame::closeAUIPanel(wxAuiManagerEvent &event){
 //Change the name of this function at some point
     if(event.GetPane()->name == "ToolPreferences"){
         toolPreferencesHandler->setToolPreferencesVisability(false);
@@ -214,4 +228,8 @@ void MainFrame::closeToolPreferences(wxAuiManagerEvent &event){
 
 void MainFrame::saveMap(wxCommandEvent &event){
     main->saveProject();
+}
+
+GLCanvas* MainFrame::getCanvas(){
+    return canvas;
 }

@@ -19,6 +19,8 @@
 #include "Resource/ResourceBrowser.h"
 #include "../system/ResourceManager.h"
 
+#include <wx/accel.h>
+
 #include <wx/aui/aui.h>
 
 class Main;
@@ -43,6 +45,7 @@ public:
 	~MainFrame();
 
     Main* getMain();
+    GLCanvas* getCanvas();
 
     wxMenuItem *showToolPreferences;
     wxMenuItem *showTerrainInfo;
@@ -86,7 +89,7 @@ private:
     void undoAction(wxCommandEvent &event);
     void redoAction(wxCommandEvent &event);
 
-    void closeToolPreferences(wxAuiManagerEvent &event);
+    void closeAUIPanel(wxAuiManagerEvent &event);
 
     HandlerData handlerData;
 };

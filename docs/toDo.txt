@@ -15,15 +15,10 @@
 
 -Get the decal to work
 
-
--Make it so that only one terrain chunk can be textured at a time
 -Figure out the bug with only being able to add the number of textures that are available from when the terrain is loaded.
 
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
--Fix the bug where keyboard shortcuts can't be used.
-
--Make the undo changes immediate (something to do with the canvas)
 
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
@@ -32,6 +27,9 @@ Things to do before entity work begins:
 
 -Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make it so that the user cannot alter the terrain using the fps camera
+-Make the new map and open map dialogs point to the user's home directory.
+
+-Implement undo and re-do functions for adding and deleting terrain layers.
 
 --Schedule--
 
@@ -254,3 +252,6 @@ Things to do before entity work begins:
 -Make the code for the command rays nicer and remove the obsolete centre rays.
 
 -Implement the undo-redo functionality into the other tools.
+-Make the undo changes immediate (something to do with the canvas)
+-Fix the bug where keyboard shortcuts can't be used.
+-Make it so that only one terrain chunk can be textured at a time
