@@ -29,8 +29,6 @@ Things to do before entity work begins:
 -Make it so that the user cannot alter the terrain using the fps camera
 -Make the new map and open map dialogs point to the user's home directory.
 
--Implement undo and re-do functions for adding and deleting terrain layers.
-
 --Schedule--
 
 --19-25 June
@@ -255,3 +253,5 @@ Things to do before entity work begins:
 -Make the undo changes immediate (something to do with the canvas)
 -Fix the bug where keyboard shortcuts can't be used.
 -Make it so that only one terrain chunk can be textured at a time
+
+-Implement undo and re-do functions for adding and deleting terrain layers. (I'm going to do this later, I'm probably going to end up changing the current system anyway')

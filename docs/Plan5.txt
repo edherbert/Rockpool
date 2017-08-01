@@ -52,3 +52,16 @@ If a parent node is un-loaded then all it's children are as well.
     I should probably group them together into their own thing.
     So if you click on an entity, you'll be shown information specific to that entity.
     So if you click on the terrain, you'll be shown information relative to the terrain.
+
+
+--More thinking--
+The problem I have at the moment is a lot of the user interface needs to change.
+I'm going to have to implement the object hierarchy panel, which will contain the information about the objects in the scene.
+I'm almost not sure if I'll need something like the terrain tools panel.
+
+The user will probably edit the terrain by clicking on the terrain and changing it's values in the inspector.
+This would be pretty similar to how unity works.
+The inspector will contain all the information about the object that's currently selected.
+If that's the case, I'm not really sure how I'm going to need the tools in a tool panel. It might just be easier to put them in the inspector.
+However, this is something for the future, for now the most important part is planning out how the entities will work.
+It'll probably be a good idea to merge the command branch back to the master branch.
