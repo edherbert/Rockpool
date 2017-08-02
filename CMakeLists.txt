@@ -45,7 +45,6 @@ src/ui/Application.cpp
 src/ui/GLCanvas.cpp
 src/ui/MainFrame.cpp
 src/ui/RenderTimer.cpp
-src/ui/BottomPanel.cpp
 src/ui/TerrainInfoHandler.cpp
 src/ui/TerrainInfoLayerBox.cpp
 
@@ -68,7 +67,6 @@ src/ui/Tools/ToolPreferences.cpp
 src/ui/Tools/ToolsPanelHandler.cpp
 
 src/system/ResourceManager.cpp
-src/system/BrushManager.cpp
 
 src/system/Command/CommandManager.cpp
 src/system/Command/Command.cpp

@@ -65,3 +65,104 @@ The inspector will contain all the information about the object that's currently
 If that's the case, I'm not really sure how I'm going to need the tools in a tool panel. It might just be easier to put them in the inspector.
 However, this is something for the future, for now the most important part is planning out how the entities will work.
 It'll probably be a good idea to merge the command branch back to the master branch.
+
+--Plan for now--
+There are a few factors that are going to have to change a bit to accomadate for the new design.
+With the new design, I'm going to have to re-name a few things, and re-design other things.
+
+I'm still going to keep calling Rockpool a map editor.
+
+Basically, everything that can be placed in the world inherits from object, which is a class.
+Each object can be placed at a position, and parented to any other object.
+Objects could be anything, ranging from a cube to something like terrain (terrain can't be scaled or rotated).
+
+There will be a hierarchy of objects, this is used to view the objects which the user currently has in their scene.
+The user can use this to select objects and re-arrange their order.
+Objects inherit the scale, rotation and position based on their parents.
+
+There will also be the object inspector.
+This will contain the relevant information about the currently selected object.
+This would change depending on what type of object is selected.
+So if a mesh is selected it would show the material information about that specific mesh.
+If a piece of terrain is selected then it will show the terrain information, as well as the terrain tool information.
+
+Finally, the resource browser will contain information about the resources that the user has at their disposal.
+This could be things like meshes, images, materials and so on.
+This will also contain prefabs when they are implemented.
+To place something into the map, the user simply has to drag it into the render window.
+
+So with this in mind, the main aspects of the program are:
+    The object hierarchy
+    The resource browser
+    The object information panel
+
+This means that there are a few aspects of the current system that need to be changed.
+firstly, the terrain info panel and the tool panel will need to change.
+This change will probably be getting rid of them more than anything. However, I won't be doing that for a long time.
+I don't really want to remove features before I have features to replace them with, so for now they are staying.
+
+From here I need to plan out how the classes will interact with each other.
+Quite a few classes will need to change, for example the terrain class.
+They need to be planned out before anything is implemented.
+
+Here is a list of things to think about:
+    -How will the gui for the inspector work? Will it all be there like the terrain layers panel, or will they be created as they go along.
+    -Will there be things like components in the inspector?
+    -How will storing items in the scene work? Will ogre handle the entire thing or will each object have it's pointer stored(probably the latter)
+    -How will the object inheritance work? Will the objects inherit from object them mesh then terrain or whatever.
+    -How will saving prefabs work (Will the prefabs be saved relative to the one map or the entire program)
+        -If relative to the map, will they be exported along with the rest of the map.
+
+
+--Info panel--
+It's important that the information panel contains information that's useful to the user.
+The question is should it contain all the gui components or should some of them be created / destroyed when needed.
+Ultimately, I think it would be best if I had a handler that managed the individual information boxes.
+
+Each object will have a component section, but that does not mean that each object will have a material section.
+For example, I don't think the terrain will have a material section.
+This does not mean that the material section needs to be removed, it just means it should be hidden.
+
+The best idea for this might be a system where you have a handler for each individual information section.
+So for example, you would have a positionInformationHandler for the position and scale and everything, and then a terrainInformationHandler for the terrains.
+These handlers would then contain functions to show or hide them, as well as setting their values if the selection is changed.
+
+I could also have an informationPanelHandler that manages which handlers to show.
+This would probably contain a vector, and a function in which the type of item could be passed.
+
+There is no guarantee that I won't want to add more components to the information panel. This would allow me to do that.
+I'll implement that panel once I have things to add to it.
+
+--How items will be stored--
+Thinking about it, I really don't think it would be a good idea to let ogre store all the items.
+I think I'm going to need simple classes that contain mostly pointers to handle that sort of thing.
+So I'll have an object class which contains a pointer to an ogre entity and probably a pointer to it's parent and child (if it has one).
+This would mostly just be in the object class, of course, each item will inherit other bits as well.
+For example, the terrain will extend to a terrainObject, which will contain all the terrain functions.
+
+I'm also going to have a terrain manager, which will store all the terrains (and the terrain group).
+This can be incharge of saving the terrains and so on.
+
+The map class will be used to interface with all these components, so it will store all the objects in the map, and provide an easy way to get to them.
+It will be in charge of handling input requests, such as terrain edits, regardless of which canvas was used.
+
+--Future classes--
+
+Main - In charge of handling the map files. This is where you would go to load or save a map
+Map - The current map. This will contain information about the objects in the map and also be the interface to handle input on the map.
+CanvasHandler - This will handle all the canvases that the user has created. This will be where the user can render a canvas, or get it's input
+Canvas - This is the individual canvas. Canvases check their own mouse position and click input.
+
+Object - This contains basic information about the object including pointers to the current scene node and parent and child nodes.
+    It will also contain interface functions to control the node.
+    This class will not assume that the object has anything to render, it will largely just represent a scene node.
+meshObject - Inherited from the object class, this will contain information about meshes in particular.
+    This one does assume that there is something to render, it's similar to an entity in ogre.
+lightObject - An object that represents a light
+terrainObject - An object which represents a chunk of terrain, needs to be managed by the terrain manager.
+
+terrainManager - Manages the chunks of terrain. Responsible for saving and loading terrain.
+
+HierarchyManager - Provides a display of the map hierarchy. This will provide an interface to tell the map which objects are currently selected.
+InfoManager - This will provide information about the object(s) that is currently selected.
+InfoComponent - This will be an individual panel that will appear on the infoManager, for example the position of the item.

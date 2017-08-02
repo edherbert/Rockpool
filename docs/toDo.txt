@@ -28,6 +28,7 @@ Things to do before entity work begins:
 -Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make it so that the user cannot alter the terrain using the fps camera
 -Make the new map and open map dialogs point to the user's home directory.
+-Move the main class to the system directory
 
 --Schedule--
 

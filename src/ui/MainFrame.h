@@ -7,8 +7,6 @@
 #include "wxIDs.h"
 
 #include "GLCanvas.h"
-//#include "Tools/ToolsPanel.h"
-#include "BottomPanel.h"
 #include "../map/Main.h"
 #include "Dialogs/NewMapDialog.h"
 #include "RenderTimer.h"

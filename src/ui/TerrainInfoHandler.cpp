@@ -253,13 +253,6 @@ void TerrainInfoHandler::refreshTerrain(){
             currentTerrain->replaceLayer((Ogre::uint8)i, true, (Ogre::Real)100, &paths);
         }
     }
-    /*std::cout << layerInformation.size() << std::endl;
-    for(int i = 0; i < (int)currentTerrain->getLayerCount(); i++){
-        if(i >= layerInformation.size()){
-            currentTerrain->removeLayer(i);
-        }
-    }
-    std::cout << (int)currentTerrain->getLayerCount() << std::endl;*/
 }
 
 MainFrame* TerrainInfoHandler::getMainFrame(){
