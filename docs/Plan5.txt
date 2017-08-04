@@ -187,3 +187,14 @@ You kind of have to inherit it and do it that way, but this should allow me to s
 Then, within the object I can store a pointer to the tree node.
 This will completely avoid the entire searching the array thing.
 I'm not even sure if I need that vector in the map class to store all the objects after all.
+
+How would the hierarchy know which objects are in the map when it begins.
+It would read in the file from the user and then turn that into a map.
+As it goes it would create the objects, and then it would create the node in the tree hierarchy.
+The node would then have a reference to the object, and the object to the node.
+If the node was removed, the object could be as well, and visa versa.
+
+--How objects work--
+An object is just a wrapper for the scene node.
+This means that it should come with a load of functions to attach objects together.
+

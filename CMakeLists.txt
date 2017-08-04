@@ -82,6 +82,8 @@ src/map/Map.cpp
 src/map/Main.cpp
 src/map/MapDecal.cpp
 
+src/map/Object/Object.cpp
+
 src/util/tinyxml2.cpp
 )
 

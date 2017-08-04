@@ -13,6 +13,8 @@
 #include "../system/Command/TerrainCommand.h"
 #include "../system/Command/TerrainTextureCommand.h"
 
+#include "Object/Object.h"
+
 class GLCanvas;
 class ToolPreferencesHandler;
 class TerrainInfoHandler;

@@ -40,6 +40,11 @@ void Map::start(GLCanvas *canvas){
 
     MapDecal *decal = new MapDecal(sceneManager, terrain);
 
+    Object *obj = new Object(sceneManager, sceneManager->getRootSceneNode(), "first");
+    Object *second = new Object(sceneManager, obj, "second");
+    second->setPosition(Ogre::Vector3(5, 0, 0));
+
+
     mapStarted = true;
 }
 
@@ -189,8 +194,7 @@ void Map::handleTerrainTool(const Ogre::TerrainGroup::RayResult centreRay, const
         terrainBrushInformation brushInfo = {squareInfo, brushSize, brushFlow};
         currentTerrainCommand->pushBrushInformation(brushInfo);
 
-        //Add a bit to the square to pad it out for checking.
-        //This just makes sure that no points on the edge are missed.
+        //Clean this up at some point
         squareInfo.startX -= 1;
         squareInfo.startY -= 1;
         squareInfo.endX += 1;

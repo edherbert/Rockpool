@@ -31,7 +31,7 @@ Things to do before entity work begins:
 -Move the main class to the system directory
 
 --Plan to implement objects--
-    -Begin to implement the object system by creating all the object class.
+    -Begin to implement the object system by creating all the object classes.
     -Create the terrain manager
     -Change the map class to incorporate objects
     -Make it so that indivdiual terrains can be added and removed like objects, and then change the map creation process, as well as the new map dialog
