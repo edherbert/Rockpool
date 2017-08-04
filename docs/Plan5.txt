@@ -166,3 +166,24 @@ terrainManager - Manages the chunks of terrain. Responsible for saving and loadi
 HierarchyManager - Provides a display of the map hierarchy. This will provide an interface to tell the map which objects are currently selected.
 InfoManager - This will provide information about the object(s) that is currently selected.
 InfoComponent - This will be an individual panel that will appear on the infoManager, for example the position of the item.
+
+
+
+--Object handling--
+By storing the scene node of the object, you can get the other scene nodes, but not the object.
+The best thing to do would probably be to store the parent object as a pointer and the child objects as a pointer vector.
+
+I'm not sure of the best way to store the objects in the map though.
+Maybe I could number all the entities in the list. That would allow me to do a binary search rather than just checking them all.
+However, there are times when I think the objects might not align. For example, what if they are moved.
+If I store all the objects as a flat vector pointer list then I might not even need to re-arrange them.
+
+It might be worth seeing how the tree ctrl handles ids.
+I might be able to store the id of the tree item in the object.
+This would pretty much allow me to search through the list and find the item in question.
+
+So it turns out that you can store data within the tree ctrl, for each individual member of the tree.
+You kind of have to inherit it and do it that way, but this should allow me to store a pointer to the object within the tree node.
+Then, within the object I can store a pointer to the tree node.
+This will completely avoid the entire searching the array thing.
+I'm not even sure if I need that vector in the map class to store all the objects after all.

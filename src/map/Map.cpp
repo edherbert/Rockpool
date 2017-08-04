@@ -115,13 +115,7 @@ void Map::updateInput(){
             handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
             currentTerrainCommand = 0;
         }
-        /*if(currentTerrainTextureCommand){
-            std::cout << "pushing terrain texture command" << std::endl;
-            handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainTextureCommand);
-            currentTerrainTextureCommand = 0;
-        }*/
     }
-
 }
 
 void Map::moveCameraPosition(const Ogre::Vector3 ammount){

@@ -30,6 +30,26 @@ Things to do before entity work begins:
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 
+--Plan to implement objects--
+    -Begin to implement the object system by creating all the object class.
+    -Create the terrain manager
+    -Change the map class to incorporate objects
+    -Make it so that indivdiual terrains can be added and removed like objects, and then change the map creation process, as well as the new map dialog
+    -Make sure that terrains can still be edited and all that.
+    -Implement the hierarchy panel
+    -Implement the ability to save the current objects, as well as the terrains
+    -Make it so objects can be dragged around the hierarchy panel to re-arrange their order.
+    -Implement the ability to add objects from the hierarchy panel
+    -Make it so the user can select objects (including multiple objects)
+    -Implement the ability to move / rotate / scale objects (and make sure this works with the terrain!)
+    -Make it so all these actions can be undone and redone.
+
+    -Implement the ability to drag items in from the resource browser into the map
+
+    -Implement the information panel
+    -Create the object info components
+    -Make it so these represent the current object.
+
 --Schedule--
 
 --19-25 June
