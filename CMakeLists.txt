@@ -47,6 +47,7 @@ src/ui/MainFrame.cpp
 src/ui/RenderTimer.cpp
 src/ui/TerrainInfoHandler.cpp
 src/ui/TerrainInfoLayerBox.cpp
+src/ui/ObjectHierarchy.cpp
 
 src/ui/Dialogs/MapPropertiesDialog.cpp
 src/ui/Dialogs/NewMapDialog.cpp

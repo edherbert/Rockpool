@@ -16,6 +16,7 @@
 #include "TerrainInfoHandler.h"
 #include "Resource/ResourceBrowser.h"
 #include "../system/ResourceManager.h"
+#include "ObjectHierarchy.h"
 
 #include <wx/accel.h>
 
@@ -30,6 +31,7 @@ class TerrainInfoHandler;
 class MapPropertiesDialog;
 class ResourceBrowser;
 class ResourceManager;
+class ObjectHierarchy;
 
 struct HandlerData{
     ToolPreferencesHandler *toolPreferencesHandler;
@@ -49,6 +51,7 @@ public:
     wxMenuItem *showTerrainInfo;
     wxMenuItem *showTerrainToolbar;
     wxMenuItem *showResourceBrowser;
+    wxMenuItem *showObjectHierarchy;
 
     ToolPreferencesHandler* getToolPreferencesHandler();
     TerrainInfoHandler* getTerrainInfoHandler();
@@ -68,6 +71,7 @@ private:
 	ToolsPanelHandler *toolPanelHandler;
 	TerrainInfoHandler *terrainInfoHandler;
 	ResourceBrowser *resourceBrowser;
+	ObjectHierarchy *objectHierarchy;
 
 	void setupMenuBar();
 
@@ -83,11 +87,12 @@ private:
     void ShowTerrainToolbar(wxCommandEvent &event);
     void ShowTerrainInfo(wxCommandEvent &event);
     void ShowResourceBrowser(wxCommandEvent &event);
+    void ShowObjectHierarchy(wxCommandEvent &event);
 
     void undoAction(wxCommandEvent &event);
     void redoAction(wxCommandEvent &event);
 
-    void closeAUIPanel(wxAuiManagerEvent &event);
+    void AUIPanelClosed(wxAuiManagerEvent &event);
 
     HandlerData handlerData;
 };

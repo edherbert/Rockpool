@@ -6,7 +6,7 @@ ResourceBrowser::ResourceBrowser(MainFrame *mainFrame, wxAuiManager *auiManager)
 
     wxAuiPaneInfo info;
     info.Caption(wxT("Resource Browser"));
-    info.Left();
+    info.Right();
     info.BestSize(wxSize(300, 400));
     info.Show(true);
     info.Name(wxT("ResourceBrowser"));

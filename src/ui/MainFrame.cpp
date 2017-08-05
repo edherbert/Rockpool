@@ -21,15 +21,17 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
 
     //Setup the panels
     toolPreferencesHandler = new ToolPreferencesHandler(this, auiManager);
-    toolPreferencesHandler->setToolPreferencesVisability(true);
+    //toolPreferencesHandler->setToolPreferencesVisability(true);
 
     terrainInfoHandler = new TerrainInfoHandler(this, auiManager);
-    terrainInfoHandler->setTerrainInfoVisability(true);
+    //terrainInfoHandler->setTerrainInfoVisability(true);
 
     resourceBrowser = new ResourceBrowser(this, auiManager);
-    //resourceBrowser->setResourceBrowserVisability(true);
+    resourceBrowser->setResourceBrowserVisability(true);
 
-    //The tools panel that appears at the top of the window.
+    objectHierarchy = new ObjectHierarchy(this, auiManager);
+    objectHierarchy->setObjectHierarchyVisible(true);
+
     toolPanelHandler = new ToolsPanelHandler(this, auiManager);
     toolPanelHandler->setToolPanelVisibility(true);
 
@@ -43,7 +45,7 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     timer = new RenderTimer(canvas);
     timer->start();
 
-    Connect(wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler(MainFrame::closeAUIPanel));
+    Connect(wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler(MainFrame::AUIPanelClosed));
 
     auiManager->Update();
 
@@ -100,14 +102,14 @@ void MainFrame::setupMenuBar(){
     showToolPreferences = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxT("Show Tool Preferences"), wxEmptyString, wxITEM_CHECK);
     showTerrainInfo = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_TERRAIN_INFO, wxT("Show Terrain Info"), wxEmptyString, wxITEM_CHECK);
     showResourceBrowser = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxT("Show Resource Browser"), wxEmptyString, wxITEM_CHECK);
+    showObjectHierarchy = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_OBJECT_HIERARCHY, wxT("Show Object Hierarchy"), wxEmptyString, wxITEM_CHECK);
     dockableWindows->Append(showToolPreferences);
     dockableWindows->Append(showTerrainInfo);
     dockableWindows->Append(showResourceBrowser);
-    showToolPreferences->Check(false);
+    dockableWindows->Append(showObjectHierarchy);
 
     showTerrainToolbar = new wxMenuItem(toolbars, MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxT("Show Terrain Toolbar"), wxEmptyString, wxITEM_CHECK);
     toolbars->Append(showTerrainToolbar);
-    showTerrainToolbar->Check(false);
 
     window->Append(wxID_ANY, wxT("Dockable Windows"), dockableWindows);
     window->Append(wxID_ANY, wxT("Toolbars"), toolbars);
@@ -127,6 +129,7 @@ void MainFrame::setupMenuBar(){
     Connect(MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowToolPreferences));
     Connect(MENU_WINDOW_SHOW_TERRAIN_INFO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainInfo));
     Connect(MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowResourceBrowser));
+    Connect(MENU_WINDOW_SHOW_OBJECT_HIERARCHY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowObjectHierarchy));
 
     Connect(MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainToolbar));
 
@@ -140,9 +143,6 @@ void MainFrame::setupMenuBar(){
 
     entries[3].Set(wxACCEL_CTRL, (int) 'Z', MENU_EDIT_UNDO);
     entries[4].Set(wxACCEL_CTRL | wxACCEL_SHIFT, (int) 'Z', MENU_EDIT_REDO);
-    //save
-    //undo
-    //redo shift ctrl z
 
     wxAcceleratorTable accel(5, entries);
     SetAcceleratorTable(accel);
@@ -189,6 +189,10 @@ void MainFrame::ShowResourceBrowser(wxCommandEvent &event){
     resourceBrowser->setResourceBrowserVisability(event.IsChecked());
 }
 
+void MainFrame::ShowObjectHierarchy(wxCommandEvent &event){
+    objectHierarchy->setObjectHierarchyVisible(event.IsChecked());
+}
+
 void MainFrame::ShowTerrainToolbar(wxCommandEvent &event){
     toolPanelHandler->setToolPanelVisibility(event.IsChecked());
 }
@@ -213,7 +217,7 @@ HandlerData* MainFrame::getHandlerData(){
     return &handlerData;
 }
 
-void MainFrame::closeAUIPanel(wxAuiManagerEvent &event){
+void MainFrame::AUIPanelClosed(wxAuiManagerEvent &event){
 //Change the name of this function at some point
     if(event.GetPane()->name == "ToolPreferences"){
         toolPreferencesHandler->setToolPreferencesVisability(false);
@@ -223,6 +227,9 @@ void MainFrame::closeAUIPanel(wxAuiManagerEvent &event){
     }
     if(event.GetPane()->name == "ResourceBrowser"){
         resourceBrowser->setResourceBrowserVisability(false);
+    }
+    if(event.GetPane()->name == "ObjectHierarchy"){
+        objectHierarchy->setObjectHierarchyVisible(false);
     }
 }
 
