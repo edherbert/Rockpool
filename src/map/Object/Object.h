@@ -2,17 +2,27 @@
 #define OBJECT_H
 
 #include <Ogre.h>
+#include <iostream>
 
 class Object
 {
     public:
-        Object(Ogre::SceneManager *sceneManager, Ogre::SceneNode *parentNode, Ogre::String name = "");
-        Object(Ogre::SceneManager *sceneManager, Object *obj, Ogre::String name = "");
+        Object(Ogre::SceneManager *sceneManager);
 
         virtual ~Object();
 
         void setPosition(Ogre::Vector3 pos);
-        void attachChild(Object *child);
+        void setPosition(int x, int y, int z);
+
+        void setScale(int x, int y, int z);
+        void setScale(Ogre::Vector3 scale);
+
+        void setParent(Object *parent);
+        void addChild(Object *child);
+
+        void removeChild(Object *child);
+        void removeAllChildren();
+        void removeFromParent();
 
         Ogre::SceneNode* getSceneNode();
 
@@ -21,6 +31,9 @@ class Object
     private:
         Ogre::SceneManager *sceneManager;
         Ogre::SceneNode *node;
+
+        Object *parent;
+        std::vector<Object*>children;
 };
 
 #endif // OBJECT_H

@@ -38,12 +38,17 @@ void Map::start(GLCanvas *canvas){
     Ogre::Light* light = sceneManager->createLight("light");
     light->setPosition(20, 80, 50);
 
-    MapDecal *decal = new MapDecal(sceneManager, terrain);
 
-    Object *obj = new Object(sceneManager, sceneManager->getRootSceneNode(), "first");
-    Object *second = new Object(sceneManager, obj, "second");
-    second->setPosition(Ogre::Vector3(5, 0, 0));
 
+
+    Object *first = new Object(sceneManager);
+    Object *second = new Object(sceneManager);
+    second->setPosition(5, 0, 0);
+    first->addChild(second);
+
+    second->removeFromParent();
+
+    sceneManager->getRootSceneNode()->addChild(first->getSceneNode());
 
     mapStarted = true;
 }
