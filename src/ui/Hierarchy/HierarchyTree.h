@@ -16,7 +16,15 @@ class HierarchyTree : public wxTreeCtrl
         void dragBegin(wxTreeEvent &event);
         void dragEnd(wxTreeEvent &event);
 
+        void mouseDown(wxMouseEvent &event);
+        void mouseUp(wxMouseEvent &event);
+
+        void mouseMoved(wxMouseEvent &event);
+
         wxTreeItemId draggedItem;
+
+        bool checkedLocation = false;
+        wxTreeItemId currentSelected;
 };
 
 #endif // HIERARCHYTREE_H

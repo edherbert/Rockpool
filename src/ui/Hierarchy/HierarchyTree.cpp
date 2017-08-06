@@ -13,8 +13,12 @@ HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wx
 
     AppendItem(triangle, "other triangle");
 
-    Connect(wxEVT_TREE_BEGIN_DRAG, wxTreeEventHandler(HierarchyTree::dragBegin));
-    Connect(wxEVT_TREE_END_DRAG, wxTreeEventHandler(HierarchyTree::dragEnd));
+    Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
+    Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
+    Connect(wxEVT_LEFT_UP, wxMouseEventHandler(HierarchyTree::mouseUp));
+
+    //Connect(wxEVT_TREE_BEGIN_DRAG, wxTreeEventHandler(HierarchyTree::dragBegin));
+    //Connect(wxEVT_TREE_END_DRAG, wxTreeEventHandler(HierarchyTree::dragEnd));
 }
 
 HierarchyTree::~HierarchyTree(){
@@ -23,10 +27,45 @@ HierarchyTree::~HierarchyTree(){
 
 void HierarchyTree::dragBegin(wxTreeEvent &event){
     if(event.GetItem() == GetRootItem()) return;
-
     std::cout << "dragging" << std::endl;
+
     draggedItem = event.GetItem();
-    event.Allow();
+
+    currentlyDragging = true;
+    //event.Allow();
+    std::cout << "draggingggggg" << std::endl;
+}
+
+void HierarchyTree::mouseMoved(wxMouseEvent &event){
+//This makes it so the drag only happens if the mouse is moved, not just for a click.
+//This checks for the item to drag.
+//It only runs once, because checkedLocation determines if the drag found anything.
+//If the user clicked on nothing, then nothing gets selected, but the check won't be run until they lift the mouse button.
+    if(wxGetMouseState().LeftDown() && !currentSelected && !checkedLocation){
+        wxPoint location = event.GetPosition();
+
+        wxTreeItemId item = HitTest(location);
+        if(item.IsOk()){
+            currentSelected = item;
+            std::cout << "Dragging item" << GetItemText(item) << std::endl;
+        }
+        checkedLocation = true;
+    }
+    if(currentSelected){
+        //Something is being dragged
+    }
+}
+
+void HierarchyTree::mouseDown(wxMouseEvent &event){
+    event.Skip();
+}
+
+void HierarchyTree::mouseUp(wxMouseEvent &event){
+    if(currentSelected){
+        currentSelected = 0;
+        std::cout << "finished drag" << std::endl;
+    }
+    checkedLocation = false;
 }
 
 void HierarchyTree::dragEnd(wxTreeEvent &event){
