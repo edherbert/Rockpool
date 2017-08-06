@@ -13,6 +13,10 @@ class HierarchyTree : public wxTreeCtrl
     protected:
 
     private:
+        void dragBegin(wxTreeEvent &event);
+        void dragEnd(wxTreeEvent &event);
+
+        wxTreeItemId draggedItem;
 };
 
 #endif // HIERARCHYTREE_H
