@@ -11,6 +11,13 @@ ObjectHierarchy::ObjectHierarchy(MainFrame *mainFrame, wxAuiManager *auiManager)
     info.Show(true);
     info.Name(wxT("ObjectHierarchy"));
     auiManager->AddPane(this, info);
+
+    wxBoxSizer *vertical = new wxBoxSizer(wxVERTICAL);
+    HierarchyTree *tree = new HierarchyTree(this);
+
+    vertical->Add(tree, 1, wxEXPAND);
+
+    SetSizer(vertical);
 }
 
 ObjectHierarchy::~ObjectHierarchy(){

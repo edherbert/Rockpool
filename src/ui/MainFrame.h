@@ -16,7 +16,7 @@
 #include "TerrainInfoHandler.h"
 #include "Resource/ResourceBrowser.h"
 #include "../system/ResourceManager.h"
-#include "ObjectHierarchy.h"
+#include "Hierarchy/ObjectHierarchy.h"
 
 #include <wx/accel.h>
 

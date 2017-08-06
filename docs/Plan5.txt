@@ -198,3 +198,7 @@ If the node was removed, the object could be as well, and visa versa.
 An object is just a wrapper for the scene node.
 This means that it should come with a load of functions to attach objects together.
 
+--Hierarchy--
+The hierarchy will largely just be a tree ctrl, at least for now.
+It should probably have it's own directory, as I'm probably going to have to abstract out the tree ctrl to it's own class.
+

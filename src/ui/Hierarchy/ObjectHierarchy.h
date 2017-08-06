@@ -1,7 +1,8 @@
 #ifndef OBJECTHIERARCHY_H
 #define OBJECTHIERARCHY_H
 
-#include "MainFrame.h"
+#include "../MainFrame.h"
+#include "HierarchyTree.h"
 
 class MainFrame;
 
