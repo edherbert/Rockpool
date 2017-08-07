@@ -31,7 +31,7 @@ void HierarchyTree::dragBegin(wxTreeEvent &event){
 
     draggedItem = event.GetItem();
 
-    currentlyDragging = true;
+//    currentlyDragging = true;
     //event.Allow();
     std::cout << "draggingggggg" << std::endl;
 }
@@ -51,9 +51,23 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
         }
         checkedLocation = true;
     }
+    //Something is being dragged
     if(currentSelected){
-        //Something is being dragged
+        wxPoint location = event.GetPosition();
+        wxTreeItemId item = HitTest(location);
+
+        //If the highlighted item has changed
+        if(item.IsOk() && item != currentHighlight){
+            resetItemHighlight();
+            currentHighlight = item;
+            SetItemBackgroundColour(item, wxColour("#FF0000"));
+        }
     }
+}
+
+void HierarchyTree::resetItemHighlight(){
+    if(currentHighlight)SetItemBackgroundColour(currentHighlight, wxColour("#FFFFFF"));
+    currentHighlight = 0;
 }
 
 void HierarchyTree::mouseDown(wxMouseEvent &event){
@@ -63,6 +77,7 @@ void HierarchyTree::mouseDown(wxMouseEvent &event){
 void HierarchyTree::mouseUp(wxMouseEvent &event){
     if(currentSelected){
         currentSelected = 0;
+        resetItemHighlight();
         std::cout << "finished drag" << std::endl;
     }
     checkedLocation = false;

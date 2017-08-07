@@ -21,7 +21,11 @@ class HierarchyTree : public wxTreeCtrl
 
         void mouseMoved(wxMouseEvent &event);
 
+        void resetItemHighlight();
+
         wxTreeItemId draggedItem;
+        //An object to keep track of which item is currently highlighted.
+        wxTreeItemId currentHighlight;
 
         bool checkedLocation = false;
         wxTreeItemId currentSelected;
