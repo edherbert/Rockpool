@@ -123,31 +123,43 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
         if(currentHoverState == hoverStateBelow){
             //InsertItem(GetItemParent())
             for(int i = currentItems.size() - 1; i >= 0; i--){
-                InsertItem(GetItemParent(currentDestination), currentDestination, GetItemText(currentItems[i]));
+                wxTreeItemId newItem = InsertItem(GetItemParent(currentDestination), currentDestination, GetItemText(currentItems[i]));
+                checkAppendItemTree(newItem, currentItems[i]);
                 Delete(currentItems[i]);
             }
         }
         if(currentHoverState == hoverStateAbove){
             wxTreeItemId sibling = GetPrevSibling(currentDestination);
             for(int i = currentItems.size() - 1; i >= 0; i--){
-                InsertItem(GetItemParent(currentDestination), sibling, GetItemText(currentItems[i]));
+                wxTreeItemId newItem = InsertItem(GetItemParent(currentDestination), sibling, GetItemText(currentItems[i]));
+                checkAppendItemTree(newItem, currentItems[i]);
                 Delete(currentItems[i]);
             }
         }
         if(currentHoverState == hoverStateInside){
             for(int i = currentItems.size() - 1; i >= 0; i--){
-                //InsertItem(currentDestination, sibling, GetItemText(currentItems[i]));
-                AppendItem(currentDestination, GetItemText(currentItems[i]));
+                wxTreeItemId newItem = AppendItem(currentDestination, GetItemText(currentItems[i]));
+                checkAppendItemTree(newItem, currentItems[i]);
                 Delete(currentItems[i]);
             }
         }
     }
+
+    //So basically loop through all the children and copy them over
+    //If that child has children then run the function on that object.
+
+    //The parent and the location in which the text should be inserted
+    //The parent in which the text should be inserted
+
+    //It could just do the job of appending items, rather than inserting them.
+    //I could insert the item and then do the search.
 
 
     currentItems.clear();
     resetItemHighlight();
     checkedLocation = false;
 }
+
 
 bool HierarchyTree::checkItemParent(wxTreeItemId item){
     //Loop through all the parents of the item until the root is found.
@@ -165,4 +177,20 @@ bool HierarchyTree::checkItemParent(wxTreeItemId item){
         currentItem = GetItemParent(currentItem);
     }
     return returnVal;
+}
+
+//The destination object, and the one that's currently being searched
+void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId item){
+//Make it not immediately append items
+    //wxTreeItemId newItem = AppendItem(destination, GetItemText(item));
+    if(ItemHasChildren(item)){
+        wxTreeItemIdValue cookie;
+        wxTreeItemId ch = GetFirstChild(item, cookie);
+        while(ch.IsOk()){
+            wxTreeItemId newItem = AppendItem(destination, GetItemText(ch));
+            checkAppendItemTree(newItem, ch);
+            //std::cout << GetItemText(item) << std::endl;
+            ch = GetNextChild(item, cookie);
+        }
+    }
 }
