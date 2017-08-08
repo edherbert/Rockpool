@@ -10,6 +10,16 @@ HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wx
 
     AppendItem(triangle, "other triangle");
 
+    for(int y = 0; y < 10; y++){
+        wxTreeItemId yVal = AppendItem(root, std::to_string(y));
+        for(int x = 0; x < 10; x++){
+            wxTreeItemId xVal = AppendItem(yVal, std::to_string(x));
+            for(int z = 0; z < 10; z++){
+                wxTreeItemId zVal = AppendItem(xVal, std::to_string(z));
+            }
+        }
+    }
+
     Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
     Connect(wxEVT_LEFT_UP, wxMouseEventHandler(HierarchyTree::mouseUp));
@@ -71,7 +81,7 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
     }
 */
     //if(wxGetMouseState().LeftDown() && !checkedLocation && !currentSelection){
-    if(wxGetMouseState().LeftDown() && !checkedLocation && !currentItems){
+    if(wxGetMouseState().LeftDown() && !checkedLocation){
         wxArrayTreeItemIds items;
         GetSelections(items);
 
@@ -92,12 +102,13 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
         }
         checkedLocation = true;
     }
-    //An item is being dragged.
-    if(currentItems){
+    //If there are items in the current items array, then something is being dragged
+    if(currentItems.size() > 0){
         wxPoint location = event.GetPosition();
         wxTreeItemId item = HitTest(location);
 
-        if(item.IsOk()){
+        //Don't bother doing all this highlight logic if the item is selected or not ok.
+        if(item.IsOk() && !IsSelected(item)){
             wxRect rect;
             GetBoundingRect(item, rect);
 
@@ -121,7 +132,7 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
             if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
             else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
         }else{
-            //If no item is being dragged, do nothing.
+            //If there is something wrong with the item being hovered over, reset the highlight.
             resetItemHighlight();
         }
     }
@@ -178,7 +189,46 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
     }
     checkedLocation = false;
     */
+
+    //Parent items can't be dragged into themselves. If any of the items in the selection have this then do nothing for all of them.
+    //If the item destination is selected, do nothing. This also covers tryting to drag items into themselves.
+    //If the desination is not ok then do nothing.
+
+    if(currentItems.size() <= 0)return;
+
+    bool validMove = false;
+    if(currentDestination.IsOk()){
+        //If an item is not being dragged into one of it's children.
+        if(!checkItemParent(currentDestination)){
+            validMove = true;
+        }
+    }
+
+    //If all the items are ok and there are no restrictions of any kind then move the item.
+    if(validMove){
+        std::cout << "moving" << std::endl;
+    }
+
+
     currentItems.clear();
-    currentItems = 0;
+    resetItemHighlight();
     checkedLocation = false;
+}
+
+bool HierarchyTree::checkItemParent(wxTreeItemId item){
+    //Loop through all the parents of the item until the root is found.
+    //Each time go through the current items and see if one of the items is the current parent
+    //If it is, then return true, as that means the user is trying to drag an item into itself.
+    bool returnVal = false;
+    wxTreeItemId currentItem = item;
+    while(currentItem != GetRootItem()){
+        for(int i = 0; i < currentItems.size(); i++){
+            if(currentItems[i] == currentItem){
+                returnVal = true;
+                return returnVal;
+            }
+        }
+        currentItem = GetItemParent(currentItem);
+    }
+    return returnVal;
 }

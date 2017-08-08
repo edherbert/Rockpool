@@ -29,6 +29,8 @@ class HierarchyTree : public wxTreeCtrl
         itemHoverState currentHoverState;
         wxTreeItemId currentDestination;
 
+        bool checkItemParent(wxTreeItemId item);
+
         bool checkedLocation = false;
         wxArrayTreeItemIds currentItems;
 };
