@@ -4,6 +4,12 @@
 #include "ObjectHierarchy.h"
 #include <wx/treectrl.h>
 
+enum itemHoverState{
+    hoverStateAbove,
+    hoverStateBelow,
+    hoverStateInside,
+};
+
 class HierarchyTree : public wxTreeCtrl
 {
     public:
@@ -13,9 +19,6 @@ class HierarchyTree : public wxTreeCtrl
     protected:
 
     private:
-        void dragBegin(wxTreeEvent &event);
-        void dragEnd(wxTreeEvent &event);
-
         void mouseDown(wxMouseEvent &event);
         void mouseUp(wxMouseEvent &event);
 
@@ -23,12 +26,11 @@ class HierarchyTree : public wxTreeCtrl
 
         void resetItemHighlight();
 
-        wxTreeItemId draggedItem;
-        //An object to keep track of which item is currently highlighted.
-        wxTreeItemId currentHighlight;
+        itemHoverState currentHoverState;
+        wxTreeItemId currentDestination;
 
         bool checkedLocation = false;
-        wxTreeItemId currentSelected;
+        wxArrayTreeItemIds currentItems;
 };
 
 #endif // HIERARCHYTREE_H

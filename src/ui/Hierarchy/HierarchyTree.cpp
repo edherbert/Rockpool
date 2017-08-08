@@ -8,39 +8,24 @@ HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wx
     wxTreeItemId sphere = AppendItem(root, "Sphere");
     wxTreeItemId triangle = AppendItem(root, "Triangle");
 
-    //SetItemDropHighlight(cube, true);
-
-
     AppendItem(triangle, "other triangle");
 
     Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
     Connect(wxEVT_LEFT_UP, wxMouseEventHandler(HierarchyTree::mouseUp));
-
-    //Connect(wxEVT_TREE_BEGIN_DRAG, wxTreeEventHandler(HierarchyTree::dragBegin));
-    //Connect(wxEVT_TREE_END_DRAG, wxTreeEventHandler(HierarchyTree::dragEnd));
 }
 
 HierarchyTree::~HierarchyTree(){
 
 }
 
-void HierarchyTree::dragBegin(wxTreeEvent &event){
-    if(event.GetItem() == GetRootItem()) return;
-    std::cout << "dragging" << std::endl;
-
-    draggedItem = event.GetItem();
-
-//    currentlyDragging = true;
-    //event.Allow();
-    std::cout << "draggingggggg" << std::endl;
-}
-
 void HierarchyTree::mouseMoved(wxMouseEvent &event){
+/*
 //This makes it so the drag only happens if the mouse is moved, not just for a click.
 //This checks for the item to drag.
 //It only runs once, because checkedLocation determines if the drag found anything.
 //If the user clicked on nothing, then nothing gets selected, but the check won't be run until they lift the mouse button.
+//This prevents a bug where the user could click a void area and then drag the mouse onto an entry to start dragging it.
     if(wxGetMouseState().LeftDown() && !currentSelected && !checkedLocation){
         wxPoint location = event.GetPosition();
 
@@ -51,61 +36,149 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
         }
         checkedLocation = true;
     }
-    //Something is being dragged
+    //Something is being dragged, so do all the highlights
     if(currentSelected){
         wxPoint location = event.GetPosition();
         wxTreeItemId item = HitTest(location);
 
-        //If the highlighted item has changed
-        if(item.IsOk() && item != currentHighlight){
+        if(item.IsOk()){
+            wxRect rect;
+            GetBoundingRect(item, rect);
+
+            int posY = location.y - rect.GetLeftTop().y;
+            int border = rect.GetHeight() / 4;
+            if(posY < border){
+                currentHoverState = hoverStateAbove;
+            }
+            else if(posY > rect.GetHeight() - border){
+                currentHoverState = hoverStateBelow;
+            }
+            else{
+                currentHoverState = hoverStateInside;
+            }
+
+            //If the highlighted item has changed
+            if(item != currentDestination){
+                resetItemHighlight();
+                currentDestination = item;
+            }
+            if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
+            else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
+        }else{
+            //If no item is being dragged, do nothing.
             resetItemHighlight();
-            currentHighlight = item;
-            SetItemBackgroundColour(item, wxColour("#FF0000"));
+        }
+    }
+*/
+    //if(wxGetMouseState().LeftDown() && !checkedLocation && !currentSelection){
+    if(wxGetMouseState().LeftDown() && !checkedLocation && !currentItems){
+        wxArrayTreeItemIds items;
+        GetSelections(items);
+
+        wxPoint location = event.GetPosition();
+
+        /*wxTreeItemId item = HitTest(location);
+        if(item.IsOk()){
+            currentSelected = item;
+            std::cout << "Dragging item" << GetItemText(item) << std::endl;
+        }*/
+        wxTreeItemId item = HitTest(location);
+        if(item.IsOk()){
+            if(std::find(items.begin(), items.end(), item)){
+                currentItems = items;
+            }
+        }else{
+            UnselectAll();
+        }
+        checkedLocation = true;
+    }
+    //An item is being dragged.
+    if(currentItems){
+        wxPoint location = event.GetPosition();
+        wxTreeItemId item = HitTest(location);
+
+        if(item.IsOk()){
+            wxRect rect;
+            GetBoundingRect(item, rect);
+
+            int posY = location.y - rect.GetLeftTop().y;
+            int border = rect.GetHeight() / 4;
+            if(posY < border){
+                currentHoverState = hoverStateAbove;
+            }
+            else if(posY > rect.GetHeight() - border){
+                currentHoverState = hoverStateBelow;
+            }
+            else{
+                currentHoverState = hoverStateInside;
+            }
+
+            //If the highlighted item has changed
+            if(item != currentDestination){
+                resetItemHighlight();
+                currentDestination = item;
+            }
+            if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
+            else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
+        }else{
+            //If no item is being dragged, do nothing.
+            resetItemHighlight();
         }
     }
 }
 
 void HierarchyTree::resetItemHighlight(){
-    if(currentHighlight)SetItemBackgroundColour(currentHighlight, wxColour("#FFFFFF"));
-    currentHighlight = 0;
+    if(currentDestination)SetItemBackgroundColour(currentDestination, wxColour("#FFFFFF"));
+    currentDestination = 0;
 }
 
 void HierarchyTree::mouseDown(wxMouseEvent &event){
     event.Skip();
+
+    //Abstract this into a function at some point.
+    wxPoint location = event.GetPosition();
+    wxTreeItemId item = HitTest(location);
+
+    if(!item.IsOk()){
+        UnselectAll();
+    }
 }
 
 void HierarchyTree::mouseUp(wxMouseEvent &event){
+/*
+//If there is no item to drop the thing onto, like outside the tree then there will be a crash.
     if(currentSelected){
+        if(aboveDestination){
+            wxTreeItemId parentDestination = GetPrevSibling(currentDestination);
+            if(parentDestination.IsOk()){
+                if(parentDestination == currentSelected || currentDestination == currentSelected){
+                    std::cout << "The items are the same, doing nothing" << std::endl;
+                }else{
+                    std::cout << "Dropping below " << GetItemText(parentDestination) << std::endl;
+                }
+            }else{
+                if(currentDestination.IsOk()){
+                    if(currentSelected == currentDestination){
+                        std::cout << "The items are the same, doing nothing" << std::endl;
+                    }else{
+                        std::cout << "Dropping above " << GetItemText(currentDestination) << std::endl;
+                    }
+                }
+            }
+        }else{
+            if(currentDestination.IsOk()){
+                std::cout << "Dropping onto " << GetItemText(currentDestination) << std::endl;
+            }
+        }
+
+
         currentSelected = 0;
         resetItemHighlight();
         std::cout << "finished drag" << std::endl;
     }
     checkedLocation = false;
-}
-
-void HierarchyTree::dragEnd(wxTreeEvent &event){
-    std::cout << "drag end" << std::endl;
-    wxTreeItemId itemDestination = event.GetItem();
-
-    if(!itemDestination.IsOk())return;
-
-    wxTreeItemId destinationParent;
-
-    if(!ItemHasChildren(itemDestination)){
-        //itemDestination = GetItemParent(itemDestination);
-        destinationParent = GetItemParent(itemDestination);
-    }
-
-    wxString text = GetItemText(draggedItem);
-
-    //AppendItem(itemDestination, text);
-    InsertItem(destinationParent, itemDestination, text);
-    Delete(draggedItem);
-
-    //I can check the position of the mouse during a drag as well as after it.
-    //I can get a bounding rect for each item.
-    //Hit test can tell me which item is underneath a certain point, so I could use the mouse position.
-
-    //I can show a highlight for an object, but I can't show the outline. It might be easier to just not show the outline, but also hide the highlight.
-    //That way the user would know that the item isn't going to be put in the wrong place.
+    */
+    currentItems.clear();
+    currentItems = 0;
+    checkedLocation = false;
 }
