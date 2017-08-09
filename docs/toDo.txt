@@ -40,7 +40,7 @@ Things to do before entity work begins:
     -Change the map class to incorporate objects
     -Make it so that indivdiual terrains can be added and removed like objects, and then change the map creation process, as well as the new map dialog
     -Make sure that terrains can still be edited and all that.
-    -Implement the hierarchy panel
+    -Implement the hierarchy panel *
     -Implement the ability to save the current objects, as well as the terrains
     -Make it so objects can be dragged around the hierarchy panel to re-arrange their order.
     -Implement the ability to add objects from the hierarchy panel

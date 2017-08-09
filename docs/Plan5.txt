@@ -202,3 +202,49 @@ This means that it should come with a load of functions to attach objects togeth
 The hierarchy will largely just be a tree ctrl, at least for now.
 It should probably have it's own directory, as I'm probably going to have to abstract out the tree ctrl to it's own class.
 
+--Hierarchy and the map--
+The contents of the hierarchy should mirror the map completely.
+I need some sort of universal way to edit the map and have that reflect in the hierarchy.
+I need a command at some point anyway, so I think it might be a good idea to work on one of those.
+Firstly, I'm going to need to abstract the function of the hierarchy into it's own functions.
+So when the mouse is released, a function like moveObject is run, rather than running it in the function.
+
+This would mean that I can also undo and redo these actions.
+
+The issue will be making sure that the two are in sync.
+I'll have to designate one place in which items can be added and removed from the map, so probaly in map.
+One problem I have is with the undo and redo system.
+How can I make sure that the objects are added and removed properly.
+If there is a large tree of objects, they would all need to be stored in the command.
+The plan was to detach them from their appropriate parent if they were 'deleted'.
+Only when the command reached the end of the command memory buffer would the objects actually be deleted.
+So essentually when the command is deleted, all the objects associated with it would also be deleted.
+
+I suppose in total there would be three commands, move, add and delete.
+They would all need to retain information about the items they effect.
+
+With this sort of thing, I can just have a command to do all the work.
+Maybe I could have the command deal with both the hierarchy and the map.
+In that sense, the two could be separate, but still attached in a way.
+
+--Object commands--
+I suppose there will be lots of commands that manipulate objects.
+Scale Command
+Move Command
+rotate command
+Re-arranging objects in the hierarchy
+Adding objects
+Removing objects
+
+That's just a few. I think the thing they'll have in common is that they will need to contain a list of objects.
+Each one of these functions can operate on multiple objects (except maybe the adding objects one).
+So I suppose they should all contain a list of objects.
+Each object should also contain a pointer to the tree item.
+The purpose of the individual command can be determined from that.
+Some other commands like the scale and move ones will need immediate feedback, so it's important the class isn't always immediate.
+For something like the add object command you could just tell it what object and what to add, then call performAction().
+
+Before I begin doing the commands, I should do the right click functionality, just because that'll be needed to add objects.
+Once that's there, I can do the code for the command that adds objects.
+I think the add function might be the only function that doesn't inherit from the object command class.
+Basically, It'll just run the appropriate functions for the map and the object hierarchy.
