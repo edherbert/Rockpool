@@ -30,6 +30,7 @@ HierarchyTree::~HierarchyTree(){
 }
 
 void HierarchyTree::mouseMoved(wxMouseEvent &event){
+std::cout << checkedLocation << std::endl;
     //if(wxGetMouseState().LeftDown() && !checkedLocation && !currentSelection){
     if(wxGetMouseState().LeftDown() && !checkedLocation){
         wxArrayTreeItemIds items;
@@ -74,7 +75,7 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
                 resetItemHighlight();
                 currentDestination = item;
             }
-            if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
+            if(currentHoverState == hoverStateInside) SetItemDropHighlight(item);
             else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
         }else{
             //If there is something wrong with the item being hovered over, reset the highlight.
@@ -91,20 +92,20 @@ void HierarchyTree::resetItemHighlight(){
 void HierarchyTree::mouseDown(wxMouseEvent &event){
     event.Skip();
 
-    //Abstract this into a function at some point.
     wxPoint location = event.GetPosition();
     wxTreeItemId item = HitTest(location);
 
     if(!item.IsOk()){
         UnselectAll();
+        endDrag();
+        checkedLocation = true;
     }
 }
 
 void HierarchyTree::mouseUp(wxMouseEvent &event){
-    //Parent items can't be dragged into themselves. If any of the items in the selection have this then do nothing for all of them.
-    //If the item destination is selected, do nothing. This also covers tryting to drag items into themselves.
-    //If the desination is not ok then do nothing.
-
+//Regardless of what happens, checked location is set to false when the mouse button is raised.
+    checkedLocation = false;
+//If there are no items, then that means nothing was dragged
     if(currentItems.size() <= 0)return;
 
     bool validMove = false;
@@ -117,44 +118,28 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 
     //If all the items are ok and there are no restrictions of any kind then move the item.
     if(validMove){
-        //If the value is 0 (above), find the item above
-            //If there is no item above then copy the item into the first place.
-        //If the item is below, do nothing.
-        if(currentHoverState == hoverStateBelow){
-            //InsertItem(GetItemParent())
-            for(int i = currentItems.size() - 1; i >= 0; i--){
-                wxTreeItemId newItem = InsertItem(GetItemParent(currentDestination), currentDestination, GetItemText(currentItems[i]));
-                checkAppendItemTree(newItem, currentItems[i]);
-                Delete(currentItems[i]);
+        //Go through all the items
+        for(int i = currentItems.size() - 1; i >= 0; i--){
+            wxTreeItemId newItem;
+            if(currentHoverState == hoverStateBelow){
+                newItem = InsertItem(GetItemParent(currentDestination), currentDestination, GetItemText(currentItems[i]));
+            }else if(currentHoverState == hoverStateAbove){
+                newItem = InsertItem(GetItemParent(currentDestination), GetPrevSibling(currentDestination), GetItemText(currentItems[i]));
+            }else if(currentHoverState == hoverStateInside){
+                newItem = AppendItem(currentDestination, GetItemText(currentItems[i]));
             }
-        }
-        if(currentHoverState == hoverStateAbove){
-            wxTreeItemId sibling = GetPrevSibling(currentDestination);
-            for(int i = currentItems.size() - 1; i >= 0; i--){
-                wxTreeItemId newItem = InsertItem(GetItemParent(currentDestination), sibling, GetItemText(currentItems[i]));
-                checkAppendItemTree(newItem, currentItems[i]);
-                Delete(currentItems[i]);
-            }
-        }
-        if(currentHoverState == hoverStateInside){
-            for(int i = currentItems.size() - 1; i >= 0; i--){
-                wxTreeItemId newItem = AppendItem(currentDestination, GetItemText(currentItems[i]));
-                checkAppendItemTree(newItem, currentItems[i]);
-                Delete(currentItems[i]);
-            }
+
+            //This function checks if the item being dragged has children, and then copies them over
+            checkAppendItemTree(newItem, currentItems[i]);
+            //Remove the old item when teh drag has finished.
+            Delete(currentItems[i]);
         }
     }
 
-    //So basically loop through all the children and copy them over
-    //If that child has children then run the function on that object.
+    endDrag();
+}
 
-    //The parent and the location in which the text should be inserted
-    //The parent in which the text should be inserted
-
-    //It could just do the job of appending items, rather than inserting them.
-    //I could insert the item and then do the search.
-
-
+void HierarchyTree::endDrag(){
     currentItems.clear();
     resetItemHighlight();
     checkedLocation = false;
@@ -179,17 +164,19 @@ bool HierarchyTree::checkItemParent(wxTreeItemId item){
     return returnVal;
 }
 
-//The destination object, and the one that's currently being searched
+//The destination object (the one that has items appended to it), and the one that's currently being searched
 void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId item){
-//Make it not immediately append items
-    //wxTreeItemId newItem = AppendItem(destination, GetItemText(item));
     if(ItemHasChildren(item)){
+        //This will loop through the children.
+        //The cookie is used to store the iteration values
         wxTreeItemIdValue cookie;
         wxTreeItemId ch = GetFirstChild(item, cookie);
         while(ch.IsOk()){
+            //Append the text to the destination (this will run for each child)
             wxTreeItemId newItem = AppendItem(destination, GetItemText(ch));
+            //Check if that child has children and do the same for them.
             checkAppendItemTree(newItem, ch);
-            //std::cout << GetItemText(item) << std::endl;
+
             ch = GetNextChild(item, cookie);
         }
     }

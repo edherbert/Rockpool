@@ -30,8 +30,8 @@ Things to do before entity work begins:
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 
-
--Begin to implement the hierarchy
+-Plan out how the hierarchy will interface with the map side of things
+-Implement the right click options into the hierarchy
 -Once the hierarchy is done, do the moving and scaling of objects.
 
 --Plan to implement objects--
@@ -280,3 +280,5 @@ Things to do before entity work begins:
 -Make it so that only one terrain chunk can be textured at a time
 
 -Implement undo and re-do functions for adding and deleting terrain layers. (I'm going to do this later, I'm probably going to end up changing the current system anyway')
+
+-Begin to implement the hierarchy

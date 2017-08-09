@@ -26,6 +26,7 @@ class HierarchyTree : public wxTreeCtrl
 
         void resetItemHighlight();
         void checkAppendItemTree(wxTreeItemId destination, wxTreeItemId item);
+        void endDrag();
 
         itemHoverState currentHoverState;
         wxTreeItemId currentDestination;
