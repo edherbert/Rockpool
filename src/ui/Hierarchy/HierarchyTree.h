@@ -2,6 +2,7 @@
 #define HIERARCHYTREE_H
 
 #include "ObjectHierarchy.h"
+#include "HierarchyRightClickMenu.h"
 #include <wx/treectrl.h>
 
 enum itemHoverState{
@@ -21,6 +22,8 @@ class HierarchyTree : public wxTreeCtrl
     private:
         void mouseDown(wxMouseEvent &event);
         void mouseUp(wxMouseEvent &event);
+
+        void MouseRightDown(wxMouseEvent &event);
 
         void mouseMoved(wxMouseEvent &event);
 

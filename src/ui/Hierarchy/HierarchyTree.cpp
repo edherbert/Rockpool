@@ -10,7 +10,7 @@ HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wx
 
     AppendItem(triangle, "other triangle");
 
-    for(int y = 0; y < 10; y++){
+    /*for(int y = 0; y < 10; y++){
         wxTreeItemId yVal = AppendItem(root, std::to_string(y));
         for(int x = 0; x < 10; x++){
             wxTreeItemId xVal = AppendItem(yVal, std::to_string(x));
@@ -18,11 +18,13 @@ HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wx
                 wxTreeItemId zVal = AppendItem(xVal, std::to_string(z));
             }
         }
-    }
+    }*/
 
     Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
     Connect(wxEVT_LEFT_UP, wxMouseEventHandler(HierarchyTree::mouseUp));
+
+    Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(HierarchyTree::MouseRightDown));
 }
 
 HierarchyTree::~HierarchyTree(){
@@ -30,8 +32,8 @@ HierarchyTree::~HierarchyTree(){
 }
 
 void HierarchyTree::mouseMoved(wxMouseEvent &event){
-std::cout << checkedLocation << std::endl;
-    //if(wxGetMouseState().LeftDown() && !checkedLocation && !currentSelection){
+    //Checked location is run the first time the mouse is pressed down
+    //It makes sure the user can't click on an invalid area, then move their mouse and still have the checks take place
     if(wxGetMouseState().LeftDown() && !checkedLocation){
         wxArrayTreeItemIds items;
         GetSelections(items);
@@ -180,4 +182,20 @@ void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId i
             ch = GetNextChild(item, cookie);
         }
     }
+}
+
+void HierarchyTree::MouseRightDown(wxMouseEvent &event){
+    event.Skip();
+
+    wxPoint location = event.GetPosition();
+    wxTreeItemId item = HitTest(location);
+
+    if(item.IsOk()){
+        if(!IsSelected(item)){
+            UnselectAll();
+            SelectItem(item);
+        }
+        HierarchyRightClickMenu* menu = new HierarchyRightClickMenu(this, location);
+        menu->popup();
+     }
 }
