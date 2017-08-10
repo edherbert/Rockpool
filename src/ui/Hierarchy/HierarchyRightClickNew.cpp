@@ -1,6 +1,8 @@
 #include "HierarchyRightClickNew.h"
 
 HierarchyRightClickNew::HierarchyRightClickNew(){
+    Append(HIERARCHY_MENU_ADD_EMPTY, wxT("Empty Object"));
+    AppendSeparator();
     Append(HIERARCHY_MENU_ADD_CUBE, wxT("Cube"));
     Append(HIERARCHY_MENU_ADD_SPHERE, wxT("Sphere"));
     Append(HIERARCHY_MENU_ADD_CONE, wxT("Cone"));

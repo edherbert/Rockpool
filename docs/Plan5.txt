@@ -248,3 +248,9 @@ Before I begin doing the commands, I should do the right click functionality, ju
 Once that's there, I can do the code for the command that adds objects.
 I think the add function might be the only function that doesn't inherit from the object command class.
 Basically, It'll just run the appropriate functions for the map and the object hierarchy.
+
+I could create the object inside of the object hierarchy and then pass it into the event.
+I could just give a resource name to the command and let it figure it out from there.
+For adding an object, that might be easier.
+Most of the actions are going to be doing that sort of thing anyway.
+The delete command would need an object, but that's fine.

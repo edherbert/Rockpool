@@ -5,6 +5,8 @@
 #include "HierarchyRightClickMenu.h"
 #include <wx/treectrl.h>
 
+#include "../../map/Object/Object.h"
+
 enum itemHoverState{
     hoverStateAbove,
     hoverStateBelow,
@@ -16,6 +18,8 @@ class HierarchyTree : public wxTreeCtrl
     public:
         HierarchyTree(wxWindow *parent);
         virtual ~HierarchyTree();
+
+        void AddObject(Object *object, wxString name, wxTreeItemId parent = 0);
 
     protected:
 

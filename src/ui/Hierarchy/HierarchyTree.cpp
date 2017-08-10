@@ -3,12 +3,12 @@
 HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     AddRoot("Hierarchy");
 
-    wxTreeItemId root = GetRootItem();
+    /*wxTreeItemId root = GetRootItem();
     wxTreeItemId cube = AppendItem(root, "Cube");
     wxTreeItemId sphere = AppendItem(root, "Sphere");
     wxTreeItemId triangle = AppendItem(root, "Triangle");
 
-    AppendItem(triangle, "other triangle");
+    AppendItem(triangle, "other triangle");*/
 
     /*for(int y = 0; y < 10; y++){
         wxTreeItemId yVal = AppendItem(root, std::to_string(y));
@@ -204,4 +204,11 @@ void HierarchyTree::MouseRightDown(wxMouseEvent &event){
 
     HierarchyRightClickMenu* menu = new HierarchyRightClickMenu(this, location, items);
     menu->popup();
+}
+
+void HierarchyTree::AddObject(Object *object, wxString name, wxTreeItemId parent){
+    if(parent == 0){
+        parent = GetRootItem();
+    }
+    AppendItem(parent, name);
 }
