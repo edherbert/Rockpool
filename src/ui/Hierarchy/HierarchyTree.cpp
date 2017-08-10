@@ -195,7 +195,13 @@ void HierarchyTree::MouseRightDown(wxMouseEvent &event){
             UnselectAll();
             SelectItem(item);
         }
-        HierarchyRightClickMenu* menu = new HierarchyRightClickMenu(this, location);
-        menu->popup();
+     }else{
+        UnselectAll();
      }
+
+    wxArrayTreeItemIds items;
+    GetSelections(items);
+
+    HierarchyRightClickMenu* menu = new HierarchyRightClickMenu(this, location, items);
+    menu->popup();
 }

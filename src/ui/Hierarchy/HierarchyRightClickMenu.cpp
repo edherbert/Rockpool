@@ -1,23 +1,33 @@
 #include "HierarchyRightClickMenu.h"
 
-HierarchyRightClickMenu::HierarchyRightClickMenu(wxWindow *parent, wxPoint location) : wxMenu(){
+HierarchyRightClickMenu::HierarchyRightClickMenu(wxWindow *parent, wxPoint location, wxArrayTreeItemIds selection) : wxMenu(){
     this->parent = parent;
     this->location = location;
 
-    wxMenu *addObject = new wxMenu;
-    addObject->Append(wxID_ANY, wxT("Cube"));
-    addObject->Append(wxID_ANY, wxT("Sphere"));
-    addObject->Append(wxID_ANY, wxT("Cone"));
-    addObject->Append(wxID_ANY, wxT("Plane"));
+    HierarchyRightClickNew *addObjectMenu = new HierarchyRightClickNew();
 
-    AppendSubMenu(addObject, wxT("Add Object"));
+    wxMenuItem *addObject = AppendSubMenu(addObjectMenu, wxT("Add Object"));
     AppendSeparator();
-    Append(wxID_ANY, wxT("Copy"));
-    Append(wxID_ANY, wxT("Paste"));
-    Append(wxID_ANY, wxT("Delete"));
-    Append(wxID_ANY, wxT("Duplicate"));
+    wxMenuItem *cutItem = Append(HIERARCHY_MENU_CUT, wxT("Cut"));
+    wxMenuItem *copyItem = Append(HIERARCHY_MENU_COPY, wxT("Copy"));
+    wxMenuItem *pasteItem = Append(HIERARCHY_MENU_PASTE, wxT("Paste"));
     AppendSeparator();
-    Append(wxID_ANY, wxT("Rename"));
+    wxMenuItem *deleteItem = Append(HIERARCHY_MENU_DELETE, wxT("Delete"));
+    wxMenuItem *duplicateItem = Append(HIERARCHY_MENU_DUPLICATE, wxT("Duplicate"));
+    AppendSeparator();
+    wxMenuItem *renameItem = Append(HIERARCHY_MENU_RENAME, wxT("Rename"));
+
+    if(selection.size() > 1){
+        addObject->Enable(false);
+        renameItem->Enable(false);
+    }
+    if(selection.size() <= 0){
+        cutItem->Enable(false);
+        copyItem->Enable(false);
+        deleteItem->Enable(false);
+        renameItem->Enable(false);
+        duplicateItem->Enable(false);
+    }
 }
 
 HierarchyRightClickMenu::~HierarchyRightClickMenu(){

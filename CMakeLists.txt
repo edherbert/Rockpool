@@ -51,6 +51,7 @@ src/ui/TerrainInfoLayerBox.cpp
 src/ui/Hierarchy/ObjectHierarchy.cpp
 src/ui/Hierarchy/HierarchyTree.cpp
 src/ui/Hierarchy/HierarchyRightClickMenu.cpp
+src/ui/Hierarchy/HierarchyRightClickNew.cpp
 
 src/ui/Dialogs/MapPropertiesDialog.cpp
 src/ui/Dialogs/NewMapDialog.cpp
