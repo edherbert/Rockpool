@@ -11,15 +11,17 @@ class HierarchyTree;
 class HierarchyRightClickNew : public wxMenu
 {
     public:
-        HierarchyRightClickNew(HierarchyTree *hierarchyTree);
+        HierarchyRightClickNew(HierarchyTree *hierarchyTree, wxArrayTreeItemIds selection);
         virtual ~HierarchyRightClickNew();
 
     protected:
 
     private:
+        void addEmptyClick(wxCommandEvent &event);
         void addCubeClick(wxCommandEvent &event);
 
         HierarchyTree *hierarchyTree;
+        wxArrayTreeItemIds selection;
 };
 
 #endif // HIERARCHYRIGHTCLICKNEW_H

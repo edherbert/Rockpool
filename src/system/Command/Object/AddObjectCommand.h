@@ -12,15 +12,18 @@ class HierarchyTree;
 class AddObjectCommand : public Command
 {
     public:
-        AddObjectCommand(wxString path, HierarchyTree *tree);
+        AddObjectCommand(wxString path, HierarchyTree *tree, wxTreeItemId parentItem = 0);
         virtual ~AddObjectCommand();
+
+        void performAction();
+        void performAntiAction();
 
     protected:
 
     private:
         HierarchyTree *tree;
-
         Object *object;
+        wxTreeItemId parentItem;
 
 };
 

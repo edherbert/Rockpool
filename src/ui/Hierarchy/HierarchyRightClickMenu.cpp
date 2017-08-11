@@ -4,7 +4,7 @@ HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, w
     this->hierarchyTree = hierarchyTree;
     this->location = location;
 
-    HierarchyRightClickNew *addObjectMenu = new HierarchyRightClickNew(hierarchyTree);
+    HierarchyRightClickNew *addObjectMenu = new HierarchyRightClickNew(hierarchyTree, selection);
 
     wxMenuItem *addObject = AppendSubMenu(addObjectMenu, wxT("Add Object"));
     AppendSeparator();
