@@ -225,6 +225,8 @@ void HierarchyTree::MouseRightDown(wxMouseEvent &event){
 wxTreeItemId HierarchyTree::AddObject(Object *object, wxString name, wxTreeItemId parent){
     if(parent == 0){
         parent = GetRootItem();
+
+        //getMap()->getSceneManager()->getRootSceneNode()->addChild(object->getSceneNode());
     }
     return AppendItem(parent, name);
 }

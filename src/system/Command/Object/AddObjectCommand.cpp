@@ -18,6 +18,7 @@ void AddObjectCommand::performAction(){
     }else{
         childItem = tree->AddObject(object, path, parentItem);
     }
+    std::cout << childItem.GetID() << std::endl;
 }
 
 void AddObjectCommand::performAntiAction(){

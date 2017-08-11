@@ -44,12 +44,14 @@ class Map
         void setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cameraDirection);
 
         void handleTerrainTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton, const int toolId);
-
         terrainSquareInformation genSquareInfo(Ogre::Terrain *terr, int x, int y, int z, int brushSize, bool textureTool = false);
-
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
         void saveMap(bool reSave);
+
+
+        void addObject(Object *object);
+
 
         bool getMapStarted();
         mapInformation getMapInformation();

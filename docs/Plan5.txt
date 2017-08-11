@@ -257,3 +257,33 @@ The delete command would need an object, but that's fine.
 
 The object hierarchy will need access to the current map.
 This will have to be set dynamically, for when the maps change.
+
+--Undo and redo hierarchy--
+I've got a bit of a problem with the hierarchy at the moment.
+When it comes to undo things, the only choice I have to to delete the items from the hierarchy.
+This becomes a problem for items that are further down the stack.
+So if you create an item in the root and then another within that item, then delete them the problem occurs.
+The first item that's added will be a new item, and then from the other item's memory it will try to attach itself to the previous object.
+The item that was placed there by the undo is technically a new item, so items that were previously it's children can't just be inserted like that.
+
+This means that I almost would need to go through the commands and update them as they go.
+That, or I would need something different to define each item's position in the hierarchy.
+
+Objects aren't deleted until they are removed from the command stack, they are just detached.
+However, this makes no sense if the items in the hierarchy are deleted.
+The idea was the hierarchy stores a pointer to each object so the map doesn't need to.
+That wouldn't work if each item in the hierarchy is destroyed (and thus the pointer to the object with it).
+The objects will largely look after themselves (as ogre does most of it), however I would need to remember which item is which.
+Otherwise, how would I solve the problem of the conflicting items.
+
+Maybe, If an item is re-appended, a search would need to go through all the object commands that reference the previous value and change it to the current.
+So only if the item is re-appended the check is carried out.
+Each item has a parent, so there can be a function to set the parent value.
+maybe checkParent(wxTreeItemID oldId, wxTreeItemID newId).
+It would go through and check for anything with the old parent Id and replace it with the new Id.
+Of course, it wouldn't matter if the new parent was removed again, because the function would be re-run when it's re-appended.
+
+This will most likely mean inheritance for the object commands.
+I suppose I'll need a class with at least the parent item and a function to check it.
+I'll probably need a function to check the type of command as well, so if it's an object command run the functions.
+
