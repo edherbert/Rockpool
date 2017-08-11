@@ -1,6 +1,8 @@
 #include "HierarchyTree.h"
 
-HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
+HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
+    this->objectHierarchy = objectHierarchy;
+
     //You can't actually see this in the hierarchy, but it's the root object
     AddRoot("Hierarchy");
 
@@ -38,6 +40,10 @@ void HierarchyTree::setMap(Map *map){
 
 Map* HierarchyTree::getMap(){
     return map;
+}
+
+ObjectHierarchy* HierarchyTree::getObjectHierarchy(){
+    return objectHierarchy;
 }
 
 void HierarchyTree::mouseMoved(wxMouseEvent &event){
@@ -216,9 +222,13 @@ void HierarchyTree::MouseRightDown(wxMouseEvent &event){
     menu->popup();
 }
 
-void HierarchyTree::AddObject(Object *object, wxString name, wxTreeItemId parent){
+wxTreeItemId HierarchyTree::AddObject(Object *object, wxString name, wxTreeItemId parent){
     if(parent == 0){
         parent = GetRootItem();
     }
-    AppendItem(parent, name);
+    return AppendItem(parent, name);
+}
+
+void HierarchyTree::removeObject(wxTreeItemId item){
+    Delete(item);
 }

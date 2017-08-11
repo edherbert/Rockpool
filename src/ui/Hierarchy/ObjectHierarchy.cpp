@@ -39,3 +39,7 @@ void ObjectHierarchy::setObjectHierarchyVisible(bool visible){
 void ObjectHierarchy::setMap(Map *map){
     tree->setMap(map);
 }
+
+MainFrame* ObjectHierarchy::getMainFrame(){
+    return mainFrame;
+}

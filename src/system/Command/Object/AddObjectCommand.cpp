@@ -1,6 +1,7 @@
 #include "AddObjectCommand.h"
 
 AddObjectCommand::AddObjectCommand(wxString path, HierarchyTree *tree, wxTreeItemId parentItem){
+    this->path = path;
     this->tree = tree;
     this->parentItem = parentItem;
 
@@ -13,12 +14,15 @@ AddObjectCommand::~AddObjectCommand(){
 
 void AddObjectCommand::performAction(){
     if(parentItem == 0){
-        tree->AddObject(object, "Cube");
+        childItem = tree->AddObject(object, path);
     }else{
-        tree->AddObject(object, "Cube", parentItem);
+        childItem = tree->AddObject(object, path, parentItem);
     }
 }
 
 void AddObjectCommand::performAntiAction(){
-
+    if(childItem != 0){
+        tree->removeObject(childItem);
+        childItem = 0;
+    }
 }

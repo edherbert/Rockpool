@@ -16,6 +16,8 @@ class ObjectHierarchy : public wxPanel
         void setObjectHierarchyVisible(bool visible);
         void setMap(Map *map);
 
+        MainFrame* getMainFrame();
+
     protected:
 
     private:

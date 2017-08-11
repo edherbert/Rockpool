@@ -15,16 +15,20 @@ enum itemHoverState{
 };
 
 class Map;
+class ObjectHierarchy;
 
 class HierarchyTree : public wxTreeCtrl
 {
     public:
-        HierarchyTree(wxWindow *parent);
+        HierarchyTree(ObjectHierarchy *objectHierarchy);
         virtual ~HierarchyTree();
 
-        void AddObject(Object *object, wxString name, wxTreeItemId parent = 0);
+        wxTreeItemId AddObject(Object *object, wxString name, wxTreeItemId parent = 0);
+        void removeObject(wxTreeItemId item);
+
         void setMap(Map *map);
         Map* getMap();
+        ObjectHierarchy* getObjectHierarchy();
 
     protected:
 
@@ -44,6 +48,7 @@ class HierarchyTree : public wxTreeCtrl
         wxTreeItemId currentDestination;
 
         Map *map = 0;
+        ObjectHierarchy *objectHierarchy = 0;
 
         bool checkItemParent(wxTreeItemId item);
 

@@ -23,8 +23,10 @@ class AddObjectCommand : public Command
     private:
         HierarchyTree *tree;
         Object *object;
-        wxTreeItemId parentItem;
 
+        wxString path;
+        wxTreeItemId parentItem;
+        wxTreeItemId childItem;
 };
 
 #endif // ADDOBJECTCOMMAND_H
