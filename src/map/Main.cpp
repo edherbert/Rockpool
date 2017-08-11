@@ -92,6 +92,7 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     currentMap = new Map(frame->getHandlerData(), (std::string)directoryPath, info);
     currentMap->setDefaultCameraValues(cameraPosition, cameraDirection);
     canvas->setMap(currentMap);
+    frame->getObjectHierarchy()->setMap(currentMap);
     //loadDialog->addValue(10);
     //loadDialog->setText("Generating Terrain");
 }

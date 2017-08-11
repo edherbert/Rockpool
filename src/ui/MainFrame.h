@@ -58,6 +58,7 @@ public:
     HandlerData* getHandlerData();
     ResourceManager* getResourceManager();
     ResourceBrowser* getResourceBrowser();
+    ObjectHierarchy* getObjectHierarchy();
 
     DECLARE_EVENT_TABLE()
 

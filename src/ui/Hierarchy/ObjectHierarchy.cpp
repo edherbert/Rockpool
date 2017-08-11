@@ -13,7 +13,7 @@ ObjectHierarchy::ObjectHierarchy(MainFrame *mainFrame, wxAuiManager *auiManager)
     auiManager->AddPane(this, info);
 
     wxBoxSizer *vertical = new wxBoxSizer(wxVERTICAL);
-    HierarchyTree *tree = new HierarchyTree(this);
+    tree = new HierarchyTree(this);
 
     vertical->Add(tree, 1, wxEXPAND);
 
@@ -34,4 +34,8 @@ void ObjectHierarchy::setObjectHierarchyVisible(bool visible){
     }
     auiManager->Update();
     hierarchyVisible = visible;
+}
+
+void ObjectHierarchy::setMap(Map *map){
+    tree->setMap(map);
 }

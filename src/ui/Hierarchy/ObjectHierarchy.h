@@ -5,6 +5,7 @@
 #include "HierarchyTree.h"
 
 class MainFrame;
+class HierarchyTree;
 
 class ObjectHierarchy : public wxPanel
 {
@@ -13,12 +14,14 @@ class ObjectHierarchy : public wxPanel
         virtual ~ObjectHierarchy();
 
         void setObjectHierarchyVisible(bool visible);
+        void setMap(Map *map);
 
     protected:
 
     private:
         MainFrame *mainFrame;
         wxAuiManager *auiManager;
+        HierarchyTree *tree;
 
         bool hierarchyVisible = false;
 };

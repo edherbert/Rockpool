@@ -9,7 +9,7 @@
 class HierarchyRightClickMenu : public wxMenu
 {
     public:
-        HierarchyRightClickMenu(wxWindow *parent, wxPoint location, wxArrayTreeItemIds selection);
+        HierarchyRightClickMenu(HierarchyTree *hierarchyTree, wxPoint location, wxArrayTreeItemIds selection);
         virtual ~HierarchyRightClickMenu();
 
         void popup();
@@ -17,7 +17,7 @@ class HierarchyRightClickMenu : public wxMenu
     protected:
 
     private:
-        wxWindow *parent;
+        HierarchyTree *hierarchyTree;
         wxPoint location;
 };
 

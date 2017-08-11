@@ -6,12 +6,15 @@
 #include <wx/treectrl.h>
 
 #include "../../map/Object/Object.h"
+#include "../../map/Map.h"
 
 enum itemHoverState{
     hoverStateAbove,
     hoverStateBelow,
     hoverStateInside,
 };
+
+class Map;
 
 class HierarchyTree : public wxTreeCtrl
 {
@@ -20,6 +23,8 @@ class HierarchyTree : public wxTreeCtrl
         virtual ~HierarchyTree();
 
         void AddObject(Object *object, wxString name, wxTreeItemId parent = 0);
+        void setMap(Map *map);
+        Map* getMap();
 
     protected:
 
@@ -37,6 +42,8 @@ class HierarchyTree : public wxTreeCtrl
 
         itemHoverState currentHoverState;
         wxTreeItemId currentDestination;
+
+        Map *map = 0;
 
         bool checkItemParent(wxTreeItemId item);
 

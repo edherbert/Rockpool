@@ -1,10 +1,9 @@
 #include "AddObjectCommand.h"
 
-AddObjectCommand::AddObjectCommand(wxString path, Ogre::SceneManager *sceneManager, HierarchyTree *tree){
-    this->sceneManager = sceneManager;
+AddObjectCommand::AddObjectCommand(wxString path, HierarchyTree *tree){
     this->tree = tree;
 
-    object = new Object(sceneManager);
+    object = new Object(tree->getMap()->getSceneManager());
 
     tree->AddObject(object, "Cube");
 }

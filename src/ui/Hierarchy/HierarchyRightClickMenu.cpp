@@ -1,10 +1,10 @@
 #include "HierarchyRightClickMenu.h"
 
-HierarchyRightClickMenu::HierarchyRightClickMenu(wxWindow *parent, wxPoint location, wxArrayTreeItemIds selection) : wxMenu(){
-    this->parent = parent;
+HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, wxPoint location, wxArrayTreeItemIds selection) : wxMenu(){
+    this->hierarchyTree = hierarchyTree;
     this->location = location;
 
-    HierarchyRightClickNew *addObjectMenu = new HierarchyRightClickNew();
+    HierarchyRightClickNew *addObjectMenu = new HierarchyRightClickNew(hierarchyTree);
 
     wxMenuItem *addObject = AppendSubMenu(addObjectMenu, wxT("Add Object"));
     AppendSeparator();
@@ -35,5 +35,5 @@ HierarchyRightClickMenu::~HierarchyRightClickMenu(){
 }
 
 void HierarchyRightClickMenu::popup(){
-    parent->PopupMenu(this, location);
+    hierarchyTree->PopupMenu(this, location);
 }

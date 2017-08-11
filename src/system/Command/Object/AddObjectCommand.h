@@ -7,16 +7,17 @@
 #include "../../../map/Object/Object.h"
 #include "../../../ui/Hierarchy/HierarchyTree.h"
 
+class HierarchyTree;
+
 class AddObjectCommand : public Command
 {
     public:
-        AddObjectCommand(wxString path, Ogre::SceneManager *sceneManager, HierarchyTree *tree);
+        AddObjectCommand(wxString path, HierarchyTree *tree);
         virtual ~AddObjectCommand();
 
     protected:
 
     private:
-        Ogre::SceneManager *sceneManager;
         HierarchyTree *tree;
 
         Object *object;

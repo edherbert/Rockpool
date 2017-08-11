@@ -240,3 +240,7 @@ void MainFrame::saveMap(wxCommandEvent &event){
 GLCanvas* MainFrame::getCanvas(){
     return canvas;
 }
+
+ObjectHierarchy* MainFrame::getObjectHierarchy(){
+    return objectHierarchy;
+}

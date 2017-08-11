@@ -254,3 +254,6 @@ I could just give a resource name to the command and let it figure it out from t
 For adding an object, that might be easier.
 Most of the actions are going to be doing that sort of thing anyway.
 The delete command would need an object, but that's fine.
+
+The object hierarchy will need access to the current map.
+This will have to be set dynamically, for when the maps change.

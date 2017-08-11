@@ -29,6 +29,7 @@ class Map
         virtual ~Map();
 
         Ogre::Camera* getCamera();
+        Ogre::SceneManager* getSceneManager();
 
         void start(GLCanvas *canvas);
         void destroy();

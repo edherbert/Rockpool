@@ -1,6 +1,8 @@
 #include "HierarchyRightClickNew.h"
 
-HierarchyRightClickNew::HierarchyRightClickNew(){
+HierarchyRightClickNew::HierarchyRightClickNew(HierarchyTree *hierarchyTree){
+    this->hierarchyTree = hierarchyTree;
+
     Append(HIERARCHY_MENU_ADD_EMPTY, wxT("Empty Object"));
     AppendSeparator();
     Append(HIERARCHY_MENU_ADD_CUBE, wxT("Cube"));
@@ -16,5 +18,5 @@ HierarchyRightClickNew::~HierarchyRightClickNew(){
 }
 
 void HierarchyRightClickNew::addCubeClick(wxCommandEvent &event){
-    std::cout << "cube" << std::endl;
+    AddObjectCommand *command = new AddObjectCommand("cube", hierarchyTree);
 }

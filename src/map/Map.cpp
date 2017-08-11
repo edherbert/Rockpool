@@ -38,9 +38,6 @@ void Map::start(GLCanvas *canvas){
     Ogre::Light* light = sceneManager->createLight("light");
     light->setPosition(20, 80, 50);
 
-
-
-
     Object *first = new Object(sceneManager);
     Object *second = new Object(sceneManager);
     second->setPosition(5, 0, 0);
@@ -55,6 +52,10 @@ void Map::start(GLCanvas *canvas){
 
 Ogre::Camera* Map::getCamera(){
     return camera;
+}
+
+Ogre::SceneManager* Map::getSceneManager(){
+    return sceneManager;
 }
 
 void Map::destroy(){

@@ -1,6 +1,7 @@
 #include "HierarchyTree.h"
 
 HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
+    //You can't actually see this in the hierarchy, but it's the root object
     AddRoot("Hierarchy");
 
     /*wxTreeItemId root = GetRootItem();
@@ -29,6 +30,14 @@ HierarchyTree::HierarchyTree(wxWindow *parent) : wxTreeCtrl(parent, wxID_ANY, wx
 
 HierarchyTree::~HierarchyTree(){
 
+}
+
+void HierarchyTree::setMap(Map *map){
+    this->map = map;
+}
+
+Map* HierarchyTree::getMap(){
+    return map;
 }
 
 void HierarchyTree::mouseMoved(wxMouseEvent &event){
@@ -186,6 +195,7 @@ void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId i
 
 void HierarchyTree::MouseRightDown(wxMouseEvent &event){
     event.Skip();
+    if(!map) return;
 
     wxPoint location = event.GetPosition();
     wxTreeItemId item = HitTest(location);
