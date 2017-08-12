@@ -3,6 +3,11 @@
 
 #include <iostream>
 
+enum commandType{
+    terrainCommand,
+    objectCommand,
+};
+
 class Command
 {
     public:
@@ -13,7 +18,10 @@ class Command
         virtual void performAntiAction();
         virtual void cleanupTemporaryResources();
 
+        commandType getType();
+
     protected:
+        commandType type;
 
     private:
 };

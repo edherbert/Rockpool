@@ -19,3 +19,7 @@ void Command::performAntiAction(){
 void Command::cleanupTemporaryResources(){
 
 }
+
+commandType Command::getType(){
+    return type;
+}

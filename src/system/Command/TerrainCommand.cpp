@@ -3,6 +3,7 @@
 TerrainCommand::TerrainCommand(Terrain *terrain, Ogre::Terrain *terr){
     this->terrain = terrain;
     this->terr = terr;
+    this->type = terrainCommand;
 }
 
 TerrainCommand::~TerrainCommand(){

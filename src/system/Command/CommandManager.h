@@ -3,6 +3,7 @@
 
 #include "../../ui/MainFrame.h"
 
+#include <wx/treectrl.h>
 #include "TerrainEditCommand.h"
 
 class TerrainEditCommand;
@@ -17,6 +18,7 @@ class CommandManager
         void redoLastCommand();
 
         void pushCommand(Command *com);
+        void updateObjectCommands(wxTreeItemId oldId, wxTreeItemId newId);
 
     protected:
 

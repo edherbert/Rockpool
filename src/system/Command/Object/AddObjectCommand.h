@@ -1,15 +1,13 @@
 #ifndef ADDOBJECTCOMMAND_H
 #define ADDOBJECTCOMMAND_H
 
-#include <wx/wx.h>
-#include <Ogre.h>
-#include "../Command.h"
 #include "../../../map/Object/Object.h"
 #include "../../../ui/Hierarchy/HierarchyTree.h"
+#include "ObjectCommand.h"
 
-class HierarchyTree;
+class Object;
 
-class AddObjectCommand : public Command
+class AddObjectCommand : public ObjectCommand
 {
     public:
         AddObjectCommand(wxString path, HierarchyTree *tree, wxTreeItemId parentItem = 0);
@@ -21,11 +19,9 @@ class AddObjectCommand : public Command
     protected:
 
     private:
-        HierarchyTree *tree;
         Object *object;
 
         wxString path;
-        wxTreeItemId parentItem;
         wxTreeItemId childItem;
 };
 

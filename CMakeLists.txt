@@ -79,6 +79,7 @@ src/system/Command/TerrainCommand.cpp
 src/system/Command/TerrainEditCommand.cpp
 src/system/Command/TerrainTextureCommand.cpp
 
+src/system/Command/Object/ObjectCommand.cpp
 src/system/Command/Object/AddObjectCommand.cpp
 
 src/graphics/OgreComponent.cpp

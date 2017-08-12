@@ -9,8 +9,8 @@ Object::Object(Ogre::SceneManager *sceneManager){
     node->attachObject(ogreThing);*/
     node = sceneManager->createSceneNode();
 
-    Ogre::Entity *ogreThing = sceneManager->createEntity("Sinbad.mesh");
-    node->attachObject(ogreThing);
+    //Ogre::Entity *ogreThing = sceneManager->createEntity("Sinbad.mesh");
+    //node->attachObject(ogreThing);
 }
 
 Object::~Object(){
