@@ -6,6 +6,8 @@
 #include "../wxIDs.h"
 #include "HierarchyRightClickNew.h"
 
+#include "../../system/Command/Object/DeleteObjectCommand.h"
+
 class HierarchyRightClickMenu : public wxMenu
 {
     public:
@@ -19,6 +21,9 @@ class HierarchyRightClickMenu : public wxMenu
     private:
         HierarchyTree *hierarchyTree;
         wxPoint location;
+        wxArrayTreeItemIds selection;
+
+        void deleteClick(wxCommandEvent &event);
 };
 
 #endif // HIERARCHYRIGHTCLICKMENU_H

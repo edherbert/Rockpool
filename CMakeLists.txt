@@ -81,6 +81,7 @@ src/system/Command/TerrainTextureCommand.cpp
 
 src/system/Command/Object/ObjectCommand.cpp
 src/system/Command/Object/AddObjectCommand.cpp
+src/system/Command/Object/DeleteObjectCommand.cpp
 
 src/graphics/OgreComponent.cpp
 src/graphics/Trackball

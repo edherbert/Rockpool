@@ -11,20 +11,20 @@ AddObjectCommand::~AddObjectCommand(){
 }
 
 void AddObjectCommand::performAction(){
-    wxTreeItemId oldItem = childItem;
+    wxTreeItemId oldItem = addedItem;
     if(parentItem == 0){
-        childItem = tree->AddObject(object, path);
+        addedItem = tree->AddObject(object, path);
     }else{
-        childItem = tree->AddObject(object, path, parentItem);
+        addedItem = tree->AddObject(object, path, parentItem);
     }
+    //The older item will be 0 when first added, so there's no need to check it's value in the command stack.
     if(oldItem != 0){
-        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldItem, childItem);
+        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldItem, addedItem);
     }
 }
 
 void AddObjectCommand::performAntiAction(){
-    if(childItem != 0){
-        tree->removeObject(childItem);
-        //childItem = 0;
+    if(addedItem != 0){
+        tree->removeObject(addedItem);
     }
 }

@@ -3,6 +3,7 @@
 HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, wxPoint location, wxArrayTreeItemIds selection) : wxMenu(){
     this->hierarchyTree = hierarchyTree;
     this->location = location;
+    this->selection = selection;
 
     HierarchyRightClickNew *addObjectMenu = new HierarchyRightClickNew(hierarchyTree, selection);
 
@@ -28,6 +29,8 @@ HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, w
         renameItem->Enable(false);
         duplicateItem->Enable(false);
     }
+
+    Connect(HIERARCHY_MENU_DELETE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::deleteClick));
 }
 
 HierarchyRightClickMenu::~HierarchyRightClickMenu(){
@@ -36,4 +39,13 @@ HierarchyRightClickMenu::~HierarchyRightClickMenu(){
 
 void HierarchyRightClickMenu::popup(){
     hierarchyTree->PopupMenu(this, location);
+}
+
+void HierarchyRightClickMenu::deleteClick(wxCommandEvent &event){
+    if(selection.size() <= 0) return;
+
+    DeleteObjectCommand *command = new DeleteObjectCommand(hierarchyTree, selection);
+
+    command->performAction();
+    hierarchyTree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
 }

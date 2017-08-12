@@ -287,3 +287,30 @@ This will most likely mean inheritance for the object commands.
 I suppose I'll need a class with at least the parent item and a function to check it.
 I'll probably need a function to check the type of command as well, so if it's an object command run the functions.
 
+--Object commands--
+It might be easier to replace the reference to the parent in the object commands with a vector of objects affected.
+Most commands will need a list like this.
+The add object command is one of the only ones I could think of that probably won't need it.
+However, I can just push the id to the list and reference it, knowing that there will only be one value in it anyway.
+
+In order to be able to delete commands, some extra information will need to be stored.
+Firstly, I'll need to store the items and some information about them.
+I can't just store the selection, as if one of them was deleted this data would be gone.
+I'm going to have to take the data apart when it's been given in the constructor.
+I should probably store the id as well, but also the item text and object data.
+This can be kept as a struct and stored like that.
+Therefore, if an item was needed again, I could just create it based on the values in these items.
+
+Second, I'm going to need to be careful about the items that are stored.
+Firstly, I can delete items in the hierarchy, but what if the items have children.
+They would also be deleted and if they weren't selected, their data wouldn't be added to the items.
+
+I'm also going to need to make sure that no items appear twice in this list.
+That's for if you're trying to delete an item that's selected, but also the child of a selected item.
+
+Then I'm going to need to keep a reference of which item is parented to which item.
+Bearing in mind that an item that's a child might also have a child.
+I almost need to give each item an id. Then I could reference who's parent is who.
+I suppose I could just store the regular Id.
+This is the id for the specific object, rather than it's parent.
+

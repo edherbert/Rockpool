@@ -22,7 +22,7 @@ class AddObjectCommand : public ObjectCommand
         Object *object;
 
         wxString path;
-        wxTreeItemId childItem;
+        wxTreeItemId addedItem;
 };
 
 #endif // ADDOBJECTCOMMAND_H

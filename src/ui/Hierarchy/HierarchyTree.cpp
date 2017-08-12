@@ -148,7 +148,7 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 
             //This function checks if the item being dragged has children, and then copies them over
             checkAppendItemTree(newItem, currentItems[i]);
-            //Remove the old item when teh drag has finished.
+            //Remove the old item when the drag has finished.
             Delete(currentItems[i]);
         }
     }

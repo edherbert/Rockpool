@@ -30,8 +30,8 @@ Things to do before entity work begins:
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 
--Plan out how the hierarchy will interface with the map side of things
 
+-Implement an object delete command
 -Once the hierarchy is done, do the moving and scaling of objects.
 
 --Plan to implement objects--
@@ -284,3 +284,5 @@ Things to do before entity work begins:
 -Begin to implement the hierarchy
 
 -Implement the right click options into the hierarchy
+
+-Plan out how the hierarchy will interface with the map side of things
