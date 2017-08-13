@@ -43,13 +43,13 @@ void CommandManager::updateObjectCommands(wxTreeItemId oldId, wxTreeItemId newId
     for(Command* i : pastCommands){
         if(i->getType() == objectCommand){
             ObjectCommand *command = (ObjectCommand*)i;
-            command->checkParent(oldId, newId);
+            command->checkItems(oldId, newId);
         }
     }
     for(Command* i : futureCommands){
         if(i->getType() == objectCommand){
             ObjectCommand *command = (ObjectCommand*)i;
-            command->checkParent(oldId, newId);
+            command->checkItems(oldId, newId);
         }
     }
 }

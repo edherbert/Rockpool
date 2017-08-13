@@ -1,7 +1,8 @@
 #include "AddObjectCommand.h"
 
-AddObjectCommand::AddObjectCommand(wxString path, HierarchyTree *tree, wxTreeItemId parentItem) : ObjectCommand(tree, parentItem){
+AddObjectCommand::AddObjectCommand(wxString path, HierarchyTree *tree, wxTreeItemId parentItem) : ObjectCommand(tree){
     this->path = path;
+    this->parentItem = parentItem;
 
     object = new Object(tree->getMap()->getSceneManager());
 }
@@ -26,5 +27,12 @@ void AddObjectCommand::performAction(){
 void AddObjectCommand::performAntiAction(){
     if(addedItem != 0){
         tree->removeObject(addedItem);
+    }
+}
+
+void AddObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
+    if(parentItem.GetID() == oldId.GetID()){
+    std::cout << "replacing item with id " << oldId.GetID() << " with " << newId.GetID() << std::endl;
+        parentItem = newId;
     }
 }

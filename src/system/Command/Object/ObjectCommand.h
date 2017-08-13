@@ -9,13 +9,12 @@ class HierarchyTree;
 class ObjectCommand : public Command
 {
     public:
-        ObjectCommand(HierarchyTree *tree, wxTreeItemId parentItem = 0);
+        ObjectCommand(HierarchyTree *tree);
         virtual ~ObjectCommand();
 
-        void checkParent(wxTreeItemId oldId, wxTreeItemId newId);
+        virtual void checkItems(wxTreeItemId oldId, wxTreeItemId newId);
 
     protected:
-        wxTreeItemId parentItem;
         HierarchyTree *tree;
 
     private:

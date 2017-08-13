@@ -314,3 +314,16 @@ I almost need to give each item an id. Then I could reference who's parent is wh
 I suppose I could just store the regular Id.
 This is the id for the specific object, rather than it's parent.
 
+One thought I had is that it might work by not having to store a reference to the parent.
+You would need to store the id of the parent, But if the items are added to the list from top to bottom then there would be no conflicts.
+The parent item would already be in the list by the time it comes to add it's children, so there's no problem.
+I do think that each time I append a new item, I'm going to have to go through the list and check for the old id to be replaced.
+
+The checkItem function will also have to be thought about.
+Certain commands will probably need to override that function.
+For example, the delete command would need to override it to check it's list of items.
+The same would go for some of the other commands that deal with multiple items.
+Furthermore, the delete command wouldn't really have a parent, like the object command expects it to.
+Most commands would have many parents.
+With this in mind, it might be a better idea to just have the base function in the object command as a virtual function.
+

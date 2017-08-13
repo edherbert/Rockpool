@@ -16,10 +16,13 @@ class AddObjectCommand : public ObjectCommand
         void performAction();
         void performAntiAction();
 
+        void checkItems(wxTreeItemId oldId, wxTreeItemId newId);
+
     protected:
 
     private:
         Object *object;
+        wxTreeItemId parentItem;
 
         wxString path;
         wxTreeItemId addedItem;

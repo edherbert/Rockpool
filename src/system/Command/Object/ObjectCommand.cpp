@@ -1,8 +1,7 @@
 #include "ObjectCommand.h"
 
-ObjectCommand::ObjectCommand(HierarchyTree *tree, wxTreeItemId parentItem){
+ObjectCommand::ObjectCommand(HierarchyTree *tree){
     this->tree = tree;
-    this->parentItem = parentItem;
 
     this->type = objectCommand;
 }
@@ -23,9 +22,6 @@ ObjectCommand::~ObjectCommand(){
 //When an item is added, it checks through the stack to see if any items reference it's previous value
 //If they do, it's replaced with the new id
 //This would mean that every command knows where to re-insert it's children items, regardless of whether the id changed.
-void ObjectCommand::checkParent(wxTreeItemId oldId, wxTreeItemId newId){
-    if(parentItem.GetID() == oldId.GetID()){
-    std::cout << "replacing item with id " << oldId.GetID() << " with " << newId.GetID() << std::endl;
-        parentItem = newId;
-    }
+void ObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
+
 }
