@@ -30,7 +30,8 @@ HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, w
         duplicateItem->Enable(false);
     }
 
-    Connect(HIERARCHY_MENU_DELETE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::deleteClick));
+    Connect(HIERARCHY_MENU_DELETE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
+    Connect(HIERARCHY_MENU_DUPLICATE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
 }
 
 HierarchyRightClickMenu::~HierarchyRightClickMenu(){
@@ -41,11 +42,14 @@ void HierarchyRightClickMenu::popup(){
     hierarchyTree->PopupMenu(this, location);
 }
 
-void HierarchyRightClickMenu::deleteClick(wxCommandEvent &event){
+void HierarchyRightClickMenu::itemClick(wxCommandEvent &event){
     if(selection.size() <= 0) return;
+    ObjectCommand *command;
 
-    DeleteObjectCommand *command = new DeleteObjectCommand(hierarchyTree, selection);
+    if(event.GetId() == HIERARCHY_MENU_DELETE) command = new DeleteObjectCommand(hierarchyTree, selection);
+    else if(event.GetId() == HIERARCHY_MENU_DUPLICATE) command = new DuplicateObjectCommand(hierarchyTree, selection);
 
     command->performAction();
     hierarchyTree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
 }
+

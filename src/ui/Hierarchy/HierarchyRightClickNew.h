@@ -17,8 +17,7 @@ class HierarchyRightClickNew : public wxMenu
     protected:
 
     private:
-        void addEmptyClick(wxCommandEvent &event);
-        void addCubeClick(wxCommandEvent &event);
+        void addItem(wxCommandEvent &event);
 
         HierarchyTree *hierarchyTree;
         wxArrayTreeItemIds selection;
