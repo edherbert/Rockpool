@@ -57,13 +57,17 @@ void DeleteObjectCommand::performAntiAction(){
 
         //Once a new item is appended, go through the list again and update all the parent values that match this one.
         //Some items will need the new parent value in order to be appended
-        for(int y = 0; y < objectInfo.size(); y++){
-            if(objectInfo[y].parentId == oldId){
-                objectInfo[y].parentId = objectInfo[i].id;
-            }
+        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, objectInfo[i].id);
+    }
+}
+
+void DeleteObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
+    for(int i = 0; i < objectInfo.size(); i++){
+        if(objectInfo[i].parentId == oldId){
+            objectInfo[i].parentId = newId;
         }
-        //Fix the bug for the other commands.
-        //The command manager need some sort of function to check for items to replace.
-        //Rather than just a parent or child, it needs to be able to change both.
+        if(objectInfo[i].id == oldId){
+            objectInfo[i].id = newId;
+        }
     }
 }

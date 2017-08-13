@@ -31,8 +31,10 @@ void AddObjectCommand::performAntiAction(){
 }
 
 void AddObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
-    if(parentItem.GetID() == oldId.GetID()){
-        std::cout << "replacing item with id " << oldId.GetID() << " with " << newId.GetID() << std::endl;
+    if(parentItem == oldId){
         parentItem = newId;
+    }
+    if(addedItem == oldId){
+        addedItem = newId;
     }
 }
