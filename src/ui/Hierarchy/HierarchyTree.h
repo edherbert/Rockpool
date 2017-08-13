@@ -26,6 +26,9 @@ class HierarchyTree : public wxTreeCtrl
         wxTreeItemId AddObject(Object *object, wxString name, wxTreeItemId parent = 0);
         void removeObject(wxTreeItemId item);
 
+        void getItemsAndAppend(wxArrayTreeItemIds *destination, wxTreeItemId item);
+        bool isParentSelected(wxTreeItemId item);
+
         void setMap(Map *map);
         Map* getMap();
         ObjectHierarchy* getObjectHierarchy();

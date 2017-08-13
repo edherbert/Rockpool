@@ -181,6 +181,18 @@ bool HierarchyTree::checkItemParent(wxTreeItemId item){
     return returnVal;
 }
 
+//Check if any of the items that are parent to this item are selected.
+bool HierarchyTree::isParentSelected(wxTreeItemId item){
+    wxTreeItemId currentItem = GetItemParent(item);
+    while(currentItem != GetRootItem()){
+        if(IsSelected(currentItem)){
+            return true;
+        }
+        currentItem = GetItemParent(currentItem);
+    }
+    return false;
+}
+
 //The destination object (the one that has items appended to it), and the one that's currently being searched
 void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId item){
     if(ItemHasChildren(item)){
@@ -193,6 +205,22 @@ void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId i
             wxTreeItemId newItem = AppendItem(destination, GetItemText(ch));
             //Check if that child has children and do the same for them.
             checkAppendItemTree(newItem, ch);
+
+            ch = GetNextChild(item, cookie);
+        }
+    }
+}
+
+void HierarchyTree::getItemsAndAppend(wxArrayTreeItemIds *destination, wxTreeItemId item){
+    //Add the item to the list
+    //Check if it has children
+    //Run this function for the children.
+    destination->Add(item);
+    if(ItemHasChildren(item)){
+        wxTreeItemIdValue cookie;
+        wxTreeItemId ch = GetFirstChild(item, cookie);
+        while(ch.IsOk()){
+            getItemsAndAppend(destination, ch);
 
             ch = GetNextChild(item, cookie);
         }

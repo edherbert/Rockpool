@@ -4,6 +4,13 @@
 #include "ObjectCommand.h"
 #include "../../../ui/Hierarchy/HierarchyTree.h"
 
+struct deleteObjectInformation{
+    wxString text;
+    wxTreeItemId id;
+    wxTreeItemId parentId;
+    bool selected;
+};
+
 class DeleteObjectCommand : public ObjectCommand
 {
     public:
@@ -16,7 +23,8 @@ class DeleteObjectCommand : public ObjectCommand
     protected:
 
     private:
-        wxArrayTreeItemIds items;
+
+        std::vector<deleteObjectInformation> objectInfo;
 };
 
 #endif // DELETEOBJECTCOMMAND_H
