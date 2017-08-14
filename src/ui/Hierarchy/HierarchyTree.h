@@ -7,6 +7,7 @@
 
 #include "../../map/Object/Object.h"
 #include "../../map/Map.h"
+#include "../../system/Command/Object/ArrangeObjectCommand.h"
 
 enum itemHoverState{
     hoverStateAbove,

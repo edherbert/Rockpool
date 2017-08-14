@@ -92,7 +92,8 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
                 resetItemHighlight();
                 currentDestination = item;
             }
-            if(currentHoverState == hoverStateInside) SetItemDropHighlight(item);
+            //if(currentHoverState == hoverStateInside) SetItemDropHighlight(item);
+            if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
             else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
         }else{
             //If there is something wrong with the item being hovered over, reset the highlight.
@@ -120,9 +121,9 @@ void HierarchyTree::mouseDown(wxMouseEvent &event){
 }
 
 void HierarchyTree::mouseUp(wxMouseEvent &event){
-//Regardless of what happens, checked location is set to false when the mouse button is raised.
+    //Regardless of what happens, checked location is set to false when the mouse button is raised.
     checkedLocation = false;
-//If there are no items, then that means nothing was dragged
+    //If there are no items, then that means nothing was dragged
     if(currentItems.size() <= 0)return;
 
     bool validMove = false;
@@ -135,7 +136,7 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 
     //If all the items are ok and there are no restrictions of any kind then move the item.
     if(validMove){
-        //Go through all the items
+        /*//Go through all the items
         for(int i = currentItems.size() - 1; i >= 0; i--){
             wxTreeItemId newItem;
             if(currentHoverState == hoverStateBelow){
@@ -150,7 +151,10 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
             checkAppendItemTree(newItem, currentItems[i]);
             //Remove the old item when the drag has finished.
             Delete(currentItems[i]);
-        }
+        }*/
+        ArrangeObjectCommand *command = new ArrangeObjectCommand(this, currentDestination, currentItems);
+        command->performAction();
+        getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
     }
 
     endDrag();

@@ -30,8 +30,11 @@ Things to do before entity work begins:
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 
--Implement the object duplicate command
--Once the hierarchy is done, do the moving and scaling of objects.
+-Do the object arrange command
+-Fix the bug with the object order positioning
+-Before Clipboard commands, do the object integration.
+
+-Do the moving and scaling of objects.
 
 --Plan to implement objects--
     -Begin to implement the object system by creating all the object classes. *
@@ -42,7 +45,7 @@ Things to do before entity work begins:
     -Implement the hierarchy panel *
     -Implement the ability to save the current objects, as well as the terrains
     -Make it so objects can be dragged around the hierarchy panel to re-arrange their order.
-    -Implement the ability to add objects from the hierarchy panel
+    -Implement the ability to add objects from the hierarchy panel *
     -Make it so the user can select objects (including multiple objects)
     -Implement the ability to move / rotate / scale objects (and make sure this works with the terrain!)
     -Make it so all these actions can be undone and redone.
@@ -287,3 +290,5 @@ Things to do before entity work begins:
 -Plan out how the hierarchy will interface with the map side of things
 
 -Implement an object delete command
+
+-Implement the object duplicate command
