@@ -8,6 +8,10 @@ The loading screen for loading and creating maps doesn't work. I've disabled it 
 
 Removing all the locations from the location manager and then trying to select something in the browser after adding more crashes it.
 
+Editing the sides of the terrains has some weird effects. So weird you can't undo them.
+
+Using the terrain texture tool at a small size and then trying to paint over it leads to some blotches.
+
 Possible bug:
     The size of the terrain might be changing dependent on how many terrains there are.
     Posssibly a terrain of 3000 will be 3000 if there is only one, but 1500 if there is two.

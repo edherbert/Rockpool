@@ -327,3 +327,22 @@ Furthermore, the delete command wouldn't really have a parent, like the object c
 Most commands would have many parents.
 With this in mind, it might be a better idea to just have the base function in the object command as a virtual function.
 
+--Copy and pasting--
+Copy and pasting might end up being a bit complicated.
+Some of the commands might not even end up being commands.
+Does it make any sense to have a command to copy an item?
+Probably not as nothing is being done.
+Should the clipboard be stored in the command manager, or should it go elsewhere.
+Probably in the command manager.
+I would need to switch the items in it accordingly.
+For each paste, it might be a better idea to copy the contents of the clipboard and then undo those when they need undoing.
+So that means that each paste command will be a copy of the clipboard, regardless of what the current clipboard is.
+With this in mind it would be safe to say that the copy command will be fairly straight forward, as it's not really a command.
+The cut command will just be the delete command with the copy command strapped to it.
+The paste command will be the actual one.
+
+The clipboard will have to store data like the items in the hierarchy, as well as the objects.
+I don't think the objects can be stored as pointers.
+If you copied an item a while ago, and then something about the objects changed, that would not keep to the original.
+So for that reason the clipboard will need to store information rather than pointers.
+

@@ -60,8 +60,8 @@ void ArrangeObjectCommand::performAction(){
 
         objectInfo[i].id = tree->AppendItem(objectInfo[i].parentId, objectInfo[i].text);
 
-        checkItems(oldId, objectInfo[i].id);
-        //tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, objectInfo[i].id);
+        if(ran)checkItems(oldId, objectInfo[i].id);
+        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, objectInfo[i].id);
 
         //The destination is only for the root objects, so it can't be set as the parent for every item.
         //Go through and set the current parent, based on the current position.
@@ -75,7 +75,17 @@ void ArrangeObjectCommand::performAction(){
 }
 
 void ArrangeObjectCommand::performAntiAction(){
+    for(int i = 0; i < objectInfo.size(); i++){
+        wxTreeItemId oldId = objectInfo[i].id;
+        if(objectInfo[i].selected){
+            tree->Delete(oldId);
+        }
 
+        objectInfo[i].id = tree->AppendItem(objectInfo[i].originalParentId, objectInfo[i].text);
+
+        checkItems(oldId, objectInfo[i].id);
+        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, objectInfo[i].id);
+    }
 }
 
 void ArrangeObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
@@ -85,6 +95,9 @@ void ArrangeObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
         }
         if(objectInfo[i].id == oldId){
             objectInfo[i].id = newId;
+        }
+        if(ran && objectInfo[i].originalParentId == oldId){
+            objectInfo[i].originalParentId = newId;
         }
     }
 }
