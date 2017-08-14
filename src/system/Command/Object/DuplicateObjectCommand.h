@@ -13,9 +13,14 @@ class DuplicateObjectCommand : public ObjectCommand
         void performAction();
         void performAntiAction();
 
+        void checkItems(wxTreeItemId oldId, wxTreeItemId newId);
+
     protected:
 
     private:
+        std::vector<ObjectInformation> objectInfo;
+
+        bool ran = false;
 };
 
 #endif // DUPLICATEOBJECTCOMMAND_H

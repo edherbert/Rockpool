@@ -17,7 +17,7 @@ DeleteObjectCommand::DeleteObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds
     }
 
     for(wxTreeItemId item : newItems){
-        deleteObjectInformation info;
+        ObjectInformation info;
         info.text = tree->GetItemText(item);
         info.parentId = tree->GetItemParent(item);
         info.id = item;
@@ -43,7 +43,7 @@ DeleteObjectCommand::~DeleteObjectCommand(){
 }
 
 void DeleteObjectCommand::performAction(){
-    for(deleteObjectInformation info : objectInfo){
+    for(ObjectInformation info : objectInfo){
         if(info.selected){
             tree->Delete(info.id);
         }

@@ -4,6 +4,13 @@
 #include <wx/treectrl.h>
 #include "../Command.h"
 
+struct ObjectInformation{
+    wxString text;
+    wxTreeItemId id;
+    wxTreeItemId parentId;
+    bool selected;
+};
+
 class HierarchyTree;
 
 class ObjectCommand : public Command
