@@ -6,14 +6,14 @@ HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(obje
     //You can't actually see this in the hierarchy, but it's the root object
     AddRoot("Hierarchy");
 
-    /*wxTreeItemId root = GetRootItem();
-    wxTreeItemId cube = AppendItem(root, "Cube");
+    wxTreeItemId root = GetRootItem();
+    /*wxTreeItemId cube = AppendItem(root, "Cube");
     wxTreeItemId sphere = AppendItem(root, "Sphere");
     wxTreeItemId triangle = AppendItem(root, "Triangle");
 
     AppendItem(triangle, "other triangle");*/
 
-    /*for(int y = 0; y < 10; y++){
+    for(int y = 0; y < 10; y++){
         wxTreeItemId yVal = AppendItem(root, std::to_string(y));
         for(int x = 0; x < 10; x++){
             wxTreeItemId xVal = AppendItem(yVal, std::to_string(x));
@@ -21,7 +21,7 @@ HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(obje
                 wxTreeItemId zVal = AppendItem(xVal, std::to_string(z));
             }
         }
-    }*/
+    }
 
     Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
