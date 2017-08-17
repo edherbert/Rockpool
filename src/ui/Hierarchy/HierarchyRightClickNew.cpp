@@ -35,7 +35,7 @@ void HierarchyRightClickNew::addItem(wxCommandEvent &event){
     if(selection.size() <= 0){
         command = new AddObjectCommand(name, hierarchyTree);
     }else{
-        command = new AddObjectCommand(name, hierarchyTree, selection[0]);
+        command = new AddObjectCommand(name, hierarchyTree, hierarchyTree->getId(selection[0]));
     }
 
     command->performAction();

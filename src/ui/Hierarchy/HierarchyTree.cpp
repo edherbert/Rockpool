@@ -15,10 +15,13 @@ HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(obje
 
     for(int y = 0; y < 10; y++){
         wxTreeItemId yVal = AppendItem(root, std::to_string(y));
+        addItem(yVal);
         for(int x = 0; x < 10; x++){
             wxTreeItemId xVal = AppendItem(yVal, std::to_string(x));
+            addItem(xVal);
             for(int z = 0; z < 10; z++){
                 wxTreeItemId zVal = AppendItem(xVal, std::to_string(z));
+                addItem(zVal);
             }
         }
     }
@@ -265,4 +268,25 @@ wxTreeItemId HierarchyTree::AddObject(Object *object, wxString name, wxTreeItemI
 
 void HierarchyTree::removeObject(wxTreeItemId item){
     Delete(item);
+}
+
+int HierarchyTree::addItem(wxTreeItemId item){
+    itemList.push_back(item);
+    return itemList.size() - 1;
+}
+
+void HierarchyTree::setItem(int id, wxTreeItemId item){
+    itemList[id] = item;
+}
+
+wxTreeItemId HierarchyTree::getItem(int id){
+    return itemList[id];
+}
+
+int HierarchyTree::getId(wxTreeItemId item){
+    for(int i = 0; i < itemList.size(); i++){
+        if(itemList[i] == item){
+            return i;
+        }
+    }
 }

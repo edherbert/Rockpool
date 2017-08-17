@@ -34,6 +34,11 @@ class HierarchyTree : public wxTreeCtrl
         Map* getMap();
         ObjectHierarchy* getObjectHierarchy();
 
+        int addItem(wxTreeItemId item);
+        void setItem(int id, wxTreeItemId item);
+        wxTreeItemId getItem(int id);
+        int getId(wxTreeItemId item);
+
     protected:
 
     private:
@@ -58,6 +63,8 @@ class HierarchyTree : public wxTreeCtrl
 
         bool checkedLocation = false;
         wxArrayTreeItemIds currentItems;
+
+        std::vector<wxTreeItemId> itemList;
 };
 
 #endif // HIERARCHYTREE_H

@@ -377,3 +377,23 @@ I'm probably going to have to create a system that doesn't rely on the ids to re
 So when it does the search for old items, it instead searches for my unique values to replace.
 Even now, deleting large ammounts of items causes issues.
 
+Possible idea:
+Store a list in the tree ctrl of all the used ids
+Then, rather than storing the id, you can instead store the int index to this id in the list.
+The idea is that each id represents an item that existed at some point.
+So if you wanted to append item 1 it would check the list to find it's id.
+If item 1 was deleted from the list then it would still be stored in this main list.
+Then, when it was re-added it could have a new item assigned to it.
+
+The items that also reference it (like the add command for example) would just reference the int id, rather than the item id.
+This means that even if the value is changed multiple times, there would be no confliction as to what's what.
+It would also prevent items from conflicting.
+
+I would have to write my own functions for the hierarchy tree.
+Firstly, I would have to write a function that adds items.
+So this would just take the parent item for example and then create the item.
+It would add it to the list and make sure that it has it's appropriate id.
+Then, if you wanted to delete an item, you could just delete it and return the value in the list to 0.
+When the item is re-added, it would just be a case of creating an item within that index of the list.
+So things like the moving function could just replace all their ids with references to the id.
+
