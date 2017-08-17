@@ -46,6 +46,7 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
         info.id = idCount;
         info.text = tree->GetItemText(items[i]);
         info.parentId = -1;
+
         info.item = items[i];
         info.originItem = tree->GetItemParent(items[i]);
 
@@ -53,9 +54,6 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
         idCount++;
 
         searchItem(items[i], info.id);
-    }
-    for(ItemInformation info : itemInfo){
-        std::cout << info.id << std::endl;
     }
 
 }
@@ -88,10 +86,6 @@ ArrangeObjectCommand::~ArrangeObjectCommand(){
 void ArrangeObjectCommand::performAction(){
     done = false;
     for(int i = 0; i < itemInfo.size(); i++){
-        if(itemInfo[i].parentId == -1){
-            tree->Delete(itemInfo[i].item);
-        }
-
         wxTreeItemId targetItem;
         if(itemInfo[i].parentId == -1){
             targetItem = destination;
@@ -102,8 +96,20 @@ void ArrangeObjectCommand::performAction(){
         wxTreeItemId oldId = itemInfo[i].item;
         itemInfo[i].item = tree->AppendItem(targetItem, itemInfo[i].text);
 
+
+
+        if(itemInfo[i].parentId == -1){
+            tree->Delete(oldId);
+        }
+
+        if(itemInfo[i].parentId == -1){
+            std::cout << "Creating new item " << itemInfo[i].item.GetID() << std::endl;
+        }
+
         //checkItems(oldId, itemInfo[i].item);
-        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, itemInfo[i].item);
+        if(oldId != 0){
+            tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, itemInfo[i].item);
+        }
     }
     done = true;
 }
@@ -111,10 +117,6 @@ void ArrangeObjectCommand::performAction(){
 void ArrangeObjectCommand::performAntiAction(){
     done = false;
     for(int i = 0; i < itemInfo.size(); i++){
-        if(itemInfo[i].parentId == -1){
-            tree->Delete(itemInfo[i].item);
-        }
-
         wxTreeItemId targetItem;
         if(itemInfo[i].parentId == -1){
             targetItem = itemInfo[i].originItem;
@@ -125,11 +127,60 @@ void ArrangeObjectCommand::performAntiAction(){
         wxTreeItemId oldId = itemInfo[i].item;
         itemInfo[i].item = tree->AppendItem(targetItem, itemInfo[i].text);
 
+        if(itemInfo[i].parentId == -1){
+            tree->Delete(oldId);
+        }
+
+        if(itemInfo[i].parentId == -1){
+            std::cout << "Creating new item " << itemInfo[i].item.GetID() << std::endl;
+        }
+
         //checkItems(oldId, itemInfo[i].item);
-        tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, itemInfo[i].item);
+        if(oldId != 0){
+            tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, itemInfo[i].item);
+        }
 
         //There is a bug when one item from one area is moved to another and then undone twice.
         //I assume that's because the two ids are conflicting with each other.
+
+        //The item ids are not the same as they used to be for the deleting.
+
+        //make one object, drag in values
+        //make another object, drag in the previous values
+        //Undo until the items should be deleted.
+
+        //The items are replaced when they are moved
+        //Those items were put there by the other command.
+
+        //The problem largely seems to be coming from the bit that deletes them.
+        //I'll assume that the problem is the items are incorrect and the system doesn't know what items to delete.
+
+
+        //The ids are somehow wrong.
+        //Going backwards, checking for the same value might not work, as it's already different.
+        //The command deletes the item in the array, which at that point is probably different.
+        //Going backwards, the previous value needs to be set to exact values in order for it to be properly deleted.
+        //It might have something to do with the done system.
+
+
+        //The id of the items are changed when they are dragged.
+        //This leads to a situation where an old command does not know what item it should delete
+        //maybe it's checking for the wrong value.
+        //The old values for the second command are different, because the original ids have been overidden.
+        //The second command creates entirely new items and overides the actual old values.
+
+        //Afterwards, the values are correct, so there is no problem switching them back and forth.
+
+        //It does try to delete the item, but it doesn't actually.
+
+        //The replace command is being run three times when it only needs to be run once
+
+        //Maybe they're both appending an item. (They're not)
+
+        //maybe once the command is done and removes the item,
+
+        //Ok, it doesn't work too well with deleting items.
+        //I think the probllem is probably similar to what I was having before.
     }
     done = true;
 }
@@ -137,14 +188,16 @@ void ArrangeObjectCommand::performAntiAction(){
 void ArrangeObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
     if(!done)return;
 
-    if(destination == oldId) destination = newId;
+    if(destination.GetID() == oldId.GetID()) destination = newId;
 
     for(int i = 0; i < itemInfo.size(); i++){
-        if(itemInfo[i].originItem == oldId && itemInfo[i].parentId == -1){
+        if(itemInfo[i].originItem.GetID() == oldId.GetID() && itemInfo[i].parentId == -1){
             itemInfo[i].originItem = newId;
+            //std::cout << "original item" << std::endl;
         }
-        if(itemInfo[i].item == oldId){
+        if(itemInfo[i].item.GetID() == oldId.GetID()){
             itemInfo[i].item = newId;
+            if(itemInfo[i].parentId == -1) std::cout << "Replacing " << oldId.GetID() << " with " << newId.GetID() << std::endl;
         }
     }
 }

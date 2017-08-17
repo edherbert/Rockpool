@@ -346,3 +346,34 @@ I don't think the objects can be stored as pointers.
 If you copied an item a while ago, and then something about the objects changed, that would not keep to the original.
 So for that reason the clipboard will need to store information rather than pointers.
 
+--More on dragging--
+The dragging is turning out to be more difficult that I thought it would be.
+There seems to be some sort of problem with the id system. It can't reference items properly.
+At the moment, I'm wondering if a system where I assign the ids might be better.
+I could have an id for each item based on it's position in the hierarchy.
+The system could then look up to see which item is which, and then remove that.
+This would remove the dependency on items, meaning that checks might not be needed.
+This would mean that the location of each item is important.
+
+Ok so I figured out the problem, I was deleting the items, then assigning them.
+The problem with this is that wx was assigning new ids to the new items that overlapped these older values.
+So you have to be careful when deleting items not to allow them to be re-assigned.
+I've fixed this problem by moving them around, but this leaves me with another problem.
+
+As the other items also use the same delete thing, there is a chance another overlapping value could be given.
+The delete command for example will delete something and then store it in memory, incase it needs to be brought back.
+If another item is assigned this value while the delete is still in place, the update command would incorrectly update this delete.
+Thus leading to the issue of the item not being deleted correctly.
+This means that I need a system where ids are not re-used.
+
+One solution I can think of is to keep a list of the used ids.
+When you create a new item, you go through this function, which creates the item.
+It will create the item and check the id. If it has been used before, then delete it and create another item.
+Do this until the id has never been seen before.
+Hopefully this won't lead to an eternal loop that's just giving back the same id each time (I'm worried it might do)
+
+Thinking about it, I'm not sure I'll be able to create unique ids each time.
+I'm probably going to have to create a system that doesn't rely on the ids to replace older items.
+So when it does the search for old items, it instead searches for my unique values to replace.
+Even now, deleting large ammounts of items causes issues.
+
