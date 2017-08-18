@@ -21,12 +21,8 @@ DeleteObjectCommand::DeleteObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds
         info.text = tree->GetItemText(item);
         info.selected = tree->IsSelected(item);
 
-        //info.parentId = tree->getId(tree->GetItemParent(item));
-        //info.id = tree->getId(item);
-        //info.originParentItem;
         info.originParentItem = tree->getId(tree->GetItemParent(item));
         info.originItem = tree->getId(item);
-
 
         objectInfo.push_back(info);
     }

@@ -30,7 +30,7 @@ Things to do before entity work begins:
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 
--Implement the command for deleting objects under the new system.
+
 -Fix the bug with the object order positioning
 -Before Clipboard commands, do the object integration.
 
@@ -294,3 +294,5 @@ Things to do before entity work begins:
 -Implement the object duplicate command
 
 -Do the object arrange command (This one involved a re-write of the entire system, so took a bit longer)
+
+-Implement the command for deleting objects under the new system.

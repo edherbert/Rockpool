@@ -1,7 +1,7 @@
 #include "DuplicateObjectCommand.h"
 
 DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds items) : ObjectCommand(tree){
-    /*wxArrayTreeItemIds newItems;
+    wxArrayTreeItemIds newItems;
 
     for(wxTreeItemId item : items){
         bool found = false;
@@ -17,20 +17,23 @@ DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeI
     for(wxTreeItemId item : newItems){
         ObjectInformation info;
         info.text = tree->GetItemText(item);
-        info.parentId = tree->GetItemParent(item);
-        info.id = item;
         info.selected = tree->IsSelected(item);
+
+        info.originParentItem = tree->getId(tree->GetItemParent(item));
+        info.originItem = tree->getId(item);
 
         objectInfo.push_back(info);
     }
 
     for(int i = 0; i < objectInfo.size(); i++){
         if(objectInfo[i].selected){
-            if(tree->isParentSelected(objectInfo[i].id)){
+            if(tree->isParentSelected(tree->getItem(objectInfo[i].originItem))){
                 objectInfo[i].selected = false;
             }
         }
-    }*/
+    }
+
+    //I might have to catalogue them the same as they are in the arrange command
 }
 
 DuplicateObjectCommand::~DuplicateObjectCommand(){
@@ -53,6 +56,28 @@ void DuplicateObjectCommand::performAction(){
     //If the function to update the other commands happens, it will also replace the commands that were supposed to target the original item.
     //So basically, only update the commands after the new, duplicate ones have been fully created.
     ran = true;*/
+
+    for(int i = 0; i < objectInfo.size(); i++){
+        if(!ran){
+            if(objectInfo[i].originParentItem == -1){
+                wxTreeItemId newItem = tree->AppendItem(tree->GetRootItem(), objectInfo[i].text);
+                objectInfo[i].newItem = tree->addItem(newItem);
+            }else{
+                //wxTreeItemId newItem = tree->AppendItem(tree->getItem(objectInfo[i].originParentItem), objectInfo[i].text);
+                wxTreeItemId newItem = tree->AppendItem(tree->getItem(itemInfo[itemInfo[i].parentId].newItem), objectInfo[i].text);
+                objectInfo[i].newItem = tree->addItem(newItem);
+            }
+        }else{
+            if(objectInfo[i].originParentItem == -1){
+                wxTreeItemId newItem = tree->AppendItem(tree->GetRootItem(), objectInfo[i].text);
+                tree->setItem(objectInfo[i].newItem, newItem);
+            }else{
+                wxTreeItemId newItem = tree->AppendItem(tree->getItem(objectInfo[i].originParentItem), objectInfo[i].text);
+                tree->setItem(objectInfo[i].newItem, newItem);
+            }
+        }
+    }
+    ran = true;
 }
 
 void DuplicateObjectCommand::performAntiAction(){
