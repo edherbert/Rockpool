@@ -6,9 +6,11 @@
 
 struct ObjectInformation{
     wxString text;
-    wxTreeItemId id;
-    wxTreeItemId parentId;
     bool selected;
+
+    int originParentItem;
+    int originItem;
+    int newItem;
 };
 
 class HierarchyTree;

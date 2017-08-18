@@ -17,6 +17,18 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
 
         searchItem(items[i], info.id);
     }
+
+    //There is a bug with the dragging.
+    //I think it's when an item is dragged
+    //Move multiple items into one item, and then another, then move them back
+
+    //Move two items into one item and then another. Move the items back to the first item. This causes a crash. This only happens when moving multiple items.
+    //Move two items into one item and then another. Move the items back to the first item, then delte it. Attempting to undo this causes a crash.
+
+    //These sorts of crashes don't happen all the time, so I can assume it's something to do with the ids.
+    //Of course, the function to find an id just finds the id, even if there are multiple in the vector.
+    //I might have to make some sort of check for this kind of thing.
+    //I think this is the last major bug in the system.
 }
 
 void ArrangeObjectCommand::searchItem(wxTreeItemId item, int parentId){
@@ -71,6 +83,7 @@ void ArrangeObjectCommand::performAction(){
 
         if(itemInfo[i].parentId == -1){
             tree->Delete(tree->getItem(itemInfo[i].originItem));
+            tree->setItem(itemInfo[i].originItem, 0);
         }
     }
     //This is to initially create the items
@@ -100,6 +113,7 @@ void ArrangeObjectCommand::performAntiAction(){
 
         if(itemInfo[i].parentId == -1){
             tree->Delete(tree->getItem(itemInfo[i].newItem));
+            tree->setItem(itemInfo[i].newItem, 0);
         }
     }
 }

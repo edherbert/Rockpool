@@ -1,7 +1,7 @@
 #include "DuplicateObjectCommand.h"
 
 DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds items) : ObjectCommand(tree){
-    wxArrayTreeItemIds newItems;
+    /*wxArrayTreeItemIds newItems;
 
     for(wxTreeItemId item : items){
         bool found = false;
@@ -30,7 +30,7 @@ DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeI
                 objectInfo[i].selected = false;
             }
         }
-    }
+    }*/
 }
 
 DuplicateObjectCommand::~DuplicateObjectCommand(){
@@ -38,7 +38,7 @@ DuplicateObjectCommand::~DuplicateObjectCommand(){
 }
 
 void DuplicateObjectCommand::performAction(){
-    for(int i = 0; i < objectInfo.size(); i++){
+    /*for(int i = 0; i < objectInfo.size(); i++){
         wxTreeItemId oldId = objectInfo[i].id;
         objectInfo[i].id = tree->AppendItem(objectInfo[i].parentId, objectInfo[i].text);
 
@@ -52,24 +52,24 @@ void DuplicateObjectCommand::performAction(){
     //Remember that this function works by duplicating items
     //If the function to update the other commands happens, it will also replace the commands that were supposed to target the original item.
     //So basically, only update the commands after the new, duplicate ones have been fully created.
-    ran = true;
+    ran = true;*/
 }
 
 void DuplicateObjectCommand::performAntiAction(){
-    for(ObjectInformation info : objectInfo){
+    /*for(ObjectInformation info : objectInfo){
         if(info.selected){
             tree->Delete(info.id);
         }
-    }
+    }*/
 }
 
 void DuplicateObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
-    for(int i = 0; i < objectInfo.size(); i++){
+    /*for(int i = 0; i < objectInfo.size(); i++){
         if(objectInfo[i].parentId == oldId){
             objectInfo[i].parentId = newId;
         }
         if(objectInfo[i].id == oldId){
             objectInfo[i].id = newId;
         }
-    }
+    }*/
 }
