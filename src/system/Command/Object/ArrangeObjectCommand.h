@@ -12,8 +12,10 @@ struct ItemInformation{
     wxString text;
     int id;
     int parentId;
-    wxTreeItemId item;
-    wxTreeItemId originItem;
+
+    int originParentItem;
+    int originItem;
+    int newItem;
 };
 
 class ArrangeObjectCommand : public ObjectCommand
@@ -30,14 +32,13 @@ class ArrangeObjectCommand : public ObjectCommand
     protected:
 
     private:
-        wxTreeItemId destination;
+        int destination;
 
         int idCount = 0;
-        bool done = true;
+        bool ran = false;
 
         void searchItem(wxTreeItemId item, int parentId);
 
-        std::vector<ArrangeInformation> objectInfo;
         std::vector<ItemInformation> itemInfo;
 };
 

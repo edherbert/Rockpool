@@ -289,4 +289,5 @@ int HierarchyTree::getId(wxTreeItemId item){
             return i;
         }
     }
+    return -1;
 }
