@@ -13,6 +13,8 @@ struct ItemInformation{
     int id;
     int parentId;
 
+    int index;
+
     int originParentItem;
     int originItem;
     int newItem;

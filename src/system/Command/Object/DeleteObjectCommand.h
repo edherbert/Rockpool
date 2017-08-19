@@ -4,6 +4,8 @@
 #include "ObjectCommand.h"
 #include "../../../ui/Hierarchy/HierarchyTree.h"
 
+struct ItemInformation;
+
 class DeleteObjectCommand : public ObjectCommand
 {
     public:
@@ -17,7 +19,12 @@ class DeleteObjectCommand : public ObjectCommand
 
     private:
 
+        void searchItem(wxTreeItemId item, int parentId);
+
+        int idCount = 0;
+
         std::vector<ObjectInformation> objectInfo;
+        std::vector<ItemInformation> itemInfo;
 };
 
 #endif // DELETEOBJECTCOMMAND_H

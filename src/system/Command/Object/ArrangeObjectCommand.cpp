@@ -15,6 +15,7 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
         info.originParentItem = tree->getId(tree->GetItemParent(items[i]));
 
         info.originItem = tree->getId(items[i]);
+        //info.index =
 
         itemInfo.push_back(info);
         idCount++;

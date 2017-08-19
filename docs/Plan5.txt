@@ -397,3 +397,16 @@ Then, if you wanted to delete an item, you could just delete it and return the v
 When the item is re-added, it would just be a case of creating an item within that index of the list.
 So things like the moving function could just replace all their ids with references to the id.
 
+--Arranging objects--
+I need to start thinking about how I plan to arrange objects.
+The problem I have at the moment, is the functions simply append items to their origin, rather than actually thinking about where they should go.
+If I deleted an item at the top of a list and then undid that command, the item would appear again at the bottom.
+Obviously this isn't what I want it to do.
+
+I can instead use the function insertItem, which inserts the item after a provided one.
+This can be used with either an item to represent the before, or an index int.
+I think I'll use the one that references the int.
+Firstly, this will require a function to find the index of the item.
+Basically, I'm going to need to iterate over the children on the parent item, until that item equals the current item.
+The number of iterations taken is the value.
+I'll only need to do this for the parent items.

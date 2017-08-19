@@ -4,6 +4,14 @@ AddObjectCommand::AddObjectCommand(wxString path, HierarchyTree *tree, int paren
     this->path = path;
     this->parentItem = parentItem;
 
+    wxTreeItemId targetItem;
+    if(parentItem == -1){
+        targetItem = tree->GetRootItem();
+    }else{
+        targetItem = tree->getItem(parentItem);
+    }
+    index = tree->GetChildrenCount(targetItem, false);
+
     object = new Object(tree->getMap()->getSceneManager());
 }
 
@@ -12,22 +20,19 @@ AddObjectCommand::~AddObjectCommand(){
 }
 
 void AddObjectCommand::performAction(){
-    if(!ran){
-        if(parentItem == -1){
-            wxTreeItemId newItem = tree->AppendItem(tree->GetRootItem(), path);
-            addedItem = tree->addItem(newItem);
-        }else{
-            wxTreeItemId newItem = tree->AppendItem(tree->getItem(parentItem), path);
-            addedItem = tree->addItem(newItem);
-        }
+    wxTreeItemId targetItem;
+    if(parentItem == -1){
+        targetItem = tree->GetRootItem();
     }else{
-        if(parentItem == -1){
-            wxTreeItemId newItem = tree->AppendItem(tree->GetRootItem(), path);
-            tree->setItem(addedItem, newItem);
-        }else{
-            wxTreeItemId newItem = tree->AppendItem(tree->getItem(parentItem), path);
-            tree->setItem(addedItem, newItem);
-        }
+        targetItem = tree->getItem(parentItem);
+    }
+
+    //wxTreeItemId newItem = tree->AppendItem(targetItem, path);
+    wxTreeItemId newItem = tree->InsertItem(targetItem, index, path);
+    if(!ran){
+        addedItem = tree->addItem(newItem);
+    }else{
+        tree->setItem(addedItem, newItem);
     }
 
     ran = true;

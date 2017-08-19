@@ -32,6 +32,7 @@ Things to do before entity work begins:
 
 
 -Fix the bug with the object order positioning
+-Change this so that objects can be positioned with the object arrange command.
 -Before Clipboard commands, do the object integration.
 
 -Do the moving and scaling of objects.
@@ -44,7 +45,7 @@ Things to do before entity work begins:
     -Make sure that terrains can still be edited and all that.
     -Implement the hierarchy panel *
     -Implement the ability to save the current objects, as well as the terrains
-    -Make it so objects can be dragged around the hierarchy panel to re-arrange their order.
+    -Make it so objects can be dragged around the hierarchy panel to re-arrange their order. *
     -Implement the ability to add objects from the hierarchy panel *
     -Make it so the user can select objects (including multiple objects)
     -Implement the ability to move / rotate / scale objects (and make sure this works with the terrain!)

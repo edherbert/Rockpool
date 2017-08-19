@@ -39,6 +39,8 @@ class HierarchyTree : public wxTreeCtrl
         wxTreeItemId getItem(int id);
         int getId(wxTreeItemId item);
 
+        int getItemIndex(wxTreeItemId target, wxTreeItemId item);
+
     protected:
 
     private:

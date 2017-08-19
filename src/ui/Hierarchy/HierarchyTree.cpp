@@ -291,3 +291,16 @@ int HierarchyTree::getId(wxTreeItemId item){
     }
     return -1;
 }
+
+int HierarchyTree::getItemIndex(wxTreeItemId target, wxTreeItemId item){
+    int count = 0;
+    if(ItemHasChildren(target)){
+        wxTreeItemIdValue cookie;
+        wxTreeItemId ch = GetFirstChild(target, cookie);
+        while(ch != item){
+            count++;
+            ch = GetNextChild(target, cookie);
+        }
+    }
+    return count;
+}

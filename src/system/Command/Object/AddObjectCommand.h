@@ -27,6 +27,8 @@ class AddObjectCommand : public ObjectCommand
         //wxTreeItemId addedItem;
         int addedItem;
 
+        int index = 0;
+
         bool ran = false;
 };
 

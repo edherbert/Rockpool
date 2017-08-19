@@ -1,40 +1,46 @@
 #include "DeleteObjectCommand.h"
 
 DeleteObjectCommand::DeleteObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds items) : ObjectCommand(tree){
-    wxArrayTreeItemIds newItems;
-
-    for(wxTreeItemId item : items){
-        //Check to see if the item is already in the list
-        //This prevents a bug where selected items are added to the list, even if the child item search has already added them.
-        bool found = false;
-        for(wxTreeItemId checkItem : newItems){
-            if(checkItem == item)found = true;
+    for(int i = 0; i < items.size(); i++){
+        if(tree->isParentSelected(items[i])){
+            continue;
         }
 
-        if(!found){
-            tree->getItemsAndAppend(&newItems, item);
-        }
+        ItemInformation info;
+        info.id = idCount;
+        info.text = tree->GetItemText(items[i]);
+        info.parentId = -1;
+        info.originParentItem = tree->getId(tree->GetItemParent(items[i]));
+
+        info.originItem = tree->getId(items[i]);
+
+        info.index = tree->getItemIndex(tree->GetItemParent(items[i]), items[i]);
+
+        itemInfo.push_back(info);
+        idCount++;
+
+        searchItem(items[i], info.id);
     }
+}
 
-    for(wxTreeItemId item : newItems){
-        ObjectInformation info;
-        info.text = tree->GetItemText(item);
-        info.selected = tree->IsSelected(item);
+void DeleteObjectCommand::searchItem(wxTreeItemId item, int parentId){
+    if(tree->ItemHasChildren(item)){
+        wxTreeItemIdValue cookie;
+        wxTreeItemId ch = tree->GetFirstChild(item, cookie);
+        while(ch.IsOk()){
 
-        info.originParentItem = tree->getId(tree->GetItemParent(item));
-        info.originItem = tree->getId(item);
+            ItemInformation info;
+            info.id = idCount;
+            info.text = tree->GetItemText(ch);
+            info.parentId = parentId;
 
-        objectInfo.push_back(info);
-    }
+            info.originItem = tree->getId(ch);
 
-    for(int i = 0; i < objectInfo.size(); i++){
-        if(objectInfo[i].selected){
-            if(tree->isParentSelected(tree->getItem(objectInfo[i].originItem))){
-                //The delete command is only run on the selected items. Their children are deleted with them.
-                //If one of an item's parents is selected, the item will be deleted anyway, so remove it from the selected items.
-                //This prevents a bug where the system tries to delete an item that's already been deleted by the removal of it's parent.
-                objectInfo[i].selected = false;
-            }
+            itemInfo.push_back(info);
+            idCount++;
+            searchItem(ch, info.id);
+
+            ch = tree->GetNextChild(item, cookie);
         }
     }
 }
@@ -44,23 +50,38 @@ DeleteObjectCommand::~DeleteObjectCommand(){
 }
 
 void DeleteObjectCommand::performAction(){
-    for(ObjectInformation info : objectInfo){
-        if(info.selected){
-            tree->Delete(tree->getItem(info.originItem));
-            tree->setItem(info.originItem, 0);
+    for(int i = 0; i < itemInfo.size(); i++){
+        if(itemInfo[i].parentId == -1){
+            tree->Delete(tree->getItem(itemInfo[i].originItem));
+            tree->setItem(itemInfo[i].originItem, 0);
         }
     }
 }
 
 void DeleteObjectCommand::performAntiAction(){
-    for(int i = 0; i < objectInfo.size(); i++){
-        //objectInfo[i].id = tree->AppendItem(objectInfo[i].parentId, objectInfo[i].text);
-        if(objectInfo[i].originParentItem == -1){
-            wxTreeItemId newItem = tree->AppendItem(tree->GetRootItem(), objectInfo[i].text);
-            tree->setItem(objectInfo[i].originItem, newItem);
+    for(int i = 0; i < itemInfo.size(); i++){
+        wxTreeItemId newItem;
+        wxTreeItemId targetItem;
+
+        //Check if the item is one of the base items
+        if(itemInfo[i].parentId == -1){
+            //If it's parent item is the root, then set that, otherwise set it to the parent item in the struct.
+            if(itemInfo[i].originParentItem == -1){
+                targetItem = tree->GetRootItem();
+            }else{
+                targetItem = tree->getItem(itemInfo[i].originParentItem);
+            }
         }else{
-            wxTreeItemId newItem = tree->AppendItem(tree->getItem(objectInfo[i].originParentItem), objectInfo[i].text);
-            tree->setItem(objectInfo[i].originItem, newItem);
+            //If it's not one of the base items then get the parent item and get it's item
+            targetItem = tree->getItem(itemInfo[itemInfo[i].parentId].originItem);
         }
+
+        //Use the insert command if the item is a base item.
+        if(itemInfo[i].parentId == -1){
+            newItem = tree->InsertItem(targetItem, itemInfo[i].index, itemInfo[i].text);
+        }else{
+            newItem = tree->AppendItem(targetItem, itemInfo[i].text);
+        }
+        tree->setItem(itemInfo[i].originItem, newItem);
     }
 }
