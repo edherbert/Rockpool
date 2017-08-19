@@ -31,8 +31,7 @@ Things to do before entity work begins:
 -Move the main class to the system directory
 
 
--Fix the bug with the object order positioning
--Change this so that objects can be positioned with the object arrange command.
+-Implement the indexing into the arrange command
 -Before Clipboard commands, do the object integration.
 
 -Do the moving and scaling of objects.
@@ -297,3 +296,5 @@ Things to do before entity work begins:
 -Do the object arrange command (This one involved a re-write of the entire system, so took a bit longer)
 
 -Implement the command for deleting objects under the new system.
+-Fix the bug with the object order positioning
+-Implement the indexing into the duplicate command
