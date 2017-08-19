@@ -18,7 +18,6 @@ class CommandManager
         void redoLastCommand();
 
         void pushCommand(Command *com);
-        void updateObjectCommands(wxTreeItemId oldId, wxTreeItemId newId);
 
     protected:
 

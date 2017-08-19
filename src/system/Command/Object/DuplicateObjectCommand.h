@@ -4,6 +4,8 @@
 #include "ObjectCommand.h"
 #include "../../../ui/Hierarchy/HierarchyTree.h"
 
+struct ItemInformation;
+
 class DuplicateObjectCommand : public ObjectCommand
 {
     public:
@@ -13,14 +15,16 @@ class DuplicateObjectCommand : public ObjectCommand
         void performAction();
         void performAntiAction();
 
-        void checkItems(wxTreeItemId oldId, wxTreeItemId newId);
-
     protected:
 
     private:
         std::vector<ObjectInformation> objectInfo;
+        std::vector<ItemInformation> itemInfo;
+
+        void searchItem(wxTreeItemId item, int parentId);
 
         bool ran = false;
+        int idCount = 0;
 };
 
 #endif // DUPLICATEOBJECTCOMMAND_H

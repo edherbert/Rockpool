@@ -4,6 +4,10 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
     this->destination = tree->getId(destination);
 
     for(int i = 0; i < items.size(); i++){
+        if(tree->isParentSelected(items[i])){
+            continue;
+        }
+
         ItemInformation info;
         info.id = idCount;
         info.text = tree->GetItemText(items[i]);
@@ -29,6 +33,8 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
     //Of course, the function to find an id just finds the id, even if there are multiple in the vector.
     //I might have to make some sort of check for this kind of thing.
     //I think this is the last major bug in the system.
+
+    //There might be a bug where inside items are also being selected.
 }
 
 void ArrangeObjectCommand::searchItem(wxTreeItemId item, int parentId){
@@ -116,23 +122,4 @@ void ArrangeObjectCommand::performAntiAction(){
             tree->setItem(itemInfo[i].newItem, 0);
         }
     }
-}
-
-void ArrangeObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
-/*
-    if(!done)return;
-
-    if(destination.GetID() == oldId.GetID()) destination = newId;
-
-    for(int i = 0; i < itemInfo.size(); i++){
-        if(itemInfo[i].originItem.GetID() == oldId.GetID() && itemInfo[i].parentId == -1){
-            itemInfo[i].originItem = newId;
-            //std::cout << "original item" << std::endl;
-        }
-        if(itemInfo[i].item.GetID() == oldId.GetID()){
-            itemInfo[i].item = newId;
-            if(itemInfo[i].parentId == -1) std::cout << "Replacing " << oldId.GetID() << " with " << newId.GetID() << std::endl;
-        }
-    }
-    */
 }

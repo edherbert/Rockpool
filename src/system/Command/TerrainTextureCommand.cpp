@@ -34,6 +34,7 @@ void TerrainTextureCommand::collectTerrainInfo(int x, int y){
     info.y = y;
 
     //Remember that info.data[0] represents layer 1, as layer 0 can't be textured
+    //All this sizeof stuff just loops through the data array.
     for(int i = 1; i < (sizeof(info.data) / sizeof(float)) + 1; i++){
         info.data[i - 1] = terr->getLayerBlendMap(i)->getBlendValue(x, y);
     }

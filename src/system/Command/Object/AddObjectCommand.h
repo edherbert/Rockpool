@@ -10,14 +10,11 @@ class Object;
 class AddObjectCommand : public ObjectCommand
 {
     public:
-        //AddObjectCommand(wxString path, HierarchyTree *tree, wxTreeItemId parentItem = 0);
         AddObjectCommand(wxString path, HierarchyTree *tree, int parentItem = -1);
         virtual ~AddObjectCommand();
 
         void performAction();
         void performAntiAction();
-
-        void checkItems(wxTreeItemId oldId, wxTreeItemId newId);
 
     protected:
 

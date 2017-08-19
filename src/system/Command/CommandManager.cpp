@@ -37,19 +37,3 @@ void CommandManager::redoLastCommand(){
 
     mainFrame->getCanvas()->renderFrame();
 }
-
-//updates the object functions with their new item ids
-void CommandManager::updateObjectCommands(wxTreeItemId oldId, wxTreeItemId newId){
-    for(Command* i : pastCommands){
-        if(i->getType() == objectCommand){
-            ObjectCommand *command = (ObjectCommand*)i;
-            command->checkItems(oldId, newId);
-        }
-    }
-    for(Command* i : futureCommands){
-        if(i->getType() == objectCommand){
-            ObjectCommand *command = (ObjectCommand*)i;
-            command->checkItems(oldId, newId);
-        }
-    }
-}

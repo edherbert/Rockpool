@@ -27,8 +27,6 @@ class ArrangeObjectCommand : public ObjectCommand
         void performAction();
         void performAntiAction();
 
-        void checkItems(wxTreeItemId oldId, wxTreeItemId newId);
-
     protected:
 
     private:

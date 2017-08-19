@@ -62,20 +62,5 @@ void DeleteObjectCommand::performAntiAction(){
             wxTreeItemId newItem = tree->AppendItem(tree->getItem(objectInfo[i].originParentItem), objectInfo[i].text);
             tree->setItem(objectInfo[i].originItem, newItem);
         }
-
-        //Once a new item is appended, go through the list again and update all the parent values that match this one.
-        //Some items will need the new parent value in order to be appended
-        //tree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->updateObjectCommands(oldId, objectInfo[i].id);
     }
-}
-
-void DeleteObjectCommand::checkItems(wxTreeItemId oldId, wxTreeItemId newId){
-    /*for(int i = 0; i < objectInfo.size(); i++){
-        if(objectInfo[i].parentId == oldId){
-            objectInfo[i].parentId = newId;
-        }
-        if(objectInfo[i].id == oldId){
-            objectInfo[i].id = newId;
-        }
-    }*/
 }
