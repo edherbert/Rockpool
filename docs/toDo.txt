@@ -30,7 +30,6 @@ Things to do before entity work begins:
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 
--Fix the bug with the arrange tool indexing.
 -Before Clipboard commands, do the object integration.
 
 -Do the moving and scaling of objects.
@@ -299,3 +298,4 @@ Things to do before entity work begins:
 -Implement the indexing into the duplicate command
 
 -Implement the indexing into the arrange command
+-Fix the bug with the arrange tool indexing.

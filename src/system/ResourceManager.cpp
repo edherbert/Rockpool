@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
 
+#include <wx/dir.h>
+
 ResourceManager::ResourceManager(Main *main){
     this->main = main;
 }

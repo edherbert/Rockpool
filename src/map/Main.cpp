@@ -1,5 +1,21 @@
 #include "Main.h"
 
+#include <wx/wx.h>
+#include <wx/dir.h>
+#include <wx/file.h>
+#include <wx/filename.h>
+
+#include "Map.h"
+#include "../ui/GLCanvas.h"
+#include "../ui/Dialogs/MapLoadProgressDialog.h"
+#include "../system/ResourceManager.h"
+#include "../system/Command/CommandManager.h"
+#include "../ui/Hierarchy/ObjectHierarchy.h"
+
+#include "../ui/Resource/ResourceBrowser.h"
+
+#include "../util/tinyxml2.h"
+
 Main::Main(){
 
 }

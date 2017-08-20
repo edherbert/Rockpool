@@ -1,5 +1,12 @@
 #include "MapPropertiesDialog.h"
 
+#include "../wxIDs.h"
+#include "../../map/Main.h"
+#include "../Resource/ResourceBrowser.h"
+#include "../../system/ResourceManager.h"
+
+#include <Ogre.h>
+
 MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent) : wxDialog(parent, wxID_ANY, wxT("Map Properties"), wxDefaultPosition, wxSize(700, 600)){
     this->mainFrame = mainFrame;
 

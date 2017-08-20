@@ -1,5 +1,8 @@
 #include "HierarchyRightClickNew.h"
 
+#include "../../map/Main.h"
+#include "../../system/Command/CommandManager.h"
+
 HierarchyRightClickNew::HierarchyRightClickNew(HierarchyTree *hierarchyTree, wxArrayTreeItemIds selection){
     this->hierarchyTree = hierarchyTree;
     this->selection = selection;

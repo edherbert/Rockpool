@@ -56,28 +56,7 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
 
     //I'm going to have to store an origin index but I think I could just store the destination index.
     //
-}
-
-void ArrangeObjectCommand::searchItem(wxTreeItemId item, int parentId){
-    if(tree->ItemHasChildren(item)){
-        wxTreeItemIdValue cookie;
-        wxTreeItemId ch = tree->GetFirstChild(item, cookie);
-        while(ch.IsOk()){
-
-            ItemInformation info;
-            info.id = idCount;
-            info.text = tree->GetItemText(ch);
-            info.parentId = parentId;
-
-            info.originItem = tree->getId(ch);
-
-            itemInfo.push_back(info);
-            idCount++;
-            searchItem(ch, info.id);
-
-            ch = tree->GetNextChild(item, cookie);
-        }
-    }
+    performAction();
 }
 
 ArrangeObjectCommand::~ArrangeObjectCommand(){
@@ -166,7 +145,6 @@ void ArrangeObjectCommand::performAntiAction(){
             originItem = tree->AppendItem(targetItem, itemInfo[i].text);
         }
 
-        //wxTreeItemId originItem = tree->AppendItem(targetItem, itemInfo[i].text);
         tree->setItem(itemInfo[i].originItem, originItem);
 
         if(itemInfo[i].parentId == -1){

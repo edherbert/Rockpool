@@ -1,5 +1,7 @@
 #include "TerrainTextureCommand.h"
 
+#include "../../map/Terrain.h"
+
 TerrainTextureCommand::TerrainTextureCommand(Terrain *terrain, Ogre::Terrain *terr, int layerIndex) : TerrainCommand(terrain, terr){
     this->layerIndex = layerIndex;
 }

@@ -8,6 +8,10 @@
 #include "wxIDs.h"
 #include <vector>
 
+#include <Ogre.h>
+#include <Terrain/OgreTerrain.h>
+#include <Terrain/OgreTerrainGroup.h>
+
 class TerrainInfoLayerBox;
 class MainFrame;
 

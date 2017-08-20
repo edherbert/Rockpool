@@ -1,12 +1,10 @@
 #ifndef COMMANDMANAGER_H
 #define COMMANDMANAGER_H
 
-#include "../../ui/MainFrame.h"
+#include <vector>
 
-#include <wx/treectrl.h>
-#include "TerrainEditCommand.h"
-
-class TerrainEditCommand;
+class Command;
+class MainFrame;
 
 class CommandManager
 {

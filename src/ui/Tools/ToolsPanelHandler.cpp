@@ -1,5 +1,8 @@
 #include "ToolsPanelHandler.h"
 
+#include "../wxIDs.h"
+#include "ToolPreferencesHandler.h"
+
 ToolsPanelHandler::ToolsPanelHandler(MainFrame *mainFrame, wxAuiManager *auiManager) : wxApp(){
     this->auiManager = auiManager;
     this->mainFrame = mainFrame;

@@ -2,9 +2,6 @@
 #define DUPLICATEOBJECTCOMMAND_H
 
 #include "ObjectCommand.h"
-#include "../../../ui/Hierarchy/HierarchyTree.h"
-
-struct ItemInformation;
 
 class DuplicateObjectCommand : public ObjectCommand
 {
@@ -18,13 +15,7 @@ class DuplicateObjectCommand : public ObjectCommand
     protected:
 
     private:
-        std::vector<ObjectInformation> objectInfo;
-        std::vector<ItemInformation> itemInfo;
-
-        void searchItem(wxTreeItemId item, int parentId);
-
         bool ran = false;
-        int idCount = 0;
 };
 
 #endif // DUPLICATEOBJECTCOMMAND_H

@@ -1,5 +1,7 @@
 #include "TerrainLayerResourceDialog.h"
 
+#include "../../ui/wxIDs.h"
+
 TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, ResourceManager *resManager) : wxDialog(parent, wxID_ANY, wxT("Select Layer Image"), wxDefaultPosition, wxSize(520, 600)){
     this->parent = parent;
     this->resManager = resManager;

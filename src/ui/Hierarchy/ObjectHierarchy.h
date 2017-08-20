@@ -6,6 +6,7 @@
 
 class MainFrame;
 class HierarchyTree;
+class Map;
 
 class ObjectHierarchy : public wxPanel
 {

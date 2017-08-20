@@ -2,9 +2,6 @@
 #define DELETEOBJECTCOMMAND_H
 
 #include "ObjectCommand.h"
-#include "../../../ui/Hierarchy/HierarchyTree.h"
-
-struct ItemInformation;
 
 class DeleteObjectCommand : public ObjectCommand
 {
@@ -18,13 +15,6 @@ class DeleteObjectCommand : public ObjectCommand
     protected:
 
     private:
-
-        void searchItem(wxTreeItemId item, int parentId);
-
-        int idCount = 0;
-
-        std::vector<ObjectInformation> objectInfo;
-        std::vector<ItemInformation> itemInfo;
 };
 
 #endif // DELETEOBJECTCOMMAND_H

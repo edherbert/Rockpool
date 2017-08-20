@@ -1,5 +1,7 @@
 #include "TerrainCommand.h"
 
+#include "../../map/Terrain.h"
+
 TerrainCommand::TerrainCommand(Terrain *terrain, Ogre::Terrain *terr){
     this->terrain = terrain;
     this->terr = terr;

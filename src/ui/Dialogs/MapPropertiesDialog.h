@@ -9,8 +9,6 @@
 
 #include "../MainFrame.h"
 
-#include "../wxIDs.h"
-
 class MainFrame;
 
 class MapPropertiesDialog : public wxDialog

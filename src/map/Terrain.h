@@ -7,8 +7,8 @@
 #include <Terrain/OgreTerrainGroup.h>
 #include <Ogre.h>
 
-#include <cmath>
 #include <vector>
+#include <cmath>
 
 //Contains the previous information for the terrain texture
 struct terrainTextureCommandInformation{

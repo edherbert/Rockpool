@@ -2,11 +2,19 @@
 #define TERRAINCOMMAND_H
 
 #include "Command.h"
-#include "../../map/Terrain.h"
+
+#include <Ogre.h>
+#include <Terrain/OgreTerrainGroup.h>
+#include <vector>
 
 class Terrain;
 
 struct terrainRays;
+
+struct terrainTextureCommandInformation;
+struct terrainCommandInformation;
+struct terrainSquareInformation;
+struct terrainBrushInformation;
 
 class TerrainCommand : public Command
 {

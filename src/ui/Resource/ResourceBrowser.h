@@ -2,13 +2,12 @@
 #define RESOURCEBROWSER_H
 
 #include <wx/wx.h>
-
-#include "../MainFrame.h"
-#include "ResourcePanel.h"
 #include <wx/srchctrl.h>
 
 class MainFrame;
 class ResourcePanel;
+
+class wxAuiManager;
 
 class ResourceBrowser : public wxPanel
 {

@@ -1,7 +1,22 @@
-#include <iostream>
-#include <wx/wx.h>
-
 #include "MainFrame.h"
+#include <iostream>
+
+#include "wxIDs.h"
+#include <wx/wx.h>
+#include <wx/accel.h>
+#include <wx/splitter.h>
+
+#include "GLCanvas.h"
+#include "../map/Main.h"
+#include "Dialogs/NewMapDialog.h"
+#include "RenderTimer.h"
+#include "Dialogs/MapPropertiesDialog.h"
+#include "Tools/ToolPreferencesHandler.h"
+#include "Tools/ToolsPanelHandler.h"
+#include "TerrainInfoHandler.h"
+#include "Resource/ResourceBrowser.h"
+#include "../system/ResourceManager.h"
+#include "Hierarchy/ObjectHierarchy.h"
 
 BEGIN_EVENT_TABLE(MainFrame, wxFrame)
     EVT_MAXIMIZE(MainFrame::onMaximize)

@@ -3,6 +3,7 @@
 
 #include <wx/aui/aui.h>
 #include "../MainFrame.h"
+#include <wx/app.h>
 
 class MainFrame;
 

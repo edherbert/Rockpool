@@ -1,34 +1,14 @@
 #ifndef MAINFRAME_H
 #define MAINFRAME_H
 
-#include <wx/wx.h>
-#include <wx/splitter.h>
-
-#include "wxIDs.h"
-
-#include "GLCanvas.h"
-#include "../map/Main.h"
-#include "Dialogs/NewMapDialog.h"
-#include "RenderTimer.h"
-#include "Dialogs/MapPropertiesDialog.h"
-#include "Tools/ToolPreferencesHandler.h"
-#include "Tools/ToolsPanelHandler.h"
-#include "TerrainInfoHandler.h"
-#include "Resource/ResourceBrowser.h"
-#include "../system/ResourceManager.h"
-#include "Hierarchy/ObjectHierarchy.h"
-
-#include <wx/accel.h>
-
 #include <wx/aui/aui.h>
 
 class Main;
-class ToolsPanel;
+class GLCanvas;
 class ToolPreferencesHandler;
 class RenderTimer;
 class ToolsPanelHandler;
 class TerrainInfoHandler;
-class MapPropertiesDialog;
 class ResourceBrowser;
 class ResourceManager;
 class ObjectHierarchy;

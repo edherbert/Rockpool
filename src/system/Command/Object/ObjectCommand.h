@@ -1,12 +1,16 @@
 #ifndef OBJECTCOMMAND_H
 #define OBJECTCOMMAND_H
 
-#include <wx/treectrl.h>
 #include "../Command.h"
 
-struct ObjectInformation{
+#include "../../../ui/Hierarchy/HierarchyTree.h"
+
+struct ItemInformation{
     wxString text;
-    bool selected;
+    int id;
+    int parentId;
+
+    int index;
 
     int originParentItem;
     int originItem;
@@ -23,6 +27,11 @@ class ObjectCommand : public Command
 
     protected:
         HierarchyTree *tree;
+        void searchItem(wxTreeItemId item, int parentId);
+
+        int idCount = 0;
+
+        std::vector<ItemInformation> itemInfo;
 
     private:
 };

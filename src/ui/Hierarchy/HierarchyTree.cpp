@@ -1,5 +1,10 @@
 #include "HierarchyTree.h"
 
+#include "../../system/Command/Object/ArrangeObjectCommand.h"
+#include "HierarchyRightClickMenu.h"
+#include "../../map/Main.h"
+#include "../../system/Command/CommandManager.h"
+
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
 
@@ -154,7 +159,7 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
         }
 
         ArrangeObjectCommand *command = new ArrangeObjectCommand(this, actualDestination, index, currentItems);
-        command->performAction();
+        //command->performAction();
         getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
     }
 

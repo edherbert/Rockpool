@@ -1,5 +1,8 @@
 #include "ResourceBrowser.h"
 
+#include "../MainFrame.h"
+#include "ResourcePanel.h"
+
 ResourceBrowser::ResourceBrowser(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
     this->auiManager = auiManager;

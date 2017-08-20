@@ -1,5 +1,20 @@
 #include "Map.h"
 
+#include "../ui/Tools/ToolPreferencesHandler.h"
+#include "../ui/TerrainInfoHandler.h"
+#include "../system/Command/TerrainCommand.h"
+#include "../system/Command/TerrainTextureCommand.h"
+#include "../system/Command/TerrainEditCommand.h"
+#include "../system/Command/CommandManager.h"
+#include "MapDecal.h"
+#include "Terrain.h"
+#include "../ui/GLCanvas.h"
+#include "Object/Object.h"
+#include "../ui/Tools/ToolsPanelHandler.h"
+
+#include "math.h"
+
+
 Map::Map(HandlerData *handlerData, std::string path, mapInformation info){
     this->handlerData = handlerData;
     this->path = path;
@@ -122,7 +137,7 @@ void Map::updateInput(){
     //If neither mouse buttons are pressed
     if(!canvas->getMouseButton(MOUSE_LEFT) && !canvas->getMouseButton(MOUSE_RIGHT)){
         if(currentTerrainCommand){
-            std::cout << "pushing terrain command" << std::endl;
+            //std::cout << "pushing terrain command" << std::endl;
             handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
             currentTerrainCommand = 0;
         }

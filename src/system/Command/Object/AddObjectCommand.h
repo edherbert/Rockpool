@@ -2,7 +2,6 @@
 #define ADDOBJECTCOMMAND_H
 
 #include "../../../map/Object/Object.h"
-#include "../../../ui/Hierarchy/HierarchyTree.h"
 #include "ObjectCommand.h"
 
 class Object;

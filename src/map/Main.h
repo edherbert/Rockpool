@@ -2,19 +2,9 @@
 #define MAIN_H
 
 #include <vector>
-#include <wx/wx.h>
-#include <wx/dir.h>
-
-#include "../ui/GLCanvas.h"
-#include "Map.h"
-#include "../ui/Dialogs/MapLoadProgressDialog.h"
-#include <wx/file.h>
-#include "../system/ResourceManager.h"
-#include "../system/Command/CommandManager.h"
-
-#include "../util/tinyxml2.h"
-
-#include <vector>
+#include <iostream>
+#include <wx/string.h>
+#include <wx/arrstr.h>
 
 class MapLoadProgressDialog;
 class MainFrame;

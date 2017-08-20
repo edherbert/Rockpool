@@ -1,5 +1,10 @@
 #include "CommandManager.h"
 
+#include "../../ui/GLCanvas.h"
+#include "../../ui/MainFrame.h"
+
+#include "Command.h"
+
 CommandManager::CommandManager(MainFrame *mainFrame){
     this->mainFrame = mainFrame;
 }

@@ -1,5 +1,8 @@
 #include "HierarchyRightClickMenu.h"
 
+#include "../../map/Main.h"
+#include "../../system/Command/CommandManager.h"
+
 HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, wxPoint location, wxArrayTreeItemIds selection) : wxMenu(){
     this->hierarchyTree = hierarchyTree;
     this->location = location;

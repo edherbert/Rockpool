@@ -1,5 +1,7 @@
 #include "ObjectHierarchy.h"
 
+#include <wx/wx.h>
+
 ObjectHierarchy::ObjectHierarchy(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
     this->auiManager = auiManager;

@@ -1,5 +1,7 @@
 #include "TerrainEditCommand.h"
 
+#include "../../map/Terrain.h"
+
 TerrainEditCommand::TerrainEditCommand(Terrain *terrain, Ogre::Terrain *terr, int toolId) : TerrainCommand(terrain, terr){
     this->toolId = toolId;
 }

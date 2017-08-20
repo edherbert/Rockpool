@@ -2,21 +2,19 @@
 #define HIERARCHYTREE_H
 
 #include "ObjectHierarchy.h"
-#include "HierarchyRightClickMenu.h"
 #include <wx/treectrl.h>
 
 #include "../../map/Object/Object.h"
 #include "../../map/Map.h"
-#include "../../system/Command/Object/ArrangeObjectCommand.h"
+
+class Map;
+class ObjectHierarchy;
 
 enum itemHoverState{
     hoverStateAbove,
     hoverStateBelow,
     hoverStateInside,
 };
-
-class Map;
-class ObjectHierarchy;
 
 class HierarchyTree : public wxTreeCtrl
 {

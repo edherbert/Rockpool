@@ -1,26 +1,23 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "../ui/GLCanvas.h"
 #include <OGRE/Ogre.h>
-#include "Terrain.h"
-#include "MapDecal.h"
-
-#include "math.h"
-#include "../ui/Tools/ToolPreferencesHandler.h"
-#include "../ui/TerrainInfoHandler.h"
-
-#include "../system/Command/TerrainCommand.h"
-#include "../system/Command/TerrainTextureCommand.h"
-
-#include "Object/Object.h"
+#include <Terrain/OgreTerrainGroup.h>
 
 class GLCanvas;
 class ToolPreferencesHandler;
 class TerrainInfoHandler;
+class TerrainCommand;
+class Terrain;
+class Object;
 
 struct HandlerData;
 struct mapInformation;
+
+struct terrainTextureCommandInformation;
+struct terrainCommandInformation;
+struct terrainSquareInformation;
+struct terrainBrushInformation;
 
 class Map
 {
@@ -49,9 +46,7 @@ class Map
 
         void saveMap(bool reSave);
 
-
         void addObject(Object *object);
-
 
         bool getMapStarted();
         mapInformation getMapInformation();
