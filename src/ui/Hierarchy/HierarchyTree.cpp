@@ -139,23 +139,21 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 
     //If all the items are ok and there are no restrictions of any kind then move the item.
     if(validMove){
-        /*//Go through all the items
-        for(int i = currentItems.size() - 1; i >= 0; i--){
-            wxTreeItemId newItem;
-            if(currentHoverState == hoverStateBelow){
-                newItem = InsertItem(GetItemParent(currentDestination), currentDestination, GetItemText(currentItems[i]));
-            }else if(currentHoverState == hoverStateAbove){
-                newItem = InsertItem(GetItemParent(currentDestination), GetPrevSibling(currentDestination), GetItemText(currentItems[i]));
-            }else if(currentHoverState == hoverStateInside){
-                newItem = AppendItem(currentDestination, GetItemText(currentItems[i]));
-            }
+        wxTreeItemId actualDestination;
+        int index = 0;
 
-            //This function checks if the item being dragged has children, and then copies them over
-            checkAppendItemTree(newItem, currentItems[i]);
-            //Remove the old item when the drag has finished.
-            Delete(currentItems[i]);
-        }*/
-        ArrangeObjectCommand *command = new ArrangeObjectCommand(this, currentDestination, currentItems);
+        if(currentHoverState == hoverStateInside){
+            actualDestination = currentDestination;
+            index = GetChildrenCount(actualDestination, false);
+        }else if(currentHoverState == hoverStateBelow){
+            actualDestination = GetItemParent(currentDestination);
+            index = getItemIndex(actualDestination, currentDestination) + 1;
+        }else if(currentHoverState == hoverStateAbove){
+            actualDestination = GetItemParent(currentDestination);
+            index = getItemIndex(actualDestination, currentDestination);
+        }
+
+        ArrangeObjectCommand *command = new ArrangeObjectCommand(this, actualDestination, index, currentItems);
         command->performAction();
         getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
     }

@@ -1,7 +1,8 @@
 #include "ArrangeObjectCommand.h"
 
-ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId destination, wxArrayTreeItemIds items) : ObjectCommand(tree){
+ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId destination, int destinationIndex, wxArrayTreeItemIds items) : ObjectCommand(tree){
     this->destination = tree->getId(destination);
+    this->destinationIndex = destinationIndex;
 
     for(int i = 0; i < items.size(); i++){
         if(tree->isParentSelected(items[i])){
@@ -15,7 +16,7 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
         info.originParentItem = tree->getId(tree->GetItemParent(items[i]));
 
         info.originItem = tree->getId(items[i]);
-        //info.index =
+        info.index = tree->getItemIndex(tree->GetItemParent(items[i]), items[i]);
 
         itemInfo.push_back(info);
         idCount++;
@@ -36,6 +37,17 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
     //I think this is the last major bug in the system.
 
     //There might be a bug where inside items are also being selected.
+
+
+
+    //Indexing for the position.
+    //The position shouldn't be too hard to deal with.
+    //So when the item is moved, you would take the destination as the parent item.
+    //If the item is dragged onto an item, then the destination is the the item dragged onto.
+    //If the item is dragged below or above an item, then the destination is the parent of that item.
+
+    //I'm going to have to store an origin index but I think I could just store the destination index.
+    //
 }
 
 void ArrangeObjectCommand::searchItem(wxTreeItemId item, int parentId){
@@ -80,11 +92,19 @@ void ArrangeObjectCommand::performAction(){
             targetItem = tree->getItem(targetId);
         }
 
+        //wxTreeItemId newItem = tree->AppendItem(targetItem, itemInfo[i].text);
+
+        wxTreeItemId newItem;
+        if(itemInfo[i].parentId == -1){
+            newItem = tree->InsertItem(targetItem, destinationIndex, itemInfo[i].text);
+        }else{
+            newItem = tree->AppendItem(targetItem, itemInfo[i].text);
+        }
+
+
         if(!ran){
-            wxTreeItemId newItem = tree->AppendItem(targetItem, itemInfo[i].text);
             itemInfo[i].newItem = tree->addItem(newItem);
         }else{
-            wxTreeItemId newItem = tree->AppendItem(targetItem, itemInfo[i].text);
             tree->setItem(itemInfo[i].newItem, newItem);
         }
 
@@ -115,7 +135,15 @@ void ArrangeObjectCommand::performAntiAction(){
             targetItem = tree->getItem(targetId);
         }
 
-        wxTreeItemId originItem = tree->AppendItem(targetItem, itemInfo[i].text);
+        //On the anti action, if the item is a base item, then insert it by index.
+        wxTreeItemId originItem;
+        if(itemInfo[i].parentId == -1){
+            originItem = tree->InsertItem(targetItem, itemInfo[i].index, itemInfo[i].text);
+        }else{
+            originItem = tree->AppendItem(targetItem, itemInfo[i].text);
+        }
+
+        //wxTreeItemId originItem = tree->AppendItem(targetItem, itemInfo[i].text);
         tree->setItem(itemInfo[i].originItem, originItem);
 
         if(itemInfo[i].parentId == -1){

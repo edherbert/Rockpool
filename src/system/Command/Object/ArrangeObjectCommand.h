@@ -23,7 +23,7 @@ struct ItemInformation{
 class ArrangeObjectCommand : public ObjectCommand
 {
     public:
-        ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId destination, wxArrayTreeItemIds items);
+        ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId destination, int destinationIndex, wxArrayTreeItemIds items);
         virtual ~ArrangeObjectCommand();
 
         void performAction();
@@ -33,6 +33,7 @@ class ArrangeObjectCommand : public ObjectCommand
 
     private:
         int destination;
+        int destinationIndex;
 
         int idCount = 0;
         bool ran = false;
