@@ -410,3 +410,17 @@ Firstly, this will require a function to find the index of the item.
 Basically, I'm going to need to iterate over the children on the parent item, until that item equals the current item.
 The number of iterations taken is the value.
 I'll only need to do this for the parent items.
+
+--More on arranging--
+I've managed to implement the indexing based on an int, but I've got a big of a problem with the arranging commands.
+If you drag an item backwards, then you end up with a problem where the index is slightly below where it should be.
+I'm not sure how I'm going to fix this with just ints, I almost do need a more solid reference to the item, so storing it's id.
+
+What I could do is store the id of the item that the item should be below.
+I could then have a null value to determine if the item should be placed at the end of the list.
+This would need to be done for the destination, as well as the origin.
+
+Each item dragged needs to know the item that came before it originally (if there was nothing then it's 0)
+When they are again appended to the destination, you would just need to find the item above the destination (again, 0 if nothing).
+Then, as you are appending the parent items, make the parent item of the next parent item the previous parent item.
+When it comes time to reverse the command, just put all the items below their original items.

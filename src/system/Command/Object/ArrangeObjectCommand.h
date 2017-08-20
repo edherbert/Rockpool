@@ -40,6 +40,8 @@ class ArrangeObjectCommand : public ObjectCommand
 
         void searchItem(wxTreeItemId item, int parentId);
 
+        wxTreeItemId currentAppendItem = 0;
+
         std::vector<ItemInformation> itemInfo;
 };
 

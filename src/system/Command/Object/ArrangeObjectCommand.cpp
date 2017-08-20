@@ -16,7 +16,15 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
         info.originParentItem = tree->getId(tree->GetItemParent(items[i]));
 
         info.originItem = tree->getId(items[i]);
-        info.index = tree->getItemIndex(tree->GetItemParent(items[i]), items[i]);
+
+        //info.index = tree->getItemIndex(tree->GetItemParent(items[i]), items[i]);
+        //info.index = tree->GetPrevSibling(items[i]);
+        wxTreeItemId prevSibling = tree->GetPrevSibling(items[i]);
+        if(prevSibling.IsOk()){
+            info.index = tree->getId(prevSibling);
+        }else{
+            info.index = -1;
+        }
 
         itemInfo.push_back(info);
         idCount++;
@@ -96,7 +104,16 @@ void ArrangeObjectCommand::performAction(){
 
         wxTreeItemId newItem;
         if(itemInfo[i].parentId == -1){
-            newItem = tree->InsertItem(targetItem, destinationIndex, itemInfo[i].text);
+            //Current append item makes sure that the items are added in the order in which they were dragged.
+            //If there is no current item (so the first item in the drag list) then append it to the destination
+            //All the items after that should be appended after that item, so keep a reference to it.
+            if(currentAppendItem == 0){
+                currentAppendItem = tree->InsertItem(targetItem, destinationIndex, itemInfo[i].text);
+            }else{
+                //Append to the item count
+                currentAppendItem = tree->InsertItem(targetItem, currentAppendItem, itemInfo[i].text);
+            }
+            newItem = currentAppendItem;
         }else{
             newItem = tree->AppendItem(targetItem, itemInfo[i].text);
         }
@@ -115,6 +132,7 @@ void ArrangeObjectCommand::performAction(){
     }
     //This is to initially create the items
     ran = true;
+    currentAppendItem = 0;
 }
 
 void ArrangeObjectCommand::performAntiAction(){
@@ -138,7 +156,12 @@ void ArrangeObjectCommand::performAntiAction(){
         //On the anti action, if the item is a base item, then insert it by index.
         wxTreeItemId originItem;
         if(itemInfo[i].parentId == -1){
-            originItem = tree->InsertItem(targetItem, itemInfo[i].index, itemInfo[i].text);
+            //originItem = tree->InsertItem(targetItem, itemInfo[i].index, itemInfo[i].text);
+            if(itemInfo[i].index == -1){
+                originItem = tree->InsertItem(targetItem, 0, itemInfo[i].text);
+            }else{
+                originItem = tree->InsertItem(targetItem, tree->getItem(itemInfo[i].index), itemInfo[i].text);
+            }
         }else{
             originItem = tree->AppendItem(targetItem, itemInfo[i].text);
         }

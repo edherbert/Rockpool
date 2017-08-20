@@ -15,6 +15,9 @@ Using the terrain texture tool at a small size and then trying to paint over it 
 When dragging a hierarchy item backwards, the index goes slightly out of sync.
 This is because the item has been dragged backwards, it's item now represents an index, so it always ends up one behind where it should be.
 
+Sometimes, when dragging items they are reversed in order.
+This is all to do with dragging items backwards.
+
 Possible bug:
     The size of the terrain might be changing dependent on how many terrains there are.
     Posssibly a terrain of 3000 will be 3000 if there is only one, but 1500 if there is two.
