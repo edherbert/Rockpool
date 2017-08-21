@@ -24,7 +24,7 @@ Main::~Main(){
 
 }
 
-void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
+void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& directoryPath){
     if(!canvas) return;
     bool success = true;
 
@@ -109,6 +109,7 @@ void Main::loadMap(MainFrame *frame, wxString filePath, wxString directoryPath){
     currentMap->setDefaultCameraValues(cameraPosition, cameraDirection);
     canvas->setMap(currentMap);
     frame->getObjectHierarchy()->setMap(currentMap);
+    currentMap->setObjectHierarchy(frame->getObjectHierarchy());
     //loadDialog->addValue(10);
     //loadDialog->setText("Generating Terrain");
 }

@@ -45,3 +45,7 @@ void ObjectHierarchy::setMap(Map *map){
 MainFrame* ObjectHierarchy::getMainFrame(){
     return mainFrame;
 }
+
+HierarchyTree* ObjectHierarchy::getTree(){
+    return tree;
+}

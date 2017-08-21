@@ -28,7 +28,7 @@ class Main
         Main();
         virtual ~Main();
 
-        void loadMap(MainFrame *frame, wxString filePath, wxString directoryPath);
+        void loadMap(MainFrame *frame, const wxString& filePath, const wxString& directoryPath);
         void createMap(MainFrame *frame, wxString path, mapInformation info);
 
         void setCanvas(GLCanvas *canvas);

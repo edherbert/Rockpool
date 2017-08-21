@@ -11,11 +11,15 @@
 #include "../ui/GLCanvas.h"
 #include "Object/Object.h"
 #include "../ui/Tools/ToolsPanelHandler.h"
+#include "../ui/Hierarchy/ObjectHierarchy.h"
+#include "../ui/Hierarchy/HierarchyObjectInformation.h"
+
+#include <wx/treebase.h>
 
 #include "math.h"
 
 
-Map::Map(HandlerData *handlerData, std::string path, mapInformation info){
+Map::Map(HandlerData *handlerData, const std::string& path, mapInformation info){
     this->handlerData = handlerData;
     this->path = path;
     this->mapName = info.mapName;
@@ -53,14 +57,15 @@ void Map::start(GLCanvas *canvas){
     Ogre::Light* light = sceneManager->createLight("light");
     light->setPosition(20, 80, 50);
 
-    /*Object *first = new Object(sceneManager);
-    Object *second = new Object(sceneManager);
-    second->setPosition(5, 0, 0);
-    first->addChild(second);
+    //The map needs a reference to the hierarchy.
 
-    second->removeFromParent();
+    //objectHierarchy->getTree()->get
+    Object *rootObject = new Object(sceneManager);
+    sceneManager->getRootSceneNode()->addChild(rootObject->getSceneNode());
 
-    sceneManager->getRootSceneNode()->addChild(first->getSceneNode());*/
+    HierarchyObjectInformation *info = new HierarchyObjectInformation(rootObject);
+    wxTreeItemId root = objectHierarchy->getTree()->GetRootItem();
+    objectHierarchy->getTree()->SetItemData(root, info);
 
     mapStarted = true;
 }
@@ -144,7 +149,7 @@ void Map::updateInput(){
     }
 }
 
-void Map::moveCameraPosition(const Ogre::Vector3 ammount){
+void Map::moveCameraPosition(Ogre::Vector3 ammount){
     Ogre::Vector3 ammountToMove = ammount;
     if(canvas->getKey(wxKeyCode::WXK_SHIFT)){
         ammountToMove *= 9;
@@ -172,14 +177,14 @@ void Map::updateCursor(int x, int y){
     }
 }
 
-void Map::handleClick(int x, int y, const int mouseButton){
+void Map::handleClick(int x, int y, int mouseButton){
     int currentTool = handlerData->toolPanelHandler->getCurrentTool();
     Ogre::TerrainGroup::RayResult centreResult = checkTerrainRayMouse(x, y);
 
     handleTerrainTool(centreResult, mouseButton, currentTool);
 }
 
-void Map::handleTerrainTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton, const int toolId){
+void Map::handleTerrainTool(Ogre::TerrainGroup::RayResult centreRay, int mouseButton, int toolId){
     //If the centre did not land on a terrain, then abort the entire thing.
     if(!centreRay.hit) return;
     int brushSize = 0;
@@ -303,4 +308,8 @@ void Map::saveMap(bool reSave){
 void Map::setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cameraDirection){
     this->defaultCameraPosition = cameraPosition;
     this->defaultCameraDirection = cameraDirection;
+}
+
+void Map::setObjectHierarchy(ObjectHierarchy *objectHierarchy){
+    this->objectHierarchy = objectHierarchy;
 }

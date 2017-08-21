@@ -4,21 +4,28 @@
 #include "HierarchyRightClickMenu.h"
 #include "../../map/Main.h"
 #include "../../system/Command/CommandManager.h"
+#include "HierarchyObjectInformation.h"
 
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
+
+    //Object *rootObject = new Object(map->getSceneManager());
+    //map->getSceneManager()->getRootSceneNode()->addChild(rootObject->getSceneNode());
+
+    //HierarchyObjectInformation *info = new HierarchyObjectInformation(rootObject);
 
     //You can't actually see this in the hierarchy, but it's the root object
     AddRoot("Hierarchy");
 
     wxTreeItemId root = GetRootItem();
+
     /*wxTreeItemId cube = AppendItem(root, "Cube");
     wxTreeItemId sphere = AppendItem(root, "Sphere");
     wxTreeItemId triangle = AppendItem(root, "Triangle");
 
     AppendItem(triangle, "other triangle");*/
 
-    for(int y = 0; y < 10; y++){
+    /*for(int y = 0; y < 10; y++){
         wxTreeItemId yVal = AppendItem(root, std::to_string(y));
         addItem(yVal);
         for(int x = 0; x < 10; x++){
@@ -29,7 +36,7 @@ HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(obje
                 addItem(zVal);
             }
         }
-    }
+    }*/
 
     Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
@@ -201,40 +208,6 @@ bool HierarchyTree::isParentSelected(wxTreeItemId item){
         currentItem = GetItemParent(currentItem);
     }
     return false;
-}
-
-//The destination object (the one that has items appended to it), and the one that's currently being searched
-void HierarchyTree::checkAppendItemTree(wxTreeItemId destination, wxTreeItemId item){
-    if(ItemHasChildren(item)){
-        //This will loop through the children.
-        //The cookie is used to store the iteration values
-        wxTreeItemIdValue cookie;
-        wxTreeItemId ch = GetFirstChild(item, cookie);
-        while(ch.IsOk()){
-            //Append the text to the destination (this will run for each child)
-            wxTreeItemId newItem = AppendItem(destination, GetItemText(ch));
-            //Check if that child has children and do the same for them.
-            checkAppendItemTree(newItem, ch);
-
-            ch = GetNextChild(item, cookie);
-        }
-    }
-}
-
-void HierarchyTree::getItemsAndAppend(wxArrayTreeItemIds *destination, wxTreeItemId item){
-    //Add the item to the list
-    //Check if it has children
-    //Run this function for the children.
-    destination->Add(item);
-    if(ItemHasChildren(item)){
-        wxTreeItemIdValue cookie;
-        wxTreeItemId ch = GetFirstChild(item, cookie);
-        while(ch.IsOk()){
-            getItemsAndAppend(destination, ch);
-
-            ch = GetNextChild(item, cookie);
-        }
-    }
 }
 
 void HierarchyTree::MouseRightDown(wxMouseEvent &event){

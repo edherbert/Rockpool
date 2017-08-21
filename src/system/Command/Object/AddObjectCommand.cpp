@@ -1,5 +1,7 @@
 #include "AddObjectCommand.h"
 
+#include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
+
 AddObjectCommand::AddObjectCommand(wxString path, HierarchyTree *tree, int parentItem) : ObjectCommand(tree){
     this->path = path;
     this->parentItem = parentItem;
@@ -26,9 +28,12 @@ void AddObjectCommand::performAction(){
     }else{
         targetItem = tree->getItem(parentItem);
     }
+    HierarchyObjectInformation *parentInfo = (HierarchyObjectInformation*)tree->GetItemData(targetItem);
+    parentInfo->getObject()->addChild(object);
 
-    //wxTreeItemId newItem = tree->AppendItem(targetItem, path);
-    wxTreeItemId newItem = tree->InsertItem(targetItem, index, path);
+    HierarchyObjectInformation *info = new HierarchyObjectInformation(object);
+    wxTreeItemId newItem = tree->InsertItem(targetItem, index, path, -1, -1, info);
+
     if(!ran){
         addedItem = tree->addItem(newItem);
     }else{
@@ -41,5 +46,6 @@ void AddObjectCommand::performAction(){
 void AddObjectCommand::performAntiAction(){
     if(addedItem != -1){
         tree->Delete(tree->getItem(addedItem));
+        object->removeFromParent();
     }
 }

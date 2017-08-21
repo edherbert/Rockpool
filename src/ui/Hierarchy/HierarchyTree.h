@@ -25,7 +25,6 @@ class HierarchyTree : public wxTreeCtrl
         wxTreeItemId AddObject(Object *object, wxString name, wxTreeItemId parent = 0);
         void removeObject(wxTreeItemId item);
 
-        void getItemsAndAppend(wxArrayTreeItemIds *destination, wxTreeItemId item);
         bool isParentSelected(wxTreeItemId item);
 
         void setMap(Map *map);
@@ -44,13 +43,10 @@ class HierarchyTree : public wxTreeCtrl
     private:
         void mouseDown(wxMouseEvent &event);
         void mouseUp(wxMouseEvent &event);
-
         void MouseRightDown(wxMouseEvent &event);
-
         void mouseMoved(wxMouseEvent &event);
 
         void resetItemHighlight();
-        void checkAppendItemTree(wxTreeItemId destination, wxTreeItemId item);
         void endDrag();
 
         itemHoverState currentHoverState;

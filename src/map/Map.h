@@ -10,6 +10,7 @@ class TerrainInfoHandler;
 class TerrainCommand;
 class Terrain;
 class Object;
+class ObjectHierarchy;
 
 struct HandlerData;
 struct mapInformation;
@@ -22,7 +23,7 @@ struct terrainBrushInformation;
 class Map
 {
     public:
-        Map(HandlerData *handlerData, std::string path, mapInformation info);
+        Map(HandlerData *handlerData, const std::string& path, mapInformation info);
         virtual ~Map();
 
         Ogre::Camera* getCamera();
@@ -33,14 +34,14 @@ class Map
 
         void updateInput();
         void pointCamera(int xOffset, int yOffset);
-        void moveCameraPosition(const Ogre::Vector3 ammount);
+        void moveCameraPosition(Ogre::Vector3 ammount);
 
         void updateCursor(int x, int y);
-        void handleClick(int x, int y, const int mouseButton);
+        void handleClick(int x, int y, int mouseButton);
 
         void setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cameraDirection);
 
-        void handleTerrainTool(const Ogre::TerrainGroup::RayResult centreRay, const int mouseButton, const int toolId);
+        void handleTerrainTool(Ogre::TerrainGroup::RayResult centreRay, int mouseButton, int toolId);
         terrainSquareInformation genSquareInfo(Ogre::Terrain *terr, int x, int y, int z, int brushSize, bool textureTool = false);
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
@@ -50,6 +51,8 @@ class Map
 
         bool getMapStarted();
         mapInformation getMapInformation();
+
+        void setObjectHierarchy(ObjectHierarchy *objectHierarchy);
 
     protected:
 
@@ -66,6 +69,7 @@ class Map
 
         Terrain *terrain;
         GLCanvas *canvas;
+        ObjectHierarchy *objectHierarchy;
 
         bool mapStarted = false;
 

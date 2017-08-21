@@ -1,0 +1,15 @@
+--Objects in the hierarchy--
+The hierarchy will store references to the objects in the scene.
+This will be stored in the object data, rather than a separate list.
+It's important that each item knows where it should go, especially given how the actions can also be redone.
+
+So for now, I think the plan is this. Objects should only be detached when they are deleted.
+This means the action can be easily undone if necessary, as the object would just have to be re-attached if needed again.
+When the command expires, the object can then be deleted.
+So undoing an action like the add event would just require detaching the object, but remembering where it went.
+
+I'm probably going to have to add a pointer to the object in the item struct.
+This is because commands like the delete command operate on lots of objects.
+Again, I would just have to detach the base item's objects, but I would still need pointers for the re-creation of the items.
+
+So when each new item is appended, I can pass the data in that basically just holds a pointer to the object.
