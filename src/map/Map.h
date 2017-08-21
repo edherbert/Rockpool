@@ -11,6 +11,7 @@ class TerrainCommand;
 class Terrain;
 class Object;
 class ObjectHierarchy;
+class ObjectCommand;
 
 struct HandlerData;
 struct mapInformation;
@@ -66,6 +67,10 @@ class Map
 
         HandlerData *handlerData;
         TerrainCommand *currentTerrainCommand = 0;
+
+        ObjectCommand *currentObjectCommand = 0;
+
+        bool performingObjectCommand = false;
 
         Terrain *terrain;
         GLCanvas *canvas;

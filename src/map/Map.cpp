@@ -5,6 +5,7 @@
 #include "../system/Command/TerrainCommand.h"
 #include "../system/Command/TerrainTextureCommand.h"
 #include "../system/Command/TerrainEditCommand.h"
+#include "../system/Command/Object/ObjectCommand.h"
 #include "../system/Command/CommandManager.h"
 #include "MapDecal.h"
 #include "Terrain.h"
@@ -136,15 +137,29 @@ void Map::updateInput(){
     if(canvas->getKey(KEY_F)) moveCameraPosition(camera->getUp());
     if(canvas->getKey(KEY_G)) moveCameraPosition(-camera->getUp());
 
-    if(canvas->getMouseButton(MOUSE_LEFT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
-    if(canvas->getMouseButton(MOUSE_RIGHT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_RIGHT);
+    if(canvas->getKey(KEY_M)){
+        if(!performingObjectCommand){
+            performingObjectCommand = true;
+            currentObjectCommand = new ObjectCommand(objectHierarchy->getTree());
+        }
+    }
 
-    //If neither mouse buttons are pressed
-    if(!canvas->getMouseButton(MOUSE_LEFT) && !canvas->getMouseButton(MOUSE_RIGHT)){
-        if(currentTerrainCommand){
-            //std::cout << "pushing terrain command" << std::endl;
-            handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
-            currentTerrainCommand = 0;
+    if(performingObjectCommand){
+        if(canvas->getKey(KEY_ESCAPE)) performingObjectCommand = false;
+
+        //Create the command in the earlier bit
+        //Here I could call something to the command.
+        currentObjectCommand->update(canvas->getMouseDiffX(), canvas->getMouseDiffY());
+    }else{
+        if(canvas->getMouseButton(MOUSE_LEFT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
+        if(canvas->getMouseButton(MOUSE_RIGHT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_RIGHT);
+
+        //If neither mouse buttons are pressed
+        if(!canvas->getMouseButton(MOUSE_LEFT) && !canvas->getMouseButton(MOUSE_RIGHT)){
+            if(currentTerrainCommand){
+                handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
+                currentTerrainCommand = 0;
+            }
         }
     }
 }

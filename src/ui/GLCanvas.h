@@ -21,6 +21,9 @@ extern "C"
 #define KEY_O 79
 #define KEY_F 70
 #define KEY_G 71
+#define KEY_M 77
+
+#define KEY_ESCAPE 27
 
 #define CANVAS_KEYS_LENGTH 350
 
@@ -53,6 +56,9 @@ class GLCanvas : public wxGLCanvas
         int getWidth();
         int getHeight();
 
+        int getMouseDiffX();
+        int getMouseDiffY();
+
         bool getKey(const int keyId);
         bool getMouseButton(const int button);
         bool getMouseInside();
@@ -83,6 +89,8 @@ class GLCanvas : public wxGLCanvas
 
         int prevMouseX = 0;
         int prevMouseY = 0;
+        int mouseDiffX = 0;
+        int mouseDiffY = 0;
         int mouseX = 0;
         int mouseY = 0;
         int width = 0;

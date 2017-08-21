@@ -151,6 +151,7 @@ void GLCanvas::mouseWheel(wxMouseEvent &event){
 void GLCanvas::keyDown(wxKeyEvent &event){
     int val = (int)event.GetKeyCode();
     if(val >= 0 && val < CANVAS_KEYS_LENGTH) keys[val] = true;
+    //std::cout << event.GetKeyCode() << std::endl;
 }
 
 void GLCanvas::keyUp(wxKeyEvent &event){
@@ -187,6 +188,9 @@ void GLCanvas::updateLogic(){
             }else{
                 mouseMoved = false;
             }
+
+            mouseDiffX = prevMouseX - mouseX;
+            mouseDiffY = prevMouseY - mouseY;
 
             mouseInside = true;
             prevMouseX = mouseX;
@@ -243,4 +247,12 @@ bool GLCanvas::getMouseInside(){
 
 bool GLCanvas::getMouseMoved(){
     return mouseMoved;
+}
+
+int GLCanvas::getMouseDiffX(){
+    return mouseDiffX;
+}
+
+int GLCanvas::getMouseDiffY(){
+    return mouseDiffY;
 }

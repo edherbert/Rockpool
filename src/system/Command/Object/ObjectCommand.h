@@ -25,6 +25,8 @@ class ObjectCommand : public Command
         ObjectCommand(HierarchyTree *tree);
         virtual ~ObjectCommand();
 
+        virtual void update(int x, int y);
+
     protected:
         HierarchyTree *tree;
         void searchItem(wxTreeItemId item, int parentId);

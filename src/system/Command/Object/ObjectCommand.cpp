@@ -31,3 +31,7 @@ void ObjectCommand::searchItem(wxTreeItemId item, int parentId){
         }
     }
 }
+
+void ObjectCommand::update(int x, int y){
+
+}

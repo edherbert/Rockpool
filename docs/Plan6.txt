@@ -13,3 +13,13 @@ This is because commands like the delete command operate on lots of objects.
 Again, I would just have to detach the base item's objects, but I would still need pointers for the re-creation of the items.
 
 So when each new item is appended, I can pass the data in that basically just holds a pointer to the object.
+
+--Moving entities--
+I want to start work on the entity move command.
+This basically would work by selecting an item and then pushing a key, for example the M key.
+Then as the user moves the mouse, the item would move with it.
+They can also specify an axis to move the item on
+
+This will also be a command, but I'm not entirely sure where the command should go.
+It should probably go in the map class, because that's running a check function for input.
+I suppose I'll have quite a few move commands by the time I'm done.
