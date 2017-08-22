@@ -15,6 +15,7 @@
 #include "../ui/Tools/ToolsPanelHandler.h"
 #include "../ui/Hierarchy/ObjectHierarchy.h"
 #include "../ui/Hierarchy/HierarchyObjectInformation.h"
+#include "Main.h"
 
 #include <wx/treebase.h>
 

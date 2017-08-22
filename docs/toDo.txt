@@ -22,6 +22,7 @@
 
 -Make it so that objects can be dragged in from the resource browser.
 -Fix the bug where items are not being removed when they are deleted.
+-Remove the item generation bit from the ogre comonent
 
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
@@ -32,6 +33,8 @@ Things to do before entity work begins:
 -Make it so that the user cannot alter the terrain using the fps camera
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
+-Move the terrain info things into their own directory
+-Remove the file save locations from the map properties.
 
 -Before Clipboard commands, do the object integration.
 

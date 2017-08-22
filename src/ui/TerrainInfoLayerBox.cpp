@@ -1,9 +1,15 @@
 #include "TerrainInfoLayerBox.h"
 
-TerrainInfoLayerBox::TerrainInfoLayerBox(wxWindow *parent, wxBoxSizer *parentSizer, TerrainInfoHandler *handler) : wxPanel(parent, wxID_ANY){
+#include "MainFrame.h"
+#include "wxIDs.h"
+#include "Dialogs/TerrainLayerResourceDialog.h"
+#include "GLCanvas.h"
+
+TerrainInfoLayerBox::TerrainInfoLayerBox(wxWindow *parent, MainFrame *mainFrame, wxBoxSizer *parentSizer, TerrainInfoHandler *handler) : wxPanel(parent, wxID_ANY){
     //SetBackgroundColour(wxColour("#0000FF"));
     this->parentSizer = parentSizer;
     this->handler = handler;
+    this->mainFrame = mainFrame;
 
     wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
     SetSizer(verticalSizer);
@@ -63,7 +69,7 @@ void TerrainInfoLayerBox::setChecked(bool value){
     checked = value;
 }
 
-void TerrainInfoLayerBox::setInfo(std::string name){
+void TerrainInfoLayerBox::setInfo(const std::string &name){
     textureSrcText->SetLabel((wxString)name);
 }
 
@@ -77,6 +83,6 @@ void TerrainInfoLayerBox::imageSelectButtonPressed(wxCommandEvent &event){
         handler->setTerrainTextureName(GetId(), dialog.getValue());
 
         handler->refreshTerrain();
-        Ogre::Root::getSingleton().renderOneFrame();
+        mainFrame->getCanvas()->renderFrame();
     }
 }

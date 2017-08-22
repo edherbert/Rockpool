@@ -110,8 +110,8 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
     canvas->setMap(currentMap);
     frame->getObjectHierarchy()->setMap(currentMap);
     currentMap->setObjectHierarchy(frame->getObjectHierarchy());
-    //loadDialog->addValue(10);
-    //loadDialog->setText("Generating Terrain");
+
+    if(currentMap->getMapStarted())frame->getCanvas()->renderFrame();
 }
 
 void Main::showLoadFailedPopup(){

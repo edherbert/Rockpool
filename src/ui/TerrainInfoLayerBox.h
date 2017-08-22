@@ -2,24 +2,24 @@
 #define TERRAININFOLAYERBOX_H
 
 #include "TerrainInfoHandler.h"
+
 #include <wx/wx.h>
 #include <wx/statline.h>
-#include "wxIDs.h"
-#include "Dialogs/TerrainLayerResourceDialog.h"
 
 class TerrainInfoHandler;
 class TerrainLayerResourceDialog;
+class MainFrame;
 
 class TerrainInfoLayerBox : public wxPanel
 {
     public:
-        TerrainInfoLayerBox(wxWindow *parent, wxBoxSizer *parentSizer, TerrainInfoHandler *handler);
+        TerrainInfoLayerBox(wxWindow *parent, MainFrame *mainFrame, wxBoxSizer *parentSizer, TerrainInfoHandler *handler);
         virtual ~TerrainInfoLayerBox();
 
         bool isChecked();
         void setChecked(bool value);
 
-        void setInfo(std::string name);
+        void setInfo(const std::string &name);
         std::string getInfo();
 
     protected:
@@ -27,6 +27,7 @@ class TerrainInfoLayerBox : public wxPanel
     private:
         wxBoxSizer *parentSizer;
         TerrainInfoHandler *handler;
+        MainFrame *mainFrame;
 
         bool checked = false;
         wxCheckBox *layerSelectedCheckBox;

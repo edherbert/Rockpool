@@ -43,7 +43,7 @@ TerrainInfoHandler::TerrainInfoHandler(MainFrame *mainFrame, wxAuiManager *auiMa
     layerListPanel->SetSizer(layerListSizer);
 
     for(int i = 0; i < maxLayers; i++){
-        TerrainInfoLayerBox *layer = new TerrainInfoLayerBox(layerListPanel, layerListSizer, this);
+        TerrainInfoLayerBox *layer = new TerrainInfoLayerBox(layerListPanel, mainFrame, layerListSizer, this);
         layerBoxes.push_back(layer);
     }
 
