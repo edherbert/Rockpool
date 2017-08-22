@@ -6,6 +6,7 @@
 #include "../system/Command/TerrainTextureCommand.h"
 #include "../system/Command/TerrainEditCommand.h"
 #include "../system/Command/Object/ObjectCommand.h"
+#include "../system/Command/Object/MoveObjectCommand.h"
 #include "../system/Command/CommandManager.h"
 #include "MapDecal.h"
 #include "Terrain.h"
@@ -138,30 +139,51 @@ void Map::updateInput(){
     if(canvas->getKey(KEY_G)) moveCameraPosition(-camera->getUp());
 
     if(canvas->getKey(KEY_M)){
-        if(!performingObjectCommand){
+        if(!performingObjectCommand && objectHierarchy->checkSelectionExists()){
             performingObjectCommand = true;
-            currentObjectCommand = new ObjectCommand(objectHierarchy->getTree());
+            currentObjectCommand = new MoveObjectCommand(objectHierarchy->getTree());
         }
     }
 
-    if(performingObjectCommand){
-        if(canvas->getKey(KEY_ESCAPE)) performingObjectCommand = false;
+    bool mouseLeft = canvas->getMouseButton(MOUSE_LEFT);
+    bool mouseRight = canvas->getMouseButton(MOUSE_RIGHT);
 
-        //Create the command in the earlier bit
-        //Here I could call something to the command.
+    if(performingObjectCommand){
+        if(canvas->getKey(KEY_ESCAPE)){
+            endObjectCommand(false);
+            return;
+        }
+        if(mouseLeft || mouseRight){
+            endObjectCommand(true);
+            return;
+        }
+
         currentObjectCommand->update(canvas->getMouseDiffX(), canvas->getMouseDiffY());
+
     }else{
-        if(canvas->getMouseButton(MOUSE_LEFT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
-        if(canvas->getMouseButton(MOUSE_RIGHT)) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_RIGHT);
+        if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
+        if(mouseRight) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_RIGHT);
 
         //If neither mouse buttons are pressed
-        if(!canvas->getMouseButton(MOUSE_LEFT) && !canvas->getMouseButton(MOUSE_RIGHT)){
+        if(!mouseLeft && !mouseRight){
             if(currentTerrainCommand){
-                handlerData->terrainInfoHandler->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
+                objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
                 currentTerrainCommand = 0;
             }
         }
     }
+}
+
+void Map::endObjectCommand(bool success){
+    performingObjectCommand = false;
+    //objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentObjectCommand);
+    if(success){
+        objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentObjectCommand);
+    }else{
+        currentObjectCommand->performAntiAction();
+    }
+    currentObjectCommand = 0;
+
 }
 
 void Map::moveCameraPosition(Ogre::Vector3 ammount){

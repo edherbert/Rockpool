@@ -53,6 +53,8 @@ class Map
         bool getMapStarted();
         mapInformation getMapInformation();
 
+        void endObjectCommand(bool success);
+
         void setObjectHierarchy(ObjectHierarchy *objectHierarchy);
 
     protected:
@@ -66,8 +68,8 @@ class Map
         Ogre::Vector3 defaultCameraDirection;
 
         HandlerData *handlerData;
-        TerrainCommand *currentTerrainCommand = 0;
 
+        TerrainCommand *currentTerrainCommand = 0;
         ObjectCommand *currentObjectCommand = 0;
 
         bool performingObjectCommand = false;

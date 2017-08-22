@@ -25,6 +25,7 @@ class Object
         void removeFromParent();
 
         Ogre::SceneNode* getSceneNode();
+        const Ogre::Vector3& getPosition();
 
     protected:
 

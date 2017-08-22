@@ -49,3 +49,11 @@ MainFrame* ObjectHierarchy::getMainFrame(){
 HierarchyTree* ObjectHierarchy::getTree(){
     return tree;
 }
+
+bool ObjectHierarchy::checkSelectionExists(){
+    wxArrayTreeItemIds items;
+    tree->GetSelections(items);
+
+    if(items.size() <= 0) return false;
+    else return true;
+}

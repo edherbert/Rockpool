@@ -29,6 +29,10 @@ void Object::setScale(int x, int y, int z){
     node->setScale(x, y, z);
 }
 
+const Ogre::Vector3& Object::getPosition(){
+    return node->getPosition();
+}
+
 void Object::setScale(Ogre::Vector3 scale){
     node->setScale(scale);
 }

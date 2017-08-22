@@ -32,8 +32,6 @@ Things to do before entity work begins:
 
 -Before Clipboard commands, do the object integration.
 
--Do the moving and scaling of objects.
-
 --Plan to implement objects--
     -Begin to implement the object system by creating all the object classes. *
     -Create the terrain manager
@@ -44,7 +42,7 @@ Things to do before entity work begins:
     -Implement the ability to save the current objects, as well as the terrains
     -Make it so objects can be dragged around the hierarchy panel to re-arrange their order. *
     -Implement the ability to add objects from the hierarchy panel *
-    -Make it so the user can select objects (including multiple objects)
+    -Make it so the user can select objects (including multiple objects) *
     -Implement the ability to move / rotate / scale objects (and make sure this works with the terrain!)
     -Make it so all these actions can be undone and redone.
 
@@ -299,3 +297,5 @@ Things to do before entity work begins:
 
 -Implement the indexing into the arrange command
 -Fix the bug with the arrange tool indexing.
+
+-Do the moving of objects.
