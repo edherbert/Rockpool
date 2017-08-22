@@ -200,6 +200,7 @@ void Main::createProjectFile(std::string filePath, mapInformation info){
     doc.SaveFile(filePath.c_str());
 }
 
+//All calls to add a resource location go through here, except for the one that adds the required directories.
 bool Main::addResourceLocation(wxString path, bool insertAtIndex, int index){
     wxFileName file(path);
     if(!file.IsDirReadable() || !file.Exists()) return false;

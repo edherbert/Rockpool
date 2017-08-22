@@ -20,6 +20,9 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
+-Make it so that objects can be dragged in from the resource browser.
+-Fix the bug where items are not being removed when they are deleted.
+
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
     -Multiple canvases (only two should be allowed.)
@@ -299,3 +302,4 @@ Things to do before entity work begins:
 -Fix the bug with the arrange tool indexing.
 
 -Do the moving of objects.
+-Implement the mesh object class

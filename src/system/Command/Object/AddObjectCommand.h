@@ -1,15 +1,23 @@
 #ifndef ADDOBJECTCOMMAND_H
 #define ADDOBJECTCOMMAND_H
 
-#include "../../../map/Object/Object.h"
 #include "ObjectCommand.h"
 
 class Object;
 
+enum PrimativeIds{
+    PrimativeEmpty,
+    PrimativeCube,
+    PrimativeSphere,
+    PrimativeCone,
+    PrimativePlane
+};
+
 class AddObjectCommand : public ObjectCommand
 {
     public:
-        AddObjectCommand(wxString path, HierarchyTree *tree, int parentItem = -1);
+        AddObjectCommand(const wxString &name, const wxString &path, HierarchyTree *tree, int parentItem = -1);
+        AddObjectCommand(PrimativeIds primId, HierarchyTree *tree, int parentItem = -1);
         virtual ~AddObjectCommand();
 
         void performAction();
@@ -19,14 +27,16 @@ class AddObjectCommand : public ObjectCommand
 
     private:
         Object *object;
-        //wxTreeItemId parentItem;
-        int parentItem;
 
-        wxString path;
-        //wxTreeItemId addedItem;
+        int parentItem;
         int addedItem;
 
+        wxString path;
+        wxString name;
+
         int index = 0;
+
+        void setup();
 
         bool ran = false;
 };

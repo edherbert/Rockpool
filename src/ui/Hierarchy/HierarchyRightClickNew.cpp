@@ -2,6 +2,7 @@
 
 #include "../../map/Main.h"
 #include "../../system/Command/CommandManager.h"
+#include "../GLCanvas.h"
 
 HierarchyRightClickNew::HierarchyRightClickNew(HierarchyTree *hierarchyTree, wxArrayTreeItemIds selection){
     this->hierarchyTree = hierarchyTree;
@@ -28,19 +29,22 @@ HierarchyRightClickNew::~HierarchyRightClickNew(){
 void HierarchyRightClickNew::addItem(wxCommandEvent &event){
     AddObjectCommand *command;
 
-    wxString name;
-    if(event.GetId() == HIERARCHY_MENU_ADD_EMPTY) name = "Empty";
-    else if(event.GetId() == HIERARCHY_MENU_ADD_CUBE) name = "Cube";
-    else if(event.GetId() == HIERARCHY_MENU_ADD_SPHERE) name = "Sphere";
-    else if(event.GetId() == HIERARCHY_MENU_ADD_CONE) name = "Cone";
-    else if(event.GetId() == HIERARCHY_MENU_ADD_PLANE) name = "Plane";
+    PrimativeIds type;
+    if(event.GetId() == HIERARCHY_MENU_ADD_EMPTY) type = PrimativeEmpty;
+    else if(event.GetId() == HIERARCHY_MENU_ADD_CUBE) type = PrimativeCube;
+    else if(event.GetId() == HIERARCHY_MENU_ADD_SPHERE) type = PrimativeSphere;
+    else if(event.GetId() == HIERARCHY_MENU_ADD_CONE) type = PrimativeCone;
+    else if(event.GetId() == HIERARCHY_MENU_ADD_PLANE) type = PrimativePlane;
 
     if(selection.size() <= 0){
-        command = new AddObjectCommand(name, hierarchyTree);
+        //Append to the root item
+        command = new AddObjectCommand(type, hierarchyTree);
     }else{
-        command = new AddObjectCommand(name, hierarchyTree, hierarchyTree->getId(selection[0]));
+        //Append below the specified item
+        command = new AddObjectCommand(type, hierarchyTree, hierarchyTree->getId(selection[0]));
     }
 
     command->performAction();
     hierarchyTree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+    hierarchyTree->getObjectHierarchy()->getMainFrame()->getCanvas()->renderFrame();
 }

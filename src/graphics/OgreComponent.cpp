@@ -39,3 +39,16 @@ OgreComponent::OgreComponent(){
 OgreComponent::~OgreComponent(){
 
 }
+
+void OgreComponent::setupPlane(){
+    Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+
+    Ogre::MeshManager::getSingleton().createPlane(
+        "Rockpool_DefaultPlane",
+        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+        plane,
+        1, 1, 1, 1,
+        true,
+        1, 1, 1,
+        Ogre::Vector3::UNIT_Z);
+}

@@ -2,6 +2,7 @@
 #define OGRECOMPONENT_H
 
 #include <OGRE/Ogre.h>
+#include <OgrePlane.h>
 #include <iostream>
 
 class OgreComponent
@@ -14,6 +15,8 @@ class OgreComponent
 
     private:
         Ogre::Root *root;
+
+        void setupPlane();
 };
 
 #endif // OGRECOMPONENT_H

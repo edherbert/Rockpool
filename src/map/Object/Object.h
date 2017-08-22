@@ -28,13 +28,12 @@ class Object
         const Ogre::Vector3& getPosition();
 
     protected:
-
-    private:
         Ogre::SceneManager *sceneManager;
         Ogre::SceneNode *node;
 
         Object *parent;
         std::vector<Object*>children;
+    private:
 };
 
 #endif // OBJECT_H
