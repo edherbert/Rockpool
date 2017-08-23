@@ -20,9 +20,10 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
--Make it so that objects can be dragged in from the resource browser.
--Fix the bug where items are not being removed when they are deleted.
--Remove the item generation bit from the ogre comonent
+-Figure out how to add some sort of animation to a resource drag.
+-Make it so that resources can't be dragged into the resource browser unless they are a .mesh file.
+-Make it so that items are removed when they are deleted.
+
 
 Things to do before entity work begins:
     -Implement a key that immediately locks the canvas into focus.
@@ -306,3 +307,7 @@ Things to do before entity work begins:
 
 -Do the moving of objects.
 -Implement the mesh object class
+
+-Remove the item generation bit from the ogre comonent
+
+-Make it so that objects can be dragged in from the resource browser.

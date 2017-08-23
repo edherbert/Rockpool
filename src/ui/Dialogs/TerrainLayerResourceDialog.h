@@ -7,11 +7,12 @@
 
 class ResourceManager;
 class ResourcePanel;
+class MainFrame;
 
 class TerrainLayerResourceDialog : public wxDialog
 {
     public:
-        TerrainLayerResourceDialog(wxWindow *parent, ResourceManager *resManager);
+        TerrainLayerResourceDialog(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager);
         virtual ~TerrainLayerResourceDialog();
 
         void cancelButtonPressed(wxCommandEvent &event);

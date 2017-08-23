@@ -78,7 +78,7 @@ std::string TerrainInfoLayerBox::getInfo(){
 }
 
 void TerrainInfoLayerBox::imageSelectButtonPressed(wxCommandEvent &event){
-    TerrainLayerResourceDialog dialog(this, handler->getMainFrame()->getResourceManager());
+    TerrainLayerResourceDialog dialog(this, mainFrame, handler->getMainFrame()->getResourceManager());
     if(dialog.getValue() != wxEmptyString){
         handler->setTerrainTextureName(GetId(), dialog.getValue());
 

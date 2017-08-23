@@ -15,8 +15,6 @@ class OgreComponent
 
     private:
         Ogre::Root *root;
-
-        void setupPlane();
 };
 
 #endif // OGRECOMPONENT_H

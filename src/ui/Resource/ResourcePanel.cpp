@@ -1,7 +1,11 @@
 #include "ResourcePanel.h"
 
-ResourcePanel::ResourcePanel(wxWindow *parent, ResourceManager *resManager) : wxPanel(parent){
-    this->parent = parent;
+#include "../../system/ResourceManager.h"
+#include "ResourceTile.h"
+#include "../MainFrame.h"
+
+ResourcePanel::ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager) : wxPanel(parent){
+    this->mainFrame = mainFrame;
     this->resManager = resManager;
 
     defaultBitmap = new wxBitmap("../media/img/icon.png");
@@ -115,4 +119,8 @@ void ResourcePanel::selectTile(int id){
 
 ResourceTile* ResourcePanel::getCurrentTile(){
     return currentTile;
+}
+
+MainFrame* ResourcePanel::getMainFrame(){
+    return mainFrame;
 }

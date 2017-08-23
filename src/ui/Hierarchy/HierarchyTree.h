@@ -16,6 +16,12 @@ enum itemHoverState{
     hoverStateInside,
 };
 
+struct ItemDragDestinationInfo{
+    wxTreeItemId actualDestination;
+    int index;
+    bool validMove;
+};
+
 class HierarchyTree : public wxTreeCtrl
 {
     public:
@@ -38,6 +44,12 @@ class HierarchyTree : public wxTreeCtrl
 
         int getItemIndex(wxTreeItemId target, wxTreeItemId item);
 
+        void beginResourceDrag(const wxString &itemName);
+        void updateResourceDrag();
+        void endResourceDrag();
+
+        void updateDragAnim(const wxPoint &location);
+
     protected:
 
     private:
@@ -49,6 +61,8 @@ class HierarchyTree : public wxTreeCtrl
         void resetItemHighlight();
         void endDrag();
 
+        ItemDragDestinationInfo processItemDestination();
+
         itemHoverState currentHoverState;
         wxTreeItemId currentDestination;
 
@@ -56,6 +70,9 @@ class HierarchyTree : public wxTreeCtrl
         ObjectHierarchy *objectHierarchy = 0;
 
         bool checkItemParent(wxTreeItemId item);
+
+        bool resourceItemDrag = false;
+        wxString itemDragName;
 
         bool checkedLocation = false;
         wxArrayTreeItemIds currentItems;

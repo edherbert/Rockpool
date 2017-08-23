@@ -1,8 +1,9 @@
 #include "TerrainLayerResourceDialog.h"
 
 #include "../../ui/wxIDs.h"
+#include "../Resource/ResourceTile.h"
 
-TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, ResourceManager *resManager) : wxDialog(parent, wxID_ANY, wxT("Select Layer Image"), wxDefaultPosition, wxSize(520, 600)){
+TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager) : wxDialog(parent, wxID_ANY, wxT("Select Layer Image"), wxDefaultPosition, wxSize(520, 600)){
     this->parent = parent;
     this->resManager = resManager;
 
@@ -10,7 +11,7 @@ TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, Resourc
     wxBoxSizer *scrollWindowSizer = new wxBoxSizer(wxVERTICAL);
     scrollWindow->SetSizer(scrollWindowSizer);
 
-    resourcePanel = new ResourcePanel(scrollWindow, resManager);
+    resourcePanel = new ResourcePanel(scrollWindow, mainFrame, resManager);
     scrollWindowSizer->Add(resourcePanel, 1, wxEXPAND);
 
     wxButton *cancelButton = new wxButton(this, TERRAIN_LAYER_DIALOG_CANCEL, wxT("Cancel"));

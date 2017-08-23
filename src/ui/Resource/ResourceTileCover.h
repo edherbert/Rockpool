@@ -2,8 +2,6 @@
 #define RESOURCETILECOVER_H
 
 #include <wx/wx.h>
-#include "ResourcePanel.h"
-#include "ResourceTile.h"
 
 class ResourcePanel;
 class ResourceTile;
@@ -19,7 +17,9 @@ class ResourceTileCover : public wxPanel
         ResourceTileCover(ResourcePanel *resPanel, ResourceTile *parent);
         virtual ~ResourceTileCover();
 
-        void coverClicked(wxMouseEvent &event);
+        void mouseDown(wxMouseEvent &event);
+        void mouseMoved(wxMouseEvent &event);
+        void mouseUp(wxMouseEvent &event);
 
         void setId(int id);
 

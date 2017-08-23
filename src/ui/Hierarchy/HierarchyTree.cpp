@@ -5,6 +5,7 @@
 #include "../../map/Main.h"
 #include "../../system/Command/CommandManager.h"
 #include "HierarchyObjectInformation.h"
+#include "../GLCanvas.h"
 
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
@@ -62,6 +63,7 @@ ObjectHierarchy* HierarchyTree::getObjectHierarchy(){
 }
 
 void HierarchyTree::mouseMoved(wxMouseEvent &event){
+    //std::cout << event.GetPosition().y << std::endl;
     //Checked location is run the first time the mouse is pressed down
     //It makes sure the user can't click on an invalid area, then move their mouse and still have the checks take place
     if(wxGetMouseState().LeftDown() && !checkedLocation){
@@ -83,37 +85,7 @@ void HierarchyTree::mouseMoved(wxMouseEvent &event){
     //If there are items in the current items array, then something is being dragged
     if(currentItems.size() > 0){
         wxPoint location = event.GetPosition();
-        wxTreeItemId item = HitTest(location);
-
-        //Don't bother doing all this highlight logic if the item is selected or not ok.
-        if(item.IsOk() && !IsSelected(item)){
-            wxRect rect;
-            GetBoundingRect(item, rect);
-
-            int posY = location.y - rect.GetLeftTop().y;
-            int border = rect.GetHeight() / 4;
-            if(posY < border){
-                currentHoverState = hoverStateAbove;
-            }
-            else if(posY > rect.GetHeight() - border){
-                currentHoverState = hoverStateBelow;
-            }
-            else{
-                currentHoverState = hoverStateInside;
-            }
-
-            //If the highlighted item has changed
-            if(item != currentDestination){
-                resetItemHighlight();
-                currentDestination = item;
-            }
-            //if(currentHoverState == hoverStateInside) SetItemDropHighlight(item);
-            if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
-            else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
-        }else{
-            //If there is something wrong with the item being hovered over, reset the highlight.
-            resetItemHighlight();
-        }
+        updateDragAnim(location);
     }
 }
 
@@ -151,7 +123,7 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 
     //If all the items are ok and there are no restrictions of any kind then move the item.
     if(validMove){
-        wxTreeItemId actualDestination;
+        /*wxTreeItemId actualDestination;
         int index = 0;
 
         if(currentHoverState == hoverStateInside){
@@ -163,14 +135,37 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
         }else if(currentHoverState == hoverStateAbove){
             actualDestination = GetItemParent(currentDestination);
             index = getItemIndex(actualDestination, currentDestination);
-        }
+        }*/
+        ItemDragDestinationInfo info = processItemDestination();
 
-        ArrangeObjectCommand *command = new ArrangeObjectCommand(this, actualDestination, index, currentItems);
+        ArrangeObjectCommand *command = new ArrangeObjectCommand(this, info.actualDestination, info.index, currentItems);
         //command->performAction();
         getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
     }
 
     endDrag();
+}
+
+ItemDragDestinationInfo HierarchyTree::processItemDestination(){
+    wxTreeItemId actualDestination;
+    int index = 0;
+
+    if(currentHoverState == hoverStateInside){
+        actualDestination = currentDestination;
+        index = GetChildrenCount(actualDestination, false);
+    }else if(currentHoverState == hoverStateBelow){
+        actualDestination = GetItemParent(currentDestination);
+        index = getItemIndex(actualDestination, currentDestination) + 1;
+    }else if(currentHoverState == hoverStateAbove){
+        actualDestination = GetItemParent(currentDestination);
+        index = getItemIndex(actualDestination, currentDestination);
+    }
+
+    ItemDragDestinationInfo info;
+    info.actualDestination = actualDestination;
+    info.index = index;
+
+    return info;
 }
 
 void HierarchyTree::endDrag(){
@@ -279,4 +274,71 @@ int HierarchyTree::getItemIndex(wxTreeItemId target, wxTreeItemId item){
         }
     }
     return count;
+}
+
+void HierarchyTree::beginResourceDrag(const wxString &itemName){
+    if(resourceItemDrag) return;
+
+    resourceItemDrag = true;
+    this->itemDragName = itemName;
+}
+
+void HierarchyTree::endResourceDrag(){
+    if(!resourceItemDrag) return;
+
+    ItemDragDestinationInfo info = processItemDestination();
+
+    AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(info.actualDestination));
+    command->performAction();
+
+    getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+
+    resourceItemDrag = false;
+    endDrag();
+
+    getObjectHierarchy()->getMainFrame()->getCanvas()->renderFrame();
+}
+
+void HierarchyTree::updateResourceDrag(){
+    if(!resourceItemDrag) return;
+
+    wxMouseState state = wxGetMouseState();
+    int newMouseX = state.GetPosition().x - GetScreenPosition().x;
+    int newMouseY = state.GetPosition().y - GetScreenPosition().y;
+
+    updateDragAnim(wxPoint(newMouseX, newMouseY));
+}
+
+void HierarchyTree::updateDragAnim(const wxPoint &location){
+    wxTreeItemId item = HitTest(location);
+
+    //Don't bother doing all this highlight logic if the item is selected or not ok.
+    if(item.IsOk() && !IsSelected(item)){
+        wxRect rect;
+        GetBoundingRect(item, rect);
+
+        int posY = location.y - rect.GetLeftTop().y;
+        int border = rect.GetHeight() / 4;
+        if(posY < border){
+            currentHoverState = hoverStateAbove;
+        }
+        else if(posY > rect.GetHeight() - border){
+            currentHoverState = hoverStateBelow;
+        }
+        else{
+            currentHoverState = hoverStateInside;
+        }
+
+        //If the highlighted item has changed
+        if(item != currentDestination){
+            resetItemHighlight();
+            currentDestination = item;
+        }
+        //if(currentHoverState == hoverStateInside) SetItemDropHighlight(item);
+        if(currentHoverState == hoverStateInside) SetItemBackgroundColour(item, wxColour("#FF0000"));
+        else SetItemBackgroundColour(item, wxColour("#FFFFFF"));
+    }else{
+        //If there is something wrong with the item being hovered over, reset the highlight.
+        resetItemHighlight();
+    }
 }

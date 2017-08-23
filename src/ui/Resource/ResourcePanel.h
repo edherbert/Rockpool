@@ -2,16 +2,16 @@
 #define RESOURCEPANEL_H
 
 #include <wx/wx.h>
-#include "ResourceTile.h"
-#include "../../system/ResourceManager.h"
+#include <vector>
 
 class ResourceManager;
 class ResourceTile;
+class MainFrame;
 
 class ResourcePanel : public wxPanel
 {
     public:
-        ResourcePanel(wxWindow *parent, ResourceManager *resManager);
+        ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager);
         virtual ~ResourcePanel();
 
         void updateTiles();
@@ -22,10 +22,12 @@ class ResourcePanel : public wxPanel
 
         ResourceTile* getCurrentTile();
 
+        MainFrame* getMainFrame();
+
     protected:
 
     private:
-        wxWindow *parent;
+        MainFrame *mainFrame;
         ResourceManager *resManager;
 
         int width, height;
