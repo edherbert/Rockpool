@@ -6,6 +6,7 @@
 #include "../../system/Command/CommandManager.h"
 #include "HierarchyObjectInformation.h"
 #include "../GLCanvas.h"
+#include "../Resource/ResourceDragPopup.h"
 
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
@@ -113,7 +114,7 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
     //If there are no items, then that means nothing was dragged
     if(currentItems.size() <= 0)return;
 
-    bool validMove = false;
+    /*bool validMove = false;
     if(currentDestination.IsOk()){
         //If an item is not being dragged into one of it's children.
         if(!checkItemParent(currentDestination)){
@@ -123,23 +124,26 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 
     //If all the items are ok and there are no restrictions of any kind then move the item.
     if(validMove){
-        /*wxTreeItemId actualDestination;
-        int index = 0;
-
-        if(currentHoverState == hoverStateInside){
-            actualDestination = currentDestination;
-            index = GetChildrenCount(actualDestination, false);
-        }else if(currentHoverState == hoverStateBelow){
-            actualDestination = GetItemParent(currentDestination);
-            index = getItemIndex(actualDestination, currentDestination) + 1;
-        }else if(currentHoverState == hoverStateAbove){
-            actualDestination = GetItemParent(currentDestination);
-            index = getItemIndex(actualDestination, currentDestination);
-        }*/
         ItemDragDestinationInfo info = processItemDestination();
 
         ArrangeObjectCommand *command = new ArrangeObjectCommand(this, info.actualDestination, info.index, currentItems);
         //command->performAction();
+        getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+    }*/
+
+    bool validMove = false;
+    if(currentDestination.IsOk()){
+        //If an item is not being dragged into one of it's children.
+        if(!checkItemParent(currentDestination)){
+            validMove = true;
+        }
+    }
+
+    if(validMove){
+        ItemDragDestinationInfo info = processItemDestination();
+
+        ArrangeObjectCommand *command = new ArrangeObjectCommand(this, info.actualDestination, info.index, currentItems);
+
         getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
     }
 
@@ -147,9 +151,9 @@ void HierarchyTree::mouseUp(wxMouseEvent &event){
 }
 
 ItemDragDestinationInfo HierarchyTree::processItemDestination(){
+    //This function assumes the move is valid
     wxTreeItemId actualDestination;
     int index = 0;
-
     if(currentHoverState == hoverStateInside){
         actualDestination = currentDestination;
         index = GetChildrenCount(actualDestination, false);
@@ -161,9 +165,15 @@ ItemDragDestinationInfo HierarchyTree::processItemDestination(){
         index = getItemIndex(actualDestination, currentDestination);
     }
 
+    //For the regular drag, it should be checked if the item is ok.
+    //If it's not then do nothing.
+    //For the resource drag, if the item isn't ok then it needs to be put into the root object.
+    //So basically just this function within the valid move bit.
+
     ItemDragDestinationInfo info;
     info.actualDestination = actualDestination;
     info.index = index;
+    info.validMove = false;
 
     return info;
 }
@@ -281,20 +291,68 @@ void HierarchyTree::beginResourceDrag(const wxString &itemName){
 
     resourceItemDrag = true;
     this->itemDragName = itemName;
+
+    currentResourcePopup = new ResourceDragPopup(this);
 }
 
 void HierarchyTree::endResourceDrag(){
     if(!resourceItemDrag) return;
 
-    ItemDragDestinationInfo info = processItemDestination();
+    /*bool validMove = false;
+    if(info.validMove){
+        validMove = true;
+    }else{
+        wxPoint mousePos = wxGetMousePosition();
+        wxRect rect = GetScreenRect();
 
-    AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(info.actualDestination));
-    command->performAction();
+        //If it's not hovered over an item, but still in the window, then append to the root.
+        if(mousePos.x >= rect.GetLeft() && mousePos.x <= rect.GetRight() && mousePos.y >= rect.GetTop() && mousePos.y <= rect.GetBottom()){
+            validMove = true;
+            info.actualDestination = GetRootItem();
+        }
+    }
 
-    getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+    if(validMove){
+        AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(info.actualDestination));
+        command->performAction();
+
+        getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+    }*/
+
+    wxTreeItemId destination;
+    int index;
+
+    bool validMove = false;
+    if(currentDestination.IsOk()){
+        ItemDragDestinationInfo info = processItemDestination();
+
+        destination = info.actualDestination;
+        index = info.index;
+        validMove = true;
+    }else{
+        wxPoint mousePos = wxGetMousePosition();
+        wxRect rect = GetScreenRect();
+
+        if(mousePos.x >= rect.GetLeft() && mousePos.x <= rect.GetRight() && mousePos.y >= rect.GetTop() && mousePos.y <= rect.GetBottom()){
+            destination = GetRootItem();
+            index = 0;
+            validMove = true;
+        }
+    }
+
+    if(validMove){
+        AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(destination));
+        command->performAction();
+
+        getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+    }
 
     resourceItemDrag = false;
     endDrag();
+    if(currentResourcePopup){
+        currentResourcePopup->Destroy();
+        currentResourcePopup = 0;
+    }
 
     getObjectHierarchy()->getMainFrame()->getCanvas()->renderFrame();
 }
@@ -307,6 +365,7 @@ void HierarchyTree::updateResourceDrag(){
     int newMouseY = state.GetPosition().y - GetScreenPosition().y;
 
     updateDragAnim(wxPoint(newMouseX, newMouseY));
+    if(currentResourcePopup) currentResourcePopup->updatePopup();
 }
 
 void HierarchyTree::updateDragAnim(const wxPoint &location){

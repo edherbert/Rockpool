@@ -9,6 +9,7 @@
 
 class Map;
 class ObjectHierarchy;
+class ResourceDragPopup;
 
 enum itemHoverState{
     hoverStateAbove,
@@ -73,6 +74,7 @@ class HierarchyTree : public wxTreeCtrl
 
         bool resourceItemDrag = false;
         wxString itemDragName;
+        ResourceDragPopup *currentResourcePopup;
 
         bool checkedLocation = false;
         wxArrayTreeItemIds currentItems;
