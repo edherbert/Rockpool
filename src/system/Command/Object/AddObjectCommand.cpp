@@ -3,18 +3,20 @@
 #include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
 #include "../../../map/Object/MeshObject.h"
 
-AddObjectCommand::AddObjectCommand(const wxString &name, const wxString &path, HierarchyTree *tree, int parentItem) : ObjectCommand(tree){
+AddObjectCommand::AddObjectCommand(const wxString &name, const wxString &path, HierarchyTree *tree, int parentItem, int index) : ObjectCommand(tree){
     this->path = path;
     this->name = path;
     this->parentItem = parentItem;
+    this->index = index;
 
     setup();
 
     object = new MeshObject(tree->getMap()->getSceneManager(), name, path);
 }
 
-AddObjectCommand::AddObjectCommand(PrimativeIds primId, HierarchyTree *tree, int parentItem) : ObjectCommand(tree){
+AddObjectCommand::AddObjectCommand(PrimativeIds primId, HierarchyTree *tree, int parentItem, int index) : ObjectCommand(tree){
     this->parentItem = parentItem;
+    this->index = index;
 
     if(primId == PrimativeEmpty) name = "Empty";
     if(primId == PrimativeCube) name = "Cube";
@@ -44,7 +46,10 @@ void AddObjectCommand::setup(){
     }else{
         targetItem = tree->getItem(parentItem);
     }
-    index = tree->GetChildrenCount(targetItem, false);
+    if(index == -1){
+        //If no index was provided (-1 is the default), then just insert it at the end
+        index = tree->GetChildrenCount(targetItem, false);
+    }
 }
 
 void AddObjectCommand::performAction(){
@@ -58,6 +63,7 @@ void AddObjectCommand::performAction(){
     parentInfo->getObject()->addChild(object);
 
     HierarchyObjectInformation *info = new HierarchyObjectInformation(object);
+
     wxTreeItemId newItem = tree->InsertItem(targetItem, index, name, -1, -1, info);
 
     if(!ran){

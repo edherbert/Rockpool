@@ -298,38 +298,20 @@ void HierarchyTree::beginResourceDrag(const wxString &itemName){
 void HierarchyTree::endResourceDrag(){
     if(!resourceItemDrag) return;
 
-    /*bool validMove = false;
-    if(info.validMove){
-        validMove = true;
-    }else{
-        wxPoint mousePos = wxGetMousePosition();
-        wxRect rect = GetScreenRect();
-
-        //If it's not hovered over an item, but still in the window, then append to the root.
-        if(mousePos.x >= rect.GetLeft() && mousePos.x <= rect.GetRight() && mousePos.y >= rect.GetTop() && mousePos.y <= rect.GetBottom()){
-            validMove = true;
-            info.actualDestination = GetRootItem();
-        }
-    }
-
-    if(validMove){
-        AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(info.actualDestination));
-        command->performAction();
-
-        getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
-    }*/
-
     wxTreeItemId destination;
     int index;
 
     bool validMove = false;
+    //If there is a current destionation
     if(currentDestination.IsOk()){
+        //Get all the information regarding it's drag
         ItemDragDestinationInfo info = processItemDestination();
 
         destination = info.actualDestination;
         index = info.index;
         validMove = true;
     }else{
+        //If the mouse is within the object hierarchy, then just append to the root.
         wxPoint mousePos = wxGetMousePosition();
         wxRect rect = GetScreenRect();
 
@@ -341,7 +323,7 @@ void HierarchyTree::endResourceDrag(){
     }
 
     if(validMove){
-        AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(destination));
+        AddObjectCommand *command = new AddObjectCommand(itemDragName, itemDragName, this, getId(destination), index);
         command->performAction();
 
         getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);

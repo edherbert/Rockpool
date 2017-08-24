@@ -16,8 +16,8 @@ enum PrimativeIds{
 class AddObjectCommand : public ObjectCommand
 {
     public:
-        AddObjectCommand(const wxString &name, const wxString &path, HierarchyTree *tree, int parentItem = -1);
-        AddObjectCommand(PrimativeIds primId, HierarchyTree *tree, int parentItem = -1);
+        AddObjectCommand(const wxString &name, const wxString &path, HierarchyTree *tree, int parentItem = -1, int index = -1);
+        AddObjectCommand(PrimativeIds primId, HierarchyTree *tree, int parentItem = -1, int index = -1);
         virtual ~AddObjectCommand();
 
         void performAction();
