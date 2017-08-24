@@ -1,5 +1,6 @@
 #include "ResourcePanel.h"
 
+#include "../Resource/ResourceDragPopup.h"
 #include "../../system/ResourceManager.h"
 #include "ResourceTile.h"
 #include "../MainFrame.h"
@@ -9,8 +10,6 @@ ResourcePanel::ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceMan
     this->resManager = resManager;
 
     defaultBitmap = new wxBitmap("../media/img/icon.png");
-
-    //SetBackgroundColour(wxColour("#0000FF"));
 
     Connect(wxEVT_SIZE, wxSizeEventHandler(ResourcePanel::onResize));
 }
@@ -123,4 +122,27 @@ ResourceTile* ResourcePanel::getCurrentTile(){
 
 MainFrame* ResourcePanel::getMainFrame(){
     return mainFrame;
+}
+
+void ResourcePanel::beginDragAnim(){
+    if(animatingDrag) return;
+
+    currentResourcePopup = new ResourceDragPopup(this);
+    animatingDrag = true;
+}
+
+void ResourcePanel::updateDragAnim(){
+    if(!animatingDrag) return;
+
+    currentResourcePopup->update();
+}
+
+void ResourcePanel::endDragAnim(){
+    if(!animatingDrag) return;
+
+    if(currentResourcePopup){
+        currentResourcePopup->Destroy();
+        currentResourcePopup = 0;
+    }
+    animatingDrag = false;
 }

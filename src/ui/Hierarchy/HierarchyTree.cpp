@@ -6,7 +6,6 @@
 #include "../../system/Command/CommandManager.h"
 #include "HierarchyObjectInformation.h"
 #include "../GLCanvas.h"
-#include "../Resource/ResourceDragPopup.h"
 
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
@@ -291,8 +290,6 @@ void HierarchyTree::beginResourceDrag(const wxString &itemName){
 
     resourceItemDrag = true;
     this->itemDragName = itemName;
-
-    currentResourcePopup = new ResourceDragPopup(this);
 }
 
 void HierarchyTree::endResourceDrag(){
@@ -331,10 +328,6 @@ void HierarchyTree::endResourceDrag(){
 
     resourceItemDrag = false;
     endDrag();
-    if(currentResourcePopup){
-        currentResourcePopup->Destroy();
-        currentResourcePopup = 0;
-    }
 
     getObjectHierarchy()->getMainFrame()->getCanvas()->renderFrame();
 }
@@ -347,7 +340,6 @@ void HierarchyTree::updateResourceDrag(){
     int newMouseY = state.GetPosition().y - GetScreenPosition().y;
 
     updateDragAnim(wxPoint(newMouseX, newMouseY));
-    if(currentResourcePopup) currentResourcePopup->updatePopup();
 }
 
 void HierarchyTree::updateDragAnim(const wxPoint &location){

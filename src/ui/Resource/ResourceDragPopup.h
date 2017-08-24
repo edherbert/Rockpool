@@ -3,20 +3,20 @@
 
 #include <wx/popupwin.h>
 
-class HierarchyTree;
+class ResourcePanel;
 
 class ResourceDragPopup : public wxPopupWindow
 {
     public:
-        ResourceDragPopup(HierarchyTree *tree);
+        ResourceDragPopup(ResourcePanel *panel);
         virtual ~ResourceDragPopup();
 
-        void updatePopup();
+        void update();
 
     protected:
 
     private:
-        HierarchyTree *tree;
+        ResourcePanel *panel;
 };
 
 #endif // RESOURCEDRAGPOPUP_H

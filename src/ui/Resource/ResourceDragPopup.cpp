@@ -1,9 +1,9 @@
 #include "ResourceDragPopup.h"
 
-#include "../Hierarchy/HierarchyTree.h"
+#include "ResourcePanel.h"
 
-ResourceDragPopup::ResourceDragPopup(HierarchyTree *tree) : wxPopupWindow(tree){
-    this->tree = tree;
+ResourceDragPopup::ResourceDragPopup(ResourcePanel *panel) : wxPopupWindow(panel){
+    this->panel = panel;
 
     SetSize(wxSize(100, 100));
     SetPosition(wxGetMousePosition());
@@ -15,6 +15,6 @@ ResourceDragPopup::~ResourceDragPopup(){
 
 }
 
-void ResourceDragPopup::updatePopup(){
+void ResourceDragPopup::update(){
     SetPosition(wxGetMousePosition());
 }

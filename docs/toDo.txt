@@ -20,8 +20,8 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
--Figure out how to add some sort of animation to a resource drag.
--Make it so that resources can't be dragged into the resource browser unless they are a .mesh file.
+
+-Abstract the drag animation so that it's shown regardless of whether the hierarchy can accept it or not.
 -Make it so that items are removed when they are deleted.
 
 
@@ -51,7 +51,7 @@ Things to do before entity work begins:
     -Implement the ability to add objects from the hierarchy panel *
     -Make it so the user can select objects (including multiple objects) *
     -Implement the ability to move / rotate / scale objects (and make sure this works with the terrain!)
-    -Make it so all these actions can be undone and redone.
+    -Make it so all these actions can be undone and redone. *
 
     -Implement the ability to drag items in from the resource browser into the map
 
@@ -311,3 +311,5 @@ Things to do before entity work begins:
 -Remove the item generation bit from the ogre comonent
 
 -Make it so that objects can be dragged in from the resource browser.
+-Figure out how to add some sort of animation to a resource drag.
+-Make it so that resources can't be dragged into the resource browser unless they are a .mesh file.

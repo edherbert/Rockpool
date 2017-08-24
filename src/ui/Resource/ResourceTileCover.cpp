@@ -1,5 +1,7 @@
 #include "ResourceTileCover.h"
 
+#include <wx/filename.h>
+
 #include "ResourcePanel.h"
 #include "ResourceTile.h"
 #include "../MainFrame.h"
@@ -31,12 +33,19 @@ void ResourceTileCover::mouseDown(wxMouseEvent &event){
 
 void ResourceTileCover::mouseMoved(wxMouseEvent &event){
     if(wxGetMouseState().LeftDown()){
-        resPanel->getMainFrame()->getObjectHierarchy()->getTree()->beginResourceDrag(parent->getValue());
+        wxFileName name(parent->getValue());
 
-        resPanel->getMainFrame()->getObjectHierarchy()->getTree()->updateResourceDrag();
+        resPanel->beginDragAnim();
+        resPanel->updateDragAnim();
+        if(name.GetExt() == "mesh"){
+            resPanel->getMainFrame()->getObjectHierarchy()->getTree()->beginResourceDrag(parent->getValue());
+            resPanel->getMainFrame()->getObjectHierarchy()->getTree()->updateResourceDrag();
+        }
     }
 }
 
 void ResourceTileCover::mouseUp(wxMouseEvent &event){
+    resPanel->endDragAnim();
+
     resPanel->getMainFrame()->getObjectHierarchy()->getTree()->endResourceDrag();
 }

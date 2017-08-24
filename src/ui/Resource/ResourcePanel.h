@@ -7,6 +7,7 @@
 class ResourceManager;
 class ResourceTile;
 class MainFrame;
+class ResourceDragPopup;
 
 class ResourcePanel : public wxPanel
 {
@@ -24,6 +25,10 @@ class ResourcePanel : public wxPanel
 
         MainFrame* getMainFrame();
 
+        void beginDragAnim();
+        void updateDragAnim();
+        void endDragAnim();
+
     protected:
 
     private:
@@ -31,6 +36,9 @@ class ResourcePanel : public wxPanel
         ResourceManager *resManager;
 
         int width, height;
+
+        bool animatingDrag = false;
+        ResourceDragPopup *currentResourcePopup;
 
         wxBitmap *defaultBitmap;
 
