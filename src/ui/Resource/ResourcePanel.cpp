@@ -5,9 +5,10 @@
 #include "ResourceTile.h"
 #include "../MainFrame.h"
 
-ResourcePanel::ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager) : wxPanel(parent){
+ResourcePanel::ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager, bool dragAllowed) : wxPanel(parent){
     this->mainFrame = mainFrame;
     this->resManager = resManager;
+    this->dragAllowed = dragAllowed;
 
     defaultBitmap = new wxBitmap("../media/img/icon.png");
 
@@ -125,7 +126,7 @@ MainFrame* ResourcePanel::getMainFrame(){
 }
 
 void ResourcePanel::beginDragAnim(){
-    if(animatingDrag) return;
+    if(animatingDrag || !dragAllowed) return;
 
     currentResourcePopup = new ResourceDragPopup(this);
     animatingDrag = true;
@@ -145,4 +146,8 @@ void ResourcePanel::endDragAnim(){
         currentResourcePopup = 0;
     }
     animatingDrag = false;
+}
+
+bool ResourcePanel::isDragAllowed(){
+    return dragAllowed;
 }

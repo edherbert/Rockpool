@@ -12,7 +12,7 @@ class ResourceDragPopup;
 class ResourcePanel : public wxPanel
 {
     public:
-        ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager);
+        ResourcePanel(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager, bool dragAllowed = false);
         virtual ~ResourcePanel();
 
         void updateTiles();
@@ -29,6 +29,8 @@ class ResourcePanel : public wxPanel
         void updateDragAnim();
         void endDragAnim();
 
+        bool isDragAllowed();
+
     protected:
 
     private:
@@ -39,6 +41,8 @@ class ResourcePanel : public wxPanel
 
         bool animatingDrag = false;
         ResourceDragPopup *currentResourcePopup;
+
+        bool dragAllowed = false;
 
         wxBitmap *defaultBitmap;
 

@@ -27,7 +27,7 @@ ResourceBrowser::ResourceBrowser(MainFrame *mainFrame, wxAuiManager *auiManager)
     wxBoxSizer *scrollWindowSizer = new wxBoxSizer(wxVERTICAL);
     scrollWindow->SetSizer(scrollWindowSizer);
 
-    resPanel = new ResourcePanel(scrollWindow, mainFrame, mainFrame->getResourceManager());
+    resPanel = new ResourcePanel(scrollWindow, mainFrame, mainFrame->getResourceManager(), true);
 
     scrollWindowSizer->Add(resPanel, 1, wxEXPAND);
 
