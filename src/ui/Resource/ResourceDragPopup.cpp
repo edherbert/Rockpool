@@ -1,12 +1,17 @@
 #include "ResourceDragPopup.h"
 
 #include "ResourcePanel.h"
+#include "ResourceTile.h"
 
 ResourceDragPopup::ResourceDragPopup(ResourcePanel *panel) : wxPopupWindow(panel){
     this->panel = panel;
 
-    SetSize(wxSize(100, 100));
     SetPosition(wxGetMousePosition());
+
+    tile = new ResourceTile(this, panel, panel->getDefaultBitmap());
+    tile->setLabel(panel->getCurrentTile()->getValue());
+
+    SetSize(panel->getCurrentTile()->getSize());
 
     Show();
 }

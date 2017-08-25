@@ -4,6 +4,7 @@
 #include <wx/popupwin.h>
 
 class ResourcePanel;
+class ResourceTile;
 
 class ResourceDragPopup : public wxPopupWindow
 {
@@ -17,6 +18,7 @@ class ResourceDragPopup : public wxPopupWindow
 
     private:
         ResourcePanel *panel;
+        ResourceTile *tile;
 };
 
 #endif // RESOURCEDRAGPOPUP_H

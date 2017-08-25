@@ -1,21 +1,14 @@
 #include "ResourceTile.h"
 
-ResourceTile::ResourceTile(ResourcePanel *parent, wxBitmap *defaultBitmap) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100)){
-    this->parent = parent;
+#include "ResourcePanel.h"
+#include "ResourceTileCover.h"
+
+ResourceTile::ResourceTile(wxWindow *parent, ResourcePanel *resPanel, wxBitmap *defaultBitmap) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100)){
+    this->resPanel = resPanel;
     this->defaultBitmap = defaultBitmap;
-
-    //SetBackgroundColour(wxColour("#FF0000"));
-
-    //wxStaticBitmap *icon = new wxStaticBitmap(this, wxID_ANY, defaultIcon, wxPoint(25, 0), wxSize(50, 50));
-    //icon->SetScaleMode()
-//    icon->SetScaleMode(1);
+    this->parent = parent;
 
     wxStaticBitmap *icon = new wxStaticBitmap(this, wxID_ANY, *defaultBitmap, wxPoint(25, 0), wxSize(50, 50));
-
-    //wxPanel *tempPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(50, 50));
-    //wxPanel *tempPanel = new wxPanel(this, wxID_ANY);
-
-    //tempPanel->SetBackgroundColour(wxColor("#00FF00"));
 
     label = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
 
@@ -23,7 +16,7 @@ ResourceTile::ResourceTile(ResourcePanel *parent, wxBitmap *defaultBitmap) : wxP
     wxBoxSizer *horizontal = new wxBoxSizer(wxHORIZONTAL);
 
     horizontal->Add(new wxPanel(this), 1, wxEXPAND);
-    //horizontal->Add(tempPanel, 0);
+
     horizontal->Add(icon, 0);
     horizontal->Add(new wxPanel(this), 1, wxEXPAND);
 
@@ -35,18 +28,16 @@ ResourceTile::ResourceTile(ResourcePanel *parent, wxBitmap *defaultBitmap) : wxP
 
     label->Wrap(100);
 
-    //cover = new wxPanel(parent,wxID_ANY, wxDefaultPosition, wxSize(100, 100));
-    cover = new ResourceTileCover(parent, this);
+    cover = new ResourceTileCover(resPanel, this);
 }
 
 ResourceTile::~ResourceTile(){
 
 }
 
-void ResourceTile::setLabel(wxString l){
+void ResourceTile::setLabel(const wxString &l){
     wxSystemSettings settings;
 
-    //wxDC dc(this);
     wxClientDC dc(this);
     dc.SetFont(settings.GetFont(wxSYS_SYSTEM_FONT));
 
@@ -112,4 +103,8 @@ void ResourceTile::selectTile(){
 void ResourceTile::deSelectTile(){
     wxSystemSettings settings;
     SetBackgroundColour(settings.GetColour(wxSYS_COLOUR_MENU));
+}
+
+wxSize ResourceTile::getSize(){
+    return GetSize();
 }

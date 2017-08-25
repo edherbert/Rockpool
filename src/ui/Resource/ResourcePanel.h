@@ -25,6 +25,8 @@ class ResourcePanel : public wxPanel
 
         MainFrame* getMainFrame();
 
+        wxBitmap* getDefaultBitmap();
+
         void beginDragAnim();
         void updateDragAnim();
         void endDragAnim();

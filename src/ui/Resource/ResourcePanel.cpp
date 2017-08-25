@@ -31,7 +31,7 @@ void ResourcePanel::updateTiles(){
     if(totalSize > tiles.size()){
         int ammountToAdd = totalSize - tiles.size();
         for(int i = 0; i < ammountToAdd; i++){
-            ResourceTile *tile = new ResourceTile(this, defaultBitmap);
+            ResourceTile *tile = new ResourceTile(this, this, defaultBitmap);
             tiles.push_back(tile);
         }
     }
@@ -150,4 +150,8 @@ void ResourcePanel::endDragAnim(){
 
 bool ResourcePanel::isDragAllowed(){
     return dragAllowed;
+}
+
+wxBitmap* ResourcePanel::getDefaultBitmap(){
+    return defaultBitmap;
 }

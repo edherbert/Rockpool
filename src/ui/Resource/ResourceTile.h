@@ -3,8 +3,6 @@
 
 #include <wx/wx.h>
 #include <wx/statbmp.h>
-#include "ResourcePanel.h"
-#include "ResourceTileCover.h"
 
 class ResourcePanel;
 class ResourceTileCover;
@@ -12,16 +10,18 @@ class ResourceTileCover;
 class ResourceTile : public wxPanel
 {
     public:
-        ResourceTile(ResourcePanel *parent, wxBitmap *defaultBitmap);
+        ResourceTile(wxWindow *parent, ResourcePanel *resPanel, wxBitmap *defaultBitmap);
         virtual ~ResourceTile();
 
-        void setLabel(wxString l);
+        void setLabel(const wxString &l);
 
         wxString getLabel();
         wxString getValue();
 
         void setSize(int width, int height);
         void setPosition(int x, int y);
+
+        wxSize getSize();
 
         void setId(int id);
         int getId();
@@ -32,7 +32,8 @@ class ResourceTile : public wxPanel
     protected:
 
     private:
-        ResourcePanel *parent;
+        ResourcePanel *resPanel;
+        wxWindow *parent;
         ResourceTileCover *cover;
 
         wxBitmap *defaultBitmap;

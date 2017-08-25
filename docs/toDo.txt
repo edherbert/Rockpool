@@ -21,9 +21,15 @@
 -Fix the bugs with the scroll bars.
 
 
--Show the resource tile on the dragged window bit
 -Implement the clipboard functionality for cutting and copying.
 -Implement pasting.
+-Make the way entities are moved nicer. This should align with the cursor, and the cursor should warp when moved too far.
+-Show axis lines when entities are moved.
+-Implement rotating
+-Implement scaling.
+-Implement the right click camera system
+-Begin work on the terrain things (This might require some planning)
+-Change the new map dialog
 
 
 Things to do before entity work begins:
@@ -320,3 +326,4 @@ Things to do before entity work begins:
 -Make the arrange command work with objects
 -Fix the bug with the incorrect add command indexing (adding to the root should add to the end of the list)
 -Figure out how the duplicate command (and also things like paste) will work with creating duplicate objects.
+-Show the resource tile on the dragged window bit
