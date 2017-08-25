@@ -314,7 +314,7 @@ void HierarchyTree::endResourceDrag(){
 
         if(mousePos.x >= rect.GetLeft() && mousePos.x <= rect.GetRight() && mousePos.y >= rect.GetTop() && mousePos.y <= rect.GetBottom()){
             destination = GetRootItem();
-            index = 0;
+            index = GetChildrenCount(GetRootItem(), false);
             validMove = true;
         }
     }
