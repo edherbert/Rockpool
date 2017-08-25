@@ -3,6 +3,8 @@
 
 #include "ObjectCommand.h"
 
+#include <Ogre.h>
+
 #include <vector>
 
 class HierarchyTree;

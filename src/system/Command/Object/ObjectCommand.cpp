@@ -1,5 +1,8 @@
 #include "ObjectCommand.h"
 
+#include "../../../ui/Hierarchy/HierarchyTree.h"
+#include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
+
 ObjectCommand::ObjectCommand(HierarchyTree *tree){
     this->tree = tree;
 
@@ -22,6 +25,9 @@ void ObjectCommand::searchItem(wxTreeItemId item, int parentId){
             info.parentId = parentId;
 
             info.originItem = tree->getId(ch);
+
+            HierarchyObjectInformation *objectInfo = (HierarchyObjectInformation*)tree->GetItemData(ch);
+            info.itemObject = objectInfo->getObject();
 
             itemInfo.push_back(info);
             idCount++;

@@ -20,8 +20,11 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
-
--Make it so that items are removed when they are deleted.
+-Fix the bug with the incorrect add command indexing (adding to the root should add to the end of the list)
+-Figure out how the duplicate command (and also things like paste) will work with creating duplicate objects.
+-Show the resource tile on the dragged window bit
+-Implement the clipboard functionality for cutting and copying.
+-Implement pasting.
 
 
 Things to do before entity work begins:
@@ -313,3 +316,6 @@ Things to do before entity work begins:
 -Figure out how to add some sort of animation to a resource drag.
 -Make it so that resources can't be dragged into the resource browser unless they are a .mesh file.
 -Abstract the drag animation so that it's shown regardless of whether the hierarchy can accept it or not.
+-Make it so that items are removed when they are deleted.
+
+-Make the arrange command work with objects

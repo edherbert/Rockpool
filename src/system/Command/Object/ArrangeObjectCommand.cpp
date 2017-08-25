@@ -1,5 +1,8 @@
 #include "ArrangeObjectCommand.h"
 
+#include "../../../ui/Hierarchy/HierarchyTree.h"
+#include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
+
 ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId destination, int destinationIndex, wxArrayTreeItemIds items) : ObjectCommand(tree){
     this->destination = tree->getId(destination);
     this->destinationIndex = destinationIndex;
@@ -17,8 +20,9 @@ ArrangeObjectCommand::ArrangeObjectCommand(HierarchyTree *tree, wxTreeItemId des
 
         info.originItem = tree->getId(items[i]);
 
-        //info.index = tree->getItemIndex(tree->GetItemParent(items[i]), items[i]);
-        //info.index = tree->GetPrevSibling(items[i]);
+        HierarchyObjectInformation *objectInfo = (HierarchyObjectInformation*)tree->GetItemData(items[i]);
+        info.itemObject = objectInfo->getObject();
+
         wxTreeItemId prevSibling = tree->GetPrevSibling(items[i]);
         if(prevSibling.IsOk()){
             info.index = tree->getId(prevSibling);
@@ -82,19 +86,26 @@ void ArrangeObjectCommand::performAction(){
         //wxTreeItemId newItem = tree->AppendItem(targetItem, itemInfo[i].text);
 
         wxTreeItemId newItem;
+        HierarchyObjectInformation *objectData = new HierarchyObjectInformation(itemInfo[i].itemObject);
         if(itemInfo[i].parentId == -1){
+            itemInfo[i].itemObject->removeFromParent();
+
             //Current append item makes sure that the items are added in the order in which they were dragged.
             //If there is no current item (so the first item in the drag list) then append it to the destination
             //All the items after that should be appended after that item, so keep a reference to it.
             if(currentAppendItem == 0){
-                currentAppendItem = tree->InsertItem(targetItem, destinationIndex, itemInfo[i].text);
+                currentAppendItem = tree->InsertItem(targetItem, destinationIndex, itemInfo[i].text, -1, -1, objectData);
             }else{
                 //Append to the item count
-                currentAppendItem = tree->InsertItem(targetItem, currentAppendItem, itemInfo[i].text);
+                currentAppendItem = tree->InsertItem(targetItem, currentAppendItem, itemInfo[i].text, -1, -1, objectData);
             }
             newItem = currentAppendItem;
+
+            //Get the data from the destination
+            HierarchyObjectInformation *parentData = (HierarchyObjectInformation*)tree->GetItemData(tree->getItem(destination));
+            parentData->getObject()->addChild(itemInfo[i].itemObject);
         }else{
-            newItem = tree->AppendItem(targetItem, itemInfo[i].text);
+            newItem = tree->AppendItem(targetItem, itemInfo[i].text, -1, -1, objectData);
         }
 
 
@@ -134,15 +145,20 @@ void ArrangeObjectCommand::performAntiAction(){
 
         //On the anti action, if the item is a base item, then insert it by index.
         wxTreeItemId originItem;
+        HierarchyObjectInformation *objectData = new HierarchyObjectInformation(itemInfo[i].itemObject);
         if(itemInfo[i].parentId == -1){
-            //originItem = tree->InsertItem(targetItem, itemInfo[i].index, itemInfo[i].text);
+            itemInfo[i].itemObject->removeFromParent();
+
             if(itemInfo[i].index == -1){
-                originItem = tree->InsertItem(targetItem, 0, itemInfo[i].text);
+                originItem = tree->InsertItem(targetItem, 0, itemInfo[i].text, -1, -1, objectData);
             }else{
-                originItem = tree->InsertItem(targetItem, tree->getItem(itemInfo[i].index), itemInfo[i].text);
+                originItem = tree->InsertItem(targetItem, tree->getItem(itemInfo[i].index), itemInfo[i].text, -1, -1, objectData);
             }
+
+            HierarchyObjectInformation *objectInfo = (HierarchyObjectInformation*)tree->GetItemData(targetItem);
+            objectInfo->getObject()->addChild(itemInfo[i].itemObject);
         }else{
-            originItem = tree->AppendItem(targetItem, itemInfo[i].text);
+            originItem = tree->AppendItem(targetItem, itemInfo[i].text, -1, -1, objectData);
         }
 
         tree->setItem(itemInfo[i].originItem, originItem);

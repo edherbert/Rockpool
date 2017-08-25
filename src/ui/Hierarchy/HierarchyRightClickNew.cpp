@@ -46,5 +46,4 @@ void HierarchyRightClickNew::addItem(wxCommandEvent &event){
 
     command->performAction();
     hierarchyTree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
-    hierarchyTree->getObjectHierarchy()->getMainFrame()->getCanvas()->renderFrame();
 }

@@ -1,14 +1,22 @@
 #ifndef OBJECTCOMMAND_H
 #define OBJECTCOMMAND_H
 
+#include <wx/string.h>
+#include <wx/treebase.h>
+
+#include <vector>
+
 #include "../Command.h"
 
-#include "../../../ui/Hierarchy/HierarchyTree.h"
+class HierarchyTree;
+class Object;
 
 struct ItemInformation{
     wxString text;
     int id;
     int parentId;
+
+    Object *itemObject;
 
     int index;
 
@@ -16,8 +24,6 @@ struct ItemInformation{
     int originItem;
     int newItem;
 };
-
-class HierarchyTree;
 
 class ObjectCommand : public Command
 {

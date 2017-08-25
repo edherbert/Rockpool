@@ -18,6 +18,7 @@ void CommandManager::pushCommand(Command *com){
     pastCommands.push_back(com);
 
     futureCommands.clear();
+    mainFrame->getCanvas()->renderFrame();
 }
 
 //The back of the past list is the most recent command.

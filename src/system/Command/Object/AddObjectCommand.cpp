@@ -2,6 +2,7 @@
 
 #include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
 #include "../../../map/Object/MeshObject.h"
+#include "../../../ui/Hierarchy/HierarchyTree.h"
 
 AddObjectCommand::AddObjectCommand(const wxString &name, const wxString &path, HierarchyTree *tree, int parentItem, int index) : ObjectCommand(tree){
     this->path = path;
@@ -50,6 +51,7 @@ void AddObjectCommand::setup(){
         //If no index was provided (-1 is the default), then just insert it at the end
         index = tree->GetChildrenCount(targetItem, false);
     }
+    std::cout << index << std::endl;
 }
 
 void AddObjectCommand::performAction(){

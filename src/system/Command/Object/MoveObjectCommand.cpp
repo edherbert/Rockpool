@@ -2,6 +2,7 @@
 
 #include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
 #include "../../../map/Object/Object.h"
+#include "../../../ui/Hierarchy/HierarchyTree.h"
 
 MoveObjectCommand::MoveObjectCommand(HierarchyTree *tree) : ObjectCommand(tree){
     wxArrayTreeItemIds items;

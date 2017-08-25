@@ -1,5 +1,7 @@
 #include "DuplicateObjectCommand.h"
 
+#include "../../../ui/Hierarchy/HierarchyTree.h"
+
 DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds items) : ObjectCommand(tree){
     for(int i = 0; i < items.size(); i++){
         if(tree->isParentSelected(items[i])){
