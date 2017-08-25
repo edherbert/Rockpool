@@ -51,7 +51,6 @@ void AddObjectCommand::setup(){
         //If no index was provided (-1 is the default), then just insert it at the end
         index = tree->GetChildrenCount(targetItem, false);
     }
-    std::cout << index << std::endl;
 }
 
 void AddObjectCommand::performAction(){

@@ -10,12 +10,8 @@
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
 
-    //Object *rootObject = new Object(map->getSceneManager());
-    //map->getSceneManager()->getRootSceneNode()->addChild(rootObject->getSceneNode());
-
-    //HierarchyObjectInformation *info = new HierarchyObjectInformation(rootObject);
-
     //You can't actually see this in the hierarchy, but it's the root object
+    //This is given object data when the map starts.
     AddRoot("Hierarchy");
 
     wxTreeItemId root = GetRootItem();

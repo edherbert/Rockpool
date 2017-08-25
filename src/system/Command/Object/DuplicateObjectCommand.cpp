@@ -1,6 +1,8 @@
 #include "DuplicateObjectCommand.h"
 
 #include "../../../ui/Hierarchy/HierarchyTree.h"
+#include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
+#include "../../../map/Object/MeshObject.h"
 
 DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds items) : ObjectCommand(tree){
     for(int i = 0; i < items.size(); i++){
@@ -15,6 +17,9 @@ DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeI
         info.originParentItem = tree->getId(tree->GetItemParent(items[i]));
 
         info.originItem = tree->getId(items[i]);
+
+        HierarchyObjectInformation *objectInfo = (HierarchyObjectInformation*)tree->GetItemData(items[i]);
+        info.itemObject = objectInfo->getObject();
 
         info.index = tree->getItemIndex(tree->GetItemParent(items[i]), items[i]);
 
@@ -61,10 +66,44 @@ void DuplicateObjectCommand::performAction(){
             newItem = tree->AppendItem(targetItem, itemInfo[i].text);
         }
 
-        //Finally, determine if the item should be added or set.
         if(!ran){
             itemInfo[i].newItem = tree->addItem(newItem);
+
+
+            //Get the object of the item to duplicate, then copy it.
+            HierarchyObjectInformation *duplicateItemInfo = (HierarchyObjectInformation*)tree->GetItemData(tree->getItem(itemInfo[i].originItem));
+            Object *copiedObject;
+
+            //Check what type the item is before creating it.
+            if(itemInfo[i].itemObject->getType() == ObjectTypeMesh){
+                MeshObject *copiedMesh = new MeshObject((MeshObject*)duplicateItemInfo->getObject());
+                copiedObject = (Object*)copiedMesh;
+            }else if(itemInfo[i].itemObject->getType() == ObjectTypeObject){
+                copiedObject = new Object(tree->getMap()->getSceneManager());
+            }
+
+            //Get the parent of the duplicated item, then add the new item as a child.
+            HierarchyObjectInformation *parentItemInfo = (HierarchyObjectInformation*)tree->GetItemData(targetItem);
+            parentItemInfo->getObject()->addChild(copiedObject);
+
+            //Give the object pointer to the new item
+            HierarchyObjectInformation *objectInfo = new HierarchyObjectInformation(copiedObject);
+            tree->SetItemData(newItem, objectInfo);
+
+            //Copy the new mesh into the item, so that it can be referenced later
+            itemInfo[i].itemObject = copiedObject;
         }else{
+            //If the item is a base item, then re-append it to it's parent item.
+            if(itemInfo[i].parentId == -1){
+                HierarchyObjectInformation *parentItemInfo = (HierarchyObjectInformation*)tree->GetItemData(targetItem);
+                parentItemInfo->getObject()->addChild(itemInfo[i].itemObject);
+            }
+
+            //Give the new item the id of the object.
+            //It doesn't need to be re-copied if this is the second time the function is run.
+            HierarchyObjectInformation *objectInfo = new HierarchyObjectInformation(itemInfo[i].itemObject);
+            tree->SetItemData(newItem, objectInfo);
+
             tree->setItem(itemInfo[i].newItem, newItem);
         }
     }
@@ -74,6 +113,8 @@ void DuplicateObjectCommand::performAction(){
 void DuplicateObjectCommand::performAntiAction(){
     for(int i = 0; i < itemInfo.size(); i++){
         if(itemInfo[i].parentId == -1){
+            itemInfo[i].itemObject->removeFromParent();
+
             tree->Delete(tree->getItem(itemInfo[i].newItem));
             tree->setItem(itemInfo[i].newItem, 0);
         }

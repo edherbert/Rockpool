@@ -3,21 +3,22 @@
 Object::Object(Ogre::SceneManager *sceneManager){
     this->sceneManager = sceneManager;
 
-    /*node = parent->getSceneNode()->createChildSceneNode(name);
+    node = sceneManager->createSceneNode();
+}
 
-    Ogre::Entity *ogreThing = sceneManager->createEntity("Sinbad.mesh");
-    node->attachObject(ogreThing);*/
+Object::Object(Object *object){
+    this->sceneManager = object->getSceneManager();
     node = sceneManager->createSceneNode();
 
-    //Ogre::Entity *ogreThing = sceneManager->createEntity("Sinbad.mesh");
-    //node->attachObject(ogreThing);
+    node->setPosition(object->getPosition());
+    node->setScale(object->getScale());
 }
 
 Object::~Object(){
 
 }
 
-void Object::setPosition(Ogre::Vector3 pos){
+void Object::setPosition(const Ogre::Vector3 &pos){
     node->setPosition(pos);
 }
 
@@ -33,8 +34,12 @@ const Ogre::Vector3& Object::getPosition(){
     return node->getPosition();
 }
 
-void Object::setScale(Ogre::Vector3 scale){
+void Object::setScale(const Ogre::Vector3 &scale){
     node->setScale(scale);
+}
+
+const Ogre::Vector3& Object::getScale(){
+    return node->getScale();
 }
 
 void Object::addChild(Object *child){
@@ -68,4 +73,12 @@ void Object::setParent(Object *parent){
 
 Ogre::SceneNode* Object::getSceneNode(){
     return node;
+}
+
+Ogre::SceneManager* Object::getSceneManager(){
+    return sceneManager;
+}
+
+ObjectType Object::getType(){
+    return type;
 }

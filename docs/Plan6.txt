@@ -23,3 +23,13 @@ They can also specify an axis to move the item on
 This will also be a command, but I'm not entirely sure where the command should go.
 It should probably go in the map class, because that's running a check function for input.
 I suppose I'll have quite a few move commands by the time I'm done.
+
+--Duplicating items--
+So the way that duplicating items works is pretty straight forward.
+You have to create a copy constructor for the object, which is basically just a constructor that takes in a reference to the object that needs to be copied.
+The constructor can then go through the object and pull all the information from it to copy itself.
+So as for the duplication command, it shouldn't be too difficult.
+
+The copy command is probably going to have to duplicate the item again, and store that in the command manager or something.
+When a paste function is needed, the item can be copied again and just pasted into that new place.
+Furthermore, objects will have to inherit this copy method so that it can be performed correctly.

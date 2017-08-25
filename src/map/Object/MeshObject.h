@@ -8,7 +8,11 @@ class MeshObject : public Object
 {
     public:
         MeshObject(Ogre::SceneManager *sceneManager, const wxString &name, const wxString &path);
+        MeshObject(MeshObject *meshObject);
         virtual ~MeshObject();
+
+        wxString getName();
+        wxString getPath();
 
     protected:
 

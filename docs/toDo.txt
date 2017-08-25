@@ -20,8 +20,7 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
--Fix the bug with the incorrect add command indexing (adding to the root should add to the end of the list)
--Figure out how the duplicate command (and also things like paste) will work with creating duplicate objects.
+
 -Show the resource tile on the dragged window bit
 -Implement the clipboard functionality for cutting and copying.
 -Implement pasting.
@@ -319,3 +318,5 @@ Things to do before entity work begins:
 -Make it so that items are removed when they are deleted.
 
 -Make the arrange command work with objects
+-Fix the bug with the incorrect add command indexing (adding to the root should add to the end of the list)
+-Figure out how the duplicate command (and also things like paste) will work with creating duplicate objects.
