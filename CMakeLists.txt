@@ -88,6 +88,7 @@ src/system/Command/Object/DeleteObjectCommand.cpp
 src/system/Command/Object/DuplicateObjectCommand.cpp
 src/system/Command/Object/ArrangeObjectCommand.cpp
 src/system/Command/Object/MoveObjectCommand.cpp
+src/system/Command/Object/PasteObjectCommand.cpp
 
 src/graphics/OgreComponent.cpp
 src/graphics/Trackball

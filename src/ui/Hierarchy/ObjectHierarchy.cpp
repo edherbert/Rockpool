@@ -2,6 +2,7 @@
 
 #include <wx/wx.h>
 #include "../../system/Command/Object/DeleteObjectCommand.h"
+#include "../../system/Command/Object/PasteObjectCommand.h"
 #include "../../system/Command/CommandManager.h"
 #include "../../system/HierarchyClipboardManager.h"
 #include "../../map/Main.h"
@@ -79,7 +80,12 @@ void ObjectHierarchy::cutItems(){
 }
 
 void ObjectHierarchy::pasteItems(){
+    if(!tree->getClipboardManager()->containsItems()) return;
+    //Put the actual destination in here at some point
+    PasteObjectCommand *pasteCommand = new PasteObjectCommand(tree, tree->getClipboardManager(), 0);
+    pasteCommand->performAction();
 
+    getMainFrame()->getMain()->getCommandManager()->pushCommand(pasteCommand);
 }
 
 void ObjectHierarchy::deleteItems(){

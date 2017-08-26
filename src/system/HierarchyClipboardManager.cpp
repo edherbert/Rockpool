@@ -76,3 +76,11 @@ void HierarchyClipboardManager::searchItem(wxTreeItemId item, int parentId){
         }
     }
 }
+
+bool HierarchyClipboardManager::containsItems(){
+    return itemInfo.size() > 0;
+}
+
+std::vector<copyInfo>& HierarchyClipboardManager::getItems(){
+    return itemInfo;
+}

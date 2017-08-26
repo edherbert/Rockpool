@@ -23,6 +23,9 @@ class HierarchyClipboardManager
 
         void copyItems(const wxArrayTreeItemIds &items);
         void clearClipboard();
+        bool containsItems();
+
+        std::vector<copyInfo>& getItems();
 
     protected:
 
