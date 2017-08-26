@@ -2,8 +2,18 @@
 #define HIERARCHYCLIPBOARDMANAGER_H
 
 #include <wx/treebase.h>
+#include <vector>
 
 class HierarchyTree;
+class Object;
+
+struct copyInfo{
+    wxString text;
+    int id;
+    int parentId;
+
+    Object *object;
+};
 
 class HierarchyClipboardManager
 {
@@ -18,6 +28,13 @@ class HierarchyClipboardManager
 
     private:
         HierarchyTree *tree;
+
+        int idCount = 0;
+        Object* copyObject(const wxTreeItemId &item);
+
+        std::vector<copyInfo> itemInfo;
+
+        void searchItem(wxTreeItemId item, int parentId);
 };
 
 #endif // HIERARCHYCLIPBOARDMANAGER_H

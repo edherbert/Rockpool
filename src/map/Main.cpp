@@ -35,8 +35,6 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
         dialog.ShowModal();
         return;
     }
-    //loadDialog = new MapLoadProgressDialog(canvas->GetParent());
-    //loadDialog->setText("Creating Project");
     tinyxml2::XMLDocument xmlDoc;
     xmlDoc.LoadFile(filePath);
 
