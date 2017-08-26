@@ -74,6 +74,7 @@ src/ui/Tools/ToolPreferences.cpp
 src/ui/Tools/ToolsPanelHandler.cpp
 
 src/system/ResourceManager.cpp
+src/system/HierarchyClipboardManager.cpp
 
 src/system/Command/CommandManager.cpp
 src/system/Command/Command.cpp

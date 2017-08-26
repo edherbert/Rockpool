@@ -11,7 +11,7 @@ class HierarchyTree;
 class HierarchyRightClickNew : public wxMenu
 {
     public:
-        HierarchyRightClickNew(HierarchyTree *hierarchyTree, wxArrayTreeItemIds selection);
+        HierarchyRightClickNew(HierarchyTree *hierarchyTree, const wxArrayTreeItemIds &selection);
         virtual ~HierarchyRightClickNew();
 
     protected:

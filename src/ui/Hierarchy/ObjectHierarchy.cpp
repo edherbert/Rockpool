@@ -1,6 +1,10 @@
 #include "ObjectHierarchy.h"
 
 #include <wx/wx.h>
+#include "../../system/Command/Object/DeleteObjectCommand.h"
+#include "../../system/Command/CommandManager.h"
+#include "../../system/HierarchyClipboardManager.h"
+#include "../../map/Main.h"
 
 ObjectHierarchy::ObjectHierarchy(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
@@ -56,4 +60,36 @@ bool ObjectHierarchy::checkSelectionExists(){
 
     if(items.size() <= 0) return false;
     else return true;
+}
+
+void ObjectHierarchy::copyItems(){
+    if(!checkSelectionExists()) return;
+
+    wxArrayTreeItemIds items;
+    tree->GetSelections(items);
+
+    tree->getClipboardManager()->copyItems(items);
+}
+
+void ObjectHierarchy::cutItems(){
+    if(!checkSelectionExists()) return;
+
+    copyItems();
+    deleteItems();
+}
+
+void ObjectHierarchy::pasteItems(){
+
+}
+
+void ObjectHierarchy::deleteItems(){
+    if(!checkSelectionExists()) return;
+
+    wxArrayTreeItemIds items;
+    tree->GetSelections(items);
+
+    DeleteObjectCommand *deleteCommand = new DeleteObjectCommand(tree, items);
+    deleteCommand->performAction();
+
+    getMainFrame()->getMain()->getCommandManager()->pushCommand(deleteCommand);
 }

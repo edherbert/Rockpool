@@ -3,7 +3,7 @@
 #include "../../map/Main.h"
 #include "../../system/Command/CommandManager.h"
 
-HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, wxPoint location, wxArrayTreeItemIds selection) : wxMenu(){
+HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, wxPoint location, const wxArrayTreeItemIds &selection) : wxMenu(){
     this->hierarchyTree = hierarchyTree;
     this->location = location;
     this->selection = selection;
@@ -33,6 +33,9 @@ HierarchyRightClickMenu::HierarchyRightClickMenu(HierarchyTree *hierarchyTree, w
         duplicateItem->Enable(false);
     }
 
+    Connect(HIERARCHY_MENU_CUT, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
+    Connect(HIERARCHY_MENU_COPY, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
+    Connect(HIERARCHY_MENU_PASTE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
     Connect(HIERARCHY_MENU_DELETE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
     Connect(HIERARCHY_MENU_DUPLICATE, wxEVT_MENU, wxCommandEventHandler(HierarchyRightClickMenu::itemClick));
 }
@@ -46,13 +49,19 @@ void HierarchyRightClickMenu::popup(){
 }
 
 void HierarchyRightClickMenu::itemClick(wxCommandEvent &event){
-    if(selection.size() <= 0) return;
-    ObjectCommand *command;
+    if(event.GetId() == HIERARCHY_MENU_CUT){
+        hierarchyTree->getObjectHierarchy()->cutItems();
+    }else if(event.GetId() == HIERARCHY_MENU_COPY){
+        hierarchyTree->getObjectHierarchy()->copyItems();
+    }else if(event.GetId() == HIERARCHY_MENU_PASTE){
+        hierarchyTree->getObjectHierarchy()->pasteItems();
+    }else if(event.GetId() == HIERARCHY_MENU_DELETE){
+        hierarchyTree->getObjectHierarchy()->deleteItems();
+    }else if(event.GetId() == HIERARCHY_MENU_DUPLICATE){
+        DuplicateObjectCommand *command = new DuplicateObjectCommand(hierarchyTree, selection);
 
-    if(event.GetId() == HIERARCHY_MENU_DELETE) command = new DeleteObjectCommand(hierarchyTree, selection);
-    else if(event.GetId() == HIERARCHY_MENU_DUPLICATE) command = new DuplicateObjectCommand(hierarchyTree, selection);
-
-    command->performAction();
-    hierarchyTree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+        command->performAction();
+        hierarchyTree->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(command);
+    }
 }
 

@@ -30,6 +30,7 @@
 -Implement the right click camera system
 -Begin work on the terrain things (This might require some planning)
 -Change the new map dialog
+-Remove the event table from the main frame
 
 
 Things to do before entity work begins:

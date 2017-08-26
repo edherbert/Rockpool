@@ -9,6 +9,7 @@
 
 class Map;
 class ObjectHierarchy;
+class HierarchyClipboardManager;
 
 enum itemHoverState{
     hoverStateAbove,
@@ -34,8 +35,10 @@ class HierarchyTree : public wxTreeCtrl
         bool isParentSelected(wxTreeItemId item);
 
         void setMap(Map *map);
+
         Map* getMap();
         ObjectHierarchy* getObjectHierarchy();
+        HierarchyClipboardManager* getClipboardManager();
 
         int addItem(wxTreeItemId item);
         void setItem(int id, wxTreeItemId item);
@@ -60,6 +63,8 @@ class HierarchyTree : public wxTreeCtrl
 
         void resetItemHighlight();
         void endDrag();
+
+        HierarchyClipboardManager *clipboard;
 
         ItemDragDestinationInfo processItemDestination();
 

@@ -97,10 +97,10 @@ void MainFrame::setupMenuBar(){
     edit->Append(MENU_EDIT_UNDO, wxT("Undo\tctrl+Z"));
     edit->Append(MENU_EDIT_REDO, wxT("Redo\tctrl+shift+Z"));
     edit->AppendSeparator();
-    edit->Append(wxID_ANY, wxT("Cut"));
-    edit->Append(wxID_ANY, wxT("Copy"));
-    edit->Append(wxID_ANY, wxT("Paste"));
-    edit->Append(wxID_ANY, wxT("Delete"));
+    edit->Append(MENU_EDIT_CUT, wxT("Cut\tctrl+X"));
+    edit->Append(MENU_EDIT_COPY, wxT("Copy\tctrl+C"));
+    edit->Append(MENU_EDIT_PASTE, wxT("Paste\tctrl+V"));
+    edit->Append(MENU_EDIT_DELETE, wxT("Delete"));
     edit->AppendSeparator();
     edit->Append(wxID_ANY, wxT("Rockpool Preferences"));
 
@@ -150,8 +150,12 @@ void MainFrame::setupMenuBar(){
 
     Connect(MENU_EDIT_UNDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::undoAction));
     Connect(MENU_EDIT_REDO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::redoAction));
+    Connect(MENU_EDIT_CUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::clipboardAction));
+    Connect(MENU_EDIT_COPY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::clipboardAction));
+    Connect(MENU_EDIT_PASTE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::clipboardAction));
+    Connect(MENU_EDIT_DELETE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::clipboardAction));
 
-    wxAcceleratorEntry entries[5];
+    wxAcceleratorEntry entries[8];
     entries[0].Set(wxACCEL_CTRL, (int) 'N', MENU_FILE_NEW_MAP);
     entries[1].Set(wxACCEL_CTRL, (int) 'O', MENU_FILE_OPEN_MAP);
     entries[2].Set(wxACCEL_CTRL, (int) 'S', MENU_FILE_SAVE_MAP);
@@ -159,7 +163,11 @@ void MainFrame::setupMenuBar(){
     entries[3].Set(wxACCEL_CTRL, (int) 'Z', MENU_EDIT_UNDO);
     entries[4].Set(wxACCEL_CTRL | wxACCEL_SHIFT, (int) 'Z', MENU_EDIT_REDO);
 
-    wxAcceleratorTable accel(5, entries);
+    entries[5].Set(wxACCEL_CTRL, (int) 'C', MENU_EDIT_COPY);
+    entries[6].Set(wxACCEL_CTRL, (int) 'X', MENU_EDIT_CUT);
+    entries[7].Set(wxACCEL_CTRL, (int) 'V', MENU_EDIT_PASTE);
+
+    wxAcceleratorTable accel(8, entries);
     SetAcceleratorTable(accel);
 
     SetMenuBar(menuBar);
@@ -258,4 +266,16 @@ GLCanvas* MainFrame::getCanvas(){
 
 ObjectHierarchy* MainFrame::getObjectHierarchy(){
     return objectHierarchy;
+}
+
+void MainFrame::clipboardAction(wxCommandEvent &event){
+    if(event.GetId() == MENU_EDIT_COPY){
+        objectHierarchy->copyItems();
+    }else if(event.GetId() == MENU_EDIT_CUT){
+        objectHierarchy->cutItems();
+    }else if(event.GetId() == MENU_EDIT_PASTE){
+        objectHierarchy->pasteItems();
+    }else if(event.GetId() == MENU_EDIT_DELETE){
+        objectHierarchy->deleteItems();
+    }
 }

@@ -4,7 +4,7 @@
 #include "../../system/Command/CommandManager.h"
 #include "../GLCanvas.h"
 
-HierarchyRightClickNew::HierarchyRightClickNew(HierarchyTree *hierarchyTree, wxArrayTreeItemIds selection){
+HierarchyRightClickNew::HierarchyRightClickNew(HierarchyTree *hierarchyTree, const wxArrayTreeItemIds &selection){
     this->hierarchyTree = hierarchyTree;
     this->selection = selection;
 

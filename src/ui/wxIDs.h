@@ -22,6 +22,10 @@
 
 #define MENU_EDIT_UNDO 521
 #define MENU_EDIT_REDO 522
+#define MENU_EDIT_CUT 523
+#define MENU_EDIT_COPY 524
+#define MENU_EDIT_PASTE 525
+#define MENU_EDIT_DELETE 526
 
 //Start these at 30 to allow growing room for the task menu
 #define NEW_MAP_DIALOG_MAP_NAME_CONTROL 530

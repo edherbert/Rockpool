@@ -20,8 +20,12 @@ class ObjectHierarchy : public wxPanel
         bool checkSelectionExists();
 
         HierarchyTree* getTree();
-
         MainFrame* getMainFrame();
+
+        void copyItems();
+        void cutItems();
+        void pasteItems();
+        void deleteItems();
 
     protected:
 

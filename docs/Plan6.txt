@@ -33,3 +33,21 @@ So as for the duplication command, it shouldn't be too difficult.
 The copy command is probably going to have to duplicate the item again, and store that in the command manager or something.
 When a paste function is needed, the item can be copied again and just pasted into that new place.
 Furthermore, objects will have to inherit this copy method so that it can be performed correctly.
+
+--Copy and pasting--
+It's time to start thinking about how I plan to do copy and pasting.
+Firstly, the program should take a copy of the item when it is copied.
+I can't just take a pointer to the object, because if it's changed since it was copied then this copy would also change.
+So because of this, I would need to do something like take a complete copy.
+So I'm thinking that I could use the copy constructor to copy the object but not assign it to the scene.
+When the object needs to be copied again, you can just copy it again, but actually do something with this item.
+
+For this, I would need a constructor to actually hold the clipboard contents.
+It might be a good idea to make a class that does this, for example HierarchyClipboardManager.
+This would just contain a vector of objects that represent the clipboard.
+You would have two functions, one that sets the clipboard and one that clears it. (the clear function will be run by the set command anyway)
+The set command can just take an array list. This would probably have to do some searches to find the child items.
+Then it would just store it like that.
+Then the paste command would come along and do pretty much the same thing as the duplicate command.
+When the copy command was called again, the objects in the clipboard can be deleted and replaced with the new ones.
+Of course, the items in the clipboard won't be attached to anything in the scene, but they will still be there.

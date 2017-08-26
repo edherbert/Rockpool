@@ -6,9 +6,12 @@
 #include "../../system/Command/CommandManager.h"
 #include "HierarchyObjectInformation.h"
 #include "../GLCanvas.h"
+#include "../../system/HierarchyClipboardManager.h"
 
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
+
+    this->clipboard = new HierarchyClipboardManager(this);
 
     //You can't actually see this in the hierarchy, but it's the root object
     //This is given object data when the map starts.
@@ -370,4 +373,8 @@ void HierarchyTree::updateDragAnim(const wxPoint &location){
         //If there is something wrong with the item being hovered over, reset the highlight.
         resetItemHighlight();
     }
+}
+
+HierarchyClipboardManager* HierarchyTree::getClipboardManager(){
+    return clipboard;
 }

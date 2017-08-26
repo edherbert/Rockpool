@@ -70,6 +70,8 @@ private:
     void ShowResourceBrowser(wxCommandEvent &event);
     void ShowObjectHierarchy(wxCommandEvent &event);
 
+    void clipboardAction(wxCommandEvent &event);
+
     void undoAction(wxCommandEvent &event);
     void redoAction(wxCommandEvent &event);
 
