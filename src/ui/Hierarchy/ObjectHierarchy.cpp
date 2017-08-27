@@ -81,8 +81,20 @@ void ObjectHierarchy::cutItems(){
 
 void ObjectHierarchy::pasteItems(){
     if(!tree->getClipboardManager()->containsItems()) return;
+
+    //Get the destination of the items
+    wxArrayTreeItemIds items;
+    tree->GetSelections(items);
+
+    //If there are no items in the list, then append to the root item.
+    int destinationId = -1;
+    if(items.size() > 0){
+        //If there is a multiple selection, then just set the destination to the first item.
+        destinationId = tree->getId(items[0]);
+    }
+
     //Put the actual destination in here at some point
-    PasteObjectCommand *pasteCommand = new PasteObjectCommand(tree, tree->getClipboardManager(), 0);
+    PasteObjectCommand *pasteCommand = new PasteObjectCommand(tree, tree->getClipboardManager(), destinationId);
     pasteCommand->performAction();
 
     getMainFrame()->getMain()->getCommandManager()->pushCommand(pasteCommand);

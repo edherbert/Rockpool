@@ -22,10 +22,12 @@ class HierarchyClipboardManager
         virtual ~HierarchyClipboardManager();
 
         void copyItems(const wxArrayTreeItemIds &items);
+        Object* copyObject(Object *object);
         void clearClipboard();
         bool containsItems();
 
-        std::vector<copyInfo>& getItems();
+        const copyInfo& getCopyInfoItem(int index);
+        int getItemInfoSize();
 
     protected:
 
@@ -33,7 +35,6 @@ class HierarchyClipboardManager
         HierarchyTree *tree;
 
         int idCount = 0;
-        Object* copyObject(const wxTreeItemId &item);
 
         std::vector<copyInfo> itemInfo;
 

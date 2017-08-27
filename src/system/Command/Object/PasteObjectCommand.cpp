@@ -6,18 +6,19 @@
 
 PasteObjectCommand::PasteObjectCommand(HierarchyTree *tree, HierarchyClipboardManager *clipboardManager, int destinationId) : ObjectCommand(tree){
     this->clipboardManager = clipboardManager;
+    this->destinationId = destinationId;
 
-    if(!clipboardManager->containsItems()) return;
+    for(int i = 0; i < clipboardManager->getItemInfoSize(); i++){
+        const copyInfo &copiedInformation = clipboardManager->getCopyInfoItem(i);
 
-    std::vector<copyInfo> &info = clipboardManager->getItems();
+        ItemInformation info;
+        info.text = copiedInformation.text;
+        info.id = copiedInformation.id;
+        info.parentId = copiedInformation.parentId;
 
-    for(int i = 0; i < info.size(); i++){
-        itemInfo[i].text = info[i].text;
-        itemInfo[i].id = info[i].id;
-        itemInfo[i].parentId = info[i].parentId;
+        info.itemObject = clipboardManager->copyObject(copiedInformation.object);
 
-        //Look into creating a function for the thing that finds the item type
-        //finalise all this nonsense.
+        itemInfo.push_back(info);
     }
 }
 
@@ -26,12 +27,42 @@ PasteObjectCommand::~PasteObjectCommand(){
 }
 
 void PasteObjectCommand::performAction(){
-    //Copy the contents of the clipboard into new items
-    //Append them the same as any other item function.
-    //Copy the items in the constructor
+    for(int i = 0; i < itemInfo.size(); i++){
+        wxTreeItemId targetItem;
+        if(itemInfo[i].parentId == -1){
+            if(destinationId == -1){
+                targetItem = tree->GetRootItem();
+            }else{
+                targetItem = tree->getItem(destinationId);
+            }
+        }else{
+            targetItem = tree->getItem(itemInfo[itemInfo[i].parentId].newItem);
+        }
 
+        HierarchyObjectInformation *parentInfo = (HierarchyObjectInformation*)tree->GetItemData(targetItem);
+        parentInfo->getObject()->addChild(itemInfo[i].itemObject);
+
+        HierarchyObjectInformation *objectInfo = new HierarchyObjectInformation(itemInfo[i].itemObject);
+
+        wxTreeItemId newItem = tree->AppendItem(targetItem, itemInfo[i].text, -1, -1, objectInfo);
+
+        if(!ran){
+            itemInfo[i].newItem = tree->addItem(newItem);
+        }else{
+            tree->setItem(itemInfo[i].newItem, newItem);
+        }
+
+    }
+    ran = true;
 }
 
 void PasteObjectCommand::performAntiAction(){
+    for(int i = 0; i < itemInfo.size(); i++){
+        if(itemInfo[i].parentId == -1){
+            HierarchyObjectInformation *objectInfo = (HierarchyObjectInformation*)tree->GetItemData(tree->getItem(itemInfo[i].newItem));
+            objectInfo->getObject()->removeFromParent();
 
+            tree->Delete(tree->getItem(itemInfo[i].newItem));
+        }
+    }
 }

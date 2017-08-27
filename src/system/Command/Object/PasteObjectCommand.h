@@ -20,6 +20,8 @@ class PasteObjectCommand : public ObjectCommand
     private:
         HierarchyClipboardManager *clipboardManager;
         int destinationId;
+
+        bool ran = false;
 };
 
 #endif // PASTEOBJECTCOMMAND_H

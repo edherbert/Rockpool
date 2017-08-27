@@ -26,7 +26,8 @@ void HierarchyClipboardManager::copyItems(const wxArrayTreeItemIds &items){
         info.text = tree->GetItemText(items[i]);
         info.parentId = -1;
 
-        info.object = copyObject(items[i]);
+        HierarchyObjectInformation *originInfo = (HierarchyObjectInformation*)tree->GetItemData(items[i]);
+        info.object = copyObject(originInfo->getObject());
 
         itemInfo.push_back(info);
         idCount++;
@@ -42,15 +43,14 @@ void HierarchyClipboardManager::clearClipboard(){
     idCount = 0;
 }
 
-Object* HierarchyClipboardManager::copyObject(const wxTreeItemId &item){
-    HierarchyObjectInformation *originInfo = (HierarchyObjectInformation*)tree->GetItemData(item);
+Object* HierarchyClipboardManager::copyObject(Object *object){
     Object *copiedObject;
 
-    if(originInfo->getObject()->getType() == ObjectTypeMesh){
-        MeshObject *meshObject = new MeshObject((MeshObject*)originInfo->getObject());
+    if(object->getType() == ObjectTypeMesh){
+        MeshObject *meshObject = new MeshObject((MeshObject*)object);
         copiedObject = (Object*)meshObject;
-    }else if(originInfo->getObject()->getType() == ObjectTypeObject){
-        copiedObject = new Object(originInfo->getObject());
+    }else if(object->getType() == ObjectTypeObject){
+        copiedObject = new Object(object);
     }
 
     return copiedObject;
@@ -66,7 +66,8 @@ void HierarchyClipboardManager::searchItem(wxTreeItemId item, int parentId){
             info.text = tree->GetItemText(ch);
             info.parentId = parentId;
 
-            info.object = copyObject(ch);
+            HierarchyObjectInformation *originInfo = (HierarchyObjectInformation*)tree->GetItemData(ch);
+            info.object = copyObject(originInfo->getObject());
 
             itemInfo.push_back(info);
             idCount++;
@@ -81,6 +82,11 @@ bool HierarchyClipboardManager::containsItems(){
     return itemInfo.size() > 0;
 }
 
-std::vector<copyInfo>& HierarchyClipboardManager::getItems(){
-    return itemInfo;
+int HierarchyClipboardManager::getItemInfoSize(){
+    return itemInfo.size();
 }
+
+const copyInfo& HierarchyClipboardManager::getCopyInfoItem(int index){
+    return itemInfo[index];
+}
+

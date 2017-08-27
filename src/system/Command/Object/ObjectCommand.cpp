@@ -2,6 +2,7 @@
 
 #include "../../../ui/Hierarchy/HierarchyTree.h"
 #include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
+#include "../../../map/Object/MeshObject.h"
 
 ObjectCommand::ObjectCommand(HierarchyTree *tree){
     this->tree = tree;

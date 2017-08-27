@@ -3,6 +3,7 @@
 #include "../../../ui/Hierarchy/HierarchyTree.h"
 #include "../../../ui/Hierarchy/HierarchyObjectInformation.h"
 #include "../../../map/Object/MeshObject.h"
+#include "../../HierarchyClipboardManager.h"
 
 DuplicateObjectCommand::DuplicateObjectCommand(HierarchyTree *tree, wxArrayTreeItemIds items) : ObjectCommand(tree){
     for(int i = 0; i < items.size(); i++){
@@ -47,7 +48,7 @@ void DuplicateObjectCommand::performAction(){
 
         wxTreeItemId targetItem;
         if(targetId == -1){
-            //This means that the item is a base item, so check if it should be attached to the root, or to an itme.
+            //This means that the item is a base item, so check if it should be attached to the root, or to an item.
             if(itemInfo[i].originParentItem == -1){
                 targetItem = tree->GetRootItem();
             }else{
@@ -75,12 +76,8 @@ void DuplicateObjectCommand::performAction(){
             Object *copiedObject;
 
             //Check what type the item is before creating it.
-            if(itemInfo[i].itemObject->getType() == ObjectTypeMesh){
-                MeshObject *copiedMesh = new MeshObject((MeshObject*)duplicateItemInfo->getObject());
-                copiedObject = (Object*)copiedMesh;
-            }else if(itemInfo[i].itemObject->getType() == ObjectTypeObject){
-                copiedObject = new Object(tree->getMap()->getSceneManager());
-            }
+            //copiedObject = duplicateObject(itemInfo[i].itemObject);
+            copiedObject = tree->getClipboardManager()->copyObject(itemInfo[i].itemObject);
 
             //Get the parent of the duplicated item, then add the new item as a child.
             HierarchyObjectInformation *parentItemInfo = (HierarchyObjectInformation*)tree->GetItemData(targetItem);
