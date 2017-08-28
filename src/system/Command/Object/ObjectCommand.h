@@ -5,6 +5,7 @@
 #include <wx/treebase.h>
 
 #include <vector>
+#include <OgreVector3.h>
 
 #include "../Command.h"
 
@@ -25,13 +26,20 @@ struct ItemInformation{
     int newItem;
 };
 
+enum TargetAxis{
+    TargetAxisNone,
+    TargetAxisX,
+    TargetAxisY,
+    TargetAxisZ
+};
+
 class ObjectCommand : public Command
 {
     public:
         ObjectCommand(HierarchyTree *tree);
         virtual ~ObjectCommand();
 
-        virtual void update(int x, int y);
+        virtual void update(const Ogre::Vector3 &current, TargetAxis axis);
 
     protected:
         HierarchyTree *tree;

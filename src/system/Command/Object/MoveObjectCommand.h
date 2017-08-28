@@ -21,7 +21,7 @@ class MoveObjectCommand : public ObjectCommand
         MoveObjectCommand(HierarchyTree *tree);
         virtual ~MoveObjectCommand();
 
-        void update(int x, int y);
+        void update(const Ogre::Vector3 &current, TargetAxis axis);
 
         void performAction();
         void performAntiAction();
@@ -31,8 +31,9 @@ class MoveObjectCommand : public ObjectCommand
     private:
         std::vector<ObjectValues> objectVals;
 
-        int totalX = 0;
-        int totalY = 0;
+        Ogre::Vector3 previous;
+        Ogre::Vector3 delta;
+        bool foundInitial = false;
 };
 
 #endif // MOVEOBJECTCOMMAND_H

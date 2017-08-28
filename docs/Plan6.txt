@@ -51,3 +51,16 @@ Then it would just store it like that.
 Then the paste command would come along and do pretty much the same thing as the duplicate command.
 When the copy command was called again, the objects in the clipboard can be deleted and replaced with the new ones.
 Of course, the items in the clipboard won't be attached to anything in the scene, but they will still be there.
+
+--Rays the planes--
+From what it seems, the way to calculate the movement of an item is to surround it by large plane for each of it's axis.
+I suppose that because I can just determine which axis I'm tracking anyway, I won't need to check the plane.
+You can then check the intersection of the plane to see where the mouse is now.
+You would basically just check the delta each time the mouse moves, and feed it into that.
+
+So I've figured out how to do ray collisions.
+The system with the plane will work just fine, considering that the entities will be locked to it anyway.
+I'll have a function in the map class that assigns the visual drag things to the entity, so that's not too complicated.
+The move command update will probably be where I'm going to do the update things.
+I'll probably just have one plane for the entire map, and change it's orientation when needed.
+I'll then pass the update map function the point of the current intersection, and the new position can be created from that.

@@ -39,6 +39,6 @@ void ObjectCommand::searchItem(wxTreeItemId item, int parentId){
     }
 }
 
-void ObjectCommand::update(int x, int y){
+void ObjectCommand::update(const Ogre::Vector3 &current, TargetAxis axis){
 
 }

@@ -3,6 +3,7 @@
 
 #include <OGRE/Ogre.h>
 #include <Terrain/OgreTerrainGroup.h>
+#include "../system/Command/Object/ObjectCommand.h"
 
 class GLCanvas;
 class ToolPreferencesHandler;
@@ -12,6 +13,8 @@ class Terrain;
 class Object;
 class ObjectHierarchy;
 class ObjectCommand;
+
+class MeshObject;
 
 struct HandlerData;
 struct mapInformation;
@@ -79,6 +82,10 @@ class Map
         ObjectHierarchy *objectHierarchy;
 
         bool mapStarted = false;
+
+        Ogre::Plane *axisPlane = 0;
+        void setTargetAxis(TargetAxis axis);
+        TargetAxis currentAxisTarget;
 
         float radians(float value);
         float degrees(float value);

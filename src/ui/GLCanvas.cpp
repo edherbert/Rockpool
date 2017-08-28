@@ -144,14 +144,12 @@ void GLCanvas::mouseWheel(wxMouseEvent &event){
         int ammount = 0;
         if(event.GetWheelRotation() < 0) ammount = -5;
         else ammount = 5;
-        //changezom
     }
 }
 
 void GLCanvas::keyDown(wxKeyEvent &event){
     int val = (int)event.GetKeyCode();
     if(val >= 0 && val < CANVAS_KEYS_LENGTH) keys[val] = true;
-    //std::cout << event.GetKeyCode() << std::endl;
 }
 
 void GLCanvas::keyUp(wxKeyEvent &event){
@@ -213,7 +211,7 @@ void GLCanvas::updateLogic(){
     }
 }
 
-bool GLCanvas::getKey(const int keyId){
+bool GLCanvas::getKey(int keyId){
     if(keyId >= 0 && keyId < CANVAS_KEYS_LENGTH) return keys[keyId];
     else return false;
 }

@@ -21,7 +21,6 @@
 -Fix the bugs with the scroll bars.
 
 
--Implement pasting.
 -Make the way entities are moved nicer. This should align with the cursor, and the cursor should warp when moved too far.
 -Show axis lines when entities are moved.
 -Implement rotating
@@ -329,3 +328,4 @@ Things to do before entity work begins:
 -Show the resource tile on the dragged window bit
 
 -Implement the clipboard functionality for cutting and copying.
+-Implement pasting.

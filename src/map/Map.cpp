@@ -5,13 +5,13 @@
 #include "../system/Command/TerrainCommand.h"
 #include "../system/Command/TerrainTextureCommand.h"
 #include "../system/Command/TerrainEditCommand.h"
-#include "../system/Command/Object/ObjectCommand.h"
 #include "../system/Command/Object/MoveObjectCommand.h"
 #include "../system/Command/CommandManager.h"
 #include "MapDecal.h"
 #include "Terrain.h"
 #include "../ui/GLCanvas.h"
 #include "Object/Object.h"
+#include "Object/MeshObject.h"
 #include "../ui/Tools/ToolsPanelHandler.h"
 #include "../ui/Hierarchy/ObjectHierarchy.h"
 #include "../ui/Hierarchy/HierarchyObjectInformation.h"
@@ -60,15 +60,14 @@ void Map::start(GLCanvas *canvas){
     Ogre::Light* light = sceneManager->createLight("light");
     light->setPosition(20, 80, 50);
 
-    //The map needs a reference to the hierarchy.
-
-    //objectHierarchy->getTree()->get
     Object *rootObject = new Object(sceneManager);
     sceneManager->getRootSceneNode()->addChild(rootObject->getSceneNode());
 
     HierarchyObjectInformation *info = new HierarchyObjectInformation(rootObject);
     wxTreeItemId root = objectHierarchy->getTree()->GetRootItem();
     objectHierarchy->getTree()->SetItemData(root, info);
+
+    setTargetAxis(TargetAxisY);
 
     mapStarted = true;
 }
@@ -158,8 +157,21 @@ void Map::updateInput(){
             endObjectCommand(true);
             return;
         }
+        if(canvas->getKey(KEY_Z)){
+            setTargetAxis(TargetAxisZ);
+        }else if(canvas->getKey(KEY_X)){
+            setTargetAxis(TargetAxisX);
+        }else if(canvas->getKey(KEY_Y)){
+            setTargetAxis(TargetAxisY);
+        }
 
-        currentObjectCommand->update(canvas->getMouseDiffX(), canvas->getMouseDiffY());
+        Ogre::Ray ray = camera->getCameraToViewportRay((float)canvas->getMouseX() / (float)canvas->getWidth(), (float)canvas->getMouseY() / (float)canvas->getHeight());
+        std::pair<bool,Ogre::Real> result = ray.intersects(*axisPlane);
+
+        if(result.first){
+            //testMesh->setPosition(ray.getPoint(result.second));
+            currentObjectCommand->update(ray.getPoint(result.second), currentAxisTarget);
+        }
 
     }else{
         if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
@@ -350,4 +362,16 @@ void Map::setDefaultCameraValues(Ogre::Vector3 cameraPosition, Ogre::Vector3 cam
 
 void Map::setObjectHierarchy(ObjectHierarchy *objectHierarchy){
     this->objectHierarchy = objectHierarchy;
+}
+
+void Map::setTargetAxis(TargetAxis axis){
+    if(axisPlane) delete axisPlane;
+    if(axis == TargetAxisX){
+        axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
+    }else if(axis == TargetAxisY){
+        axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
+    }else if(axis == TargetAxisZ){
+        axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
+    }
+    currentAxisTarget = axis;
 }
