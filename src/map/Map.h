@@ -49,7 +49,11 @@ class Map
         terrainSquareInformation genSquareInfo(Ogre::Terrain *terr, int x, int y, int z, int brushSize, bool textureTool = false);
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
+        void updateCurrentSelection();
+
         void saveMap(bool reSave);
+
+        void calculateSelectionCentrePosition();
 
         void addObject(Object *object);
 
@@ -63,6 +67,10 @@ class Map
     protected:
 
     private:
+        Terrain *terrain;
+        GLCanvas *canvas;
+        ObjectHierarchy *objectHierarchy;
+
         Ogre::Viewport *viewport;
         Ogre::Camera *camera = 0;
         Ogre::SceneManager *sceneManager;
@@ -77,13 +85,12 @@ class Map
 
         bool performingObjectCommand = false;
 
-        Terrain *terrain;
-        GLCanvas *canvas;
-        ObjectHierarchy *objectHierarchy;
-
         bool mapStarted = false;
 
-        Ogre::Plane *axisPlane = 0;
+        Ogre::Plane *axisPlaneX = 0;
+        Ogre::Plane *axisPlaneY = 0;
+        Ogre::Plane *axisPlaneZ = 0;
+
         void setTargetAxis(TargetAxis axis);
         TargetAxis currentAxisTarget;
 
@@ -92,6 +99,11 @@ class Map
 
         Ogre::SceneNode *ogreNode;
         Ogre::SceneNode *sinbadNode;
+
+        std::vector<Object*> currentSelection;
+        Ogre::Vector3 selectionCentrePosition;
+
+        Ogre::SceneNode *testSceneNode;
 
         std::string mapName;
         std::string path;

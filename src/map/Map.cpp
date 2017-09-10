@@ -67,7 +67,16 @@ void Map::start(GLCanvas *canvas){
     wxTreeItemId root = objectHierarchy->getTree()->GetRootItem();
     objectHierarchy->getTree()->SetItemData(root, info);
 
-    setTargetAxis(TargetAxisY);
+    //setTargetAxis(TargetAxisY);
+    //axisPlaneX = new Ogre::Plane(Ogre::Vector3::UNIT_X, 0);
+
+    //Attach the planes to the centre position of all three objects.
+    //Get the centre position of the current selection.
+    //When the selection changes, this will have to be re-calculated.
+    //Just do the average position.
+    //I'll give the map a function to re-calculate these values.
+
+
 
     mapStarted = true;
 }
@@ -114,6 +123,10 @@ void Map::pointCamera(int xOffset, int yOffset){
     //Normalise the camera front
     float length = sqrt((front.x * front.x) + (front.y * front.y) + (front.z * front.z));
     Ogre::Vector3 cameraFront = Ogre::Vector3(front.x / length, front.y / length, front.z / length);
+
+    testSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode();
+    Ogre::Entity *testEntity = sceneManager->createEntity("Sinbad.mesh");
+    testSceneNode->attachObject(testEntity);
 
     camera->setDirection(cameraFront);
 }
@@ -166,11 +179,13 @@ void Map::updateInput(){
         }
 
         Ogre::Ray ray = camera->getCameraToViewportRay((float)canvas->getMouseX() / (float)canvas->getWidth(), (float)canvas->getMouseY() / (float)canvas->getHeight());
-        std::pair<bool,Ogre::Real> result = ray.intersects(*axisPlane);
+        //std::pair<bool,Ogre::Real> result = ray.intersects(*axisPlane);
 
-        if(result.first){
+        //if(result.first){
+        if(false){
             //testMesh->setPosition(ray.getPoint(result.second));
-            currentObjectCommand->update(ray.getPoint(result.second), currentAxisTarget);
+            currentAxisTarget = TargetAxisX;
+            //currentObjectCommand->update(ray.getPoint(result.second), currentAxisTarget);
         }
 
     }else{
@@ -365,7 +380,7 @@ void Map::setObjectHierarchy(ObjectHierarchy *objectHierarchy){
 }
 
 void Map::setTargetAxis(TargetAxis axis){
-    if(axisPlane) delete axisPlane;
+    /*if(axisPlane) delete axisPlane;
     if(axis == TargetAxisX){
         axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
     }else if(axis == TargetAxisY){
@@ -373,5 +388,23 @@ void Map::setTargetAxis(TargetAxis axis){
     }else if(axis == TargetAxisZ){
         axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
     }
-    currentAxisTarget = axis;
+    currentAxisTarget = axis;*/
+}
+
+void Map::updateCurrentSelection(){
+    currentSelection = objectHierarchy->getTree()->getSelectedObjects();
+    calculateSelectionCentrePosition();
+}
+
+void Map::calculateSelectionCentrePosition(){
+    Ogre::Vector3 calcPosition;
+    for(int i = 0; i < currentSelection.size(); i++){
+        calcPosition += currentSelection[i]->getPosition();
+    }
+    //Find the mean of the items
+    calcPosition /= currentSelection.size();
+
+    selectionCentrePosition = calcPosition;
+
+    testSceneNode->setPosition(calcPosition);
 }

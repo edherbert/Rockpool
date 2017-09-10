@@ -52,7 +52,7 @@ Then the paste command would come along and do pretty much the same thing as the
 When the copy command was called again, the objects in the clipboard can be deleted and replaced with the new ones.
 Of course, the items in the clipboard won't be attached to anything in the scene, but they will still be there.
 
---Rays the planes--
+--Rays and planes--
 From what it seems, the way to calculate the movement of an item is to surround it by large plane for each of it's axis.
 I suppose that because I can just determine which axis I'm tracking anyway, I won't need to check the plane.
 You can then check the intersection of the plane to see where the mouse is now.
@@ -64,3 +64,11 @@ I'll have a function in the map class that assigns the visual drag things to the
 The move command update will probably be where I'm going to do the update things.
 I'll probably just have one plane for the entire map, and change it's orientation when needed.
 I'll then pass the update map function the point of the current intersection, and the new position can be created from that.
+
+--More on rays--
+With regards to how I should be checking the location of objects, I think I need to change my current strategy.
+Firstly, the planes should be facing the camera, and should also be a set distance away from the camera.
+Currently, they're placed on the centre of the world, which could be a problem, as if the camera moves then the calculation gets out of wack.
+I don't think they need to be facing the camera though.
+Then, I need to have three planes, one for each axis.
+When I go to perform an action, the system needs to determine which plane is facing the camera the most, and use that one for the collision.

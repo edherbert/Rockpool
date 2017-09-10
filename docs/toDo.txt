@@ -21,14 +21,13 @@
 -Fix the bugs with the scroll bars.
 
 
--Make the way entities are moved nicer. This should align with the cursor, and the cursor should warp when moved too far.
--Show axis lines when entities are moved.
--Implement rotating
--Implement scaling.
 -Implement the right click camera system
 -Begin work on the terrain things (This might require some planning)
 -Change the new map dialog
 -Remove the event table from the main frame
+-Show axis lines when entities are moved.
+-Implement rotating
+-Implement scaling.
 
 
 Things to do before entity work begins:
@@ -329,3 +328,5 @@ Things to do before entity work begins:
 
 -Implement the clipboard functionality for cutting and copying.
 -Implement pasting.
+
+-Make the way entities are moved nicer. This should align with the cursor, and the cursor should warp when moved too far.

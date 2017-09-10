@@ -41,8 +41,9 @@ HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(obje
     Connect(wxEVT_MOTION, wxMouseEventHandler(HierarchyTree::mouseMoved));
     Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(HierarchyTree::mouseDown));
     Connect(wxEVT_LEFT_UP, wxMouseEventHandler(HierarchyTree::mouseUp));
+    Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(HierarchyTree::mouseRightDown));
 
-    Connect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(HierarchyTree::MouseRightDown));
+    Connect(wxEVT_TREE_SEL_CHANGED, wxTreeEventHandler(HierarchyTree::selectionChanged));
 }
 
 HierarchyTree::~HierarchyTree(){
@@ -55,6 +56,12 @@ void HierarchyTree::setMap(Map *map){
 
 Map* HierarchyTree::getMap(){
     return map;
+}
+
+void HierarchyTree::selectionChanged(wxTreeEvent &event){
+    std::cout << "Selection Change" << std::endl;
+
+    map->updateCurrentSelection();
 }
 
 ObjectHierarchy* HierarchyTree::getObjectHierarchy(){
@@ -213,7 +220,7 @@ bool HierarchyTree::isParentSelected(wxTreeItemId item){
     return false;
 }
 
-void HierarchyTree::MouseRightDown(wxMouseEvent &event){
+void HierarchyTree::mouseRightDown(wxMouseEvent &event){
     event.Skip();
     if(!map) return;
 
@@ -236,6 +243,7 @@ void HierarchyTree::MouseRightDown(wxMouseEvent &event){
     menu->popup();
 }
 
+//Check if this is still used
 wxTreeItemId HierarchyTree::AddObject(Object *object, wxString name, wxTreeItemId parent){
     if(parent == 0){
         parent = GetRootItem();
@@ -377,4 +385,19 @@ void HierarchyTree::updateDragAnim(const wxPoint &location){
 
 HierarchyClipboardManager* HierarchyTree::getClipboardManager(){
     return clipboard;
+}
+
+std::vector<Object*> HierarchyTree::getSelectedObjects(bool includeChildrenOfSelected){
+    wxArrayTreeItemIds items;
+    GetSelections(items);
+
+    std::vector<Object*> returnItems;
+
+    for(int i = 0; i < items.size(); i++){
+        if(!includeChildrenOfSelected && isParentSelected(items[i])) continue;
+
+        //Get the object and push it to the return list.
+        returnItems.push_back(((HierarchyObjectInformation*)GetItemData(items[i]))->getObject());
+    }
+    return returnItems;
 }

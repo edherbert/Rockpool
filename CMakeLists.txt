@@ -3,7 +3,7 @@ project (rockpool)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -D_FILE_OFFSET_BITS=64 -D__WXGTK__ -pthread")
 
-set(${LIBS_DIR} "/home/edward/Documents/wxWidgets-3.0.2/static/lib/")
+set(LIBS_DIR "/home/edward/Documents/wxWidgets-3.0.2/static/lib/")
 
 link_directories(/home/edward/Documents/wxWidgets-3.0.2/static/lib/)
 

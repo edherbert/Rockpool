@@ -40,6 +40,8 @@ class HierarchyTree : public wxTreeCtrl
         ObjectHierarchy* getObjectHierarchy();
         HierarchyClipboardManager* getClipboardManager();
 
+        std::vector<Object*> getSelectedObjects(bool includeChildrenOfSelected = false);
+
         int addItem(wxTreeItemId item);
         void setItem(int id, wxTreeItemId item);
         wxTreeItemId getItem(int id);
@@ -58,8 +60,9 @@ class HierarchyTree : public wxTreeCtrl
     private:
         void mouseDown(wxMouseEvent &event);
         void mouseUp(wxMouseEvent &event);
-        void MouseRightDown(wxMouseEvent &event);
+        void mouseRightDown(wxMouseEvent &event);
         void mouseMoved(wxMouseEvent &event);
+        void selectionChanged(wxTreeEvent &event);
 
         void resetItemHighlight();
         void endDrag();
