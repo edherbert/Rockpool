@@ -102,9 +102,8 @@ void GLCanvas::closeCanvas(wxCloseEvent &event){
 }
 
 void GLCanvas::mouseLeave(wxMouseEvent &event){
-    if(mouseCaptured && map){
+    if(mouseRight && map){
         warpCursorToCentre();
-        //map->pointCamera(prevMouseX - mouseX, prevMouseY - mouseY);
     }
 }
 
@@ -126,17 +125,6 @@ void GLCanvas::warpCursorToCentre(){
     prevMouseY = newHeight;
     mouseX = newWidth;
     mouseY = newHeight;
-}
-
-void GLCanvas::captureMouse(bool capture){
-    if(capture){
-        mouseCaptured = true;
-        parent->SetCursor(wxCursor(wxCURSOR_BLANK));
-    }else{
-        mouseCaptured = false;
-        parent->SetCursor(wxCursor(wxCURSOR_ARROW));
-    }
-    warpCursorToCentre();
 }
 
 void GLCanvas::mouseWheel(wxMouseEvent &event){
@@ -162,8 +150,6 @@ void GLCanvas::updateLogic(){
     if(!map) return;
     if(!map->getMapStarted()) return;
 
-    if(switchCameraCount > 0) switchCameraCount--;
-
     //Figure out the position of the mouse each frame.
     //This prevents issues with the callbacks not being fired with the timer.
     if(HasFocus()){
@@ -176,7 +162,7 @@ void GLCanvas::updateLogic(){
             //Mouse moved
             if(prevMouseX != mouseX || prevMouseY != mouseY){
                 mouseMoved = true;
-                if(mouseCaptured){
+                if(state.RightDown()){
                     map->pointCamera(mouseX - prevMouseX, -(mouseY - prevMouseY));
                     renderFrame();
                 }else{
@@ -187,6 +173,7 @@ void GLCanvas::updateLogic(){
                 mouseMoved = false;
             }
 
+            //Figure out all the things for the canvas
             mouseDiffX = prevMouseX - mouseX;
             mouseDiffY = prevMouseY - mouseY;
 
@@ -200,7 +187,11 @@ void GLCanvas::updateLogic(){
             mouseLeft = state.LeftDown();
             mouseRight = state.RightDown();
 
-            if(keys[wxKeyCode::WXK_TAB])switchCameraMode();
+            if(mouseRight){
+                parent->SetCursor(wxCursor(wxCURSOR_BLANK));
+            }else{
+                parent->SetCursor(wxCursor(wxCURSOR_ARROW));
+            }
 
             map->updateInput();
         }else{
@@ -214,13 +205,6 @@ void GLCanvas::updateLogic(){
 bool GLCanvas::getKey(int keyId){
     if(keyId >= 0 && keyId < CANVAS_KEYS_LENGTH) return keys[keyId];
     else return false;
-}
-
-void GLCanvas::switchCameraMode(){
-    if(switchCameraCount > 0) return;
-
-    switchCameraCount = 10;
-    captureMouse(!mouseCaptured);
 }
 
 int GLCanvas::getMouseX(){

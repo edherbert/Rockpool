@@ -51,7 +51,6 @@ class GLCanvas : public wxGLCanvas
 
         void setMap(Map *map);
         void setViewportSize();
-        void switchCameraMode();
         void warpCursorToCentre();
 
         int getMouseX();
@@ -82,7 +81,6 @@ class GLCanvas : public wxGLCanvas
 
         void makeCurrent();
         void createWindow();
-        void captureMouse(bool capture);
 
         bool windowCreated = false;
         bool closed = false;
@@ -99,8 +97,6 @@ class GLCanvas : public wxGLCanvas
         int mouseY = 0;
         int width = 0;
         int height = 0;
-
-        int switchCameraCount = 0;
 
         Map *map;
 

@@ -21,7 +21,6 @@
 -Fix the bugs with the scroll bars.
 
 
--Implement the right click camera system
 -Begin work on the terrain things (This might require some planning)
 -Change the new map dialog
 -Remove the event table from the main frame
@@ -330,3 +329,5 @@ Things to do before entity work begins:
 -Implement pasting.
 
 -Make the way entities are moved nicer. This should align with the cursor, and the cursor should warp when moved too far.
+
+-Implement the right click camera system

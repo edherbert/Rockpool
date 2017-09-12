@@ -211,7 +211,6 @@ void Map::updateInput(){
 
     }else{
         if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
-        if(mouseRight) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_RIGHT);
 
         //If neither mouse buttons are pressed
         if(!mouseLeft && !mouseRight){
