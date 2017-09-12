@@ -72,3 +72,28 @@ Currently, they're placed on the centre of the world, which could be a problem, 
 I don't think they need to be facing the camera though.
 Then, I need to have three planes, one for each axis.
 When I go to perform an action, the system needs to determine which plane is facing the camera the most, and use that one for the collision.
+
+--Terrains--
+I'm going to take a break from the object movement to do the terrain.
+I've decided to keep the terrain as it is, a grid based system.
+I've decided this because of a few reasons.
+Firstly, I don't really need to be able to move the terrains around.
+I only thought of that feature to make the editor fit for other projects.
+The reality is I think a grid based system will work just fine.
+That means that I need the ability to change the current terrain.
+Here are some things that I will need by the time the project goes live:
+
+Skyboxes
+Object editor
+The ability to export projects
+A logo!
+
+The object editor doesn't have to be too complicated at this stage, but I do need to build up the foundation.
+I'll start work on the skybox functionality.
+
+--Skybox--
+One thing is that the user should be able to define multiple skyboxes.
+During a game, the user would have a ton of skyboxes for different situations.
+I'll probably just have a dialog in the map properties area that allows the user to add and delete sky boxes.
+It should work by having the user define the textures, and then creating a material in the code.
+This information can then be stored in the map file.

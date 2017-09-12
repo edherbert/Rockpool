@@ -20,6 +20,9 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
+-Do skyboxes
+-Work on cross platform
+-Do logo and polish
 
 -Begin work on the terrain things (This might require some planning)
 -Change the new map dialog

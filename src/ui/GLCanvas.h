@@ -105,6 +105,7 @@ class GLCanvas : public wxGLCanvas
 
         void mouseWheel(wxMouseEvent &event);
         void mouseLeave(wxMouseEvent &event);
+        void rightMouseDown(wxMouseEvent &event);
 
         bool mouseLeft = false;
         bool mouseRight = false;

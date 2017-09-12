@@ -10,6 +10,8 @@ BEGIN_EVENT_TABLE(GLCanvas, wxGLCanvas)
 
     EVT_KEY_DOWN(GLCanvas::keyDown)
     EVT_KEY_UP(GLCanvas::keyUp)
+
+    EVT_RIGHT_DOWN(GLCanvas::rightMouseDown)
 END_EVENT_TABLE()
 
 GLCanvas::GLCanvas(wxWindow *parent, int *args, int id) : wxGLCanvas(parent, wxID_ANY, args, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE){
@@ -99,6 +101,15 @@ void GLCanvas::closeCanvas(wxCloseEvent &event){
     map->destroy();
     delete map;
     //The window and things are deleted in the destuctor
+}
+
+void GLCanvas::rightMouseDown(wxMouseEvent &event){
+    //This is so that the canvas is always put into focus for the camera movement.
+    SetFocus();
+    //Blank out the cursor before doing the warp, just to prevent the visible cursor jump.
+    parent->SetCursor(wxCursor(wxCURSOR_BLANK));
+    //This prevents some offset issues.
+    warpCursorToCentre();
 }
 
 void GLCanvas::mouseLeave(wxMouseEvent &event){
