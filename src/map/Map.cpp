@@ -67,6 +67,14 @@ void Map::start(GLCanvas *canvas){
     wxTreeItemId root = objectHierarchy->getTree()->GetRootItem();
     objectHierarchy->getTree()->SetItemData(root, info);
 
+    testSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode();
+    Ogre::Entity *testEntity = sceneManager->createEntity("Sinbad.mesh");
+    testSceneNode->attachObject(testEntity);
+
+    axisPlanes[0] = new Ogre::Plane(Ogre::Vector3::UNIT_X, selectionCentrePosition);
+    axisPlanes[1] = new Ogre::Plane(Ogre::Vector3::UNIT_Y, selectionCentrePosition);
+    axisPlanes[2] = new Ogre::Plane(Ogre::Vector3::UNIT_Z, selectionCentrePosition);
+
     //setTargetAxis(TargetAxisY);
     //axisPlaneX = new Ogre::Plane(Ogre::Vector3::UNIT_X, 0);
 
@@ -75,6 +83,9 @@ void Map::start(GLCanvas *canvas){
     //When the selection changes, this will have to be re-calculated.
     //Just do the average position.
     //I'll give the map a function to re-calculate these values.
+
+    //Whenever a move starts, create the planes, and then delete them when the job is done.
+    //Move the planes when the object is moved.
 
 
 
@@ -123,10 +134,6 @@ void Map::pointCamera(int xOffset, int yOffset){
     //Normalise the camera front
     float length = sqrt((front.x * front.x) + (front.y * front.y) + (front.z * front.z));
     Ogre::Vector3 cameraFront = Ogre::Vector3(front.x / length, front.y / length, front.z / length);
-
-    testSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode();
-    Ogre::Entity *testEntity = sceneManager->createEntity("Sinbad.mesh");
-    testSceneNode->attachObject(testEntity);
 
     camera->setDirection(cameraFront);
 }
@@ -178,15 +185,29 @@ void Map::updateInput(){
             setTargetAxis(TargetAxisY);
         }
 
-        Ogre::Ray ray = camera->getCameraToViewportRay((float)canvas->getMouseX() / (float)canvas->getWidth(), (float)canvas->getMouseY() / (float)canvas->getHeight());
-        //std::pair<bool,Ogre::Real> result = ray.intersects(*axisPlane);
+        //Move the position of the planes
+        positionAxisPlanes();
 
-        //if(result.first){
-        if(false){
-            //testMesh->setPosition(ray.getPoint(result.second));
-            currentAxisTarget = TargetAxisX;
-            //currentObjectCommand->update(ray.getPoint(result.second), currentAxisTarget);
+        Ogre::Ray ray = camera->getCameraToViewportRay((float)canvas->getMouseX() / (float)canvas->getWidth(), (float)canvas->getMouseY() / (float)canvas->getHeight());
+
+        //Try to find the plane that is the most perpendicular to the ray
+        int targetPlane = 0;
+        float currentAngle = 90;
+        for(int i = 0; i < 3; i++){
+            std::pair<bool,Ogre::Real> result = ray.intersects(*axisPlanes[i]);
+
+            if(result.first){
+                float res = axisPlanes[i]->normal.dotProduct(ray.getDirection());
+                float angle = Ogre::Math::ACos(res).valueDegrees();
+                if(angle < currentAngle){
+                    targetPlane = i;
+                    currentAngle = angle;
+                }
+            }
         }
+
+        std::pair<bool,Ogre::Real> test = ray.intersects(*axisPlanes[targetPlane]);
+        testSceneNode->setPosition(ray.getPoint(test.second));
 
     }else{
         if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
@@ -407,4 +428,10 @@ void Map::calculateSelectionCentrePosition(){
     selectionCentrePosition = calcPosition;
 
     testSceneNode->setPosition(calcPosition);
+}
+
+void Map::positionAxisPlanes(){
+    axisPlanes[0]->redefine(Ogre::Vector3::UNIT_X, selectionCentrePosition);
+    axisPlanes[1]->redefine(Ogre::Vector3::UNIT_Y, selectionCentrePosition);
+    axisPlanes[2]->redefine(Ogre::Vector3::UNIT_Z, selectionCentrePosition);
 }

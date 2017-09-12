@@ -87,9 +87,11 @@ class Map
 
         bool mapStarted = false;
 
-        Ogre::Plane *axisPlaneX = 0;
+        /*Ogre::Plane *axisPlaneX = 0;
         Ogre::Plane *axisPlaneY = 0;
-        Ogre::Plane *axisPlaneZ = 0;
+        Ogre::Plane *axisPlaneZ = 0;*/
+
+        Ogre::Plane* axisPlanes[3];
 
         void setTargetAxis(TargetAxis axis);
         TargetAxis currentAxisTarget;
@@ -104,6 +106,7 @@ class Map
         Ogre::Vector3 selectionCentrePosition;
 
         Ogre::SceneNode *testSceneNode;
+        void positionAxisPlanes();
 
         std::string mapName;
         std::string path;

@@ -27,10 +27,10 @@ struct ItemInformation{
 };
 
 enum TargetAxis{
-    TargetAxisNone,
     TargetAxisX,
     TargetAxisY,
-    TargetAxisZ
+    TargetAxisZ,
+    TargetAxisNone
 };
 
 class ObjectCommand : public Command
