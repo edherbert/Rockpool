@@ -40,8 +40,6 @@ public:
     ResourceBrowser* getResourceBrowser();
     ObjectHierarchy* getObjectHierarchy();
 
-    DECLARE_EVENT_TABLE()
-
 private:
 	GLCanvas *canvas;
 	Main *main;
@@ -55,8 +53,6 @@ private:
 	ObjectHierarchy *objectHierarchy;
 
 	void setupMenuBar();
-
-    void onMaximize(wxMaximizeEvent &event);
 
     void newMap(wxCommandEvent &event);
     void openMap(wxCommandEvent &event);

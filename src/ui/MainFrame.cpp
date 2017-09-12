@@ -18,10 +18,6 @@
 #include "../system/ResourceManager.h"
 #include "Hierarchy/ObjectHierarchy.h"
 
-BEGIN_EVENT_TABLE(MainFrame, wxFrame)
-    EVT_MAXIMIZE(MainFrame::onMaximize)
-END_EVENT_TABLE()
-
 MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1000, 1000)){
     this->main = main;
     setupMenuBar();
@@ -69,10 +65,6 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
 
 MainFrame::~MainFrame(){
     auiManager->UnInit();
-}
-
-void MainFrame::onMaximize(wxMaximizeEvent &evt){
-    //splitWindow->SetSashPosition(1300, true);
 }
 
 void MainFrame::setupMenuBar(){
