@@ -17,11 +17,6 @@ class MapPropertiesDialog : public wxDialog
         MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent);
         virtual ~MapPropertiesDialog();
 
-        void resourcesAddLocation(wxCommandEvent &event);
-        void resourcesEditLocationCallback(wxCommandEvent &event);
-        void resourcesDeleteLocation(wxCommandEvent &event);
-        void resourcesEditLocation();
-
         void doubleClickResourceList(wxCommandEvent &event);
 
     protected:
@@ -35,6 +30,16 @@ class MapPropertiesDialog : public wxDialog
         void setupMapProperties(wxPanel *parent);
         void setupResourceLocationProperties(wxPanel *parent);
         void setupSkyBoxProperties(wxPanel *parent);
+
+
+        void resourcesAddLocation(wxCommandEvent &event);
+        void resourcesEditLocationCallback(wxCommandEvent &event);
+        void resourcesDeleteLocation(wxCommandEvent &event);
+        void resourcesEditLocation();
+
+        void addSkybox(wxCommandEvent &event);
+        void editSkybox(wxCommandEvent &event);
+        void deletekybox(wxCommandEvent &event);
 };
 
 #endif // MAPPROPERTIESDIALOG_H

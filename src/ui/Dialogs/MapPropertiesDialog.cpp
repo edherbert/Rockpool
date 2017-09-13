@@ -5,6 +5,8 @@
 #include "../Resource/ResourceBrowser.h"
 #include "../../system/ResourceManager.h"
 
+#include "MapPropertiesSkyBoxDialog.h"
+
 #include <Ogre.h>
 
 MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent) : wxDialog(parent, wxID_ANY, wxT("Map Properties"), wxDefaultPosition, wxSize(700, 600)){
@@ -33,8 +35,11 @@ MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent)
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_ADD, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesAddLocation));
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_EDIT, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesEditLocationCallback));
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_DELETE, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesDeleteLocation));
-
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_LIST, wxEVT_LISTBOX_DCLICK, wxCommandEventHandler(MapPropertiesDialog::doubleClickResourceList));
+
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_ADD, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::addSkybox));
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_DELETE, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::deletekybox));
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_EDIT, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::editSkybox));
 
     ShowModal();
 }
@@ -179,4 +184,18 @@ void MapPropertiesDialog::resourcesDeleteLocation(wxCommandEvent &event){
 
 void MapPropertiesDialog::doubleClickResourceList(wxCommandEvent &event){
     resourcesEditLocation();
+}
+
+
+void MapPropertiesDialog::addSkybox(wxCommandEvent &event){
+    //MapPropertiesSkyBoxDialog dialog(this);
+    MapPropertiesSkyBoxDialog *dialog = new MapPropertiesSkyBoxDialog(this);
+}
+
+void MapPropertiesDialog::editSkybox(wxCommandEvent &event){
+    std::cout << "Edit" << std::endl;
+}
+
+void MapPropertiesDialog::deletekybox(wxCommandEvent &event){
+    std::cout << "Delete" << std::endl;
 }
