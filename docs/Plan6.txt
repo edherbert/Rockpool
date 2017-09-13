@@ -97,3 +97,9 @@ During a game, the user would have a ton of skyboxes for different situations.
 I'll probably just have a dialog in the map properties area that allows the user to add and delete sky boxes.
 It should work by having the user define the textures, and then creating a material in the code.
 This information can then be stored in the map file.
+
+So I suppose the list to add skyboxes will look a lot like the resource locations dialog.
+It will show a list of skyboxes, and maybe a thumbnail of them.
+Then the user can double click and be shown a dialog of information about the skybox, like the images that make it up.
+Later on I could add a render of the skybox in another window, but I'll do that later.
+

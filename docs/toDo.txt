@@ -19,6 +19,7 @@
 
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
+-Fix the bug where the resources are not showing up.
 
 -Do skyboxes
 -Work on cross platform

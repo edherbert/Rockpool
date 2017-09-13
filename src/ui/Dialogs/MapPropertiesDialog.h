@@ -27,10 +27,14 @@ class MapPropertiesDialog : public wxDialog
     protected:
 
     private:
-        wxListBox *list;
         MainFrame *mainFrame;
 
+        wxListBox *resourceLocationsList;
+        wxListBox *skyBoxList;
+
         void setupMapProperties(wxPanel *parent);
+        void setupResourceLocationProperties(wxPanel *parent);
+        void setupSkyBoxProperties(wxPanel *parent);
 };
 
 #endif // MAPPROPERTIESDIALOG_H
