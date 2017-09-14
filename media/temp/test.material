@@ -1,0 +1,53 @@
+material Examples/SceneCubeMap1
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				cubic_texture cubemap.jpg combinedUVW
+				tex_address_mode clamp
+				env_map cubic_reflection
+			}
+		}
+	}
+}
+
+material Examples/lakeSkyBox1
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture lake1_ft.JPG lake1_bk.JPG lake1_lf.JPG lake1_ft.JPG lake1_up.JPG lake1_dn.JPG separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/skySkyBox1
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture miramar_ft.tga miramar_bk.tga miramar_lf.tga miramar_rt.tga miramar_up.tga miramar_dn.tga separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}

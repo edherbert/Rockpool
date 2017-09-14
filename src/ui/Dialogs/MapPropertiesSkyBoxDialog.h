@@ -14,6 +14,7 @@ class MapPropertiesSkyBoxDialog : public wxDialog
     protected:
 
     private:
+        void cancelButtonPressed(wxCommandEvent &event);
 };
 
 #endif // MAPPROPERTIESSKYBOXDIALOG_H

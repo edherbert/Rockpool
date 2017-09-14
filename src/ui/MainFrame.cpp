@@ -18,6 +18,8 @@
 #include "../system/ResourceManager.h"
 #include "Hierarchy/ObjectHierarchy.h"
 
+#include "Dialogs/MapPropertiesSkyBoxDialog.h"
+
 MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1000, 1000)){
     this->main = main;
     setupMenuBar();
@@ -59,6 +61,8 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
     Connect(wxEVT_AUI_PANE_CLOSE, wxAuiManagerEventHandler(MainFrame::AUIPanelClosed));
 
     auiManager->Update();
+
+    MapPropertiesSkyBoxDialog dialog(this);
 
     Maximize();
 }

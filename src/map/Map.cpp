@@ -87,7 +87,11 @@ void Map::start(GLCanvas *canvas){
     //Whenever a move starts, create the planes, and then delete them when the job is done.
     //Move the planes when the object is moved.
 
+    sceneManager->setSkyBox(true, "Examples/skySkyBox1");
 
+    /*Plane,
+    Dome,
+    Box*/
 
     mapStarted = true;
 }
