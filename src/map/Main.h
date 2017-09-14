@@ -12,6 +12,7 @@ class GLCanvas;
 class Map;
 class ResourceManager;
 class CommandManager;
+class SkyBoxManager;
 
 struct mapInformation{
     std::string mapName;
@@ -34,6 +35,7 @@ class Main
         void setCanvas(GLCanvas *canvas);
         void setResourceManager(ResourceManager *resourceManager);
         void setCommandManager(CommandManager *commandManager);
+        void setSkyBoxManager(SkyBoxManager *skyBoxManager);
 
         Map* getCurrentMap();
         ResourceManager* getResourceManager();
@@ -55,6 +57,7 @@ class Main
     private:
         GLCanvas *canvas = 0;
         Map* currentMap = 0;
+        SkyBoxManager *skyBoxManager = 0;
 
         ResourceManager *resourceManager = 0;
         CommandManager *commandManager = 0;

@@ -305,3 +305,7 @@ void Main::redoAction(){
 CommandManager* Main::getCommandManager(){
     return commandManager;
 }
+
+void Main::setSkyBoxManager(SkyBoxManager *skyBoxManager){
+    this->skyBoxManager = skyBoxManager;
+}

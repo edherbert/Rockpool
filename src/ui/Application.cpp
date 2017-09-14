@@ -5,6 +5,7 @@
 #include "../map/Main.h"
 #include "../system/ResourceManager.h"
 #include "../system/Command/CommandManager.h"
+#include "../system/SkyBoxManager.h"
 
 IMPLEMENT_APP(MyApp)
 
@@ -14,6 +15,9 @@ bool MyApp::OnInit(){
 
     ResourceManager *resourceManager = new ResourceManager(main);
 	main->setResourceManager(resourceManager);
+
+	SkyBoxManager *skyBoxManager = new SkyBoxManager();
+	main->setSkyBoxManager(skyBoxManager);
 
 	MainFrame *mainFrame = new MainFrame(main, wxT("Rockpool"));
 

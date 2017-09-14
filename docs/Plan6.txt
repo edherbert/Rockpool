@@ -103,3 +103,13 @@ It will show a list of skyboxes, and maybe a thumbnail of them.
 Then the user can double click and be shown a dialog of information about the skybox, like the images that make it up.
 Later on I could add a render of the skybox in another window, but I'll do that later.
 
+--Skybox Dialogs--
+The dialog for the skybox is kind of important.
+It needs to be able to tell if it's loading a skybox, or editing one.
+So I think I need some sort of class that manages skyboxes.
+So for example, a skybox could be it's own class, and then could be managed by the skybox manager.
+This way, when the dialog to edit the map properties appears, the values could be loaded in from the skybox manager.
+The skybox edit dialog could then take a pointer to the skybox that's being edited at the moment.
+The manager can be in-charge of deleting and adding new skyboxes.
+Then when the user wants to select a skybox from the main menu or whatever, it can be found from the skybox manager.
+
