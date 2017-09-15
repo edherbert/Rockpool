@@ -1,9 +1,9 @@
-#include "TerrainLayerResourceDialog.h"
+#include "ResourceSelectionPopup.h"
 
 #include "../../ui/wxIDs.h"
 #include "../Resource/ResourceTile.h"
 
-TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager) : wxDialog(parent, wxID_ANY, wxT("Select Layer Image"), wxDefaultPosition, wxSize(520, 600)){
+ResourceSelectionPopup::ResourceSelectionPopup(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager) : wxDialog(parent, wxID_ANY, wxT("Select Layer Image"), wxDefaultPosition, wxSize(520, 600)){
     this->parent = parent;
     this->resManager = resManager;
 
@@ -14,9 +14,8 @@ TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, MainFra
     resourcePanel = new ResourcePanel(scrollWindow, mainFrame, resManager);
     scrollWindowSizer->Add(resourcePanel, 1, wxEXPAND);
 
-    wxButton *cancelButton = new wxButton(this, TERRAIN_LAYER_DIALOG_CANCEL, wxT("Cancel"));
-    wxButton *selectButton = new wxButton(this, TERRAIN_LAYER_DIALOG_SELECT, wxT("Select"));
-    //selectButton->Disable();
+    wxButton *cancelButton = new wxButton(this, RESOURCE_SELECT_DIALOG_CANCEL, wxT("Cancel"));
+    wxButton *selectButton = new wxButton(this, RESOURCE_SELECT_DIALOG_SELECT, wxT("Select"));
 
     wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -33,27 +32,27 @@ TerrainLayerResourceDialog::TerrainLayerResourceDialog(wxWindow *parent, MainFra
 
     SetSizer(verticalSizer);
 
-    Connect(TERRAIN_LAYER_DIALOG_CANCEL, wxEVT_BUTTON, wxCommandEventHandler(TerrainLayerResourceDialog::cancelButtonPressed));
-    Connect(TERRAIN_LAYER_DIALOG_SELECT, wxEVT_BUTTON, wxCommandEventHandler(TerrainLayerResourceDialog::selectButtonPressed));
+    Connect(RESOURCE_SELECT_DIALOG_CANCEL, wxEVT_BUTTON, wxCommandEventHandler(ResourceSelectionPopup::cancelButtonPressed));
+    Connect(RESOURCE_SELECT_DIALOG_SELECT, wxEVT_BUTTON, wxCommandEventHandler(ResourceSelectionPopup::selectButtonPressed));
 
     ShowModal();
 }
 
-TerrainLayerResourceDialog::~TerrainLayerResourceDialog(){
+ResourceSelectionPopup::~ResourceSelectionPopup(){
 
 }
 
-void TerrainLayerResourceDialog::cancelButtonPressed(wxCommandEvent &event){
+void ResourceSelectionPopup::cancelButtonPressed(wxCommandEvent &event){
     Destroy();
 }
 
-void TerrainLayerResourceDialog::selectButtonPressed(wxCommandEvent &event){
+void ResourceSelectionPopup::selectButtonPressed(wxCommandEvent &event){
     if(resourcePanel->getCurrentTile()){
         returnValue = resourcePanel->getCurrentTile()->getValue();
         Destroy();
     }
 }
 
-wxString TerrainLayerResourceDialog::getValue(){
+wxString ResourceSelectionPopup::getValue(){
     return returnValue;
 }

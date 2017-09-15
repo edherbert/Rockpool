@@ -7,7 +7,6 @@
 #include <wx/statline.h>
 
 class TerrainInfoHandler;
-class TerrainLayerResourceDialog;
 class MainFrame;
 
 class TerrainInfoLayerBox : public wxPanel

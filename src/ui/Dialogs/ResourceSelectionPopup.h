@@ -1,5 +1,5 @@
-#ifndef TERRAINLAYERRESOURCEDIALOG_H
-#define TERRAINLAYERRESOURCEDIALOG_H
+#ifndef RESOURCESELECTIONPOPUP_H
+#define RESOURCESELECTIONPOPUP_H
 
 #include <wx/wx.h>
 #include "../../system/ResourceManager.h"
@@ -9,11 +9,11 @@ class ResourceManager;
 class ResourcePanel;
 class MainFrame;
 
-class TerrainLayerResourceDialog : public wxDialog
+class ResourceSelectionPopup : public wxDialog
 {
     public:
-        TerrainLayerResourceDialog(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager);
-        virtual ~TerrainLayerResourceDialog();
+        ResourceSelectionPopup(wxWindow *parent, MainFrame *mainFrame, ResourceManager *resManager);
+        virtual ~ResourceSelectionPopup();
 
         void cancelButtonPressed(wxCommandEvent &event);
         void selectButtonPressed(wxCommandEvent &event);
@@ -31,4 +31,4 @@ class TerrainLayerResourceDialog : public wxDialog
         ResourcePanel *resourcePanel;
 };
 
-#endif // TERRAINLAYERRESOURCEDIALOG_H
+#endif // RESOURCESELECTIONPOPUP_H

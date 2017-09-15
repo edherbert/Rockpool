@@ -19,6 +19,8 @@ class MapPropertiesDialog : public wxDialog
 
         void doubleClickResourceList(wxCommandEvent &event);
 
+        MainFrame* getMainFrame();
+
     protected:
 
     private:

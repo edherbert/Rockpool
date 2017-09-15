@@ -1,10 +1,11 @@
 #include "MapPropertiesSkyBoxDialog.h"
 
 #include <wx/wx.h>
+#include "MapPropertiesDialog.h"
+#include "ResourceSelectionPopup.h"
 
-#include "../wxIDs.h"
-
-MapPropertiesSkyBoxDialog::MapPropertiesSkyBoxDialog(wxWindow *parent) : wxDialog(parent, wxID_ANY, wxT("SkyBox Properties"), wxDefaultPosition, wxSize(500, 500)){
+MapPropertiesSkyBoxDialog::MapPropertiesSkyBoxDialog(MapPropertiesDialog *parentDialog) : wxDialog(parentDialog, wxID_ANY, wxT("SkyBox Properties"), wxDefaultPosition, wxSize(500, 500)){
+    this->parentDialog = parentDialog;
     wxBoxSizer *skyBoxDialogMainSizer = new wxBoxSizer(wxVERTICAL);
     SetSizer(skyBoxDialogMainSizer);
 
@@ -27,7 +28,8 @@ MapPropertiesSkyBoxDialog::MapPropertiesSkyBoxDialog(wxWindow *parent) : wxDialo
 
         wxBoxSizer *contentVertical = new wxBoxSizer(wxVERTICAL);
 
-        wxStaticBitmap *icon = new wxStaticBitmap(content, wxID_ANY, iconImage);
+        //wxStaticBitmap *icon = new wxStaticBitmap(content, wxID_ANY, iconImage);
+        wxBitmapButton *icon = new wxBitmapButton(content, buttonIDs[i], iconImage);
         wxStaticText *label = new wxStaticText(content, wxID_ANY, imageNames[i]);
 
         contentVertical->Add(icon, 1, wxEXPAND);
@@ -35,11 +37,13 @@ MapPropertiesSkyBoxDialog::MapPropertiesSkyBoxDialog(wxWindow *parent) : wxDialo
 
         content->SetSizer(contentVertical);
         skyBoxGridSizer->Add(content, 1, wxEXPAND);
+
+        Connect(buttonIDs[i], wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesSkyBoxDialog::imageButtonPressed));
     }
 
     wxBoxSizer *skyBoxHorizontalButtons = new wxBoxSizer(wxHORIZONTAL);
     wxButton *cancelButton = new wxButton(this, DIALOG_SKYBOX_CANCEL, wxT("Cancel"));
-    wxButton *OkButton = new wxButton(this, wxID_ANY, wxT("OK"));
+    wxButton *OkButton = new wxButton(this, DIALOG_SKYBOX_OK, wxT("OK"));
 
     skyBoxHorizontalButtons->Add(cancelButton, 0, wxALL, 10);
     skyBoxHorizontalButtons->Add(new wxPanel(this), 1, wxEXPAND);
@@ -59,6 +63,9 @@ MapPropertiesSkyBoxDialog::~MapPropertiesSkyBoxDialog(){
 }
 
 void MapPropertiesSkyBoxDialog::cancelButtonPressed(wxCommandEvent &event){
-std::cout << "hello" << std::endl;
     Close();
+}
+
+void MapPropertiesSkyBoxDialog::imageButtonPressed(wxCommandEvent &event){
+    ResourceSelectionPopup(this, parentDialog->getMainFrame(), parentDialog->getMainFrame()->getResourceManager());
 }

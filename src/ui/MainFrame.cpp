@@ -62,7 +62,7 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
 
     auiManager->Update();
 
-    MapPropertiesSkyBoxDialog dialog(this);
+    //MapPropertiesSkyBoxDialog dialog(this);
 
     Maximize();
 }

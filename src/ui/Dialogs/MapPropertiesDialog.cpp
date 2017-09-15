@@ -199,3 +199,7 @@ void MapPropertiesDialog::editSkybox(wxCommandEvent &event){
 void MapPropertiesDialog::deletekybox(wxCommandEvent &event){
     std::cout << "Delete" << std::endl;
 }
+
+MainFrame* MapPropertiesDialog::getMainFrame(){
+    return mainFrame;
+}

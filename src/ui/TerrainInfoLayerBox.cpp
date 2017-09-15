@@ -2,7 +2,7 @@
 
 #include "MainFrame.h"
 #include "wxIDs.h"
-#include "Dialogs/TerrainLayerResourceDialog.h"
+#include "Dialogs/ResourceSelectionPopup.h"
 #include "GLCanvas.h"
 
 TerrainInfoLayerBox::TerrainInfoLayerBox(wxWindow *parent, MainFrame *mainFrame, wxBoxSizer *parentSizer, TerrainInfoHandler *handler) : wxPanel(parent, wxID_ANY){
@@ -78,7 +78,7 @@ std::string TerrainInfoLayerBox::getInfo(){
 }
 
 void TerrainInfoLayerBox::imageSelectButtonPressed(wxCommandEvent &event){
-    TerrainLayerResourceDialog dialog(this, mainFrame, handler->getMainFrame()->getResourceManager());
+    ResourceSelectionPopup dialog(this, mainFrame, handler->getMainFrame()->getResourceManager());
     if(dialog.getValue() != wxEmptyString){
         handler->setTerrainTextureName(GetId(), dialog.getValue());
 
