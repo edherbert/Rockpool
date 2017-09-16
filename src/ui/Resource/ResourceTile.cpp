@@ -1,38 +1,34 @@
 #include "ResourceTile.h"
 
+#include <wx/filename.h>
+
 #include "ResourcePanel.h"
-#include "ResourceTileCover.h"
+#include "../MainFrame.h"
+#include "../Hierarchy/ObjectHierarchy.h"
+#include "../Hierarchy/HierarchyTree.h"
 
 ResourceTile::ResourceTile(wxWindow *parent, ResourcePanel *resPanel, wxBitmap *defaultBitmap) : wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(100, 100)){
     this->resPanel = resPanel;
     this->defaultBitmap = defaultBitmap;
     this->parent = parent;
 
-    wxStaticBitmap *icon = new wxStaticBitmap(this, wxID_ANY, *defaultBitmap, wxPoint(25, 0), wxSize(50, 50));
+    Connect(wxEVT_PAINT, wxPaintEventHandler(ResourceTile::paintTile));
 
-    label = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
-
-    wxBoxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
-    wxBoxSizer *horizontal = new wxBoxSizer(wxHORIZONTAL);
-
-    horizontal->Add(new wxPanel(this), 1, wxEXPAND);
-
-    horizontal->Add(icon, 0);
-    horizontal->Add(new wxPanel(this), 1, wxEXPAND);
-
-    verticalSizer->Add(wxID_ANY, 2);
-    verticalSizer->Add(horizontal, 0, wxEXPAND);
-    verticalSizer->Add(label, 1, wxEXPAND);
-
-    SetSizer(verticalSizer);
-
-    label->Wrap(100);
-
-    cover = new ResourceTileCover(resPanel, this);
+    Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(ResourceTile::mouseDown));
+    Connect(wxEVT_LEFT_UP, wxMouseEventHandler(ResourceTile::mouseUp));
+    Connect(wxEVT_MOTION, wxMouseEventHandler(ResourceTile::mouseMoved));
 }
 
 ResourceTile::~ResourceTile(){
 
+}
+
+void ResourceTile::paintTile(wxPaintEvent &event){
+    wxPaintDC dc(this);
+    dc.Clear();
+
+    dc.DrawBitmap(*defaultBitmap, 50 - (defaultBitmap->GetWidth() / 2), 0);
+    dc.DrawText(currentLabel, wxPoint(0, 50));
 }
 
 void ResourceTile::setLabel(const wxString &l){
@@ -55,7 +51,8 @@ void ResourceTile::setLabel(const wxString &l){
         }
     }
 
-    label->SetLabel(newString);
+    //label->SetLabel(newString);
+    currentLabel = newString;
     currentValue = l;
 
     int height = 50 + dc.GetTextExtent(newString).GetHeight();
@@ -65,11 +62,11 @@ void ResourceTile::setLabel(const wxString &l){
         setSize(100, height + 10);
     }
 
-    Layout();
+    //Layout();
 }
 
 wxString ResourceTile::getLabel(){
-    return label->GetLabel();
+    return currentLabel;
 }
 
 wxString ResourceTile::getValue(){
@@ -78,7 +75,6 @@ wxString ResourceTile::getValue(){
 
 void ResourceTile::setId(int id){
     this->id = id;
-    cover->setId(id);
 }
 
 int ResourceTile::getId(){
@@ -87,12 +83,10 @@ int ResourceTile::getId(){
 
 void ResourceTile::setPosition(int x, int y){
     SetPosition(wxPoint(x, y));
-    cover->SetPosition(wxPoint(x, y));
 }
 
 void ResourceTile::setSize(int width, int height){
     SetSize(width, height);
-    cover->SetSize(width, height);
 }
 
 void ResourceTile::selectTile(){
@@ -107,4 +101,27 @@ void ResourceTile::deSelectTile(){
 
 wxSize ResourceTile::getSize(){
     return GetSize();
+}
+
+void ResourceTile::mouseDown(wxMouseEvent &event){
+    resPanel->selectTile(getId());
+}
+
+void ResourceTile::mouseMoved(wxMouseEvent &event){
+    if(wxGetMouseState().LeftDown()){
+        wxFileName name(getValue());
+
+        resPanel->beginDragAnim();
+        resPanel->updateDragAnim();
+        if(name.GetExt() == "mesh"){
+            resPanel->getMainFrame()->getObjectHierarchy()->getTree()->beginResourceDrag(getValue());
+            resPanel->getMainFrame()->getObjectHierarchy()->getTree()->updateResourceDrag();
+        }
+    }
+}
+
+void ResourceTile::mouseUp(wxMouseEvent &event){
+    resPanel->endDragAnim();
+
+    resPanel->getMainFrame()->getObjectHierarchy()->getTree()->endResourceDrag();
 }

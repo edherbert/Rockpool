@@ -34,14 +34,20 @@ class ResourceTile : public wxPanel
     private:
         ResourcePanel *resPanel;
         wxWindow *parent;
-        ResourceTileCover *cover;
 
         wxBitmap *defaultBitmap;
+
+        void paintTile(wxPaintEvent &event);
 
         int id = 0;
 
         wxStaticText *label;
         wxString currentValue = "";
+        wxString currentLabel = "";
+
+        void mouseDown(wxMouseEvent &event);
+        void mouseMoved(wxMouseEvent &event);
+        void mouseUp(wxMouseEvent &event);
 };
 
 #endif // RESOURCETILE_H

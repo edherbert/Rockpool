@@ -20,7 +20,11 @@ ResourcePanel::~ResourcePanel(){
 }
 
 void ResourcePanel::updateTiles(){
-//This creates all the tiles and sets their data, however does not position them.
+    //This creates all the tiles and sets their data, however does not position them.
+
+    //Tiles are created based on the number of items in the list.
+    //If the list shrinks slightly, the number of tiles will be reduced, but won't be completely cleared.
+    //So the ones at the start of the list will probably just be re-labeled.
     std::vector<resourceLocation*> locations = resManager->getResources();
 
     int totalSize = 0;
