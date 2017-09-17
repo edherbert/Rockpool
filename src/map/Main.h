@@ -40,6 +40,7 @@ class Main
         Map* getCurrentMap();
         ResourceManager* getResourceManager();
         CommandManager* getCommandManager();
+        SkyBoxManager* getSkyBoxManager();
 
         bool addResourceLocation(wxString path, bool insertAtIndex = false, int index = 0);
         void removeResourceLocation(wxString path);

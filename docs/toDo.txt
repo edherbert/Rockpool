@@ -25,25 +25,16 @@
 -Work on cross platform
 -Do logo and polish
 
--Begin work on the terrain things (This might require some planning)
--Change the new map dialog
--Remove the event table from the main frame
+-Multiple canvases
 -Show axis lines when entities are moved.
 -Implement rotating
 -Implement scaling.
-
-
-Things to do before entity work begins:
-    -Implement a key that immediately locks the canvas into focus.
-    -Multiple canvases (only two should be allowed.)
-    -Think more about how the objects should work.
 
 -Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make it so that the user cannot alter the terrain using the fps camera
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 -Move the terrain info things into their own directory
--Remove the file save locations from the map properties.
 
 -Before Clipboard commands, do the object integration.
 
@@ -335,3 +326,12 @@ Things to do before entity work begins:
 -Make the way entities are moved nicer. This should align with the cursor, and the cursor should warp when moved too far.
 
 -Implement the right click camera system
+
+-Remove the file save locations from the map properties.
+-Begin work on the terrain things (This might require some planning)
+-Change the new map dialog (This can stay as it is for now)
+-Remove the event table from the main frame
+Things to do before entity work begins: (A lot of these things have been done)
+    -Implement a key that immediately locks the canvas into focus. (This was replaced with the right click system)
+    -Multiple canvases (only two should be allowed.) (Haven't done this yet, I'll push it to the top)
+    -Think more about how the objects should work. (Done and implemented)

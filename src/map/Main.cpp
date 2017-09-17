@@ -309,3 +309,7 @@ CommandManager* Main::getCommandManager(){
 void Main::setSkyBoxManager(SkyBoxManager *skyBoxManager){
     this->skyBoxManager = skyBoxManager;
 }
+
+SkyBoxManager* Main::getSkyBoxManager(){
+    return skyBoxManager;
+}

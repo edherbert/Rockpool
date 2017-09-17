@@ -18,6 +18,7 @@ class MapPropertiesDialog : public wxDialog
         virtual ~MapPropertiesDialog();
 
         void doubleClickResourceList(wxCommandEvent &event);
+        void updateSkyBoxes();
 
         MainFrame* getMainFrame();
 
@@ -41,7 +42,7 @@ class MapPropertiesDialog : public wxDialog
 
         void addSkybox(wxCommandEvent &event);
         void editSkybox(wxCommandEvent &event);
-        void deletekybox(wxCommandEvent &event);
+        void deleteSkybox(wxCommandEvent &event);
 };
 
 #endif // MAPPROPERTIESDIALOG_H

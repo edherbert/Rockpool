@@ -11,6 +11,12 @@ class SkyBoxManager
         SkyBoxManager();
         virtual ~SkyBoxManager();
 
+        void addSkyBox(SkyBox *skybox);
+
+        int getSkyBoxCount();
+        SkyBox* getSkyBoxAt(int index);
+        void deleteSkyBoxAt(int index);
+
     protected:
 
     private:
