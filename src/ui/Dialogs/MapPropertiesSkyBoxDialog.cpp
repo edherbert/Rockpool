@@ -27,8 +27,6 @@ MapPropertiesSkyBoxDialog::MapPropertiesSkyBoxDialog(MapPropertiesDialog *parent
 
     wxGridSizer *skyBoxGridSizer = new wxGridSizer(2, 3, 5, 5);
 
-    wxString imageNames[6] = {"Front", "Back", "Left", "Right", "Top", "Bottom"};
-
     wxColour blue("#0000FF");
     wxBitmap iconImage(wxT("../media/img/icon.png"));
     for(int i = 0; i < 6; i++){
@@ -41,7 +39,7 @@ MapPropertiesSkyBoxDialog::MapPropertiesSkyBoxDialog(MapPropertiesDialog *parent
         wxStaticText *directionName = new wxStaticText(content, wxID_ANY, "");
         pathStrings[i] = directionName;
 
-        wxStaticText *directionLabel = new wxStaticText(content, wxID_ANY, imageNames[i]);
+        wxStaticText *directionLabel = new wxStaticText(content, wxID_ANY, skyBoxImageNames[i]);
 
         contentVertical->Add(icon, 1, wxEXPAND);
         contentVertical->Add(directionName, 0, wxALIGN_CENTRE_HORIZONTAL);

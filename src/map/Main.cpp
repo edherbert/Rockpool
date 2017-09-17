@@ -11,8 +11,9 @@
 #include "../system/ResourceManager.h"
 #include "../system/Command/CommandManager.h"
 #include "../ui/Hierarchy/ObjectHierarchy.h"
-
 #include "../ui/Resource/ResourceBrowser.h"
+#include "SkyBox.h"
+#include "../system/SkyBoxManager.h"
 
 #include "../util/tinyxml2.h"
 
@@ -40,11 +41,13 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
 
     tinyxml2::XMLNode *root = xmlDoc.FirstChild();
     if(!root){
+        //Don't do a success change here, just git up straight away.
         showLoadFailedPopup();
         return;
     }
     tinyxml2::XMLElement *header = root->FirstChildElement("Header");
     tinyxml2::XMLElement *resources = root->FirstChildElement("Resources");
+    tinyxml2::XMLElement *skyBoxes = root->FirstChildElement("SkyBoxes");
 
     mapInformation info;
     Ogre::Vector3 cameraPosition(0, 100, 200);
@@ -84,7 +87,24 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
                 success = false;
             }
         }
-    }else success = false;
+    }
+
+    if(skyBoxes){
+        for(tinyxml2::XMLElement *e = skyBoxes->FirstChildElement("SkyBox"); e != NULL; e = e->NextSiblingElement("SkyBox")){
+            if(e){
+                SkyBox *skyBox = new SkyBox();
+                skyBox->setName(e->Attribute("name"));
+
+                for(int i = 0; i < 6; i++){
+                    skyBox->setSkyBoxValue(i, e->Attribute(skyBoxImageNames[i]));
+                }
+
+                skyBoxManager->addSkyBox(skyBox);
+            }else{
+                success = false;
+            }
+        }
+    }
 
     if(resourceManager){
         resourceManager->checkResourceLocations();
@@ -189,11 +209,27 @@ void Main::createProjectFile(std::string filePath, mapInformation info){
     for(wxString i : resourceLocationPaths){
         tinyxml2::XMLElement *location = doc.NewElement("location");
         location->SetAttribute("path", ((std::string)i).c_str());
-        resources->InsertFirstChild(location);
+        resources->InsertEndChild(location);
+    }
+
+    tinyxml2::XMLNode *SkyBoxes = doc.NewElement("SkyBoxes");
+    for(int i = 0; i < skyBoxManager->getSkyBoxCount(); i++){
+        tinyxml2::XMLElement *location = doc.NewElement("SkyBox");
+
+        SkyBox *skyBox = skyBoxManager->getSkyBoxAt(i);
+
+        location->SetAttribute("name", ((std::string)skyBox->getName()).c_str());
+
+        for(int i = 0; i < 6; i++){
+            location->SetAttribute(((std::string)skyBoxImageNames[i]).c_str(), ((std::string)skyBox->getSkyBoxValue(i)).c_str());
+        }
+
+        SkyBoxes->InsertEndChild(location);
     }
 
     rockpoolProject->InsertFirstChild(header);
     rockpoolProject->InsertEndChild(resources);
+    rockpoolProject->InsertEndChild(SkyBoxes);
     doc.InsertFirstChild(rockpoolProject);
     doc.SaveFile(filePath.c_str());
 }

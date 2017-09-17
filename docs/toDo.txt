@@ -21,7 +21,8 @@
 -Fix the bugs with the scroll bars.
 -Fix the bug where the resources are not showing up.
 
--Do skyboxes
+-Saving and loading skyboxes
+-Figure out what the skybox / lighting / Gizmo input will look like
 -Work on cross platform
 -Do logo and polish
 
@@ -335,3 +336,5 @@ Things to do before entity work begins: (A lot of these things have been done)
     -Implement a key that immediately locks the canvas into focus. (This was replaced with the right click system)
     -Multiple canvases (only two should be allowed.) (Haven't done this yet, I'll push it to the top)
     -Think more about how the objects should work. (Done and implemented)
+
+-Do skyboxes

@@ -41,9 +41,10 @@ MapPropertiesDialog::MapPropertiesDialog(MainFrame *mainFrame, wxWindow *parent)
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_DELETE, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::resourcesDeleteLocation));
     Connect(MAP_PROPERTIES_DIALOG_RESOURCES_LIST, wxEVT_LISTBOX_DCLICK, wxCommandEventHandler(MapPropertiesDialog::doubleClickResourceList));
 
-    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_ADD, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::addSkybox));
-    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_DELETE, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::deleteSkybox));
-    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_EDIT, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::editSkybox));
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_ADD, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::addSkyboxButton));
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_DELETE, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::deleteSkyboxButton));
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_EDIT, wxEVT_BUTTON, wxCommandEventHandler(MapPropertiesDialog::editSkyboxButton));
+    Connect(MAP_PROPERTIES_DIALOG_SKYBOX_LIST, wxEVT_LISTBOX_DCLICK, wxCommandEventHandler(MapPropertiesDialog::doubleClickSkyBoxList));
 
     ShowModal();
 }
@@ -191,19 +192,15 @@ void MapPropertiesDialog::doubleClickResourceList(wxCommandEvent &event){
 }
 
 
-void MapPropertiesDialog::addSkybox(wxCommandEvent &event){
+void MapPropertiesDialog::addSkyboxButton(wxCommandEvent &event){
     MapPropertiesSkyBoxDialog dialog(this);
 }
 
-void MapPropertiesDialog::editSkybox(wxCommandEvent &event){
-    int index = skyBoxList->GetSelection();
-    if(index == wxNOT_FOUND) return;
-
-    SkyBox *skyBox = mainFrame->getMain()->getSkyBoxManager()->getSkyBoxAt(index);
-    MapPropertiesSkyBoxDialog dialog(this, skyBox);
+void MapPropertiesDialog::editSkyboxButton(wxCommandEvent &event){
+    editSkyBox();
 }
 
-void MapPropertiesDialog::deleteSkybox(wxCommandEvent &event){
+void MapPropertiesDialog::deleteSkyboxButton(wxCommandEvent &event){
     int index = skyBoxList->GetSelection();
     if(index == wxNOT_FOUND) return;
 
@@ -227,4 +224,16 @@ void MapPropertiesDialog::updateSkyBoxes(){
 
 MainFrame* MapPropertiesDialog::getMainFrame(){
     return mainFrame;
+}
+
+void MapPropertiesDialog::doubleClickSkyBoxList(wxCommandEvent &event){
+    editSkyBox();
+}
+
+void MapPropertiesDialog::editSkyBox(){
+    int index = skyBoxList->GetSelection();
+    if(index == wxNOT_FOUND) return;
+
+    SkyBox *skyBox = mainFrame->getMain()->getSkyBoxManager()->getSkyBoxAt(index);
+    MapPropertiesSkyBoxDialog dialog(this, skyBox);
 }
