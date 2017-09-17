@@ -72,7 +72,7 @@ void GLCanvas::renderFrame(){
     Ogre::Root::getSingleton().renderOneFrame();
 
     //glFlush();
-    //SwapBuffers();
+    SwapBuffers();
     window->update(true);
 }
 

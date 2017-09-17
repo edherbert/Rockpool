@@ -69,7 +69,7 @@ void Map::start(GLCanvas *canvas){
 
     testSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode();
     Ogre::Entity *testEntity = sceneManager->createEntity("Sinbad.mesh");
-    testSceneNode->attachObject(testEntity);
+    //testSceneNode->attachObject(testEntity);
 
     axisPlanes[0] = new Ogre::Plane(Ogre::Vector3::UNIT_X, selectionCentrePosition);
     axisPlanes[1] = new Ogre::Plane(Ogre::Vector3::UNIT_Y, selectionCentrePosition);

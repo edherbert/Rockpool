@@ -19,12 +19,11 @@
 
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
--Fix the bug where the resources are not showing up.
 
--Saving and loading skyboxes
 -Figure out what the skybox / lighting / Gizmo input will look like
--Work on cross platform
 -Do logo and polish
+-Re-implement a mouse grabbing feature for laptops.
+-Fix the error with the duplication of the temp resource directory
 
 -Multiple canvases
 -Show axis lines when entities are moved.
@@ -338,3 +337,6 @@ Things to do before entity work begins: (A lot of these things have been done)
     -Think more about how the objects should work. (Done and implemented)
 
 -Do skyboxes
+-Saving and loading skyboxes
+-Fix the bug where the resources are not showing up.
+-Work on cross platform

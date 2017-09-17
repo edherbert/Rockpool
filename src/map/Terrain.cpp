@@ -25,11 +25,11 @@ Terrain::Terrain(Ogre::SceneManager *sceneManager, std::string path, std::string
         }
     }
 
-    terrainGroup->loadAllTerrains(true);
-
-    terrainGroup->freeTemporaryResources();
-
-    terrainGroup->saveAllTerrains(true);
+    if(TERRAIN_ENABLED){
+        terrainGroup->loadAllTerrains(true);
+        terrainGroup->freeTemporaryResources();
+        terrainGroup->saveAllTerrains(true);
+    }
 }
 
 Terrain::~Terrain(){
