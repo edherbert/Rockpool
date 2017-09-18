@@ -17,8 +17,7 @@
 #include "Resource/ResourceBrowser.h"
 #include "../system/ResourceManager.h"
 #include "Hierarchy/ObjectHierarchy.h"
-
-#include "Dialogs/MapPropertiesSkyBoxDialog.h"
+#include "Inspector/ObjectInspector.h"
 
 MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1000, 1000)){
     this->main = main;
@@ -44,6 +43,9 @@ MainFrame::MainFrame(Main *main, const wxString &title) : wxFrame(NULL, wxID_ANY
 
     objectHierarchy = new ObjectHierarchy(this, auiManager);
     objectHierarchy->setObjectHierarchyVisible(true);
+
+    objectInspector = new ObjectInspector(this, auiManager);
+    objectInspector->setObjectInspectorVisability(true);
 
     toolPanelHandler = new ToolsPanelHandler(this, auiManager);
     toolPanelHandler->setToolPanelVisibility(true);
@@ -114,10 +116,12 @@ void MainFrame::setupMenuBar(){
     showTerrainInfo = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_TERRAIN_INFO, wxT("Show Terrain Info"), wxEmptyString, wxITEM_CHECK);
     showResourceBrowser = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxT("Show Resource Browser"), wxEmptyString, wxITEM_CHECK);
     showObjectHierarchy = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_OBJECT_HIERARCHY, wxT("Show Object Hierarchy"), wxEmptyString, wxITEM_CHECK);
+    showObjectInspector = new wxMenuItem(dockableWindows, MENU_WINDOW_SHOW_OBJECT_INSPECTOR, wxT("Show Object Inspector"), wxEmptyString, wxITEM_CHECK);
     dockableWindows->Append(showToolPreferences);
     dockableWindows->Append(showTerrainInfo);
     dockableWindows->Append(showResourceBrowser);
     dockableWindows->Append(showObjectHierarchy);
+    dockableWindows->Append(showObjectInspector);
 
     showTerrainToolbar = new wxMenuItem(toolbars, MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxT("Show Terrain Toolbar"), wxEmptyString, wxITEM_CHECK);
     toolbars->Append(showTerrainToolbar);
@@ -137,10 +141,11 @@ void MainFrame::setupMenuBar(){
 
     Connect(MENU_MAP_MAP_PROPERTIES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::openMapProperties));
 
-    Connect(MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowToolPreferences));
-    Connect(MENU_WINDOW_SHOW_TERRAIN_INFO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainInfo));
-    Connect(MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowResourceBrowser));
-    Connect(MENU_WINDOW_SHOW_OBJECT_HIERARCHY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowObjectHierarchy));
+    Connect(MENU_WINDOW_SHOW_TOOL_PREFERENCES, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::menuShowWindow));
+    Connect(MENU_WINDOW_SHOW_TERRAIN_INFO, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::menuShowWindow));
+    Connect(MENU_WINDOW_SHOW_RESOURCE_BROWSER, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::menuShowWindow));
+    Connect(MENU_WINDOW_SHOW_OBJECT_HIERARCHY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::menuShowWindow));
+    Connect(MENU_WINDOW_SHOW_OBJECT_INSPECTOR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::menuShowWindow));
 
     Connect(MENU_WINDOW_SHOW_TERRAIN_TOOLBAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::ShowTerrainToolbar));
 
@@ -188,16 +193,18 @@ void MainFrame::openMapProperties(wxCommandEvent& WXUNUSED(event)){
     MapPropertiesDialog dialog(this, this);
 }
 
-void MainFrame::ShowToolPreferences(wxCommandEvent &event){
-    toolPreferencesHandler->setToolPreferencesVisability(event.IsChecked());
-}
-
 void MainFrame::undoAction(wxCommandEvent &event){
     main->undoAction();
 }
 
 void MainFrame::redoAction(wxCommandEvent &event){
     main->redoAction();
+}
+
+
+
+void MainFrame::ShowToolPreferences(wxCommandEvent &event){
+    toolPreferencesHandler->setToolPreferencesVisability(event.IsChecked());
 }
 
 void MainFrame::ShowTerrainInfo(wxCommandEvent &event){
@@ -210,6 +217,20 @@ void MainFrame::ShowResourceBrowser(wxCommandEvent &event){
 
 void MainFrame::ShowObjectHierarchy(wxCommandEvent &event){
     objectHierarchy->setObjectHierarchyVisible(event.IsChecked());
+}
+
+void MainFrame::menuShowWindow(wxCommandEvent &event){
+    if(event.GetId() == MENU_WINDOW_SHOW_TOOL_PREFERENCES){
+        toolPreferencesHandler->setToolPreferencesVisability(event.IsChecked());
+    }else if(event.GetId() == MENU_WINDOW_SHOW_TERRAIN_INFO){
+        terrainInfoHandler->setTerrainInfoVisability(event.IsChecked());
+    }else if(event.GetId() == MENU_WINDOW_SHOW_RESOURCE_BROWSER){
+        resourceBrowser->setResourceBrowserVisability(event.IsChecked());
+    }else if(event.GetId() == MENU_WINDOW_SHOW_OBJECT_HIERARCHY){
+        objectHierarchy->setObjectHierarchyVisible(event.IsChecked());
+    }else if(event.GetId() == MENU_WINDOW_SHOW_OBJECT_INSPECTOR){
+        objectInspector->setObjectInspectorVisability(event.IsChecked());
+    }
 }
 
 void MainFrame::ShowTerrainToolbar(wxCommandEvent &event){
@@ -249,6 +270,9 @@ void MainFrame::AUIPanelClosed(wxAuiManagerEvent &event){
     }
     if(event.GetPane()->name == "ObjectHierarchy"){
         objectHierarchy->setObjectHierarchyVisible(false);
+    }
+    if(event.GetPane()->name == "ObjectInspector"){
+        objectInspector->setObjectInspectorVisability(false);
     }
 }
 

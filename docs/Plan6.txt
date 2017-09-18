@@ -113,3 +113,54 @@ The skybox edit dialog could then take a pointer to the skybox that's being edit
 The manager can be in-charge of deleting and adding new skyboxes.
 Then when the user wants to select a skybox from the main menu or whatever, it can be found from the skybox manager.
 
+
+--Plan for the user interface--
+By the time the final product comes out, there will be a few things about it that will have changed.
+I think it would be a good idea to keep the toolbar items.
+They can have a few things in them, like a button to start up the game, undo and redo buttons and maybe some others.
+The terrain tools in there at the moment aren't doing any thing bad, so I'll leave them.
+
+Points:
+    I want to give the user the ability to place thing actually on the terrain based on a ray.
+    This will include dragging things in from the window.
+
+    Things can be selected from the hierarchy, or from within the map.
+    I'm not sure if I need a tool to do this.
+
+    Items can be moved around with their axis arrow things.
+    This will also involve a click.
+
+    I might need a feature, like being able to hold down control to get to the selection tool.
+
+
+keys:
+    Key when terrain editing to do the opposite
+    Key to get to the selection tool.
+
+Maybe, when an item is selected, pressing the m button will begin to drag the item along the terrain, if there is any terrain.
+
+What I'm thinking at the moment is having a section in the information panel for the map.
+This could contain attributes, light values and other things.
+In here you could select the skybox currently in use, as well as some other things.
+
+For that then, it would be a good idea to start preparing for the object inspector.
+
+--Object Inspector--
+This could be the most important panel in the entire programme.
+It would be incharge of supplying information about the object that's currently selected.
+There is quite a bit of information that the panel will have to show.
+A lot of this content will also be repeated, for example, pretty much every object will have an object attributes section.
+So for this reason I think it might be a good idea to abstract out the ui and have it be show and hidden according to when it's needed
+There would be no point in re-creating it.
+
+A lot of engines assign components to objects.
+This sort of thing would be a physics body, for example.
+I'm not sure if I'm going to need something like that.
+
+The object attributes section might be important.
+That's where you can assign attributes to objects.
+I might eventually implement a feature where you can pop that section out, but for now I don't suppose I would need that.
+I suppose I could call this section just attributes.
+So depending on what type of object the object being inspected is, it can have different things done to it.
+
+

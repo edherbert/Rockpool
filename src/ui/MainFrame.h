@@ -12,6 +12,7 @@ class TerrainInfoHandler;
 class ResourceBrowser;
 class ResourceManager;
 class ObjectHierarchy;
+class ObjectInspector;
 
 struct HandlerData{
     ToolPreferencesHandler *toolPreferencesHandler;
@@ -32,6 +33,7 @@ public:
     wxMenuItem *showTerrainToolbar;
     wxMenuItem *showResourceBrowser;
     wxMenuItem *showObjectHierarchy;
+    wxMenuItem *showObjectInspector;
 
     ToolPreferencesHandler* getToolPreferencesHandler();
     TerrainInfoHandler* getTerrainInfoHandler();
@@ -51,6 +53,7 @@ private:
 	TerrainInfoHandler *terrainInfoHandler;
 	ResourceBrowser *resourceBrowser;
 	ObjectHierarchy *objectHierarchy;
+	ObjectInspector *objectInspector;
 
 	void setupMenuBar();
 
@@ -65,6 +68,8 @@ private:
     void ShowTerrainInfo(wxCommandEvent &event);
     void ShowResourceBrowser(wxCommandEvent &event);
     void ShowObjectHierarchy(wxCommandEvent &event);
+
+    void menuShowWindow(wxCommandEvent &event);
 
     void clipboardAction(wxCommandEvent &event);
 

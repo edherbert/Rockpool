@@ -1,6 +1,9 @@
 #include "ObjectHierarchy.h"
 
-#include <wx/wx.h>
+#include <wx/panel.h>
+#include <wx/aui/aui.h>
+#include <wx/menuitem.h>
+
 #include "../../system/Command/Object/DeleteObjectCommand.h"
 #include "../../system/Command/Object/PasteObjectCommand.h"
 #include "../../system/Command/CommandManager.h"
@@ -25,6 +28,8 @@ ObjectHierarchy::ObjectHierarchy(MainFrame *mainFrame, wxAuiManager *auiManager)
     vertical->Add(tree, 1, wxEXPAND);
 
     SetSizer(vertical);
+
+    setObjectHierarchyVisible(false);
 }
 
 ObjectHierarchy::~ObjectHierarchy(){
