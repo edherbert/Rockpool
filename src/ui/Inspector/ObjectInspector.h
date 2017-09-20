@@ -5,6 +5,9 @@
 
 class MainFrame;
 class wxAuiManager;
+class wxBoxSizer;
+class InspectorComponent;
+class ObjectNameComponent;
 
 class ObjectInspector : public wxPanel
 {
@@ -14,11 +17,17 @@ class ObjectInspector : public wxPanel
 
         void setObjectInspectorVisability(bool visible);
 
+        void addObjectComponent(InspectorComponent *component);
+
     protected:
 
     private:
         MainFrame *mainFrame;
         wxAuiManager *auiManager;
+
+        ObjectNameComponent *nameComponent;
+
+        wxBoxSizer *mainSizer;
 
         bool inspectorVisible = false;
 };

@@ -201,24 +201,6 @@ void MainFrame::redoAction(wxCommandEvent &event){
     main->redoAction();
 }
 
-
-
-void MainFrame::ShowToolPreferences(wxCommandEvent &event){
-    toolPreferencesHandler->setToolPreferencesVisability(event.IsChecked());
-}
-
-void MainFrame::ShowTerrainInfo(wxCommandEvent &event){
-    terrainInfoHandler->setTerrainInfoVisability(event.IsChecked());
-}
-
-void MainFrame::ShowResourceBrowser(wxCommandEvent &event){
-    resourceBrowser->setResourceBrowserVisability(event.IsChecked());
-}
-
-void MainFrame::ShowObjectHierarchy(wxCommandEvent &event){
-    objectHierarchy->setObjectHierarchyVisible(event.IsChecked());
-}
-
 void MainFrame::menuShowWindow(wxCommandEvent &event){
     if(event.GetId() == MENU_WINDOW_SHOW_TOOL_PREFERENCES){
         toolPreferencesHandler->setToolPreferencesVisability(event.IsChecked());

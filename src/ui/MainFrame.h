@@ -63,11 +63,7 @@ private:
 
     void openMapProperties(wxCommandEvent& event);
 
-    void ShowToolPreferences(wxCommandEvent& event);
     void ShowTerrainToolbar(wxCommandEvent &event);
-    void ShowTerrainInfo(wxCommandEvent &event);
-    void ShowResourceBrowser(wxCommandEvent &event);
-    void ShowObjectHierarchy(wxCommandEvent &event);
 
     void menuShowWindow(wxCommandEvent &event);
 

@@ -4,6 +4,7 @@
 #include <wx/menuitem.h>
 
 #include "../MainFrame.h"
+#include "ObjectNameComponent.h"
 
 ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
@@ -18,6 +19,17 @@ ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager)
     auiManager->AddPane(this, info);
 
     setObjectInspectorVisability(false);
+
+
+    mainSizer = new wxBoxSizer(wxVERTICAL);
+    SetSizer(mainSizer);
+
+    nameComponent = new ObjectNameComponent(this);
+
+    addObjectComponent(nameComponent);
+
+    //Create the items manually, cos there isn't going to be that many.
+    //When an object is selected, calls to each individual component can be made.
 }
 
 ObjectInspector::~ObjectInspector(){
@@ -34,4 +46,8 @@ void ObjectInspector::setObjectInspectorVisability(bool visible){
     }
     auiManager->Update();
     inspectorVisible = visible;
+}
+
+void ObjectInspector::addObjectComponent(InspectorComponent *component){
+    mainSizer->Add(component, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 }

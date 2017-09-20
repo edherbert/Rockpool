@@ -163,4 +163,14 @@ I might eventually implement a feature where you can pop that section out, but f
 I suppose I could call this section just attributes.
 So depending on what type of object the object being inspected is, it can have different things done to it.
 
+--Object Components--
+Components is basically the name I'm going to give to the parts of the objects.
+Objects posess different components based on what sort of object they are.
+A component will be a panel that's inherited from.
+The purpose of the object inspector will just be showing the components that need to be shown based on what sort of item is selected.
+Components can then be filled with stuff relevant to the object.
 
+So I'll need a component class which can then be inherited from.
+The object inspector will have to have one of each type of component, they can just be shown and hidden depending on the object.
+
+From here, the best thing to do would be to construct the component class and try to get it to appear in the inspector.
