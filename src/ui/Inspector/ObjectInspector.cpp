@@ -5,6 +5,7 @@
 
 #include "../MainFrame.h"
 #include "ObjectNameComponent.h"
+#include "ObjectTransformComponent.h"
 
 ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
@@ -25,11 +26,10 @@ ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager)
     SetSizer(mainSizer);
 
     nameComponent = new ObjectNameComponent(this);
+    transformComponent = new ObjectTransformComponent(this);
 
     addObjectComponent(nameComponent);
-
-    //Create the items manually, cos there isn't going to be that many.
-    //When an object is selected, calls to each individual component can be made.
+    addObjectComponent(transformComponent);
 }
 
 ObjectInspector::~ObjectInspector(){

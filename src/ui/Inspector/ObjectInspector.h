@@ -6,8 +6,10 @@
 class MainFrame;
 class wxAuiManager;
 class wxBoxSizer;
+
 class InspectorComponent;
 class ObjectNameComponent;
+class ObjectTransformComponent;
 
 class ObjectInspector : public wxPanel
 {
@@ -26,6 +28,7 @@ class ObjectInspector : public wxPanel
         wxAuiManager *auiManager;
 
         ObjectNameComponent *nameComponent;
+        ObjectTransformComponent *transformComponent;
 
         wxBoxSizer *mainSizer;
 
