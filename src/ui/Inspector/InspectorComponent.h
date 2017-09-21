@@ -14,7 +14,6 @@ class InspectorComponent : public wxPanel
 
     protected:
         ObjectInspector *inspector;
-
         wxBoxSizer *mainSizer;
 
     private:

@@ -128,6 +128,7 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
     canvas->setMap(currentMap);
     frame->getObjectHierarchy()->setMap(currentMap);
     currentMap->setObjectHierarchy(frame->getObjectHierarchy());
+    currentMap->setObjectInspector(frame->getObjectInspector());
 
     if(currentMap->getMapStarted())frame->getCanvas()->renderFrame();
 }

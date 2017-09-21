@@ -59,6 +59,10 @@ Map* HierarchyTree::getMap(){
 }
 
 void HierarchyTree::selectionChanged(wxTreeEvent &event){
+    selectionChanged();
+}
+
+void HierarchyTree::selectionChanged(){
     std::cout << "Selection Change" << std::endl;
 
     map->updateCurrentSelection();
@@ -110,6 +114,7 @@ void HierarchyTree::mouseDown(wxMouseEvent &event){
         UnselectAll();
         endDrag();
         checkedLocation = true;
+        selectionChanged();
     }
 }
 
@@ -387,6 +392,13 @@ HierarchyClipboardManager* HierarchyTree::getClipboardManager(){
     return clipboard;
 }
 
+int HierarchyTree::getSelectionCount(){
+    wxArrayTreeItemIds items;
+    GetSelections(items);
+
+    return items.size();
+}
+
 std::vector<Object*> HierarchyTree::getSelectedObjects(bool includeChildrenOfSelected){
     wxArrayTreeItemIds items;
     GetSelections(items);
@@ -400,4 +412,15 @@ std::vector<Object*> HierarchyTree::getSelectedObjects(bool includeChildrenOfSel
         returnItems.push_back(((HierarchyObjectInformation*)GetItemData(items[i]))->getObject());
     }
     return returnItems;
+}
+
+Object* HierarchyTree::getFirstSelectionObject(){
+    wxArrayTreeItemIds items;
+    GetSelections(items);
+
+    if(items.size() > 0){
+        return ((HierarchyObjectInformation*)GetItemData(items[0]))->getObject();
+    }else{
+        return 0;
+    }
 }

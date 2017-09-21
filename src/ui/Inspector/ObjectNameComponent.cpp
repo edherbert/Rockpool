@@ -3,9 +3,9 @@
 #include <wx/sizer.h>
 #include <wx/textctrl.h>
 
-ObjectNameComponent::ObjectNameComponent(ObjectInspector *inspector) : InspectorComponent(inspector){
-    //SetBackgroundColour(wxColour("#0000FF"));
+#include "../../map/Object/Object.h"
 
+ObjectNameComponent::ObjectNameComponent(ObjectInspector *inspector) : InspectorComponent(inspector){
     mainSizer = new wxBoxSizer(wxVERTICAL);
     SetSizer(mainSizer);
 
@@ -16,4 +16,9 @@ ObjectNameComponent::ObjectNameComponent(ObjectInspector *inspector) : Inspector
 
 ObjectNameComponent::~ObjectNameComponent(){
 
+}
+
+void ObjectNameComponent::updateInformation(Object *object){
+    nameTextBox->SetValue("Hello");
+    //The values from the object hierarchy will be needed
 }

@@ -41,6 +41,7 @@ public:
     ResourceManager* getResourceManager();
     ResourceBrowser* getResourceBrowser();
     ObjectHierarchy* getObjectHierarchy();
+    ObjectInspector* getObjectInspector();
 
 private:
 	GLCanvas *canvas;

@@ -14,6 +14,7 @@
 #include "Object/MeshObject.h"
 #include "../ui/Tools/ToolsPanelHandler.h"
 #include "../ui/Hierarchy/ObjectHierarchy.h"
+#include "../ui/Inspector/ObjectInspector.h"
 #include "../ui/Hierarchy/HierarchyObjectInformation.h"
 #include "Main.h"
 
@@ -405,6 +406,10 @@ void Map::setObjectHierarchy(ObjectHierarchy *objectHierarchy){
     this->objectHierarchy = objectHierarchy;
 }
 
+void Map::setObjectInspector(ObjectInspector *objectInspector){
+    this->objectInspector = objectInspector;
+}
+
 void Map::setTargetAxis(TargetAxis axis){
     /*if(axisPlane) delete axisPlane;
     if(axis == TargetAxisX){
@@ -421,12 +426,17 @@ void Map::updateCurrentSelection(){
     currentSelection = objectHierarchy->getTree()->getSelectedObjects();
     calculateSelectionCentrePosition();
 
-    //This function is to be run whenever the selection needs to be updated
-    //This can also update the inspector.
+    objectInspector->updateComponents();
 }
 
 void Map::calculateSelectionCentrePosition(){
     Ogre::Vector3 calcPosition;
+
+    if(currentSelection.size() <= 0){
+        selectionCentrePosition = calcPosition;
+        return;
+    }
+
     for(int i = 0; i < currentSelection.size(); i++){
         calcPosition += currentSelection[i]->getPosition();
     }

@@ -21,7 +21,7 @@ class ObjectInspector : public wxPanel
         void setObjectInspectorVisability(bool visible);
         void addObjectComponent(InspectorComponent *component);
 
-        void updateSelection();
+        void updateComponents();
 
     protected:
 
@@ -32,8 +32,10 @@ class ObjectInspector : public wxPanel
         NoSelectionComponent *noSelectionComponent;
         ObjectNameComponent *nameComponent;
         ObjectTransformComponent *transformComponent;
-
         wxBoxSizer *mainSizer;
+
+        void singleSelection();
+        void noSelection();
 
         bool inspectorVisible = false;
 };

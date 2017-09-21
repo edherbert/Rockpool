@@ -12,6 +12,7 @@ class TerrainCommand;
 class Terrain;
 class Object;
 class ObjectHierarchy;
+class ObjectInspector;
 class ObjectCommand;
 
 class MeshObject;
@@ -63,6 +64,7 @@ class Map
         void endObjectCommand(bool success);
 
         void setObjectHierarchy(ObjectHierarchy *objectHierarchy);
+        void setObjectInspector(ObjectInspector *objectInspector);
 
     protected:
 
@@ -70,6 +72,7 @@ class Map
         Terrain *terrain;
         GLCanvas *canvas;
         ObjectHierarchy *objectHierarchy;
+        ObjectInspector *objectInspector;
 
         Ogre::Viewport *viewport;
         Ogre::Camera *camera = 0;

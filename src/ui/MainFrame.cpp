@@ -270,6 +270,10 @@ ObjectHierarchy* MainFrame::getObjectHierarchy(){
     return objectHierarchy;
 }
 
+ObjectInspector* MainFrame::getObjectInspector(){
+    return objectInspector;
+}
+
 void MainFrame::clipboardAction(wxCommandEvent &event){
     if(event.GetId() == MENU_EDIT_COPY){
         objectHierarchy->copyItems();
