@@ -20,7 +20,6 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
--Figure out what the skybox / lighting / Gizmo input will look like
 -Do logo and polish
 -Re-implement a mouse grabbing feature for laptops.
 -Fix the error with the duplication of the temp resource directory
@@ -31,12 +30,9 @@
 -Implement scaling.
 
 -Make the terrain texture tool only show the number of textures relative to the layer list.
--Make it so that the user cannot alter the terrain using the fps camera
 -Make the new map and open map dialogs point to the user's home directory.
 -Move the main class to the system directory
 -Move the terrain info things into their own directory
-
--Before Clipboard commands, do the object integration.
 
 --Plan to implement objects--
     -Begin to implement the object system by creating all the object classes. *
@@ -340,3 +336,6 @@ Things to do before entity work begins: (A lot of these things have been done)
 -Saving and loading skyboxes
 -Fix the bug where the resources are not showing up.
 -Work on cross platform
+-Before Clipboard commands, do the object integration.
+-Make it so that the user cannot alter the terrain using the fps camera
+-Figure out what the skybox / lighting / Gizmo input will look like

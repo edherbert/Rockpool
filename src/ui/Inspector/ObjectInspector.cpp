@@ -6,6 +6,7 @@
 #include "../MainFrame.h"
 #include "ObjectNameComponent.h"
 #include "ObjectTransformComponent.h"
+#include "NoSelectionComponent.h"
 
 ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
@@ -25,9 +26,11 @@ ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager)
     mainSizer = new wxBoxSizer(wxVERTICAL);
     SetSizer(mainSizer);
 
+    noSelectionComponent = new NoSelectionComponent(this);
     nameComponent = new ObjectNameComponent(this);
     transformComponent = new ObjectTransformComponent(this);
 
+    addObjectComponent(noSelectionComponent);
     addObjectComponent(nameComponent);
     addObjectComponent(transformComponent);
 }
@@ -50,4 +53,8 @@ void ObjectInspector::setObjectInspectorVisability(bool visible){
 
 void ObjectInspector::addObjectComponent(InspectorComponent *component){
     mainSizer->Add(component, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
+}
+
+void ObjectInspector::updateSelection(){
+
 }

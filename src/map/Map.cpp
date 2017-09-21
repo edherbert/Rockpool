@@ -214,9 +214,9 @@ void Map::updateInput(){
         testSceneNode->setPosition(ray.getPoint(test.second));
 
     }else{
-        if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY(), MOUSE_LEFT);
+        if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY());
 
-        //If neither mouse buttons are pressed
+        //If neither mouse buttons are pressed, end the current terrain command
         if(!mouseLeft && !mouseRight){
             if(currentTerrainCommand){
                 objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
@@ -228,7 +228,6 @@ void Map::updateInput(){
 
 void Map::endObjectCommand(bool success){
     performingObjectCommand = false;
-    //objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentObjectCommand);
     if(success){
         objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentObjectCommand);
     }else{
@@ -266,14 +265,17 @@ void Map::updateCursor(int x, int y){
     }
 }
 
-void Map::handleClick(int x, int y, int mouseButton){
+void Map::handleClick(int x, int y){
+    //This prevents the user from being able to edit and right click at the same time.
+    if(canvas->getMouseButton(MOUSE_RIGHT)) return;
+
     int currentTool = handlerData->toolPanelHandler->getCurrentTool();
     Ogre::TerrainGroup::RayResult centreResult = checkTerrainRayMouse(x, y);
 
-    handleTerrainTool(centreResult, mouseButton, currentTool);
+    handleTerrainTool(centreResult, currentTool);
 }
 
-void Map::handleTerrainTool(Ogre::TerrainGroup::RayResult centreRay, int mouseButton, int toolId){
+void Map::handleTerrainTool(Ogre::TerrainGroup::RayResult centreRay, int toolId){
     //If the centre did not land on a terrain, then abort the entire thing.
     if(!centreRay.hit) return;
     int brushSize = 0;
@@ -418,6 +420,9 @@ void Map::setTargetAxis(TargetAxis axis){
 void Map::updateCurrentSelection(){
     currentSelection = objectHierarchy->getTree()->getSelectedObjects();
     calculateSelectionCentrePosition();
+
+    //This function is to be run whenever the selection needs to be updated
+    //This can also update the inspector.
 }
 
 void Map::calculateSelectionCentrePosition(){

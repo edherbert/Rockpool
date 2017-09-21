@@ -10,6 +10,7 @@ class wxBoxSizer;
 class InspectorComponent;
 class ObjectNameComponent;
 class ObjectTransformComponent;
+class NoSelectionComponent;
 
 class ObjectInspector : public wxPanel
 {
@@ -18,8 +19,9 @@ class ObjectInspector : public wxPanel
         virtual ~ObjectInspector();
 
         void setObjectInspectorVisability(bool visible);
-
         void addObjectComponent(InspectorComponent *component);
+
+        void updateSelection();
 
     protected:
 
@@ -27,6 +29,7 @@ class ObjectInspector : public wxPanel
         MainFrame *mainFrame;
         wxAuiManager *auiManager;
 
+        NoSelectionComponent *noSelectionComponent;
         ObjectNameComponent *nameComponent;
         ObjectTransformComponent *transformComponent;
 
