@@ -1,25 +1,20 @@
 #include "ObjectTransformComponent.h"
 
+#include "NumberTextCtrl.h"
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
-#include <wx/collpane.h>
-#include <wx/button.h>
 
 ObjectTransformComponent::ObjectTransformComponent(ObjectInspector *inspector) : InspectorComponent(inspector){
     //SetBackgroundColour(wxColour("#0000FF"));
     this->inspector = inspector;
 
-    mainSizer = new wxStaticBoxSizer(wxVERTICAL, this, "");
+    mainSizer = new wxStaticBoxSizer(wxVERTICAL, this, "Transform");
     SetSizer(mainSizer);
 
-    wxCollapsiblePane *panel = new wxCollapsiblePane(this, wxID_ANY, "Transform");
-
-    mainSizer->Add(panel, 1, wxEXPAND);
-
-    //setupPosition("Position:");
-    //setupPosition("Scale:");
-    //setupPosition("Rotation:");
+    setupPosition("Position:");
+    setupPosition("Scale:");
+    setupPosition("Rotation:");
 }
 
 ObjectTransformComponent::~ObjectTransformComponent(){
@@ -33,11 +28,11 @@ void ObjectTransformComponent::setupPosition(const wxString &title){
     wxFlexGridSizer *test = new wxFlexGridSizer(1, 6, 1, 1);
 
     wxStaticText *xText = new wxStaticText(this, wxID_ANY, "X");
-    wxSpinCtrl *xCtrl = new wxSpinCtrl(this, wxID_ANY);
+    NumberTextCtrl *xCtrl = new NumberTextCtrl(this, wxID_ANY);
     wxStaticText *yText = new wxStaticText(this, wxID_ANY, "Y");
-    wxSpinCtrl *yCtrl = new wxSpinCtrl(this, wxID_ANY);
+    NumberTextCtrl *yCtrl = new NumberTextCtrl(this, wxID_ANY);
     wxStaticText *zText = new wxStaticText(this, wxID_ANY, "Z");
-    wxSpinCtrl *zCtrl = new wxSpinCtrl(this, wxID_ANY);
+    NumberTextCtrl *zCtrl = new NumberTextCtrl(this, wxID_ANY);
 
     xCtrl->SetMinSize(wxSize(10, 30));
     yCtrl->SetMinSize(wxSize(10, 30));
@@ -54,6 +49,6 @@ void ObjectTransformComponent::setupPosition(const wxString &title){
     test->AddGrowableCol(3, 1);
     test->AddGrowableCol(5, 1);
 
-    mainSizer->Add(titleText);
-    mainSizer->Add(test, 1, wxEXPAND | wxLEFT | wxRIGHT, 5);
+    mainSizer->Add(titleText, 0, wxEXPAND | wxALL, 2);
+    mainSizer->Add(test, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
 }
