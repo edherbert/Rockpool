@@ -105,6 +105,7 @@ void DuplicateObjectCommand::performAction(){
         }
     }
     ran = true;
+    tree->updateSelection();
 }
 
 void DuplicateObjectCommand::performAntiAction(){
@@ -116,4 +117,5 @@ void DuplicateObjectCommand::performAntiAction(){
             tree->setItem(itemInfo[i].newItem, 0);
         }
     }
+    tree->updateSelection();
 }

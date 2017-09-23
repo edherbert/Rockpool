@@ -67,14 +67,9 @@ void ObjectInspector::updateComponents(){
     }else if(selectionCount == 1){
         singleSelection();
 
-        //Get the object based on selection and feed it into the components
-        //Find a way to get it's name
-        //Get the name of the first selected item, multiple selected items won't be a problem as multiple items can't be selected.
-
-        //Each object will need some sort of reference to it's hierarchy entry.
-        //It'll probably be a good idea to store the current selection in the object inspector.
         Object *object = mainFrame->getObjectHierarchy()->getTree()->getFirstSelectionObject();
         nameComponent->updateInformation(object);
+        transformComponent->updateInformation(object);
     }else{
         noSelectionComponent->Show();
         nameComponent->Hide();

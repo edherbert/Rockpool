@@ -74,6 +74,7 @@ void AddObjectCommand::performAction(){
     }
 
     ran = true;
+    tree->updateSelection();
 }
 
 void AddObjectCommand::performAntiAction(){
@@ -81,4 +82,5 @@ void AddObjectCommand::performAntiAction(){
         tree->Delete(tree->getItem(addedItem));
         object->removeFromParent();
     }
+    tree->updateSelection();
 }

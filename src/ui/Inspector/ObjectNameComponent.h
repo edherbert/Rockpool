@@ -21,7 +21,6 @@ class ObjectNameComponent : public InspectorComponent
 
         void updateObjectLabel();
         void enterPressed(wxCommandEvent &event);
-        void focusLost(wxFocusEvent &event);
 };
 
 #endif // OBJECTNAMECOMPONENT_H

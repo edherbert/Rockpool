@@ -38,7 +38,3 @@ void ObjectNameComponent::updateObjectLabel(){
 void ObjectNameComponent::enterPressed(wxCommandEvent &event){
     updateObjectLabel();
 }
-
-void ObjectNameComponent::focusLost(wxFocusEvent &event){
-    std::cout << "focus lost" << std::endl;
-}

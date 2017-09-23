@@ -60,6 +60,8 @@ class HierarchyTree : public wxTreeCtrl
 
         void updateDragAnim(const wxPoint &location);
 
+        void updateSelection();
+
     protected:
 
     private:
@@ -68,8 +70,6 @@ class HierarchyTree : public wxTreeCtrl
         void mouseRightDown(wxMouseEvent &event);
         void mouseMoved(wxMouseEvent &event);
         void selectionChanged(wxTreeEvent &event);
-
-        void selectionChanged();
 
         void resetItemHighlight();
         void endDrag();

@@ -54,6 +54,7 @@ void PasteObjectCommand::performAction(){
 
     }
     ran = true;
+    tree->updateSelection();
 }
 
 void PasteObjectCommand::performAntiAction(){
@@ -65,4 +66,5 @@ void PasteObjectCommand::performAntiAction(){
             tree->Delete(tree->getItem(itemInfo[i].newItem));
         }
     }
+    tree->updateSelection();
 }

@@ -1,5 +1,9 @@
 #include "ObjectTransformComponent.h"
 
+#include "OgreVector3.h"
+#include "OgreString.h"
+
+#include "../../map/Object/Object.h"
 #include "NumberTextCtrl.h"
 #include <wx/sizer.h>
 #include <wx/stattext.h>
@@ -10,16 +14,18 @@ ObjectTransformComponent::ObjectTransformComponent(ObjectInspector *inspector) :
     mainSizer = new wxStaticBoxSizer(wxVERTICAL, this, "Transform");
     SetSizer(mainSizer);
 
-    setupPosition("Position:");
-    setupPosition("Scale:");
-    setupPosition("Rotation:");
+    setupInputs("Position:", positionCtrls);
+    setupInputs("Scale:", scaleCtrls);
+    setupInputs("Rotation:", rotationCtrls);
+
+    std::cout << positionCtrls[0]->GetValue() << std::endl;
 }
 
 ObjectTransformComponent::~ObjectTransformComponent(){
 
 }
 
-void ObjectTransformComponent::setupPosition(const wxString &title){
+void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl* ctrls[3]){
     wxStaticText *titleText = new wxStaticText(this, 0, title);
     titleText->SetFont(wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 
@@ -31,6 +37,10 @@ void ObjectTransformComponent::setupPosition(const wxString &title){
     NumberTextCtrl *yCtrl = new NumberTextCtrl(this, wxID_ANY);
     wxStaticText *zText = new wxStaticText(this, wxID_ANY, "Z");
     NumberTextCtrl *zCtrl = new NumberTextCtrl(this, wxID_ANY);
+
+    ctrls[0] = xCtrl;
+    ctrls[1] = yCtrl;
+    ctrls[2] = zCtrl;
 
     xCtrl->SetMinSize(wxSize(10, 30));
     yCtrl->SetMinSize(wxSize(10, 30));
@@ -49,4 +59,14 @@ void ObjectTransformComponent::setupPosition(const wxString &title){
 
     mainSizer->Add(titleText, 0, wxEXPAND | wxALL, 2);
     mainSizer->Add(gridSizer, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
+}
+
+void ObjectTransformComponent::updateInformation(Object *object){
+    Ogre::Vector3 position = object->getPosition();
+    Ogre::Vector3 scale = object->getScale();
+
+    for(int i = 0; i < 3; i++){
+        positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
+        scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
+    }
 }

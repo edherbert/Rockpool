@@ -42,6 +42,7 @@ void DeleteObjectCommand::performAction(){
             tree->setItem(itemInfo[i].originItem, 0);
         }
     }
+    tree->updateSelection();
 }
 
 void DeleteObjectCommand::performAntiAction(){
@@ -76,4 +77,5 @@ void DeleteObjectCommand::performAntiAction(){
         }
         tree->setItem(itemInfo[i].originItem, newItem);
     }
+    tree->updateSelection();
 }

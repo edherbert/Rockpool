@@ -123,6 +123,7 @@ void ArrangeObjectCommand::performAction(){
     //This is to initially create the items
     ran = true;
     currentAppendItem = 0;
+    tree->updateSelection();
 }
 
 void ArrangeObjectCommand::performAntiAction(){
@@ -168,4 +169,5 @@ void ArrangeObjectCommand::performAntiAction(){
             tree->setItem(itemInfo[i].newItem, 0);
         }
     }
+    tree->updateSelection();
 }

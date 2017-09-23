@@ -24,6 +24,7 @@
 -Re-implement a mouse grabbing feature for laptops.
 -Fix the error with the duplication of the temp resource directory
 
+-Make the transform components reflect their values into their objects.
 -Multiple canvases
 -Show axis lines when entities are moved.
 -Implement rotating

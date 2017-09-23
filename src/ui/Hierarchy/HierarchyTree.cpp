@@ -59,12 +59,10 @@ Map* HierarchyTree::getMap(){
 }
 
 void HierarchyTree::selectionChanged(wxTreeEvent &event){
-    selectionChanged();
+    updateSelection();
 }
 
-void HierarchyTree::selectionChanged(){
-    std::cout << "Selection Change" << std::endl;
-
+void HierarchyTree::updateSelection(){
     map->updateCurrentSelection();
 }
 
@@ -114,7 +112,7 @@ void HierarchyTree::mouseDown(wxMouseEvent &event){
         UnselectAll();
         endDrag();
         checkedLocation = true;
-        selectionChanged();
+        updateSelection();
     }
 }
 

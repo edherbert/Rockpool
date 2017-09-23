@@ -4,6 +4,8 @@
 #include "InspectorComponent.h"
 
 class ObjectInspector;
+class NumberTextCtrl;
+class Object;
 
 class ObjectTransformComponent : public InspectorComponent
 {
@@ -11,10 +13,16 @@ class ObjectTransformComponent : public InspectorComponent
         ObjectTransformComponent(ObjectInspector *inspector);
         virtual ~ObjectTransformComponent();
 
+        void updateInformation(Object *object);
+
     protected:
 
     private:
-        void setupPosition(const wxString &title);
+        void setupInputs(const wxString &title, NumberTextCtrl* ctrls[3]);
+
+        NumberTextCtrl* positionCtrls[3];
+        NumberTextCtrl* scaleCtrls[3];
+        NumberTextCtrl* rotationCtrls[3];
 };
 
 #endif // OBJECTTRANSFORMCOMPONENT_H
