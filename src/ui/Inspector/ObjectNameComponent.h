@@ -18,6 +18,10 @@ class ObjectNameComponent : public InspectorComponent
 
     private:
         wxTextCtrl *nameTextBox;
+
+        void updateObjectLabel();
+        void enterPressed(wxCommandEvent &event);
+        void focusLost(wxFocusEvent &event);
 };
 
 #endif // OBJECTNAMECOMPONENT_H

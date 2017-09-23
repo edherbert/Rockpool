@@ -22,6 +22,7 @@ class ObjectInspector : public wxPanel
         void addObjectComponent(InspectorComponent *component);
 
         void updateComponents();
+        MainFrame* getMainFrame();
 
     protected:
 

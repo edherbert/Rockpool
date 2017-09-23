@@ -42,6 +42,8 @@ class HierarchyTree : public wxTreeCtrl
 
         std::vector<Object*> getSelectedObjects(bool includeChildrenOfSelected = false);
         Object* getFirstSelectionObject();
+        wxString getFirstSelectionString();
+        void setFirstSelectionString(const wxString &label);
 
         int addItem(wxTreeItemId item);
         void setItem(int id, wxTreeItemId item);

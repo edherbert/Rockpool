@@ -424,3 +424,21 @@ Object* HierarchyTree::getFirstSelectionObject(){
         return 0;
     }
 }
+
+wxString HierarchyTree::getFirstSelectionString(){
+    wxArrayTreeItemIds items;
+    GetSelections(items);
+
+    if(items.size() <= 0) return wxEmptyString;
+    else return GetItemText(items[0]);
+}
+
+void HierarchyTree::setFirstSelectionString(const wxString &label){
+    wxArrayTreeItemIds items;
+    GetSelections(items);
+
+    if(items.size() <= 0) return;
+    else{
+        SetItemText(items[0], label);
+    }
+}
