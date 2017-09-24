@@ -16,6 +16,7 @@
 #include "../ui/Hierarchy/ObjectHierarchy.h"
 #include "../ui/Inspector/ObjectInspector.h"
 #include "../ui/Hierarchy/HierarchyObjectInformation.h"
+#include "SelectionManager.h"
 #include "Main.h"
 
 #include <wx/treebase.h>
@@ -23,19 +24,20 @@
 #include "math.h"
 
 
-Map::Map(HandlerData *handlerData, const std::string& path, mapInformation info){
-    this->handlerData = handlerData;
-    this->path = path;
-    this->mapName = info.mapName;
-    this->mapWidth = info.mapWidth;
-    this->mapHeight = info.mapHeight;
-    this->vertexCount = info.vertexCount;
-    this->terrainSize = info.terrainSize;
-    this->terrainHeight = info.terrainHeight;
+Map::Map(HandlerData *handlerData, const std::string& path, mapInformation info) :
+    handlerData(handlerData),
+    path(path),
+    mapName(info.mapName),
+    mapWidth(info.mapWidth),
+    mapHeight(info.mapHeight),
+    vertexCount(info.vertexCount),
+    terrainSize(info.terrainSize),
+    terrainHeight(info.terrainHeight){
+
 }
 
 Map::~Map(){
-
+    delete selectionManager;
 }
 
 void Map::start(GLCanvas *canvas){
@@ -70,11 +72,6 @@ void Map::start(GLCanvas *canvas){
 
     testSceneNode = sceneManager->getRootSceneNode()->createChildSceneNode();
     Ogre::Entity *testEntity = sceneManager->createEntity("Sinbad.mesh");
-    //testSceneNode->attachObject(testEntity);
-
-    axisPlanes[0] = new Ogre::Plane(Ogre::Vector3::UNIT_X, selectionCentrePosition);
-    axisPlanes[1] = new Ogre::Plane(Ogre::Vector3::UNIT_Y, selectionCentrePosition);
-    axisPlanes[2] = new Ogre::Plane(Ogre::Vector3::UNIT_Z, selectionCentrePosition);
 
     //setTargetAxis(TargetAxisY);
     //axisPlaneX = new Ogre::Plane(Ogre::Vector3::UNIT_X, 0);
@@ -90,9 +87,7 @@ void Map::start(GLCanvas *canvas){
 
     sceneManager->setSkyBox(true, "Examples/skySkyBox1");
 
-    /*Plane,
-    Dome,
-    Box*/
+    selectionManager = new SelectionManager(this);
 
     mapStarted = true;
 }
@@ -174,45 +169,6 @@ void Map::updateInput(){
     bool mouseRight = canvas->getMouseButton(MOUSE_RIGHT);
 
     if(performingObjectCommand){
-        if(canvas->getKey(KEY_ESCAPE)){
-            endObjectCommand(false);
-            return;
-        }
-        if(mouseLeft || mouseRight){
-            endObjectCommand(true);
-            return;
-        }
-        if(canvas->getKey(KEY_Z)){
-            setTargetAxis(TargetAxisZ);
-        }else if(canvas->getKey(KEY_X)){
-            setTargetAxis(TargetAxisX);
-        }else if(canvas->getKey(KEY_Y)){
-            setTargetAxis(TargetAxisY);
-        }
-
-        //Move the position of the planes
-        positionAxisPlanes();
-
-        Ogre::Ray ray = camera->getCameraToViewportRay((float)canvas->getMouseX() / (float)canvas->getWidth(), (float)canvas->getMouseY() / (float)canvas->getHeight());
-
-        //Try to find the plane that is the most perpendicular to the ray
-        int targetPlane = 0;
-        float currentAngle = 90;
-        for(int i = 0; i < 3; i++){
-            std::pair<bool,Ogre::Real> result = ray.intersects(*axisPlanes[i]);
-
-            if(result.first){
-                float res = axisPlanes[i]->normal.dotProduct(ray.getDirection());
-                float angle = Ogre::Math::ACos(res).valueDegrees();
-                if(angle < currentAngle){
-                    targetPlane = i;
-                    currentAngle = angle;
-                }
-            }
-        }
-
-        std::pair<bool,Ogre::Real> test = ray.intersects(*axisPlanes[targetPlane]);
-        testSceneNode->setPosition(ray.getPoint(test.second));
 
     }else{
         if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY());
@@ -382,15 +338,7 @@ terrainSquareInformation Map::genSquareInfo(Ogre::Terrain *terr, int x, int y, i
 }
 
 mapInformation Map::getMapInformation(){
-    mapInformation info;
-    info.mapName = mapName;
-    info.mapWidth = mapWidth;
-    info.mapHeight = mapHeight;
-    info.vertexCount = vertexCount;
-    info.terrainSize = terrainSize;
-    info.terrainHeight = terrainHeight;
-
-    return info;
+    return {mapName, mapWidth, mapHeight, vertexCount, terrainSize, terrainHeight};
 }
 
 void Map::saveMap(bool reSave){
@@ -410,46 +358,14 @@ void Map::setObjectInspector(ObjectInspector *objectInspector){
     this->objectInspector = objectInspector;
 }
 
-void Map::setTargetAxis(TargetAxis axis){
-    /*if(axisPlane) delete axisPlane;
-    if(axis == TargetAxisX){
-        axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
-    }else if(axis == TargetAxisY){
-        axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0);
-    }else if(axis == TargetAxisZ){
-        axisPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Y, 0);
-    }
-    currentAxisTarget = axis;*/
+SelectionManager* Map::getSelectionManager(){
+    return selectionManager;
 }
 
-void Map::updateCurrentSelection(){
-    currentSelection = objectHierarchy->getTree()->getSelectedObjects();
-    calculateSelectionCentrePosition();
-
-    objectInspector->updateComponents();
+ObjectHierarchy* Map::getObjectHierarchy(){
+    return objectHierarchy;
 }
 
-void Map::calculateSelectionCentrePosition(){
-    Ogre::Vector3 calcPosition;
-
-    if(currentSelection.size() <= 0){
-        selectionCentrePosition = calcPosition;
-        return;
-    }
-
-    for(int i = 0; i < currentSelection.size(); i++){
-        calcPosition += currentSelection[i]->getPosition();
-    }
-    //Find the mean of the items
-    calcPosition /= currentSelection.size();
-
-    selectionCentrePosition = calcPosition;
-
-    testSceneNode->setPosition(calcPosition);
-}
-
-void Map::positionAxisPlanes(){
-    axisPlanes[0]->redefine(Ogre::Vector3::UNIT_X, selectionCentrePosition);
-    axisPlanes[1]->redefine(Ogre::Vector3::UNIT_Y, selectionCentrePosition);
-    axisPlanes[2]->redefine(Ogre::Vector3::UNIT_Z, selectionCentrePosition);
+ObjectInspector* Map::getObjectInspector(){
+    return objectInspector;
 }

@@ -174,3 +174,25 @@ So I'll need a component class which can then be inherited from.
 The object inspector will have to have one of each type of component, they can just be shown and hidden depending on the object.
 
 From here, the best thing to do would be to construct the component class and try to get it to appear in the inspector.
+
+--Updating components--
+So here I should think about how I plan to make the components update their relevant objects.
+The problem I have is that it's quite hard for the components to store pointers, as there is no guarantee that that object will be the target.
+So for example, the transform component will need to work with single objects, but also a range.
+When a range is selected, it should instead be positioning the centre point of all of these objects.
+There might be a few objects that are in this position.
+
+The map class stores the centre position of the current selection.
+However, that is the only thing that it stores.
+When the user is positioning the current selection, or whatever, the values need to be relevant to the selection.
+I'm almost going to need a function that does this.
+So for example, the transform component maybe should be requesting values from map in a different form than an object.
+
+So, map should contain a function to alter the current selection, and also get a reference to it.
+Maybe I should abstract a class that handles the selection.
+So the selection manager.
+This can be used to get all the objects that are currently selected.
+This could be what handles selections and all the functions performed on them.
+Each component would get a reference to this manager, and then they could do things like get the position and scale of the selection.
+Updating the selection would be as simple as saying 'this is the position of the selection now'
+This way the map class wouldn't have to worry about storing the selection position.

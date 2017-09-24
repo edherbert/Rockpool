@@ -7,6 +7,7 @@
 #include "HierarchyObjectInformation.h"
 #include "../GLCanvas.h"
 #include "../../system/HierarchyClipboardManager.h"
+#include "../../map/SelectionManager.h"
 
 HierarchyTree::HierarchyTree(ObjectHierarchy *objectHierarchy) : wxTreeCtrl(objectHierarchy, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT | wxTR_MULTIPLE){
     this->objectHierarchy = objectHierarchy;
@@ -63,7 +64,7 @@ void HierarchyTree::selectionChanged(wxTreeEvent &event){
 }
 
 void HierarchyTree::updateSelection(){
-    map->updateCurrentSelection();
+    map->getSelectionManager()->updateCurrentSelection();
 }
 
 ObjectHierarchy* HierarchyTree::getObjectHierarchy(){
@@ -242,6 +243,7 @@ void HierarchyTree::mouseRightDown(wxMouseEvent &event){
     wxArrayTreeItemIds items;
     GetSelections(items);
 
+    updateSelection();
     HierarchyRightClickMenu* menu = new HierarchyRightClickMenu(this, location, items);
     menu->popup();
 }

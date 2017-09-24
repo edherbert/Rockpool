@@ -17,8 +17,6 @@ ObjectTransformComponent::ObjectTransformComponent(ObjectInspector *inspector) :
     setupInputs("Position:", positionCtrls);
     setupInputs("Scale:", scaleCtrls);
     setupInputs("Rotation:", rotationCtrls);
-
-    std::cout << positionCtrls[0]->GetValue() << std::endl;
 }
 
 ObjectTransformComponent::~ObjectTransformComponent(){

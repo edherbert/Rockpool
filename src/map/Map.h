@@ -14,8 +14,8 @@ class Object;
 class ObjectHierarchy;
 class ObjectInspector;
 class ObjectCommand;
-
 class MeshObject;
+class SelectionManager;
 
 struct HandlerData;
 struct mapInformation;
@@ -50,11 +50,9 @@ class Map
         terrainSquareInformation genSquareInfo(Ogre::Terrain *terr, int x, int y, int z, int brushSize, bool textureTool = false);
         Ogre::TerrainGroup::RayResult checkTerrainRayMouse(int x, int y);
 
-        void updateCurrentSelection();
+        SelectionManager* getSelectionManager();
 
         void saveMap(bool reSave);
-
-        void calculateSelectionCentrePosition();
 
         void addObject(Object *object);
 
@@ -65,6 +63,9 @@ class Map
 
         void setObjectHierarchy(ObjectHierarchy *objectHierarchy);
         void setObjectInspector(ObjectInspector *objectInspector);
+
+        ObjectHierarchy* getObjectHierarchy();
+        ObjectInspector* getObjectInspector();
 
     protected:
 
@@ -90,26 +91,12 @@ class Map
 
         bool mapStarted = false;
 
-        /*Ogre::Plane *axisPlaneX = 0;
-        Ogre::Plane *axisPlaneY = 0;
-        Ogre::Plane *axisPlaneZ = 0;*/
-
-        Ogre::Plane* axisPlanes[3];
-
-        void setTargetAxis(TargetAxis axis);
-        TargetAxis currentAxisTarget;
-
         float radians(float value);
         float degrees(float value);
 
-        Ogre::SceneNode *ogreNode;
-        Ogre::SceneNode *sinbadNode;
-
-        std::vector<Object*> currentSelection;
-        Ogre::Vector3 selectionCentrePosition;
+        SelectionManager *selectionManager;
 
         Ogre::SceneNode *testSceneNode;
-        void positionAxisPlanes();
 
         std::string mapName;
         std::string path;
