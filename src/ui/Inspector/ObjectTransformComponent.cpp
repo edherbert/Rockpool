@@ -3,6 +3,7 @@
 #include "OgreVector3.h"
 #include "OgreString.h"
 
+#include "../../map/SelectionManager.h"
 #include "../../map/Object/Object.h"
 #include "NumberTextCtrl.h"
 #include <wx/sizer.h>
@@ -30,7 +31,7 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
     wxFlexGridSizer *gridSizer = new wxFlexGridSizer(1, 6, 1, 1);
 
     wxStaticText *xText = new wxStaticText(this, wxID_ANY, "X");
-    NumberTextCtrl *xCtrl = new NumberTextCtrl(this, wxID_ANY);
+    NumberTextCtrl *xCtrl = new NumberTextCtrl(this, 876);
     wxStaticText *yText = new wxStaticText(this, wxID_ANY, "Y");
     NumberTextCtrl *yCtrl = new NumberTextCtrl(this, wxID_ANY);
     wxStaticText *zText = new wxStaticText(this, wxID_ANY, "Z");
@@ -59,12 +60,17 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
     mainSizer->Add(gridSizer, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
 }
 
-void ObjectTransformComponent::updateInformation(Object *object){
-    Ogre::Vector3 position = object->getPosition();
-    Ogre::Vector3 scale = object->getScale();
+void ObjectTransformComponent::updateInformation(SelectionManager *selectionManager){
+    //Ogre::Vector3 position = object->getPosition();
+    Ogre::Vector3 position = selectionManager->getSelectionCentrePosition();
+    Ogre::Vector3 scale = selectionManager->getSelectionCentrePosition();
 
     for(int i = 0; i < 3; i++){
         positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
         scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
     }
+}
+
+void ObjectTransformComponent::specialKeyPressed(){
+    std::cout << "Special key pressed" << std::endl;
 }

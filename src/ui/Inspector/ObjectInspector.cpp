@@ -4,6 +4,7 @@
 #include <wx/menuitem.h>
 
 #include "../MainFrame.h"
+#include "../../map/Main.h"
 #include "ObjectNameComponent.h"
 #include "ObjectTransformComponent.h"
 #include "NoSelectionComponent.h"
@@ -69,7 +70,7 @@ void ObjectInspector::updateComponents(){
 
         Object *object = mainFrame->getObjectHierarchy()->getTree()->getFirstSelectionObject();
         nameComponent->updateInformation(object);
-        transformComponent->updateInformation(object);
+        transformComponent->updateInformation(mainFrame->getMain()->getCurrentMap()->getSelectionManager());
     }else{
         noSelectionComponent->Show();
         nameComponent->Hide();

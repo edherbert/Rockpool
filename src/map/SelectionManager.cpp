@@ -26,6 +26,9 @@ void SelectionManager::calculateSelectionCentrePosition(){
     if(currentSelection.size() <= 0){
         selectionCentrePosition = calcPosition;
         return;
+    }else if(currentSelection.size() == 1){
+        selectionCentrePosition = currentSelection[0]->getPosition();
+        return;
     }
 
     for(int i = 0; i < currentSelection.size(); i++){
@@ -35,4 +38,12 @@ void SelectionManager::calculateSelectionCentrePosition(){
     calcPosition /= currentSelection.size();
 
     selectionCentrePosition = calcPosition;
+}
+
+Ogre::Vector3 SelectionManager::getSelectionCentrePosition(){
+    return selectionCentrePosition;
+}
+
+void SelectionManager::setSelectionPosition(const Ogre::Vector3 &position){
+
 }

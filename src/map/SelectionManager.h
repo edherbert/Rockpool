@@ -15,6 +15,9 @@ class SelectionManager
 
         void updateCurrentSelection();
 
+        void setSelectionPosition(const Ogre::Vector3 &position);
+        Ogre::Vector3 getSelectionCentrePosition();
+
     protected:
 
     private:

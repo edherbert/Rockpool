@@ -6,6 +6,7 @@
 class ObjectInspector;
 class NumberTextCtrl;
 class Object;
+class SelectionManager;
 
 class ObjectTransformComponent : public InspectorComponent
 {
@@ -13,7 +14,9 @@ class ObjectTransformComponent : public InspectorComponent
         ObjectTransformComponent(ObjectInspector *inspector);
         virtual ~ObjectTransformComponent();
 
-        void updateInformation(Object *object);
+        void updateInformation(SelectionManager *selectionManager);
+
+        void specialKeyPressed();
 
     protected:
 

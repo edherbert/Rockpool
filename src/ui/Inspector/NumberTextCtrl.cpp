@@ -1,6 +1,11 @@
 #include "NumberTextCtrl.h"
 
-NumberTextCtrl::NumberTextCtrl(wxWindow *parent, int id) : wxTextCtrl(parent, id, "0"){
+#include "ObjectTransformComponent.h"
+
+//The "0" is the default string value
+NumberTextCtrl::NumberTextCtrl(wxWindow *parent, int id, ObjectTransformComponent *alertComponent) : wxTextCtrl(parent, id, "0"),
+    alertComponent(alertComponent){
+
     Connect(wxEVT_CHAR, wxKeyEventHandler(NumberTextCtrl::valueEntered));
 }
 
@@ -10,7 +15,11 @@ NumberTextCtrl::~NumberTextCtrl(){
 
 void NumberTextCtrl::valueEntered(wxKeyEvent &event){
     //Basically just a list of allowed keys
-    //Only if the key is in this list will it be ran
+    //Only if the key is in this list will the event be allowed
+    if(event.GetKeyCode() == WXK_TAB || event.GetKeyCode() == WXK_RETURN){
+        alertComponent->specialKeyPressed();
+    }
+
     switch(event.GetKeyCode()){
         case '0':
         case '1':
@@ -44,5 +53,4 @@ void NumberTextCtrl::valueEntered(wxKeyEvent &event){
         case WXK_RETURN:
             event.Skip();
     }
-
 }
