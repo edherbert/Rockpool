@@ -94,3 +94,11 @@ void ObjectInspector::singleSelection(){
 MainFrame* ObjectInspector::getMainFrame(){
     return mainFrame;
 }
+
+void ObjectInspector::setMap(Map *map){
+    this->map = map;
+}
+
+Map* ObjectInspector::getMap(){
+    return map;
+}

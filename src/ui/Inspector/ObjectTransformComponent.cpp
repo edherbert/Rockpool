@@ -73,4 +73,7 @@ void ObjectTransformComponent::updateInformation(SelectionManager *selectionMana
 
 void ObjectTransformComponent::specialKeyPressed(){
     std::cout << "Special key pressed" << std::endl;
+
+    //This causes problems which I think is caused by the static nature of this bit.
+    //The enter key can be used, but maybe not the tab.
 }

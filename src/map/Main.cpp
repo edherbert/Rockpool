@@ -15,6 +15,8 @@
 #include "SkyBox.h"
 #include "../system/SkyBoxManager.h"
 
+#include "../ui/Inspector/ObjectInspector.h"
+
 #include "../util/tinyxml2.h"
 
 Main::Main(){
@@ -129,6 +131,7 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
     frame->getObjectHierarchy()->setMap(currentMap);
     currentMap->setObjectHierarchy(frame->getObjectHierarchy());
     currentMap->setObjectInspector(frame->getObjectInspector());
+    frame->getObjectInspector()->setMap(currentMap);
 
     if(currentMap->getMapStarted())frame->getCanvas()->renderFrame();
 }

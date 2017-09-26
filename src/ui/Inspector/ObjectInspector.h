@@ -11,6 +11,7 @@ class InspectorComponent;
 class ObjectNameComponent;
 class ObjectTransformComponent;
 class NoSelectionComponent;
+class Map;
 
 class ObjectInspector : public wxPanel
 {
@@ -21,6 +22,9 @@ class ObjectInspector : public wxPanel
         void setObjectInspectorVisability(bool visible);
         void addObjectComponent(InspectorComponent *component);
 
+        void setMap(Map *map);
+        Map* getMap();
+
         void updateComponents();
         MainFrame* getMainFrame();
 
@@ -29,6 +33,7 @@ class ObjectInspector : public wxPanel
     private:
         MainFrame *mainFrame;
         wxAuiManager *auiManager;
+        Map *map;
 
         NoSelectionComponent *noSelectionComponent;
         ObjectNameComponent *nameComponent;
