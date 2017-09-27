@@ -45,5 +45,6 @@ Ogre::Vector3 SelectionManager::getSelectionCentrePosition(){
 }
 
 void SelectionManager::setSelectionPosition(const Ogre::Vector3 &position){
-
+    //For now set it to the exact location, later on this will have to be done relative to the current position.
+    currentSelection[0]->setPosition(position);
 }

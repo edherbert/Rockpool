@@ -6,6 +6,12 @@
 #include "../../map/SelectionManager.h"
 #include "../../map/Object/Object.h"
 #include "NumberTextCtrl.h"
+#include "ObjectInspector.h"
+#include "../../map/Map.h"
+
+#include "../MainFrame.h"
+#include "../GLCanvas.h"
+
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 
@@ -59,8 +65,7 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
     mainSizer->Add(titleText, 0, wxEXPAND | wxALL, 2);
     mainSizer->Add(gridSizer, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
 
-    Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(ObjectTransformComponent::test));
-    Connect(876, wxEVT_CHAR, wxKeyEventHandler(ObjectTransformComponent::doChar));
+    Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(ObjectTransformComponent::checkEnter));
 }
 
 void ObjectTransformComponent::updateInformation(SelectionManager *selectionManager){
@@ -74,17 +79,16 @@ void ObjectTransformComponent::updateInformation(SelectionManager *selectionMana
     }
 }
 
-void ObjectTransformComponent::test(wxCommandEvent &event){
-    std::cout << "Hello" << std::endl;
+void ObjectTransformComponent::pushInformation(){
+    Ogre::Vector3 newVector;
+    for(int i = 0; i < 3; i++){
+        newVector[i] = wxAtoi(positionCtrls[i]->GetValue());
+    }
+    inspector->getMap()->getSelectionManager()->setSelectionPosition(newVector);
+
+    inspector->getMainFrame()->getCanvas()->renderFrame();
 }
 
-void ObjectTransformComponent::doChar(wxKeyEvent &event){
-    std::cout << "char" << std::endl;
-}
-
-void ObjectTransformComponent::specialKeyPressed(){
-    std::cout << "Special key pressed" << std::endl;
-
-    //This causes problems which I think is caused by the static nature of this bit.
-    //The enter key can be used, but maybe not the tab.
+void ObjectTransformComponent::checkEnter(wxCommandEvent &event){
+    pushInformation();
 }

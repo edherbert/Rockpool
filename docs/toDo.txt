@@ -24,7 +24,9 @@
 -Re-implement a mouse grabbing feature for laptops.
 -Fix the error with the duplication of the temp resource directory
 
--Make the transform components reflect their values into their objects.
+-Make the move object command work with the selection manager.
+-Make the transform component able to move other objects
+
 -Multiple canvases
 -Show axis lines when entities are moved.
 -Implement rotating
@@ -340,3 +342,5 @@ Things to do before entity work begins: (A lot of these things have been done)
 -Before Clipboard commands, do the object integration.
 -Make it so that the user cannot alter the terrain using the fps camera
 -Figure out what the skybox / lighting / Gizmo input will look like
+
+-Make the transform components reflect their values into their objects.

@@ -16,9 +16,6 @@ NumberTextCtrl::~NumberTextCtrl(){
 void NumberTextCtrl::valueEntered(wxKeyEvent &event){
     //Basically just a list of allowed keys
     //Only if the key is in this list will the event be allowed
-    if(event.GetKeyCode() == WXK_TAB || event.GetKeyCode() == WXK_RETURN){
-        alertComponent->specialKeyPressed();
-    }
 
     switch(event.GetKeyCode()){
         case '0':
