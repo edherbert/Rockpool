@@ -17,6 +17,8 @@ class ObjectTransformComponent : public InspectorComponent
         void updateInformation(SelectionManager *selectionManager);
 
         void specialKeyPressed();
+        void test(wxCommandEvent &event);
+        void doChar(wxKeyEvent &event);
 
     protected:
 

@@ -58,6 +58,9 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
 
     mainSizer->Add(titleText, 0, wxEXPAND | wxALL, 2);
     mainSizer->Add(gridSizer, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
+
+    Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(ObjectTransformComponent::test));
+    Connect(876, wxEVT_CHAR, wxKeyEventHandler(ObjectTransformComponent::doChar));
 }
 
 void ObjectTransformComponent::updateInformation(SelectionManager *selectionManager){
@@ -69,6 +72,14 @@ void ObjectTransformComponent::updateInformation(SelectionManager *selectionMana
         positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
         scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
     }
+}
+
+void ObjectTransformComponent::test(wxCommandEvent &event){
+    std::cout << "Hello" << std::endl;
+}
+
+void ObjectTransformComponent::doChar(wxKeyEvent &event){
+    std::cout << "char" << std::endl;
 }
 
 void ObjectTransformComponent::specialKeyPressed(){

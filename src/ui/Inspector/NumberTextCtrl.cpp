@@ -3,7 +3,7 @@
 #include "ObjectTransformComponent.h"
 
 //The "0" is the default string value
-NumberTextCtrl::NumberTextCtrl(wxWindow *parent, int id, ObjectTransformComponent *alertComponent) : wxTextCtrl(parent, id, "0"),
+NumberTextCtrl::NumberTextCtrl(wxWindow *parent, int id, ObjectTransformComponent *alertComponent) : wxTextCtrl(parent, id, "0", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER),
     alertComponent(alertComponent){
 
     Connect(wxEVT_CHAR, wxKeyEventHandler(NumberTextCtrl::valueEntered));
