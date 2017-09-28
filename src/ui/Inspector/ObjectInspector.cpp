@@ -81,6 +81,7 @@ void ObjectInspector::updateComponents(){
         transformComponent->Show();
 
         multipleTitleComponent->updateObjectCount(selectionCount);
+        transformComponent->updateInformation(mainFrame->getMain()->getCurrentMap()->getSelectionManager());
     }
     Layout();
 }

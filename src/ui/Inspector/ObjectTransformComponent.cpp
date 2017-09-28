@@ -69,9 +69,8 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
 }
 
 void ObjectTransformComponent::updateInformation(SelectionManager *selectionManager){
-    //Ogre::Vector3 position = object->getPosition();
     Ogre::Vector3 position = selectionManager->getSelectionCentrePosition();
-    Ogre::Vector3 scale = selectionManager->getSelectionCentrePosition();
+    Ogre::Vector3 scale = Ogre::Vector3(1, 1, 1);
 
     for(int i = 0; i < 3; i++){
         positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));

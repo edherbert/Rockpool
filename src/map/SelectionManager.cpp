@@ -21,12 +21,14 @@ void SelectionManager::updateCurrentSelection(){
 }
 
 void SelectionManager::calculateSelectionCentrePosition(){
-    Ogre::Vector3 calcPosition;
+    Ogre::Vector3 calcPosition = Ogre::Vector3(0, 0, 0);
 
     if(currentSelection.size() <= 0){
+        //If for some reason there is no selection then set the selection position to 0
         selectionCentrePosition = calcPosition;
         return;
     }else if(currentSelection.size() == 1){
+        //If there is only one selection then don't bother trying to find the mean.
         selectionCentrePosition = currentSelection[0]->getPosition();
         return;
     }
@@ -38,6 +40,8 @@ void SelectionManager::calculateSelectionCentrePosition(){
     calcPosition /= currentSelection.size();
 
     selectionCentrePosition = calcPosition;
+
+    std::cout << selectionCentrePosition << std::endl;
 }
 
 Ogre::Vector3 SelectionManager::getSelectionCentrePosition(){
@@ -45,6 +49,7 @@ Ogre::Vector3 SelectionManager::getSelectionCentrePosition(){
 }
 
 void SelectionManager::setSelectionPosition(const Ogre::Vector3 &position){
-    //For now set it to the exact location, later on this will have to be done relative to the current position.
     currentSelection[0]->setPosition(position);
+
+    calculateSelectionCentrePosition();
 }

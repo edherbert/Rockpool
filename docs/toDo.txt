@@ -26,6 +26,7 @@
 
 -Make the move object command work with the selection manager.
 -Make the transform component able to move other objects
+-Allow the user to input decimal values into the number ctrl
 
 -Multiple canvases
 -Show axis lines when entities are moved.
