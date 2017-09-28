@@ -10,6 +10,7 @@
 #include "NoSelectionComponent.h"
 #include "../Hierarchy/ObjectHierarchy.h"
 #include "../Hierarchy/HierarchyTree.h"
+#include "MultipleSelectionTitleComponent.h"
 
 ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager) : wxPanel(mainFrame){
     this->mainFrame = mainFrame;
@@ -32,8 +33,10 @@ ObjectInspector::ObjectInspector(MainFrame *mainFrame, wxAuiManager *auiManager)
     noSelectionComponent = new NoSelectionComponent(this);
     nameComponent = new ObjectNameComponent(this);
     transformComponent = new ObjectTransformComponent(this);
+    multipleTitleComponent = new MultipleSelectionTitleComponent(this);
 
     addObjectComponent(noSelectionComponent);
+    addObjectComponent(multipleTitleComponent);
     addObjectComponent(nameComponent);
     addObjectComponent(transformComponent);
 
@@ -72,21 +75,26 @@ void ObjectInspector::updateComponents(){
         nameComponent->updateInformation(object);
         transformComponent->updateInformation(mainFrame->getMain()->getCurrentMap()->getSelectionManager());
     }else{
-        noSelectionComponent->Show();
+        multipleTitleComponent->Show();
+        noSelectionComponent->Hide();
         nameComponent->Hide();
-        transformComponent->Hide();
+        transformComponent->Show();
+
+        multipleTitleComponent->updateObjectCount(selectionCount);
     }
     Layout();
 }
 
 void ObjectInspector::noSelection(){
     noSelectionComponent->Show();
+    multipleTitleComponent->Hide();
     nameComponent->Hide();
     transformComponent->Hide();
 }
 
 void ObjectInspector::singleSelection(){
     noSelectionComponent->Hide();
+    multipleTitleComponent->Hide();
     nameComponent->Show();
     transformComponent->Show();
 }

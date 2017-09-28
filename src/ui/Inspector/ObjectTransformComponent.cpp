@@ -82,7 +82,7 @@ void ObjectTransformComponent::updateInformation(SelectionManager *selectionMana
 void ObjectTransformComponent::pushInformation(){
     Ogre::Vector3 newVector;
     for(int i = 0; i < 3; i++){
-        newVector[i] = wxAtoi(positionCtrls[i]->GetValue());
+        newVector[i] = positionCtrls[i]->getIntValue();
     }
     inspector->getMap()->getSelectionManager()->setSelectionPosition(newVector);
 

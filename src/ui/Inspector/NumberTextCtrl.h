@@ -11,6 +11,8 @@ class NumberTextCtrl : public wxTextCtrl
         NumberTextCtrl(wxWindow *parent, int id, ObjectTransformComponent *alertComponent = 0);
         virtual ~NumberTextCtrl();
 
+        int getIntValue();
+
     protected:
 
     private:

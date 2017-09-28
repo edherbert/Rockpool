@@ -28,6 +28,7 @@ void NumberTextCtrl::valueEntered(wxKeyEvent &event){
         case '7':
         case '8':
         case '9':
+        case '-':
         case WXK_NUMPAD0:
         case WXK_NUMPAD1:
         case WXK_NUMPAD2:
@@ -50,4 +51,12 @@ void NumberTextCtrl::valueEntered(wxKeyEvent &event){
         case WXK_RETURN:
             event.Skip();
     }
+}
+
+int NumberTextCtrl::getIntValue(){
+    int returnValue = 0;
+    if(GetValue() != wxEmptyString){
+        returnValue = wxAtoi(GetValue());
+    }
+    return returnValue;
 }

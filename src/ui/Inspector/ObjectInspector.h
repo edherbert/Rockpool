@@ -11,6 +11,7 @@ class InspectorComponent;
 class ObjectNameComponent;
 class ObjectTransformComponent;
 class NoSelectionComponent;
+class MultipleSelectionTitleComponent;
 class Map;
 
 class ObjectInspector : public wxPanel
@@ -38,6 +39,7 @@ class ObjectInspector : public wxPanel
         NoSelectionComponent *noSelectionComponent;
         ObjectNameComponent *nameComponent;
         ObjectTransformComponent *transformComponent;
+        MultipleSelectionTitleComponent *multipleTitleComponent;
         wxBoxSizer *mainSizer;
 
         void singleSelection();
