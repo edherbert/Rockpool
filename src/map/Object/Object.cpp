@@ -26,6 +26,13 @@ void Object::setPosition(int x, int y, int z){
     node->setPosition(x, y, z);
 }
 
+void Object::setAxisPosition(ObjectAxis axis, Ogre::Real position){
+    Ogre::Vector3 newPosition = node->getPosition();
+    newPosition[axis] = position;
+
+    node->setPosition(newPosition);
+}
+
 void Object::setScale(int x, int y, int z){
     node->setScale(x, y, z);
 }

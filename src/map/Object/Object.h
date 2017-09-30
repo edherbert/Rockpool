@@ -9,6 +9,12 @@ enum ObjectType{
     ObjectTypeMesh
 };
 
+enum ObjectAxis : unsigned int{
+    ObjectAxisX,
+    ObjectAxisY,
+    ObjectAxisZ
+};
+
 class Object
 {
     public:
@@ -19,6 +25,7 @@ class Object
 
         void setPosition(const Ogre::Vector3 &pos);
         void setPosition(int x, int y, int z);
+        void setAxisPosition(ObjectAxis axis, Ogre::Real position);
 
         void setScale(int x, int y, int z);
         void setScale(const Ogre::Vector3 &scale);

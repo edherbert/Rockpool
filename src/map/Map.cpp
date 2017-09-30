@@ -5,7 +5,7 @@
 #include "../system/Command/TerrainCommand.h"
 #include "../system/Command/TerrainTextureCommand.h"
 #include "../system/Command/TerrainEditCommand.h"
-#include "../system/Command/Object/MoveObjectCommand.h"
+#include "../system/Command/Object/PositionObjectCommand.h"
 #include "../system/Command/CommandManager.h"
 #include "MapDecal.h"
 #include "Terrain.h"
@@ -158,27 +158,16 @@ void Map::updateInput(){
     if(canvas->getKey(KEY_F)) moveCameraPosition(camera->getUp());
     if(canvas->getKey(KEY_G)) moveCameraPosition(-camera->getUp());
 
-    if(canvas->getKey(KEY_M)){
-        if(!performingObjectCommand && objectHierarchy->checkSelectionExists()){
-            performingObjectCommand = true;
-            currentObjectCommand = new MoveObjectCommand(objectHierarchy->getTree());
-        }
-    }
-
     bool mouseLeft = canvas->getMouseButton(MOUSE_LEFT);
     bool mouseRight = canvas->getMouseButton(MOUSE_RIGHT);
 
-    if(performingObjectCommand){
+    if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY());
 
-    }else{
-        if(mouseLeft) handleClick(canvas->getMouseX(), canvas->getMouseY());
-
-        //If neither mouse buttons are pressed, end the current terrain command
-        if(!mouseLeft && !mouseRight){
-            if(currentTerrainCommand){
-                objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
-                currentTerrainCommand = 0;
-            }
+    //If neither mouse buttons are pressed, end the current terrain command
+    if(!mouseLeft && !mouseRight){
+        if(currentTerrainCommand){
+            objectHierarchy->getMainFrame()->getMain()->getCommandManager()->pushCommand(currentTerrainCommand);
+            currentTerrainCommand = 0;
         }
     }
 }

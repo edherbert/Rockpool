@@ -24,7 +24,7 @@
 -Re-implement a mouse grabbing feature for laptops.
 -Fix the error with the duplication of the temp resource directory
 
--Make the move object command work with the selection manager.
+-Make the transform component show the multiple values
 -Make the transform component able to move other objects
 -Allow the user to input decimal values into the number ctrl
 
@@ -345,3 +345,4 @@ Things to do before entity work begins: (A lot of these things have been done)
 -Figure out what the skybox / lighting / Gizmo input will look like
 
 -Make the transform components reflect their values into their objects.
+-Make the move object command work with the selection manager.

@@ -17,12 +17,12 @@ class ObjectTransformComponent : public InspectorComponent
         void updateInformation(SelectionManager *selectionManager);
 
         void checkEnter(wxCommandEvent &event);
-        void pushInformation();
+        void pushInformation(NumberTextCtrl* ctrl);
 
     protected:
 
     private:
-        void setupInputs(const wxString &title, NumberTextCtrl* ctrls[3]);
+        void setupInputs(const wxString &title, NumberTextCtrl* ctrls[3], int ids[3]);
 
         NumberTextCtrl* positionCtrls[3];
         NumberTextCtrl* scaleCtrls[3];

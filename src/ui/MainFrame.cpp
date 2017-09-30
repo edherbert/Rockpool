@@ -74,7 +74,7 @@ MainFrame::~MainFrame(){
 }
 
 void MainFrame::setupMenuBar(){
-    SetIcon(wxIcon(wxT("../media/img/icon.png")));
+    SetIcon(wxIcon(wxT("../media/img/logoSmall.png")));
 
     wxMenuBar *menuBar = new wxMenuBar;
 

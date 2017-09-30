@@ -7,6 +7,8 @@
 class Map;
 class Object;
 
+enum ObjectAxis : unsigned int;
+
 class SelectionManager
 {
     public:
@@ -15,8 +17,10 @@ class SelectionManager
 
         void updateCurrentSelection();
 
-        void setSelectionPosition(const Ogre::Vector3 &position);
         Ogre::Vector3 getSelectionCentrePosition();
+        void setSelectionPosition(Ogre::Real position, ObjectAxis axis);
+
+        const std::vector<Object*>& getSelectionObjects();
 
     protected:
 

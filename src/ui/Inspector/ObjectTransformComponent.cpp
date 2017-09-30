@@ -2,6 +2,7 @@
 
 #include "OgreVector3.h"
 #include "OgreString.h"
+#include "../wxIDs.h"
 
 #include "../../map/SelectionManager.h"
 #include "../../map/Object/Object.h"
@@ -21,27 +22,31 @@ ObjectTransformComponent::ObjectTransformComponent(ObjectInspector *inspector) :
     mainSizer = new wxStaticBoxSizer(wxVERTICAL, this, "Transform");
     SetSizer(mainSizer);
 
-    setupInputs("Position:", positionCtrls);
-    setupInputs("Scale:", scaleCtrls);
-    setupInputs("Rotation:", rotationCtrls);
+    int positionIds[3] = {TRANSFORM_COMPONENT_POSITION_X, TRANSFORM_COMPONENT_POSITION_Y, TRANSFORM_COMPONENT_POSITION_Z};
+    int scaleIds[3] = {TRANSFORM_COMPONENT_SCALE_X, TRANSFORM_COMPONENT_SCALE_Y, TRANSFORM_COMPONENT_SCALE_Z};
+    int rotationIds[3] = {TRANSFORM_COMPONENT_ROTATION_X, TRANSFORM_COMPONENT_ROTATION_Y, TRANSFORM_COMPONENT_ROTATION_Z};
+
+    setupInputs("Position:", positionCtrls, positionIds);
+    setupInputs("Scale:", scaleCtrls, scaleIds);
+    setupInputs("Rotation:", rotationCtrls, rotationIds);
 }
 
 ObjectTransformComponent::~ObjectTransformComponent(){
 
 }
 
-void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl* ctrls[3]){
+void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl* ctrls[3], int ids[3]){
     wxStaticText *titleText = new wxStaticText(this, 0, title);
     titleText->SetFont(wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 
     wxFlexGridSizer *gridSizer = new wxFlexGridSizer(1, 6, 1, 1);
 
     wxStaticText *xText = new wxStaticText(this, wxID_ANY, "X");
-    NumberTextCtrl *xCtrl = new NumberTextCtrl(this, 876);
+    NumberTextCtrl *xCtrl = new NumberTextCtrl(this, ids[0]);
     wxStaticText *yText = new wxStaticText(this, wxID_ANY, "Y");
-    NumberTextCtrl *yCtrl = new NumberTextCtrl(this, wxID_ANY);
+    NumberTextCtrl *yCtrl = new NumberTextCtrl(this, ids[1]);
     wxStaticText *zText = new wxStaticText(this, wxID_ANY, "Z");
-    NumberTextCtrl *zCtrl = new NumberTextCtrl(this, wxID_ANY);
+    NumberTextCtrl *zCtrl = new NumberTextCtrl(this, ids[2]);
 
     ctrls[0] = xCtrl;
     ctrls[1] = yCtrl;
@@ -72,22 +77,28 @@ void ObjectTransformComponent::updateInformation(SelectionManager *selectionMana
     Ogre::Vector3 position = selectionManager->getSelectionCentrePosition();
     Ogre::Vector3 scale = Ogre::Vector3(1, 1, 1);
 
+    //Determine if any of the components have different values
+
     for(int i = 0; i < 3; i++){
         positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
         scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
     }
 }
 
-void ObjectTransformComponent::pushInformation(){
-    Ogre::Vector3 newVector;
-    for(int i = 0; i < 3; i++){
-        newVector[i] = positionCtrls[i]->getIntValue();
+void ObjectTransformComponent::pushInformation(NumberTextCtrl* ctrl){
+    ObjectAxis axis;
+    if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_X){
+        axis = ObjectAxisX;
+    }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Y){
+        axis = ObjectAxisY;
+    }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Z){
+        axis = ObjectAxisZ;
     }
-    inspector->getMap()->getSelectionManager()->setSelectionPosition(newVector);
 
+    inspector->getMap()->getSelectionManager()->setSelectionPosition(ctrl->getIntValue(), axis);
     inspector->getMainFrame()->getCanvas()->renderFrame();
 }
 
 void ObjectTransformComponent::checkEnter(wxCommandEvent &event){
-    pushInformation();
+    pushInformation((NumberTextCtrl*)event.GetEventObject());
 }

@@ -4,6 +4,12 @@
 #include "../ui/Hierarchy/ObjectHierarchy.h"
 #include "../ui/Hierarchy/HierarchyTree.h"
 #include "../ui/Inspector/ObjectInspector.h"
+#include "../system/Command/Object/PositionObjectCommand.h"
+
+#include "../ui/MainFrame.h"
+#include "../ui/Hierarchy/ObjectHierarchy.h"
+#include "../map/Main.h"
+#include "../system/Command/CommandManager.h"
 
 SelectionManager::SelectionManager(Map *map) : map(map){
 
@@ -18,6 +24,10 @@ void SelectionManager::updateCurrentSelection(){
     calculateSelectionCentrePosition();
 
     map->getObjectInspector()->updateComponents();
+}
+
+const std::vector<Object*>& SelectionManager::getSelectionObjects(){
+    return currentSelection;
 }
 
 void SelectionManager::calculateSelectionCentrePosition(){
@@ -40,16 +50,15 @@ void SelectionManager::calculateSelectionCentrePosition(){
     calcPosition /= currentSelection.size();
 
     selectionCentrePosition = calcPosition;
-
-    std::cout << selectionCentrePosition << std::endl;
 }
 
 Ogre::Vector3 SelectionManager::getSelectionCentrePosition(){
     return selectionCentrePosition;
 }
 
-void SelectionManager::setSelectionPosition(const Ogre::Vector3 &position){
-    currentSelection[0]->setPosition(position);
+void SelectionManager::setSelectionPosition(Ogre::Real position, ObjectAxis axis){
+    PositionObjectCommand *positionCommand = new PositionObjectCommand(this, position, axis);
+    positionCommand->performAction();
 
-    calculateSelectionCentrePosition();
+    map->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(positionCommand);
 }
