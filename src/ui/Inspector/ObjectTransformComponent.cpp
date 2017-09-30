@@ -77,10 +77,15 @@ void ObjectTransformComponent::updateInformation(){
     Ogre::Vector3 position = inspector->getMap()->getSelectionManager()->getSelectionCentrePosition();
     Ogre::Vector3 scale = Ogre::Vector3(1, 1, 1);
 
-    //Determine if any of the components have different values
+    std::array<bool, 3> vals = inspector->getMap()->getSelectionManager()->getPositionDifference();
 
     for(int i = 0; i < 3; i++){
-        positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
+        if(vals[i]){
+            positionCtrls[i]->SetValue("...");
+        }else{
+            positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
+        }
+
         scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
     }
 }

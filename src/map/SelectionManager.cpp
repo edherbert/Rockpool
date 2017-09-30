@@ -62,3 +62,16 @@ void SelectionManager::setSelectionPosition(Ogre::Real position, ObjectAxis axis
 
     map->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(positionCommand);
 }
+
+std::array<bool, 3> SelectionManager::getPositionDifference(){
+    std::array<bool, 3> returns;
+    for(int i = 0; i < 3; i++){
+        for(int y = 0; y < currentSelection.size(); y++){
+            for(int x  = 0; x < currentSelection.size(); x++){
+                //Do this later
+            }
+        }
+    }
+
+    return returns;
+}
