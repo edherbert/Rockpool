@@ -14,7 +14,7 @@ class ObjectTransformComponent : public InspectorComponent
         ObjectTransformComponent(ObjectInspector *inspector);
         virtual ~ObjectTransformComponent();
 
-        void updateInformation(SelectionManager *selectionManager);
+        void updateInformation();
 
         void checkEnter(wxCommandEvent &event);
         void pushInformation(NumberTextCtrl* ctrl);

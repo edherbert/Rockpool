@@ -73,7 +73,7 @@ void ObjectInspector::updateComponents(){
 
         Object *object = mainFrame->getObjectHierarchy()->getTree()->getFirstSelectionObject();
         nameComponent->updateInformation(object);
-        transformComponent->updateInformation(mainFrame->getMain()->getCurrentMap()->getSelectionManager());
+        transformComponent->updateInformation();
     }else{
         multipleTitleComponent->Show();
         noSelectionComponent->Hide();
@@ -81,7 +81,7 @@ void ObjectInspector::updateComponents(){
         transformComponent->Show();
 
         multipleTitleComponent->updateObjectCount(selectionCount);
-        transformComponent->updateInformation(mainFrame->getMain()->getCurrentMap()->getSelectionManager());
+        transformComponent->updateInformation();
     }
     Layout();
 }

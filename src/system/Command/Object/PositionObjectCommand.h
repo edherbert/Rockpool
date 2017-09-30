@@ -9,6 +9,7 @@
 
 class SelectionManager;
 class Object;
+class HierarchyTree;
 
 enum ObjectAxis : unsigned int;
 
@@ -20,7 +21,7 @@ struct ObjectValues{
 class PositionObjectCommand : public ObjectCommand
 {
     public:
-        PositionObjectCommand(SelectionManager *selectionManager, Ogre::Real position, ObjectAxis axis);
+        PositionObjectCommand(SelectionManager *selectionManager, HierarchyTree *hierarchyTree, Ogre::Real position, ObjectAxis axis);
         virtual ~PositionObjectCommand();
 
         void performAction();

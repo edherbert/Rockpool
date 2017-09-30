@@ -73,8 +73,8 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
     Connect(wxEVT_TEXT_ENTER, wxCommandEventHandler(ObjectTransformComponent::checkEnter));
 }
 
-void ObjectTransformComponent::updateInformation(SelectionManager *selectionManager){
-    Ogre::Vector3 position = selectionManager->getSelectionCentrePosition();
+void ObjectTransformComponent::updateInformation(){
+    Ogre::Vector3 position = inspector->getMap()->getSelectionManager()->getSelectionCentrePosition();
     Ogre::Vector3 scale = Ogre::Vector3(1, 1, 1);
 
     //Determine if any of the components have different values

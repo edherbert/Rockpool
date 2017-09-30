@@ -57,7 +57,7 @@ Ogre::Vector3 SelectionManager::getSelectionCentrePosition(){
 }
 
 void SelectionManager::setSelectionPosition(Ogre::Real position, ObjectAxis axis){
-    PositionObjectCommand *positionCommand = new PositionObjectCommand(this, position, axis);
+    PositionObjectCommand *positionCommand = new PositionObjectCommand(this, map->getObjectHierarchy()->getTree(), position, axis);
     positionCommand->performAction();
 
     map->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(positionCommand);
