@@ -19,6 +19,8 @@ class SelectionManager
 
         Ogre::Vector3 getSelectionCentrePosition();
         void setSelectionPosition(Ogre::Real position, ObjectAxis axis);
+        void setSelectionScale(Ogre::Real scale, ObjectAxis axis);
+        Object* getFirstObject();
 
         std::array<bool, 3> getPositionDifference();
 

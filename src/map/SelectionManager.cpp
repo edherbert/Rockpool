@@ -30,6 +30,10 @@ const std::vector<Object*>& SelectionManager::getSelectionObjects(){
     return currentSelection;
 }
 
+Object* SelectionManager::getFirstObject(){
+    return currentSelection[0];
+}
+
 void SelectionManager::calculateSelectionCentrePosition(){
     Ogre::Vector3 calcPosition = Ogre::Vector3(0, 0, 0);
 
@@ -63,14 +67,26 @@ void SelectionManager::setSelectionPosition(Ogre::Real position, ObjectAxis axis
     map->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(positionCommand);
 }
 
+void SelectionManager::setSelectionScale(Ogre::Real scale, ObjectAxis axis){
+    //Scale object command
+}
+
 std::array<bool, 3> SelectionManager::getPositionDifference(){
     std::array<bool, 3> returns;
     for(int i = 0; i < 3; i++){
+        bool same = false;
         for(int y = 0; y < currentSelection.size(); y++){
+            Ogre::Real yPos = currentSelection[y]->getPosition()[i];
             for(int x  = 0; x < currentSelection.size(); x++){
-                //Do this later
+                if(x == y) continue;
+                if(yPos != currentSelection[x]->getPosition()[i]){
+                    same = true;
+                    break;
+                }
             }
+            if(same)break;
         }
+        returns[i] = same;
     }
 
     return returns;

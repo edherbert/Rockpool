@@ -74,9 +74,11 @@ void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl
 }
 
 void ObjectTransformComponent::updateInformation(){
-    Ogre::Vector3 position = inspector->getMap()->getSelectionManager()->getSelectionCentrePosition();
-    Ogre::Vector3 scale = Ogre::Vector3(1, 1, 1);
+    Object* firstObject = inspector->getMap()->getSelectionManager()->getFirstObject();
+    Ogre::Vector3 position = firstObject->getPosition();
+    Ogre::Vector3 scale = firstObject->getScale();
 
+    //Bools to identify which axises contain different values
     std::array<bool, 3> vals = inspector->getMap()->getSelectionManager()->getPositionDifference();
 
     for(int i = 0; i < 3; i++){
@@ -92,15 +94,30 @@ void ObjectTransformComponent::updateInformation(){
 
 void ObjectTransformComponent::pushInformation(NumberTextCtrl* ctrl){
     ObjectAxis axis;
-    if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_X){
-        axis = ObjectAxisX;
-    }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Y){
-        axis = ObjectAxisY;
-    }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Z){
-        axis = ObjectAxisZ;
+
+    //Clean this up later
+    if(ctrl->GetId() >= 665 && ctrl->GetId() <= 667){
+        if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_X){
+            axis = ObjectAxisX;
+        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Y){
+            axis = ObjectAxisY;
+        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Z){
+            axis = ObjectAxisZ;
+        }
+        inspector->getMap()->getSelectionManager()->setSelectionPosition(ctrl->getIntValue(), axis);
     }
 
-    inspector->getMap()->getSelectionManager()->setSelectionPosition(ctrl->getIntValue(), axis);
+    if(ctrl->GetId() >= 668 && ctrl->GetId() <= 670){
+        if(ctrl->GetId() == TRANSFORM_COMPONENT_SCALE_X){
+            axis = ObjectAxisX;
+        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_SCALE_Y){
+            axis = ObjectAxisY;
+        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_SCALE_Z){
+            axis = ObjectAxisZ;
+        }
+        inspector->getMap()->getSelectionManager()->setSelectionScale(ctrl->getIntValue(), axis);
+    }
+
     inspector->getMainFrame()->getCanvas()->renderFrame();
 }
 
