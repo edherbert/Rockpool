@@ -23,6 +23,7 @@ class SelectionManager
         Object* getFirstObject();
 
         std::array<bool, 3> getPositionDifference();
+        std::array<bool, 3> getScaleDifference();
 
         const std::vector<Object*>& getSelectionObjects();
 

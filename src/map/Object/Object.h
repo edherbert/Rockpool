@@ -29,6 +29,7 @@ class Object
 
         void setScale(int x, int y, int z);
         void setScale(const Ogre::Vector3 &scale);
+        void setAxisScale(ObjectAxis axis, Ogre::Real scale);
 
         void setParent(Object *parent);
         void addChild(Object *child);

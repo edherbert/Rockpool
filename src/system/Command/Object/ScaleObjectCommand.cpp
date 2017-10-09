@@ -7,13 +7,13 @@
 #include "../../../map/SelectionManager.h"
 #include "../../../ui/Inspector/ObjectInspector.h"
 
-ScaleObjectCommand::ScaleObjectCommand(SelectionManager *SelectionManager, HierarchyTree *hierarchyTree, Ogre::Real scale, ObjectAxis axis) : ObjectCommand(hierarchyTree),
-    position(position),
+ScaleObjectCommand::ScaleObjectCommand(SelectionManager *selectionManager, HierarchyTree *hierarchyTree, Ogre::Real scale, ObjectAxis axis) : ObjectCommand(hierarchyTree),
+    scale(scale),
     axis(axis){
 
     std::vector<Object*> selectedObjects = selectionManager->getSelectionObjects();
     for(int i = 0; i < selectedObjects.size(); i++){
-        ObjectValues vals;
+        ObjectScaleValues vals;
         vals.object = selectedObjects[i];
         vals.originScale = vals.object->getScale();
 
@@ -28,10 +28,14 @@ ScaleObjectCommand::~ScaleObjectCommand(){
 
 void ScaleObjectCommand::performAction(){
     for(int i = 0; i < objectVals.size(); i++){
-
+        objectVals[i].object->setAxisScale(axis, scale);
     }
+    tree->getMap()->getSelectionManager()->updateCurrentSelection();
 }
 
 void ScaleObjectCommand::performAntiAction(){
-
+    for(int i = 0; i < objectVals.size(); i++){
+        objectVals[i].object->setScale(objectVals[i].originScale);
+    }
+    tree->getMap()->getSelectionManager()->updateCurrentSelection();
 }

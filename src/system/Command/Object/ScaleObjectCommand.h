@@ -1,6 +1,8 @@
 #ifndef SCALEOBJECTCOMMAND_H
 #define SCALEOBJECTCOMMAND_H
 
+#include "ObjectCommand.h"
+
 #include <Ogre.h>
 
 #include <vector>
@@ -11,24 +13,27 @@ class HierarchyTree;
 
 enum ObjectAxis : unsigned int;
 
-struct ObjectValues{
+struct ObjectScaleValues{
     Object *object;
     Ogre::Vector3 originScale;
 };
 
-class ScaleObjectCommand
+class ScaleObjectCommand : public ObjectCommand
 {
     public:
-        ScaleObjectCommand::ScaleObjectCommand(SelectionManager *SelectionManager, HierarchyTree *hierarchyTree, Ogre::Real scale, ObjectAxis axis);
+        ScaleObjectCommand(SelectionManager *selectionManager, HierarchyTree *hierarchyTree, Ogre::Real scale, ObjectAxis axis);
         virtual ~ScaleObjectCommand();
+
+        virtual void performAction();
+        virtual void performAntiAction();
 
     protected:
 
     private:
-        std::vector<ObjectValues> objectVals;
+        std::vector<ObjectScaleValues> objectVals;
 
         ObjectAxis axis;
-        Ogre::Real position;
+        Ogre::Real scale;
 };
 
 #endif // SCALEOBJECTCOMMAND_H

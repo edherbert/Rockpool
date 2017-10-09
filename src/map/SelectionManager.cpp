@@ -5,6 +5,7 @@
 #include "../ui/Hierarchy/HierarchyTree.h"
 #include "../ui/Inspector/ObjectInspector.h"
 #include "../system/Command/Object/PositionObjectCommand.h"
+#include "../system/Command/Object/ScaleObjectCommand.h"
 
 #include "../ui/MainFrame.h"
 #include "../ui/Hierarchy/ObjectHierarchy.h"
@@ -68,7 +69,10 @@ void SelectionManager::setSelectionPosition(Ogre::Real position, ObjectAxis axis
 }
 
 void SelectionManager::setSelectionScale(Ogre::Real scale, ObjectAxis axis){
-    //Scale object command
+    ScaleObjectCommand *scaleCommand = new ScaleObjectCommand(this, map->getObjectHierarchy()->getTree(), scale, axis);
+    scaleCommand->performAction();
+
+    map->getObjectHierarchy()->getMainFrame()->getMain()->getCommandManager()->pushCommand(scaleCommand);
 }
 
 std::array<bool, 3> SelectionManager::getPositionDifference(){
@@ -85,6 +89,27 @@ std::array<bool, 3> SelectionManager::getPositionDifference(){
                 }
             }
             if(same)break;
+        }
+        returns[i] = same;
+    }
+
+    return returns;
+}
+
+std::array<bool, 3> SelectionManager::getScaleDifference(){
+    std::array<bool, 3> returns;
+    for(int i = 0; i < 3; i++){
+        bool same = false;
+        for(int y = 0; y < currentSelection.size(); y++){
+            Ogre::Real yScale = currentSelection[y]->getScale()[i];
+            for(int x = 0; x < currentSelection.size(); x++){
+                if(x == y) continue;
+                if(yScale != currentSelection[x]->getScale()[i]){
+                    same = true;
+                    break;
+                }
+            }
+            if(same) break;
         }
         returns[i] = same;
     }

@@ -79,16 +79,21 @@ void ObjectTransformComponent::updateInformation(){
     Ogre::Vector3 scale = firstObject->getScale();
 
     //Bools to identify which axises contain different values
-    std::array<bool, 3> vals = inspector->getMap()->getSelectionManager()->getPositionDifference();
+    std::array<bool, 3> positionVals = inspector->getMap()->getSelectionManager()->getPositionDifference();
+    std::array<bool, 3> scaleVals = inspector->getMap()->getSelectionManager()->getScaleDifference();
 
     for(int i = 0; i < 3; i++){
-        if(vals[i]){
+        if(positionVals[i]){
             positionCtrls[i]->SetValue("...");
         }else{
             positionCtrls[i]->SetValue(Ogre::StringConverter::toString(position[i]));
         }
 
-        scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
+        if(scaleVals[i]){
+            scaleCtrls[i]->SetValue("...");
+        }else{
+            scaleCtrls[i]->SetValue(Ogre::StringConverter::toString(scale[i]));
+        }
     }
 }
 

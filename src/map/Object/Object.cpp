@@ -45,6 +45,13 @@ void Object::setScale(const Ogre::Vector3 &scale){
     node->setScale(scale);
 }
 
+void Object::setAxisScale(ObjectAxis axis, Ogre::Real scale){
+    Ogre::Vector3 newScale = node->getScale();
+    newScale[axis] = scale;
+
+    node->setScale(newScale);
+}
+
 const Ogre::Vector3& Object::getScale(){
     return node->getScale();
 }
