@@ -8,7 +8,7 @@ class ObjectTransformComponent;
 class NumberTextCtrl : public wxTextCtrl
 {
     public:
-        NumberTextCtrl(wxWindow *parent, int id, ObjectTransformComponent *alertComponent = 0);
+        NumberTextCtrl(wxWindow *parent, int id);
         virtual ~NumberTextCtrl();
 
         int getIntValue();
@@ -17,8 +17,6 @@ class NumberTextCtrl : public wxTextCtrl
 
     private:
         void valueEntered(wxKeyEvent &event);
-
-        ObjectTransformComponent *alertComponent;
 };
 
 #endif // NUMBERTEXTCTRL_H

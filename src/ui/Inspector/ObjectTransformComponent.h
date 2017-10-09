@@ -4,7 +4,7 @@
 #include "InspectorComponent.h"
 
 class ObjectInspector;
-class NumberTextCtrl;
+class ObjectTransformNumberCtrl;
 class Object;
 class SelectionManager;
 
@@ -17,16 +17,16 @@ class ObjectTransformComponent : public InspectorComponent
         void updateInformation();
 
         void checkEnter(wxCommandEvent &event);
-        void pushInformation(NumberTextCtrl* ctrl);
+        void pushInformation(ObjectTransformNumberCtrl* ctrl);
 
     protected:
 
     private:
-        void setupInputs(const wxString &title, NumberTextCtrl* ctrls[3], int ids[3]);
+        void setupInputs(const wxString &title, ObjectTransformNumberCtrl* ctrls[3], int ids[3]);
 
-        NumberTextCtrl* positionCtrls[3];
-        NumberTextCtrl* scaleCtrls[3];
-        NumberTextCtrl* rotationCtrls[3];
+        ObjectTransformNumberCtrl* positionCtrls[3];
+        ObjectTransformNumberCtrl* scaleCtrls[3];
+        ObjectTransformNumberCtrl* rotationCtrls[3];
 };
 
 #endif // OBJECTTRANSFORMCOMPONENT_H

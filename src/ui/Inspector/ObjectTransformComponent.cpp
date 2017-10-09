@@ -6,7 +6,7 @@
 
 #include "../../map/SelectionManager.h"
 #include "../../map/Object/Object.h"
-#include "NumberTextCtrl.h"
+#include "ObjectTransformNumberCtrl.h"
 #include "ObjectInspector.h"
 #include "../../map/Map.h"
 
@@ -35,18 +35,18 @@ ObjectTransformComponent::~ObjectTransformComponent(){
 
 }
 
-void ObjectTransformComponent::setupInputs(const wxString &title, NumberTextCtrl* ctrls[3], int ids[3]){
+void ObjectTransformComponent::setupInputs(const wxString &title, ObjectTransformNumberCtrl* ctrls[3], int ids[3]){
     wxStaticText *titleText = new wxStaticText(this, 0, title);
     titleText->SetFont(wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL));
 
     wxFlexGridSizer *gridSizer = new wxFlexGridSizer(1, 6, 1, 1);
 
     wxStaticText *xText = new wxStaticText(this, wxID_ANY, "X");
-    NumberTextCtrl *xCtrl = new NumberTextCtrl(this, ids[0]);
+    ObjectTransformNumberCtrl *xCtrl = new ObjectTransformNumberCtrl(this, ids[0], ObjectAxisX);
     wxStaticText *yText = new wxStaticText(this, wxID_ANY, "Y");
-    NumberTextCtrl *yCtrl = new NumberTextCtrl(this, ids[1]);
+    ObjectTransformNumberCtrl *yCtrl = new ObjectTransformNumberCtrl(this, ids[1], ObjectAxisY);
     wxStaticText *zText = new wxStaticText(this, wxID_ANY, "Z");
-    NumberTextCtrl *zCtrl = new NumberTextCtrl(this, ids[2]);
+    ObjectTransformNumberCtrl *zCtrl = new ObjectTransformNumberCtrl(this, ids[2], ObjectAxisZ);
 
     ctrls[0] = xCtrl;
     ctrls[1] = yCtrl;
@@ -97,35 +97,20 @@ void ObjectTransformComponent::updateInformation(){
     }
 }
 
-void ObjectTransformComponent::pushInformation(NumberTextCtrl* ctrl){
+void ObjectTransformComponent::pushInformation(ObjectTransformNumberCtrl* ctrl){
     ObjectAxis axis;
 
     //Clean this up later
     if(ctrl->GetId() >= 665 && ctrl->GetId() <= 667){
-        if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_X){
-            axis = ObjectAxisX;
-        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Y){
-            axis = ObjectAxisY;
-        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_POSITION_Z){
-            axis = ObjectAxisZ;
-        }
-        inspector->getMap()->getSelectionManager()->setSelectionPosition(ctrl->getIntValue(), axis);
+        inspector->getMap()->getSelectionManager()->setSelectionPosition(ctrl->getIntValue(), ctrl->getAxis());
     }
-
     if(ctrl->GetId() >= 668 && ctrl->GetId() <= 670){
-        if(ctrl->GetId() == TRANSFORM_COMPONENT_SCALE_X){
-            axis = ObjectAxisX;
-        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_SCALE_Y){
-            axis = ObjectAxisY;
-        }else if(ctrl->GetId() == TRANSFORM_COMPONENT_SCALE_Z){
-            axis = ObjectAxisZ;
-        }
-        inspector->getMap()->getSelectionManager()->setSelectionScale(ctrl->getIntValue(), axis);
+        inspector->getMap()->getSelectionManager()->setSelectionScale(ctrl->getIntValue(), ctrl->getAxis());
     }
 
     inspector->getMainFrame()->getCanvas()->renderFrame();
 }
 
 void ObjectTransformComponent::checkEnter(wxCommandEvent &event){
-    pushInformation((NumberTextCtrl*)event.GetEventObject());
+    pushInformation((ObjectTransformNumberCtrl*)event.GetEventObject());
 }
