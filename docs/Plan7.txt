@@ -1,0 +1,48 @@
+--Saving objects--
+Around about now I should look at how objects will be saved in the files.
+I can see this being quite a complex task, as there is lots to consider when it comes to saving things.
+Firstly, it would be important that the objects are saved in a simple way.
+There would be no point in having the save file get too complex.
+So here are some things to consider:
+
+Rockpool should load and unload things as it gets further away from them.
+
+This would be relative to the position of the camera.
+As the camera moves around things like objects as well as terrain will appear and disappear.
+Furthermore as things are loaded and unloaded the inspector might have to update to cope with that.
+
+For the game, large files should be split up into smaller, more manageable chunks.
+
+This will have more to do with the exporter than the editor.
+
+When I come to write the separate exporters, It's important that they can do this.
+However, that might not mean that I can ignore this for the internal map storage.
+It might be easier to separate the files out, this will mean smaller files for specific areas.
+
+In this regard, I'm thinking more about the overworld than anything else.
+The game will have a huge overworld and it's important that the editor can easily edit the things in it without faltering too much.
+I could definitely include a setting to not perform these culling actions in a smaller world environment, but it is something I do need.
+
+So my current thought is that the system could cull based on the position of the camera at the moment.
+With multiple canvases this would mean multiple cameras which could be in different areas of the map, so this option might be difficult.
+I don't really want to show objects in the inspector about parts of the map that aren't currently in focus.
+As there will only be one inspector, this situation becomes more complicated.
+It's not worth creating multiple inspectors for multiple areas of the map.
+Here are some suggestions:
+    Have only the objects relative to the position of the main camera loaded. The inspector could even tell the user that these are loaded.
+    Have all the objects listed, but only some of them shown.
+    Just load and add everything to the scene.
+
+
+--Segmentation--
+So here is an idea. I could segment the map into different sections.
+So the user would have a place in which they could select the segment sizes, so for example 1000 units either way.
+Then the system would designate cells to these areas (so 0-0, 0-1).
+These cells could then be selected in the object inspector and the various objects would be shown below.
+The user could also choose whether to have the objects stored in segments or not.
+
+In the game, things will definitely need to be split up, regardless of what type of map it is.
+If the map is an indoor map that's quite small, then a split would not be needed, but the file type could fit around that.
+So the map files will be split into sections anyway.
+
+At the moment a system to segment the map would be best I think.

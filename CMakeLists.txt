@@ -5,8 +5,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -D_FILE_OFFSET_BITS=64 -D__
 
 set(OGRE_MAIN_LIB "OgreMain" CACHE FILEPATH "")
 set(OGRE_TERRAIN_LIB "OgreTerrain" CACHE FILEPATH "")
-set(OGRE_MAIN_INCLUDE "/usr/local/include/OGRE" CACHE FILEPATH "")
-set(OGRE_TERRAIN_INCLUDE "/usr/local/include/OGRE/Terrain" CACHE FILEPATH "")
+set(OGRE_MAIN_INCLUDE "/usr/include/OGRE" CACHE FILEPATH "")
+set(OGRE_TERRAIN_INCLUDE "/usr/include/OGRE/Terrain" CACHE FILEPATH "")
 
 option(TERRAIN_ENABLED "" ON)
 
@@ -29,4 +29,4 @@ add_executable(rockpool ${SRC_FILES} ${INCLUDE_FILES})
 
 include_directories(${wxWidgets_INCLUDE_DIRS})
 
-target_link_libraries(rockpool ${wxWidgets_LIBRARIES} ${OGRE_MAIN_LIB} ${OGRE_TERRAIN_LIB} boost_system boost_thread )
+target_link_libraries(rockpool ${wxWidgets_LIBRARIES} ${OGRE_MAIN_LIB} ${OGRE_TERRAIN_LIB} OgreHLMS boost_system boost_thread )
