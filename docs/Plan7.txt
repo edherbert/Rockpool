@@ -46,3 +46,15 @@ If the map is an indoor map that's quite small, then a split would not be needed
 So the map files will be split into sections anyway.
 
 At the moment a system to segment the map would be best I think.
+
+--Segment value--
+Map segments should be allowed to store values.
+In there I could set things like the skybox value, default music and so on.
+Of course, these would all be used inputted attributes.
+Rockpool should be able to have a skybox value set from a combo box.
+
+When I create the map, I could define my segment values and then let the programme lay out the contents depending on the segment values.
+Maybe I could also link the segment values with the terrain.
+
+In terms of altering things like skyboxes, I think a good place to put the drop down box would be in a notpad window in the object inspector.
+

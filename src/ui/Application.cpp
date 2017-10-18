@@ -37,9 +37,11 @@ bool MyApp::OnInit(){
 	main->setCommandManager(commandManager);
 
 	mainFrame->Show(true);
-    main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/test/test.rockpool", "/home/edward/Documents/Rockpool/tests/test");
-    //main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/New Map/New Map.rockpool", "/home/edward/Documents/Rockpool/tests/New Map");
-    //main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/Something/Something.rockpool", "/home/edward/Documents/Rockpool/tests/Something");
+
+    if(wxApp::argc > 0){
+        //main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/test/test.rockpool", "/home/edward/Documents/Rockpool/tests/test");
+        main->loadMap(mainFrame, wxApp::argv[1], wxApp::argv[2]);
+    }
 
 	return true;
 }

@@ -86,11 +86,11 @@ void MainFrame::setupMenuBar(){
 
     file->Append(MENU_FILE_NEW_MAP, wxT("New Map\tctrl+N"));
     file->Append(MENU_FILE_OPEN_MAP, wxT("Open Map\tctrl+O"));
-    file->Append(wxID_ANY, wxT("Recent"));
+    file->Append(wxID_ANY, wxT("Recent"))->Enable(false);
     file->AppendSeparator();
     file->Append(MENU_FILE_SAVE_MAP, wxT("Save\tctrl+S"));
-    file->Append(wxID_ANY, wxT("Export\tctrl+shift+E"));
-    file->Append(wxID_ANY, wxT("Export As Previous\tctrl+E"));
+    file->Append(wxID_ANY, wxT("Export\tctrl+shift+E"))->Enable(false);
+    file->Append(wxID_ANY, wxT("Export As Previous\tctrl+E"))->Enable(false);
 
     edit->Append(MENU_EDIT_UNDO, wxT("Undo\tctrl+Z"));
     edit->Append(MENU_EDIT_REDO, wxT("Redo\tctrl+shift+Z"));
@@ -100,10 +100,10 @@ void MainFrame::setupMenuBar(){
     edit->Append(MENU_EDIT_PASTE, wxT("Paste\tctrl+V"));
     edit->Append(MENU_EDIT_DELETE, wxT("Delete"));
     edit->AppendSeparator();
-    edit->Append(wxID_ANY, wxT("Rockpool Preferences"));
+    edit->Append(wxID_ANY, wxT("Rockpool Preferences"))->Enable(false);
 
-    view->Append(wxID_ANY, wxT("Zoom"));
-    view->Append(wxID_ANY, wxT("Show Grid"));
+    view->Append(wxID_ANY, wxT("Zoom"))->Enable(false);
+    view->Append(wxID_ANY, wxT("Show Grid"))->Enable(false);
 
     map->Append(MENU_MAP_MAP_PROPERTIES, wxT("Map Properties"));
 
