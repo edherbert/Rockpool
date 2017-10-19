@@ -133,7 +133,8 @@ void Main::loadMap(MainFrame *frame, const wxString& filePath, const wxString& d
     currentMap->setObjectInspector(frame->getObjectInspector());
     frame->getObjectInspector()->setMap(currentMap);
 
-    if(currentMap->getMapStarted())frame->getCanvas()->renderFrame();
+    //This will force a layout to the mainframe, and therefore a render to the canvas.
+    frame->Layout();
 }
 
 void Main::showLoadFailedPopup(){

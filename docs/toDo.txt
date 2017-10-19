@@ -20,14 +20,15 @@
 -Fix the bug with the incorrect yaw values.
 -Fix the bugs with the scroll bars.
 
--Re-implement a mouse grabbing feature for laptops.
 -Fix the error with the duplication of the temp resource directory
-
 -Allow the user to input decimal values into the number ctrl
+-Fix the scrolling with the resource browser.
+-Begin to implement the option to choose the skybox.
 
 -Multiple canvases
 -Show axis lines when entities are moved.
 -Implement rotating
+-Implement a check to disable menu options when they can't be performed (disable paste when there is nothing to paste).
 
 -Make the terrain texture tool only show the number of textures relative to the layer list.
 -Make the new map and open map dialogs point to the user's home directory.
@@ -348,3 +349,5 @@ Things to do before entity work begins: (A lot of these things have been done)
 
 -Do logo and polish
 -Implement scaling.
+
+-Re-implement a mouse grabbing feature for laptops (This one seems to have fixed itself. I think it was a GTK issue)

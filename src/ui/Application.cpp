@@ -38,7 +38,7 @@ bool MyApp::OnInit(){
 
 	mainFrame->Show(true);
 
-    if(wxApp::argc > 0){
+    if(wxApp::argc > 1){
         //main->loadMap(mainFrame, "/home/edward/Documents/Rockpool/tests/test/test.rockpool", "/home/edward/Documents/Rockpool/tests/test");
         main->loadMap(mainFrame, wxApp::argv[1], wxApp::argv[2]);
     }

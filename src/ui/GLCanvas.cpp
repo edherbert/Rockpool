@@ -40,7 +40,9 @@ void GLCanvas::setViewportSize(){
 
     //int width, height;
     GetSize(&width, &height);
-    if(map) map->getCamera()->setAspectRatio(Ogre::Real(width) / Ogre::Real(height));
+    if(map){
+        if(map->getMapStarted()) map->getCamera()->setAspectRatio(Ogre::Real(width) / Ogre::Real(height));
+    }
 
     window->resize(width, height);
 }
@@ -57,6 +59,9 @@ void GLCanvas::render(wxPaintEvent& evt){
 void GLCanvas::renderFrame(){
     if(!IsShown() || closed) return;
 
+    std::cout << "hello" << std::endl;
+
+    //The ogre window is created immediately, even before the map.
     if(!windowCreated){
         makeCurrent();
         createWindow();
@@ -67,11 +72,10 @@ void GLCanvas::renderFrame(){
 
     window->setActive(true);
 
-    setViewportSize();
+    //setViewportSize();
 
     Ogre::Root::getSingleton().renderOneFrame();
 
-    //glFlush();
     SwapBuffers();
     window->update(true);
 }
