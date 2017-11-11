@@ -6,7 +6,8 @@ Rockpool has two main dependencies:
  * [Ogre3D 1.10](http://ogre3d.org) - 3D library used.
  * [WxWidgets](https://wxwidgets.org) - Cross Platform GUI library.
 
-These can be compiled from source, or used as binaries.
+These can be compiled from source, or used as shared libraries.
+The Ogre libraries must be compiled dynamically, as I haven't implemented support for static ogre yet.
 
 On Arch Linux
 ```
@@ -24,7 +25,7 @@ This is best done through the CMake gui by setting:
 to their appropriate paths.
 The CMake file will hopefully find wx by itself.
 
-I have only tested it on Linux at this point, so CMake file might require some modification on other systems.
+I have only tested it on Linux at this point, so the CMake file might require some modification on other systems.
 
 **Note** - There are problems with the terrain on certain systems. If a segmentation fault occurs during runtime in the terrain creation, you can disable the terrain altogether in the CMake document.
 
