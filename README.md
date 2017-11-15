@@ -1,6 +1,8 @@
 # Rockpool
 A 3d world building application designed for use across multiple game engines.
 
+![Screenshot](/media/img/Screenshot.png?raw=true "Screenshot")
+
 ## Dependencies
 Rockpool has two main dependencies:
  * [Ogre3D 1.10](http://ogre3d.org) - 3D library used.
